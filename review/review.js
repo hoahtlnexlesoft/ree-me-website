@@ -131,7 +131,7 @@
   '.rv-pin.flash::after{content:"";position:absolute;inset:-6px;border-radius:50%;border:3px solid currentColor;animation:rvping 1s ease-out infinite;opacity:.7}' +
   '@keyframes rvping{to{transform:scale(1.8);opacity:0}}' +
   '.rv-draft{pointer-events:auto;position:absolute;width:300px;max-width:calc(100vw - 24px);background:#fff;border-radius:16px;padding:12px;box-shadow:0 24px 60px -12px rgba(10,30,80,.45);outline:1px solid #c7d2fe;color:#0f172a}' +
-  '.rv-in{width:100%;border:1px solid #c7d2fe;border-radius:10px;padding:8px 10px;font-size:13.5px;outline:none;color:#0f172a;background:#fff}.rv-in:focus{border-color:#4f46e5}' +
+  '.rv-lab{display:block;margin:0 0 4px 2px;font-size:11px;font-weight:700;letter-spacing:.04em;text-transform:uppercase;color:#64748b}.rv-in{width:100%;border:1px solid #c7d2fe;border-radius:10px;padding:8px 10px;font-size:13.5px;outline:none;color:#0f172a;background:#fff}.rv-in:focus{border-color:#4f46e5}' +
   'textarea.rv-in{resize:none;min-height:76px;display:block}' +
   '.rv-row{display:flex;align-items:center;gap:6px;margin-top:8px}' +
   '.rv-btn{height:32px;padding:0 14px;border-radius:999px;font-size:12.5px;font-weight:700;white-space:nowrap;flex:none;display:inline-flex;align-items:center;justify-content:center}.rv-btn svg{flex:none;display:block}' +
@@ -231,7 +231,7 @@
     if (S.draft) {
       var d = S.draft, dp = pos(d, c), left = Math.min(Math.max(12, dp.x - 20), Math.max(12, vw - 312)), top = Math.min(dp.y + 12, vh - 230);
       html += '<div class="rv-draft" style="left:' + left + 'px;top:' + Math.max(12, top) + 'px">' +
-        (!S.name ? '<input class="rv-in" id="rvName" placeholder="Your name" style="margin-bottom:8px" value="' + esc(S.nameInput) + '">' : '') +
+        '<label class="rv-lab" for="rvName">Your name</label><input class="rv-in" id="rvName" placeholder="e.g. Hoa Ho" autocomplete="name" style="margin-bottom:8px" value="' + esc(S.nameInput) + '">' +
         '<textarea class="rv-in" id="rvText" placeholder="Leave a comment… (paste images with Ctrl+V)">' + esc(S.draftText) + '</textarea>' +
         (S.draftImages.length ? '<div class="rv-thumbs">' + S.draftImages.map(function (src, i) { return '<div class="rv-thumb"><img src="' + src + '" alt=""><button data-rmimg="' + i + '" aria-label="Remove image">×</button></div>'; }).join('') + '</div>' : '') +
         '<div class="rv-row"><button class="rv-btn img" id="rvImg"' + (S.draftImages.length >= MAX_IMAGES ? ' disabled' : '') + '>' + ICON.image + 'Image' + (S.draftImages.length ? ' (' + S.draftImages.length + '/' + MAX_IMAGES + ')' : '') + '</button>' +
@@ -245,7 +245,7 @@
   }
   function syncSend() {
     var b = root.querySelector('#rvSend'); if (!b) return;
-    b.disabled = (!S.draftText.trim() && !S.draftImages.length) || (!S.name && !S.nameInput.trim());
+    b.disabled = (!S.draftText.trim() && !S.draftImages.length) || !S.nameInput.trim();
   }
   function renderUi() {
     var open = S.threads.filter(function (t) { return !t.resolved; }).length;
@@ -305,8 +305,8 @@
     e.preventDefault(); e.stopPropagation(); e.stopImmediatePropagation(); clearHover();
     var doc = t.ownerDocument, win = doc.defaultView, r = t.getBoundingClientRect();
     S.draft = { page: ctx().key, selector: selectorFor(t), rx: r.width ? (e.clientX - r.left) / r.width : .5, ry: r.height ? (e.clientY - r.top) / r.height : .5, ax: e.clientX + win.scrollX, ay: e.clientY + win.scrollY };
-    S.draftText = ''; S.draftImages = []; setMode(false);
-    setTimeout(function () { var el = root.querySelector(S.name ? '#rvText' : '#rvName'); if (el) el.focus(); }, 30);
+    S.draftText = ''; S.draftImages = []; S.nameInput = S.name || ''; setMode(false);
+    setTimeout(function () { var el = root.querySelector(S.nameInput.trim() ? '#rvText' : '#rvName'); if (el) el.focus(); }, 30);
   }
   function onKey(e) { if (e.key === 'Escape') { if (S.mode) setMode(false); else if (S.draft) { S.draft = null; renderPins(); } else if (S.lightbox) { S.lightbox = null; renderUi(); } } }
   function bindDocs() {
@@ -327,7 +327,7 @@
   /* ---------- actions ---------- */
   function submitDraft() {
     if (!S.draft || (!S.draftText.trim() && !S.draftImages.length)) return;
-    var n = S.name; if (!n) { n = S.nameInput.trim(); if (!n) return; S.name = n; lsSet(NAME_KEY, n); }
+    var n = S.nameInput.trim(); if (!n) return; S.name = n; lsSet(NAME_KEY, n);
     var sig = 'new|' + authorKey(n) + '|' + S.draftText.trim() + '|' + S.draftImages.length, last = lastSend.split('@@');
     if (last[0] === sig && Date.now() - Number(last[1]) < 1500) return; lastSend = sig + '@@' + Date.now();
     var d = S.draft, t = { id: uid(), page: d.page, selector: d.selector, rx: d.rx, ry: d.ry, ax: d.ax, ay: d.ay, author: n, text: S.draftText.trim(), at: Date.now(), resolved: false, replies: [] };

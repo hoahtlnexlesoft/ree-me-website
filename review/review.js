@@ -175,7 +175,7 @@
   '.rv-replyin{margin-top:8px;height:32px;border-radius:999px;font-size:12.5px}' +
   '.rv-lb{position:fixed;inset:0;z-index:2147483000;background:rgba(0,0,0,.82);display:grid;place-items:center;padding:16px;cursor:zoom-out}.rv-lb img{max-width:100%;max-height:100%;border-radius:12px}' +
   '.rv-toast{position:fixed;left:50%;bottom:84px;transform:translateX(-50%);z-index:2147483000;background:#0f172a;color:#fff;font-size:12.5px;font-weight:600;padding:8px 14px;border-radius:999px}' +
-  '@media (max-width:640px){.rv-panel{width:100vw}.rv-rail{width:44px}.rv-seg button{padding:0 14px}}';
+  '@media (max-width:640px){.rv-panel{width:100vw}.rv-rail{top:auto;bottom:96px;width:44px;padding:7px 0;border-radius:12px 0 0 12px;border:1px solid #e0e0e0;border-right:0}.rv-rail-list{display:none}.rv-seg button{padding:0 14px}}';
 
   var ICON = {
     pointer: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4l7 16 2.3-6.7L20 11 4 4z"/></svg>',
@@ -456,6 +456,50 @@
     if (!c.frame) lastFrameDoc = null;
     renderPins();
   }, 600);
+
+  /* ---------- Desktop / Tablet / Mobile preview (review only) ---------- */
+  (function deviceSwitcher() {
+    if (window.name === 'ree-device') return;           // already inside the device frame
+    var W = { tablet: 820, mobile: 390 }, mode = 'desktop', box = null, frame = null;
+    var dcss = '.rv-dev{position:fixed;left:12px;bottom:14px;z-index:2147482600;display:flex;gap:6px;padding:6px;border-radius:999px;background:rgba(255,255,255,.88);box-shadow:0 4px 16px rgba(0,0,0,.18);backdrop-filter:blur(8px)}' +
+      '.rv-dev button,.rv-devbar button{height:32px;padding:0 14px;border-radius:999px;font-size:13px;font-weight:600;color:#1e293b;background:#fff;box-shadow:0 1px 4px rgba(0,0,0,.12);white-space:nowrap}' +
+      '.rv-dev button:hover,.rv-devbar button:hover{background:#f8fafc}.rv-dev button.on,.rv-devbar button.on{background:#306eed;color:#fff}' +
+      '.rv-devwrap{position:fixed;inset:0;z-index:2147483100;background:#e6ebf3;display:flex;flex-direction:column}' +
+      '.rv-devbar{flex:none;height:56px;display:flex;align-items:center;justify-content:center;gap:8px;background:rgba(255,255,255,.8);backdrop-filter:blur(8px);box-shadow:0 1px 0 rgba(15,23,42,.06)}' +
+      '.rv-devstage{flex:1;min-height:0;display:flex;justify-content:center;padding:12px 12px 14px;overflow:auto}' +
+      '.rv-devstage iframe{height:100%;max-width:100%;border:8px solid #1e293b;border-radius:28px;background:#fff;box-shadow:0 20px 50px rgba(15,40,90,.25)}' +
+      '@media (max-width:768px){.rv-dev{display:none}}';
+    var st = document.createElement('style'); st.textContent = dcss; document.head.appendChild(st);
+    var bar = document.createElement('div'); bar.className = 'rv rv-dev'; bar.setAttribute('data-review-ui', '');
+    var tabs = function () { return [['desktop', 'Desktop'], ['tablet', 'Tablet'], ['mobile', 'Mobile']].map(function (t) { return '<button type="button" data-dev="' + t[0] + '" class="' + (mode === t[0] ? 'on' : '') + '" aria-pressed="' + (mode === t[0]) + '">' + t[1] + '</button>'; }).join(''); };
+    function draw() { bar.innerHTML = tabs(); if (box) box.querySelector('.rv-devbar').innerHTML = tabs(); }
+    function pick(m) {
+      if (m === mode) return;
+      if (m === 'desktop') {
+        var h = ''; try { h = frame.contentWindow.location.hash; } catch (e) {}
+        if (box) { box.remove(); box = frame = null; }
+        document.documentElement.style.overflow = ''; root.style.display = ''; bar.style.display = '';
+        mode = 'desktop'; draw();
+        if (h && h !== location.hash) location.hash = h;
+        return;
+      }
+      if (!box) {
+        box = document.createElement('div'); box.className = 'rv rv-devwrap'; box.setAttribute('data-review-ui', '');
+        box.innerHTML = '<div class="rv-devbar"></div><div class="rv-devstage"><iframe name="ree-device" title="Xem trước"></iframe></div>';
+        frame = box.querySelector('iframe');
+        frame.src = location.pathname + location.search + location.hash;
+        document.body.appendChild(box);
+        document.documentElement.style.overflow = 'hidden'; root.style.display = 'none'; bar.style.display = 'none';
+        S.mode = false; S.draft = null; unbindDocs();
+      }
+      frame.style.width = W[m] + 'px';
+      mode = m; draw();
+    }
+    document.addEventListener('click', function (e) { var b = e.target.closest && e.target.closest('[data-dev]'); if (b) pick(b.getAttribute('data-dev')); });
+    draw();
+    var add = function () { document.body.appendChild(bar); };
+    if (document.body) add(); else document.addEventListener('DOMContentLoaded', add);
+  })();
 
   /* ---------- start ---------- */
   if (!REMOTE) { try { S.threads = JSON.parse(lsGet(KEY, '[]')) || []; } catch (e) { S.threads = []; } }

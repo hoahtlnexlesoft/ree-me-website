@@ -231,7 +231,7 @@
     if (S.draft) {
       var d = S.draft, dp = pos(d, c), left = Math.min(Math.max(12, dp.x - 20), Math.max(12, vw - 312)), top = Math.min(dp.y + 12, vh - 230);
       html += '<div class="rv-draft" style="left:' + left + 'px;top:' + Math.max(12, top) + 'px">' +
-        '<label class="rv-lab" for="rvName">Your name</label><input class="rv-in" id="rvName" placeholder="e.g. Hoa Ho" autocomplete="name" style="margin-bottom:8px" value="' + esc(S.nameInput) + '">' +
+        (!S.name ? '<label class="rv-lab" for="rvName">Your name</label><input class="rv-in" id="rvName" placeholder="e.g. Hoa Ho" autocomplete="name" style="margin-bottom:8px" value="' + esc(S.nameInput) + '">' : '') +
         '<textarea class="rv-in" id="rvText" placeholder="Leave a comment… (paste images with Ctrl+V)">' + esc(S.draftText) + '</textarea>' +
         (S.draftImages.length ? '<div class="rv-thumbs">' + S.draftImages.map(function (src, i) { return '<div class="rv-thumb"><img src="' + src + '" alt=""><button data-rmimg="' + i + '" aria-label="Remove image">×</button></div>'; }).join('') + '</div>' : '') +
         '<div class="rv-row"><button class="rv-btn img" id="rvImg"' + (S.draftImages.length >= MAX_IMAGES ? ' disabled' : '') + '>' + ICON.image + 'Image' + (S.draftImages.length ? ' (' + S.draftImages.length + '/' + MAX_IMAGES + ')' : '') + '</button>' +
@@ -245,7 +245,7 @@
   }
   function syncSend() {
     var b = root.querySelector('#rvSend'); if (!b) return;
-    b.disabled = (!S.draftText.trim() && !S.draftImages.length) || !S.nameInput.trim();
+    b.disabled = (!S.draftText.trim() && !S.draftImages.length) || (!S.name && !S.nameInput.trim());
   }
   function renderUi() {
     var open = S.threads.filter(function (t) { return !t.resolved; }).length;
@@ -306,7 +306,7 @@
     var doc = t.ownerDocument, win = doc.defaultView, r = t.getBoundingClientRect();
     S.draft = { page: ctx().key, selector: selectorFor(t), rx: r.width ? (e.clientX - r.left) / r.width : .5, ry: r.height ? (e.clientY - r.top) / r.height : .5, ax: e.clientX + win.scrollX, ay: e.clientY + win.scrollY };
     S.draftText = ''; S.draftImages = []; S.nameInput = S.name || ''; setMode(false);
-    setTimeout(function () { var el = root.querySelector(S.nameInput.trim() ? '#rvText' : '#rvName'); if (el) el.focus(); }, 30);
+    setTimeout(function () { var el = root.querySelector(S.name ? '#rvText' : '#rvName'); if (el) el.focus(); }, 30);
   }
   function onKey(e) { if (e.key === 'Escape') { if (S.mode) setMode(false); else if (S.draft) { S.draft = null; renderPins(); } else if (S.lightbox) { S.lightbox = null; renderUi(); } } }
   function bindDocs() {
@@ -327,7 +327,7 @@
   /* ---------- actions ---------- */
   function submitDraft() {
     if (!S.draft || (!S.draftText.trim() && !S.draftImages.length)) return;
-    var n = S.nameInput.trim(); if (!n) return; S.name = n; lsSet(NAME_KEY, n);
+    var n = S.name; if (!n) { n = S.nameInput.trim(); if (!n) return; S.name = n; lsSet(NAME_KEY, n); }
     var sig = 'new|' + authorKey(n) + '|' + S.draftText.trim() + '|' + S.draftImages.length, last = lastSend.split('@@');
     if (last[0] === sig && Date.now() - Number(last[1]) < 1500) return; lastSend = sig + '@@' + Date.now();
     var d = S.draft, t = { id: uid(), page: d.page, selector: d.selector, rx: d.rx, ry: d.ry, ax: d.ax, ay: d.ay, author: n, text: S.draftText.trim(), at: Date.now(), resolved: false, replies: [] };

@@ -100,7 +100,7 @@
   }
 
   /* ---------- state ---------- */
-  var S = { pop: null, popMenu: false, popEmoji: false, popReply: '', editWhere: 'panel', menu: null, editing: null, editText: '', threads: [], name: lsGet(NAME_KEY, ''), mode: false, open: false, draft: null, draftText: '', draftImages: [], nameInput: '',
+  var S = { q: '', pmenu: null, expanded: {}, pop: null, popMenu: false, popEmoji: false, popReply: '', editWhere: 'panel', menu: null, editing: null, editText: '', threads: [], name: lsGet(NAME_KEY, ''), mode: false, open: false, draft: null, draftText: '', draftImages: [], nameInput: '',
             active: null, flash: null, filter: 'all', replyFor: null, replyText: '', copied: false, copiedId: null, lightbox: null };
   var pending = 0, writes = 0, lastSend = '';
 
@@ -183,6 +183,21 @@
   '.rv-pop-c+.rv-pop-c{border-top:1px solid #e5e7eb;padding-top:12px}' +
   '.rv-pop-shot{object-fit:contain!important;background:#e5e7eb}' +
   '.rv-emo{display:flex;gap:4px;margin:2px 0 6px}.rv-emo button{width:30px;height:30px;border-radius:8px;font-size:17px;line-height:30px}.rv-emo button:hover{background:#eef2f7}' +
+  '.rv-panel .rv-head{padding:16px 16px 6px}.rv-panel .rv-head h2{font-size:15px}' +
+  '.rv-tools{position:relative;display:flex;align-items:center;gap:6px;padding:4px 12px 10px 16px}' +
+  '.rv-search{flex:1;min-width:0;height:34px;display:flex;align-items:center;gap:8px;padding:0 12px;border:1px solid #d6d9de;border-radius:999px;background:#fff;color:#64748b}.rv-search:focus-within{border-color:#94a3b8}' +
+  '.rv-search svg{width:16px;height:16px;flex:none}.rv-search input{flex:1;min-width:0;border:0;outline:0;background:transparent;font-size:13.5px;color:#0f172a}' +
+  '.rv-ib{width:30px;height:30px;border-radius:8px;display:grid;place-items:center;color:#334155;flex:none}.rv-ib:hover,.rv-ib.on{background:#e5e7eb;color:#0f172a}.rv-ib svg{width:17px;height:17px}.rv-ib.sm{width:26px;height:26px}.rv-ib.sm svg{width:15px;height:15px}' +
+  '.rv-pm{top:42px;right:12px;min-width:190px}.rv-pm .rv-sp{display:inline-block;width:16px}' +
+  '.rv-gh{display:flex;align-items:center;gap:10px;padding:12px 16px 4px;font-size:12px;font-weight:700;color:#475569}.rv-gh::after{content:"";flex:1;height:1px;background:#e2e5ea}' +
+  '.rv-row2{margin:1px 8px;border-radius:10px}.rv-row2-main{gap:10px;padding:9px 12px 6px 10px}.rv-row2-m{padding-right:52px}.rv-row2-main .rv-av{width:22px;height:22px;font-size:10.5px}' +
+  '.rv-row2-m{gap:5px;padding-top:1px;line-height:1.5}.rv-row2-m b{font-size:13px;max-width:130px}.rv-row2-m .rv-ago{font-size:12px;color:#64748b}' +
+  '.rv-unread{width:6px;height:6px;border-radius:50%;background:#e5484d;flex:none;align-self:center;margin-left:2px}' +
+  '.rv-row2-t{margin-top:1px;padding-top:2px;font-size:13px;line-height:1.55;color:#334155;white-space:normal;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}.rv-row2-t.ex{display:block;-webkit-line-clamp:unset}' +
+  '.rv-sm,.rv-nr{display:block;margin:0 0 4px 42px;font-size:12px;font-weight:500;color:#64748b}.rv-sm:hover,.rv-nr:hover{color:#0f172a}.rv-nr{color:#94a3b8}' +
+  '.rv-row2:last-child{margin-bottom:4px}.rv-row2>*:last-child{}' +
+  '.rv-row2-acts{position:absolute;top:6px;right:6px;display:flex;gap:2px;opacity:0}.rv-row2:hover .rv-row2-acts,.rv-row2.on .rv-row2-acts,.rv-row2.menu .rv-row2-acts{opacity:1}' +
+  '.rv-row2 .rv-menu{top:36px;right:6px;min-width:170px}' +
   '.rv-popwrap .rv-pop{position:fixed;z-index:2147482660;width:320px;max-width:calc(100vw - 24px);max-height:min(560px,calc(100vh - 24px));display:flex;flex-direction:column;background:#fff;color:#0f172a;border-radius:18px;box-shadow:0 24px 60px -14px rgba(10,25,60,.45),0 0 0 1px rgba(15,23,42,.06)}' +
   '.rv-pop-h{position:relative;flex:none;display:flex;align-items:center;gap:8px;padding:14px 12px 8px 18px}.rv-pop-h>b{font-size:15px;font-weight:700}' +
   '.rv-pop-tools{margin-left:auto;display:flex;gap:2px}.rv-pop-tools button{width:30px;height:30px;border-radius:8px;display:grid;place-items:center;color:#334155}.rv-pop-tools button:hover,.rv-pop-tools button.on{background:#f1f5f9;color:#0f172a}.rv-pop-tools svg{width:17px;height:17px}' +
@@ -219,6 +234,10 @@
     x: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M6 6l12 12M18 6 6 18"/></svg>',
     up: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M12 19V5M6 11l6-6 6 6"/></svg>',
     smileplus: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5V12a9 9 0 1 1-9-9h.5"/><path d="M8 14s1.5 2 4 2 4-2 4-2M9 9h.01M15 9h.01M16 5h6M19 2v6"/></svg>',
+    search: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>',
+    filter: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 6h16M7 12h10M10 18h4"/></svg>',
+    checkc: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="m8.5 12.5 2.5 2.5 4.5-5"/></svg>',
+    undo: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 14 4 9l5-5"/><path d="M4 9h10a6 6 0 0 1 0 12h-3"/></svg>',
     dots: '<svg viewBox="0 0 24 24" fill="currentColor"><circle cx="5" cy="12" r="1.9"/><circle cx="12" cy="12" r="1.9"/><circle cx="19" cy="12" r="1.9"/></svg>',
     pencil: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 3a2.8 2.8 0 0 1 4 4L7.5 20.5 2 22l1.5-5.5z"/><path d="m15 5 4 4"/></svg>',
     trash: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18M8 6V4h8v2M6 6l1 14h10l1-14"/></svg>',
@@ -297,18 +316,35 @@
         '</div></aside>';
     }
     if (S.open) {
-      h += '<aside class="rv-panel"><header class="rv-head"><h2>Comments</h2><div><button class="rv-btn" id="rvCopyAll">' + (S.copied ? ICON.check : ICON.copy).replace('<svg', '<svg width="14" height="14"') + (S.copied ? 'Copied' : 'Copy all') + '</button><button class="rv-btn" id="rvClose" aria-label="Đóng">' + ICON.side + '</button></div></header>' +
-        '<div class="rv-filters">' + [['all', 'All'], ['open', 'Open'], ['resolved', 'Resolved']].map(function (f) { return '<button data-filter="' + f[0] + '" class="' + (S.filter === f[0] ? 'on' : '') + '">' + f[1] + '</button>'; }).join('') + '</div><div class="rv-list">';
-      if (!shown.length) h += '<p class="rv-empty">' + (S.filter === 'resolved' ? 'Nothing resolved yet.' : 'No comments yet. Switch to “Comment” and click anything on the page.') + '</p>';
-      shown.forEach(function (t) {
-        var on = S.active === t.id, col = t.resolved ? '#10b981' : colorFor(t.author), nr = (t.replies || []).length;
-        h += '<div class="rv-row2' + (on ? ' on' : '') + (t.resolved ? ' done' : '') + (S.menu === t.id ? ' menu' : '') + '">' +
-          '<button class="rv-row2-main" data-goto="' + t.id + '">' + '<span class="rv-av" style="background:' + col + '">' + esc((t.author.trim()[0] || '?')) + '</span>' +
-          '<span class="rv-row2-b"><span class="rv-row2-m"><b>' + esc(t.author) + '</b><span>· ' + ago(t.at) + '</span>' + (t.resolved ? '<span class="rv-ok">✓</span>' : '') + (nr ? '<span class="rv-nr">' + nr + ' ' + (nr > 1 ? 'replies' : 'reply') + '</span>' : '') + '</span>' +
-          '<span class="rv-row2-t">' + esc(t.text || (t.images && t.images.length ? '[image]' : '')) + '</span></span></button>' +
-          '<button class="rv-more' + (S.menu === t.id ? ' on' : '') + '" data-more="' + t.id + '" aria-label="More actions">' + ICON.dots + '</button>' +
-          (S.menu === t.id ? '<div class="rv-menu" role="menu">' + (mine(t) ? '<button role="menuitem" data-popedit="' + t.id + '" data-frompanel>' + ICON.pencil + 'Edit</button>' : '') + '<button role="menuitem" data-resolve="' + t.id + '">' + ICON.check + (t.resolved ? 'Reopen' : 'Resolve') + '</button><button role="menuitem" class="danger" data-del="' + t.id + '">' + ICON.trash + 'Delete</button></div>' : '') +
-          '</div>';
+      var fold = function (x) { return String(x || '').normalize('NFD').replace(/[̀-ͯ]/g, '').replace(/đ/g, 'd').replace(/Đ/g, 'D').toLowerCase(); };
+      var q = fold(S.q || '');
+      var list = shown.filter(function (t) { if (!q) return true; return fold([t.author, t.text, labelFor(t.page)].concat((t.replies || []).map(function (r) { return r.author + ' ' + r.text; })).join(' ')).indexOf(q) >= 0; })
+        .slice().sort(function (a, b) { return b.at - a.at; });
+      var groups = [], gi = {};
+      list.forEach(function (t) { var g = labelFor(t.page); if (gi[g] == null) { gi[g] = groups.length; groups.push({ name: g, items: [] }); } groups[gi[g]].items.push(t); });
+      h += '<aside class="rv-panel"><header class="rv-head"><h2>Comments</h2></header>' +
+        '<div class="rv-tools"><label class="rv-search">' + ICON.search + '<input id="rvSearch" placeholder="Search" value="' + esc(S.q || '') + '"></label>' +
+        '<button class="rv-ib' + (S.filter !== 'all' || S.pmenu === 'filter' ? ' on' : '') + '" data-pmenu="filter" aria-label="Filter" title="Filter">' + ICON.filter + '</button>' +
+        '<button class="rv-ib' + (S.pmenu === 'more' ? ' on' : '') + '" data-pmenu="more" aria-label="More" title="More">' + ICON.dots + '</button>' +
+        (S.pmenu === 'filter' ? '<div class="rv-menu rv-pm" style="right:52px">' + [['all', 'All comments'], ['open', 'Open'], ['resolved', 'Resolved']].map(function (f) { return '<button data-filter="' + f[0] + '">' + (S.filter === f[0] ? ICON.check : '<i class="rv-sp"></i>') + f[1] + '</button>'; }).join('') + '</div>' : '') +
+        (S.pmenu === 'more' ? '<div class="rv-menu rv-pm"><button id="rvCopyAll">' + ICON.copy + (S.copied ? 'Copied' : 'Copy all comments') + '</button><button id="rvClose">' + ICON.side + 'Hide panel</button></div>' : '') +
+        '</div><div class="rv-list">';
+      if (!list.length) h += '<p class="rv-empty">' + (q ? 'No comments match your search.' : S.filter === 'resolved' ? 'Nothing resolved yet.' : 'No comments yet. Switch to “Comment” and click anything on the page.') + '</p>';
+      groups.forEach(function (g) {
+        h += '<div class="rv-gh"><span>' + esc(g.name) + '</span></div>';
+        g.items.forEach(function (t) {
+          var on = S.active === t.id, col = colorFor(t.author), nr = (t.replies || []).length, long = (t.text || '').length > 40, ex = S.expanded && S.expanded[t.id];
+          h += '<div class="rv-row2' + (on ? ' on' : '') + (t.resolved ? ' done' : '') + (S.menu === t.id ? ' menu' : '') + '">' +
+            '<button class="rv-row2-main" data-goto="' + t.id + '"><span class="rv-av" style="background:' + col + '">' + esc((t.author.trim()[0] || '?')) + '</span>' +
+            '<span class="rv-row2-b"><span class="rv-row2-m"><b>' + esc(t.author) + '</b><span class="rv-ago">· ' + ago(t.at) + '</span>' + (t.resolved ? '' : '<i class="rv-unread" title="Open"></i>') + '</span>' +
+            '<span class="rv-row2-t' + (ex ? ' ex' : '') + '">' + esc(t.text || (t.images && t.images.length ? '[image]' : '')) + '</span></span></button>' +
+            (long ? '<button class="rv-sm" data-expand="' + t.id + '">' + (ex ? 'Show less' : 'Show more') + '</button>' : '') +
+            (nr ? '<button class="rv-nr" data-goto="' + t.id + '">' + nr + ' ' + (nr > 1 ? 'replies' : 'reply') + '</button>' : '') +
+            '<span class="rv-row2-acts"><button class="rv-ib sm" data-resolve="' + t.id + '" title="' + (t.resolved ? 'Reopen' : 'Resolve') + '" aria-label="' + (t.resolved ? 'Reopen' : 'Resolve') + '">' + (t.resolved ? ICON.undo : ICON.checkc) + '</button>' +
+            '<button class="rv-ib sm' + (S.menu === t.id ? ' on' : '') + '" data-more="' + t.id + '" aria-label="More actions">' + ICON.dots + '</button></span>' +
+            (S.menu === t.id ? '<div class="rv-menu" role="menu">' + (mine(t) ? '<button role="menuitem" data-popedit="' + t.id + '">' + ICON.pencil + 'Edit</button>' : '') + '<button role="menuitem" class="danger" data-del="' + t.id + '">' + ICON.trash + 'Delete thread</button></div>' : '') +
+            '</div>';
+        });
       });
       h += '</div></aside>';
     }
@@ -316,6 +352,7 @@
     var ae = document.activeElement, keepId = ae && (ae.id === 'rvReply' || ae.id === 'rvEdit') ? ae.id : null, keepReply = keepId ? [ae.selectionStart] : null, scroller = ui.querySelector('.rv-list'), st = scroller ? scroller.scrollTop : 0;
     ui.innerHTML = h;
     var sc2 = ui.querySelector('.rv-list'); if (sc2) sc2.scrollTop = st;
+    ui.querySelectorAll('.rv-sm').forEach(function (bt) { var row = bt.parentNode, tx = row.querySelector('.rv-row2-t'); if (tx && !tx.classList.contains('ex') && tx.scrollHeight <= tx.clientHeight + 2) bt.remove(); });
     if (keepReply) { var ri = ui.querySelector('#' + keepId); if (ri) { ri.focus(); try { ri.setSelectionRange(keepReply[0], keepReply[0]); } catch (e) {} } }
   }
   function renderAll() { computeAuthors(); renderUi(); renderPins(); renderPop(); shiftFloaters(); }
@@ -426,7 +463,7 @@
 
   /* ---------- events on our own UI ---------- */
   root.addEventListener('click', function (e) {
-    if (S.menu && !e.target.closest('.rv-menu,[data-more]')) { S.menu = null; renderUi(); }
+    if ((S.menu || S.pmenu) && !e.target.closest('.rv-menu,[data-more],[data-pmenu]')) { S.menu = null; S.pmenu = null; renderUi(); }
     var a0, b = e.target.closest('button,[data-lb],#rvLb'); if (!b) return;
     if (b.id === 'rvLb') { S.lightbox = null; return renderUi(); }
     if (b.hasAttribute('data-lb')) { e.stopPropagation(); S.lightbox = b.getAttribute('src'); return renderUi(); }
@@ -434,7 +471,7 @@
     if (b.id === 'rvComment') { S.draft = null; return setMode(true); }
     if (b.id === 'rvTab') { S.open = true; renderUi(); return shiftFloaters(); }
     if ((a0 = b.getAttribute('data-rail'))) { S.open = true; return goTo(a0); }
-    if (b.id === 'rvClose') { S.open = false; renderUi(); return shiftFloaters(); }
+    if (b.id === 'rvClose') { S.open = false; S.pmenu = null; renderUi(); return shiftFloaters(); }
     if (b.id === 'rvCancel') { S.draft = null; return renderPins(); }
     if (b.id === 'rvSend') return submitDraft();
     if (b.id === 'rvImg') return fileIn.click();
@@ -442,7 +479,9 @@
     var a;
     if ((a = b.getAttribute('data-rmimg')) != null) { S.draftImages.splice(+a, 1); return renderPins(); }
     if ((a = b.getAttribute('data-pin'))) { S.active = a; S.pop = S.pop === a ? null : a; S.popMenu = S.popEmoji = false; S.popReply = ''; return renderAll(); }
-    if ((a = b.getAttribute('data-filter'))) { S.filter = a; return renderUi(); }
+    if ((a = b.getAttribute('data-filter'))) { S.filter = a; S.pmenu = null; return renderUi(); }
+    if ((a = b.getAttribute('data-pmenu'))) { S.pmenu = S.pmenu === a ? null : a; S.menu = null; return renderUi(); }
+    if ((a = b.getAttribute('data-expand'))) { S.expanded[a] = !S.expanded[a]; return renderUi(); }
     if ((a = b.getAttribute('data-goto'))) return goTo(a);
     if ((a = b.getAttribute('data-copy1'))) { var t1 = S.threads.filter(function (x) { return x.id === a; })[0]; return t1 && copyText(t1.text, function () { S.copiedId = a; renderUi(); setTimeout(function () { if (S.copiedId === a) { S.copiedId = null; renderUi(); } }, 1600); }); }
     if ((a = b.getAttribute('data-replyfor'))) { S.replyFor = S.replyFor === a ? null : a; S.replyText = ''; renderUi(); var ri = root.querySelector('#rvReply'); if (ri) ri.focus(); return; }
@@ -467,6 +506,7 @@
     if (t.id === 'rvText') { S.draftText = t.value; syncSend(); }
     else if (t.id === 'rvName') { S.nameInput = t.value; syncSend(); }
     else if (t.id === 'rvReply') S.replyText = t.value;
+    else if (t.id === 'rvSearch') { S.q = t.value; var pos0 = t.selectionStart; renderUi(); var si = root.querySelector('#rvSearch'); if (si) { si.focus(); si.setSelectionRange(pos0, pos0); } }
     else if (t.id === 'rvEdit') S.editText = t.value;
   });
   root.addEventListener('keydown', function (e) {

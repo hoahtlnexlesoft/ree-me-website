@@ -11,7 +11,7 @@
   var CFG = window.REE_REVIEW || {};
   var SB_URL = CFG.url, SB_KEY = CFG.key, TABLE = CFG.table || 'ree_review_comments';
   var REMOTE = !!(SB_URL && SB_KEY);
-  var KEY = 'ree-review-comments', NAME_KEY = 'ree-review-name', GOTO_KEY = 'ree-review-goto';
+  var KEY = 'ree-review-comments', NAME_KEY = 'ree-review-name', HIDE_KEY = 'ree-review-hidden', GOTO_KEY = 'ree-review-goto';
   var MAX_IMAGES = 3;
   var H = { apikey: SB_KEY || '', Authorization: 'Bearer ' + (SB_KEY || ''), 'Content-Type': 'application/json' };
 
@@ -100,7 +100,7 @@
   }
 
   /* ---------- state ---------- */
-  var S = { q: '', pmenu: null, expanded: {}, pop: null, popMenu: false, popEmoji: false, popReply: '', editWhere: 'panel', menu: null, editing: null, editText: '', threads: [], name: lsGet(NAME_KEY, ''), mode: false, open: false, draft: null, draftText: '', draftImages: [], nameInput: '',
+  var S = { hidden: lsGet(HIDE_KEY, '') === '1', q: '', pmenu: null, expanded: {}, pop: null, popMenu: false, popEmoji: false, popReply: '', editWhere: 'panel', menu: null, editing: null, editText: '', threads: [], name: lsGet(NAME_KEY, ''), mode: false, open: false, draft: null, draftText: '', draftImages: [], nameInput: '',
             active: null, flash: null, filter: 'all', replyFor: null, replyText: '', copied: false, copiedId: null, lightbox: null };
   var pending = 0, writes = 0, lastSend = '';
 
@@ -232,6 +232,10 @@
   '.rv-pop-tb{border-top:1px solid #e5e7eb;padding:6px 6px 6px 8px}.rv-pop-send{width:34px;height:34px;background:#8b8b8b}.rv-pop-send:disabled{background:#a3a3a3}' +
   '.rv-emo{position:absolute;left:18px;right:18px;bottom:64px;z-index:6;display:grid;grid-template-columns:repeat(8,1fr);gap:2px;margin:0;padding:8px;background:#fff;border-radius:14px;box-shadow:0 14px 36px -10px rgba(15,23,42,.35),0 0 0 1px rgba(15,23,42,.08)}' +
   '.rv-emo button{width:auto;height:auto;aspect-ratio:1;font-size:20px;line-height:1;border-radius:8px;display:grid;place-items:center}.rv-emo button:hover,.rv-emo button:focus-visible{background:#f1f5f9;outline:2px solid #306eed;outline-offset:-2px}' +
+  '.rv-off .rv-layer,.rv-off .rv-popwrap,.rv-off .rv-dev{display:none!important}' +
+  '.rv-show{position:fixed;right:0;top:50%;transform:translateY(-50%);z-index:2147482650;width:34px;height:40px;padding-left:2px;border-radius:10px 0 0 10px;background:rgba(255,255,255,.92);color:#334155;border:1px solid #e0e0e0;border-right:0;box-shadow:-4px 4px 16px rgba(0,0,0,.14);display:grid;place-items:center;opacity:.7;transition:opacity .2s,width .2s}.rv-show:hover{opacity:1;width:40px}.rv-show svg{width:17px;height:17px}' +
+  '.rv-show span{position:absolute;top:-6px;left:-6px;min-width:16px;height:16px;padding:0 4px;border-radius:999px;background:#e5484d;color:#fff;font-size:10px;font-weight:700;line-height:16px;text-align:center}' +
+  '.rv-rail #rvHide{margin-top:6px}' +
   '@media (max-width:1024px){' +
     '.rv-seg{padding:4px;gap:3px}.rv-seg button{height:34px;padding:0 14px;font-size:13px;gap:7px}.rv-seg svg{width:16px;height:16px}.rv-pill{bottom:12px;gap:6px}.rv-hint{font-size:11px;padding:5px 10px}' +
     '.rv-pin{width:26px;height:26px;font-size:11px}' +
@@ -272,6 +276,7 @@
     pencil: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 3a2.8 2.8 0 0 1 4 4L7.5 20.5 2 22l1.5-5.5z"/><path d="m15 5 4 4"/></svg>',
     trash: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18M8 6V4h8v2M6 6l1 14h10l1-14"/></svg>',
     chev: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M15 6l-6 6 6 6"/></svg>',
+    eyeoff: '<svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10.6 5.1A10.6 10.6 0 0 1 12 5c6.5 0 10 7 10 7a17.6 17.6 0 0 1-2.6 3.6"/><path d="M6.6 6.6C3.7 8.4 2 12 2 12s3.5 7 10 7a9.7 9.7 0 0 0 5.4-1.6"/><path d="M9.9 9.9a3 3 0 0 0 4.2 4.2"/><path d="M2 2l20 20"/></svg>',
     side: '<svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="16" rx="3"/><path d="M15 4v16"/></svg>',
     image: '<svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="3"/><circle cx="9" cy="9" r="1.8"/><path d="m21 15-4.5-4.5L6 21"/></svg>',
     like: '<svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 10v11M15 5.9 14 10h5.8a2 2 0 0 1 2 2.3l-1.4 7A2 2 0 0 1 18.4 21H7V10l4-8a3 3 0 0 1 4 3.9z"/></svg>',
@@ -336,12 +341,18 @@
     b.disabled = (!S.draftText.trim() && !S.draftImages.length) || (!S.name && !S.nameInput.trim());
   }
   function renderUi() {
+    document.documentElement.classList.toggle('rv-off', !!S.hidden);
+    if (S.hidden) {
+      var n0 = S.threads.filter(function (t) { return !t.resolved; }).length;
+      ui.innerHTML = '<button class="rv-show" id="rvShow" title="Show comments" aria-label="Show comments">' + ICON.chat + (n0 ? '<span>' + n0 + '</span>' : '') + '</button>';
+      return;
+    }
     var open = S.threads.filter(function (t) { return !t.resolved; }).length;
     var shown = S.threads.filter(function (t) { return S.filter === 'all' ? true : S.filter === 'open' ? !t.resolved : t.resolved; });
     var h = '<div class="rv-pill">' + (S.mode ? '<span class="rv-hint">Click anything to comment · Esc to cancel</span>' : '') +
       '<div class="rv-seg"><button id="rvBrowse" class="' + (!S.mode ? 'on' : '') + '">' + ICON.pointer + 'Browse</button><button id="rvComment" class="' + (S.mode ? 'on' : '') + '">' + ICON.chat + 'Comment</button></div></div>';
     if (!S.open) {
-      h += '<aside class="rv-rail"><button class="rv-side" id="rvTab" title="Open comments" aria-label="Open comments">' + ICON.side + '</button><div class="rv-rail-list">' +
+      h += '<aside class="rv-rail"><button class="rv-side" id="rvTab" title="Open comments" aria-label="Open comments">' + ICON.side + '</button><button class="rv-side" id="rvHide" title="Hide comments (full view)" aria-label="Hide comments">' + ICON.eyeoff + '</button><div class="rv-rail-list">' +
         S.threads.map(function (t, i) { var col = t.resolved ? '#10b981' : colorFor(t.author); return '<button class="rv-dot' + (S.active === t.id ? ' on' : '') + (t.resolved ? ' done' : '') + '" data-rail="' + t.id + '" style="background:' + col + ';color:' + col + '" title="#' + (i + 1) + ' ' + esc(t.author) + ': ' + esc(t.text.slice(0, 80)) + '"><span style="color:#fff">' + esc((t.author.trim()[0] || '?')) + '</span></button>'; }).join('') +
         '</div></aside>';
     }
@@ -357,7 +368,7 @@
         '<button class="rv-ib' + (S.filter !== 'all' || S.pmenu === 'filter' ? ' on' : '') + '" data-pmenu="filter" aria-label="Filter" title="Filter">' + ICON.filter + '</button>' +
         '<button class="rv-ib' + (S.pmenu === 'more' ? ' on' : '') + '" data-pmenu="more" aria-label="More" title="More">' + ICON.dots + '</button>' +
         (S.pmenu === 'filter' ? '<div class="rv-menu rv-pm" style="right:52px">' + [['all', 'All comments'], ['open', 'Open'], ['resolved', 'Resolved']].map(function (f) { return '<button data-filter="' + f[0] + '">' + (S.filter === f[0] ? ICON.check : '<i class="rv-sp"></i>') + f[1] + '</button>'; }).join('') + '</div>' : '') +
-        (S.pmenu === 'more' ? '<div class="rv-menu rv-pm"><button id="rvCopyAll">' + ICON.copy + (S.copied ? 'Copied' : 'Copy all comments') + '</button><button id="rvClose">' + ICON.side + 'Hide panel</button></div>' : '') +
+        (S.pmenu === 'more' ? '<div class="rv-menu rv-pm"><button id="rvCopyAll">' + ICON.copy + (S.copied ? 'Copied' : 'Copy all comments') + '</button><button id="rvClose">' + ICON.side + 'Hide panel</button><button id="rvHide">' + ICON.eyeoff + 'Hide comments (full view)</button></div>' : '') +
         '</div><div class="rv-list">';
       if (!list.length) h += '<p class="rv-empty">' + (q ? 'No comments match your search.' : S.filter === 'resolved' ? 'Nothing resolved yet.' : 'No comments yet. Switch to “Comment” and click anything on the page.') + '</p>';
       groups.forEach(function (g) {
@@ -403,7 +414,7 @@
     S.draftText = ''; S.draftImages = []; S.nameInput = S.name || ''; setMode(false);
     setTimeout(function () { var el = root.querySelector(S.name ? '#rvText' : '#rvName'); if (el) el.focus(); }, 30);
   }
-  function onKey(e) { if (e.key === 'Escape') { if (S.mode) setMode(false); else if (S.draft) { S.draft = null; renderPins(); } else if (S.lightbox) { S.lightbox = null; renderUi(); } } }
+  function onKey(e) { if (S.hidden) return; if (e.key === 'Escape') { if (S.mode) setMode(false); else if (S.draft) { S.draft = null; renderPins(); } else if (S.lightbox) { S.lightbox = null; renderUi(); } } }
   function bindDocs() {
     unbindDocs(); if (!S.mode) return;
     var docs = [document], c = ctx(); if (c.frame) docs.push(c.doc);
@@ -501,6 +512,8 @@
     if (b.id === 'rvComment') { S.draft = null; return setMode(true); }
     if (b.id === 'rvTab') { S.open = true; renderUi(); return shiftFloaters(); }
     if ((a0 = b.getAttribute('data-rail'))) { S.open = true; return goTo(a0); }
+    if (b.id === 'rvHide') { S.hidden = true; lsSet(HIDE_KEY, '1'); S.open = false; S.pmenu = null; S.pop = null; S.draft = null; S.mode = false; bindDocs(); renderAll(); return shiftFloaters(); }
+    if (b.id === 'rvShow') { S.hidden = false; lsSet(HIDE_KEY, ''); renderAll(); return shiftFloaters(); }
     if (b.id === 'rvClose') { S.open = false; S.pmenu = null; renderUi(); return shiftFloaters(); }
     if (b.id === 'rvCancel') { S.draft = null; return renderPins(); }
     if (b.id === 'rvSend') return submitDraft();
@@ -595,7 +608,7 @@
       fixedCache = []; docs.forEach(function (d) { try { fixedCache = fixedCache.concat(findFloaters(d[0], d[1])); } catch (e) {} });
       fixedAt = Date.now(); fixedDocs = key;
     }
-    var hidden = root.style.display === 'none', mobile = innerWidth <= 640;
+    var hidden = root.style.display === 'none' || S.hidden, mobile = innerWidth <= 640;
     var off = hidden ? 0 : S.open ? (mobile ? 0 : Math.min(370, innerWidth)) : (mobile ? 0 : 54);
     fixedCache.forEach(function (el) {
       if (!el.__rvT) { el.__rvT = 1; el.style.transition = (el.style.transition ? el.style.transition + ',' : '') + 'translate .25s ease'; }

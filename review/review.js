@@ -224,13 +224,43 @@
   '.rv-replyin{margin-top:8px;height:32px;border-radius:999px;font-size:12.5px}' +
   '.rv-lb{position:fixed;inset:0;z-index:2147483000;background:rgba(0,0,0,.82);display:grid;place-items:center;padding:16px;cursor:zoom-out}.rv-lb img{max-width:100%;max-height:100%;border-radius:12px}' +
   '.rv-toast{position:fixed;left:50%;bottom:84px;transform:translateX(-50%);z-index:2147483000;background:#0f172a;color:#fff;font-size:12.5px;font-weight:600;padding:8px 14px;border-radius:999px}' +
-  '@media (max-width:640px){.rv-panel{width:100vw}.rv-rail{top:auto;bottom:96px;width:44px;padding:7px 0;border-radius:12px 0 0 12px;border:1px solid #e0e0e0;border-right:0}.rv-rail-list{display:none}.rv-seg button{padding:0 14px}}';
+  '.rv-pop{position:fixed}.rv-pop-tools{gap:4px}.rv-pop-tools button.del{color:#e5484d}.rv-pop-tools button.del:hover{background:#fff1f2;color:#be123c}.rv-pop-tools button.ok{color:#059669}' +
+  '.rv-pop-shot{border-radius:14px;outline:1px solid #e5e7eb}' +
+  '.rv-pop-f{align-items:flex-start}.rv-pop-f>.rv-av{margin-top:6px}' +
+  '.rv-pop-box{padding:0;border-radius:16px;background:#fafafa;border-color:#e5e7eb;overflow:hidden}.rv-pop-box:focus-within{background:#fff}' +
+  '.rv-pop-box .rv-pop-in{padding:10px 14px}#rvPopName{margin:0;border-bottom:1px solid #e5e7eb}' +
+  '.rv-pop-tb{border-top:1px solid #e5e7eb;padding:6px 6px 6px 8px}.rv-pop-send{width:34px;height:34px;background:#8b8b8b}.rv-pop-send:disabled{background:#a3a3a3}' +
+  '.rv-emo{position:absolute;left:18px;right:18px;bottom:64px;z-index:6;display:grid;grid-template-columns:repeat(8,1fr);gap:2px;margin:0;padding:8px;background:#fff;border-radius:14px;box-shadow:0 14px 36px -10px rgba(15,23,42,.35),0 0 0 1px rgba(15,23,42,.08)}' +
+  '.rv-emo button{width:auto;height:auto;aspect-ratio:1;font-size:20px;line-height:1;border-radius:8px;display:grid;place-items:center}.rv-emo button:hover,.rv-emo button:focus-visible{background:#f1f5f9;outline:2px solid #306eed;outline-offset:-2px}' +
+  '@media (max-width:1024px){' +
+    '.rv-seg{padding:4px;gap:3px}.rv-seg button{height:34px;padding:0 14px;font-size:13px;gap:7px}.rv-seg svg{width:16px;height:16px}.rv-pill{bottom:12px;gap:6px}.rv-hint{font-size:11px;padding:5px 10px}' +
+    '.rv-pin{width:26px;height:26px;font-size:11px}' +
+    '.rv-draft{width:270px;padding:10px;border-radius:14px}.rv-in{font-size:13px;padding:7px 9px}textarea.rv-in{min-height:60px}.rv-btn{height:30px;padding:0 12px;font-size:12px}.rv-row{margin-top:6px}' +
+    '.rv-panel{width:320px}.rv-panel .rv-head{padding:12px 12px 4px}.rv-panel .rv-head h2{font-size:14px}' +
+    '.rv-tools{padding:2px 8px 8px 12px;gap:4px}.rv-search{height:30px;padding:0 10px;gap:6px}.rv-search svg{width:14px;height:14px}.rv-search input{font-size:12.5px}.rv-ib{width:28px;height:28px}.rv-ib svg{width:15px;height:15px}' +
+    '.rv-gh{padding:8px 12px 2px;font-size:11px}' +
+    '.rv-row2{margin:1px 6px}.rv-row2-main{gap:8px;padding:7px 10px 4px 8px}.rv-row2-main .rv-av{width:20px;height:20px;font-size:9.5px}.rv-row2-m b{font-size:12.5px}.rv-row2-m .rv-ago{font-size:11px}.rv-row2-t{font-size:12.5px;line-height:1.5}' +
+    '.rv-sm,.rv-nr{margin:0 0 3px 36px;font-size:11px}.rv-row2-acts{top:4px;right:4px}.rv-row2 .rv-menu{top:32px}' +
+    '.rv-menu{min-width:140px;padding:4px;border-radius:10px}.rv-menu button{height:32px;font-size:13px;gap:8px;padding:0 8px}.rv-menu button svg{width:14px;height:14px}' +
+    '.rv-popwrap .rv-pop{width:290px;border-radius:14px}.rv-pop-h{padding:10px 8px 6px 14px}.rv-pop-h>b{font-size:14px}.rv-pop-tools button{width:28px;height:28px}.rv-pop-tools svg{width:15px;height:15px}.rv-pop-h .rv-menu{top:38px}' +
+    '.rv-pop-body{padding:2px 14px 4px}.rv-pop-shot{margin:0 0 10px;border-radius:10px}.rv-pop-c{gap:8px;margin-bottom:10px}.rv-pop-c .rv-av{width:26px;height:26px;font-size:11px}.rv-pop-c+.rv-pop-c{padding-top:10px}' +
+    '.rv-pop-meta b{font-size:13px}.rv-pop-meta span{font-size:11px}.rv-pop-cb p{font-size:13px;margin-top:2px}' +
+    '.rv-reacts{gap:4px;margin-top:4px}.rv-react{height:24px;min-width:30px;padding:0 7px;font-size:11px}.rv-react svg{width:12px;height:12px}' +
+    '.rv-pop-f{gap:8px;padding:6px 10px 10px 14px}.rv-pop-box{border-radius:12px}.rv-pop-box .rv-pop-in{font-size:13px;padding:8px 10px}.rv-pop-tb{padding:4px}.rv-pop-send{width:28px;height:28px}' +
+    '.rv-pop-emo,.rv-pop-send{width:26px;height:26px}.rv-pop-emo svg{width:16px;height:16px}.rv-pop-send svg{width:14px;height:14px}.rv-emo{left:12px;right:12px;bottom:54px;padding:6px}.rv-emo button{font-size:17px}' +
+    '.rv-rail{width:46px;padding-top:20px}.rv-rail .rv-side{width:28px;height:28px}.rv-dot{width:20px;height:20px;font-size:10px}.rv-rail-list{gap:8px;padding-top:12px}' +
+    '.rv-toast{font-size:12px;padding:6px 12px;bottom:70px}' +
+  '}' +
+  '@media (max-width:640px){.rv-panel{width:100vw}.rv-rail{top:auto;bottom:80px;width:40px;padding:6px 0;border-radius:10px 0 0 10px;border:1px solid #e0e0e0;border-right:0}.rv-rail-list{display:none}' +
+    '.rv-seg button{height:32px;padding:0 12px;font-size:12.5px}.rv-seg svg{width:15px;height:15px}.rv-pill{bottom:10px}' +
+    '.rv-popwrap .rv-pop{width:272px}.rv-draft{width:256px}.rv-pin{width:24px;height:24px;font-size:10.5px}}';
 
   var ICON = {
     pointer: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4l7 16 2.3-6.7L20 11 4 4z"/></svg>',
     chat: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 5h16v11H9l-5 4V5z"/><path d="M8 9.5h8M8 12.5h5"/></svg>',
     copy: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="8" y="8" width="13" height="13" rx="2"/><path d="M16 8V5a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h3"/></svg>',
     check: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="m5 12.5 4.5 4.5L19 7"/></svg>',
+    plane: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21.5 2.5 10.5 13.5"/><path d="M21.5 2.5 14.5 21.5l-4-8-8-4z"/></svg>',
     x: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M6 6l12 12M18 6 6 18"/></svg>',
     up: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M12 19V5M6 11l6-6 6 6"/></svg>',
     smileplus: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5V12a9 9 0 1 1-9-9h.5"/><path d="M8 14s1.5 2 4 2 4-2 4-2M9 9h.01M15 9h.01M16 5h6M19 2v6"/></svg>',
@@ -342,7 +372,7 @@
             (nr ? '<button class="rv-nr" data-goto="' + t.id + '">' + nr + ' ' + (nr > 1 ? 'replies' : 'reply') + '</button>' : '') +
             '<span class="rv-row2-acts"><button class="rv-ib sm" data-resolve="' + t.id + '" title="' + (t.resolved ? 'Reopen' : 'Resolve') + '" aria-label="' + (t.resolved ? 'Reopen' : 'Resolve') + '">' + (t.resolved ? ICON.undo : ICON.checkc) + '</button>' +
             '<button class="rv-ib sm' + (S.menu === t.id ? ' on' : '') + '" data-more="' + t.id + '" aria-label="More actions">' + ICON.dots + '</button></span>' +
-            (S.menu === t.id ? '<div class="rv-menu" role="menu">' + (mine(t) ? '<button role="menuitem" data-popedit="' + t.id + '">' + ICON.pencil + 'Edit</button>' : '') + '<button role="menuitem" class="danger" data-del="' + t.id + '">' + ICON.trash + 'Delete thread</button></div>' : '') +
+            (S.menu === t.id ? '<div class="rv-menu" role="menu">' + (mine(t) ? '<button role="menuitem" data-popedit="' + t.id + '">' + ICON.pencil + 'Edit</button>' : '') + '<button role="menuitem" data-copyc="' + t.id + '">' + ICON.copy + 'Copy comment</button><button role="menuitem" class="danger" data-del="' + t.id + '">' + ICON.trash + 'Delete thread</button></div>' : '') +
             '</div>';
         });
       });
@@ -488,6 +518,7 @@
     if ((a = b.getAttribute('data-resolve'))) return save(S.threads.map(function (t) { return t.id === a ? Object.assign({}, t, { resolved: !t.resolved }) : t; }));
     if ((a = b.getAttribute('data-del'))) { S.menu = null; if (S.pop === a) S.pop = null; return save(S.threads.filter(function (t) { return t.id !== a; })); }
     if ((a = b.getAttribute('data-popedit')) && !pop.contains(b)) { var tp = findT(a); S.menu = null; if (!tp || !mine(tp)) return renderUi(); S.active = a; S.editing = a; S.editWhere = 'pop'; S.editText = tp.text; goTo(a); setTimeout(function () { S.editing = a; S.editWhere = 'pop'; renderPop(); var ed = pop.querySelector('#rvPopEdit'); if (ed) ed.focus(); }, 900); return; }
+    if ((a = b.getAttribute('data-copyc'))) { var tc = findT(a); S.menu = null; renderUi(); return tc && copyText(tc.text, function () { toast('Copied'); }); }
     if ((a = b.getAttribute('data-more'))) { S.menu = S.menu === a ? null : a; return renderUi(); }
     if ((a = b.getAttribute('data-edit'))) { var te = S.threads.filter(function (x) { return x.id === a; })[0]; if (!te || !mine(te)) { S.menu = null; return renderUi(); } S.menu = null; S.editing = a; S.editWhere = 'panel'; S.editText = te ? te.text : ''; S.active = a; renderUi(); var ed = root.querySelector('#rvEdit'); if (ed) { ed.focus(); ed.setSelectionRange(ed.value.length, ed.value.length); } return; }
     if (b.hasAttribute('data-editcancel')) { S.editing = null; return renderAll(); }
@@ -577,6 +608,7 @@
   function mine(t) { return !!S.name && authorKey(t.author) === authorKey(S.name); }
   function findT(id) { return S.threads.filter(function (x) { return x.id === id; })[0]; }
   function avatar(name, size) { var c = colorFor(name || '?'); return '<span class="rv-av" style="background:' + c + ';width:' + size + 'px;height:' + size + 'px">' + esc(((name || '?').trim()[0] || '?')) + '</span>'; }
+  var EMOJIS = ['😀','😂','😍','🤔','😅','😊','🥰','😎','🙏','👍','👎','❤️','🔥','✅','⭐','💡','🎉','🚀','💯','🤝','👏','💪','🙌','😭','🤣','😬','🫡','🤩','😤','😩','😮','🥳'];
   function renderPop() {
     var t = S.pop && findT(S.pop);
     if (!t || ctx().key !== t.page) { if (pop.innerHTML) pop.innerHTML = ''; return; }
@@ -587,8 +619,12 @@
     var editing = S.editing === t.id && S.editWhere === 'pop';
     var row = function (name, at, text, extra) { return '<div class="rv-pop-c">' + avatar(name, 26) + '<div class="rv-pop-cb"><div class="rv-pop-meta"><b>' + esc(name) + '</b><span>' + ago(at) + '</span></div>' + (text != null ? '<p>' + esc(text) + '</p>' : '') + (extra || '') + '</div></div>'; };
     var h = '<div class="rv-pop" role="dialog" aria-label="Comment">' +
-      '<div class="rv-pop-h"><b>Comment</b>' + (t.resolved ? '<span class="rv-ok">✓ Resolved</span>' : '') + '<span class="rv-pop-tools"><button data-popmore aria-label="More actions" class="' + (S.popMenu ? 'on' : '') + '">' + ICON.dots + '</button><button data-popclose aria-label="Close">' + ICON.x + '</button></span>' +
-      (S.popMenu ? '<div class="rv-menu" role="menu">' + (mine(t) ? '<button data-popedit="' + t.id + '">' + ICON.pencil + 'Edit</button>' : '') + '<button data-resolve="' + t.id + '">' + ICON.check + (t.resolved ? 'Reopen' : 'Resolve') + '</button><button class="danger" data-del="' + t.id + '">' + ICON.trash + 'Delete</button></div>' : '') + '</div>' +
+      '<div class="rv-pop-h"><b>Comment</b>' + (t.resolved ? '<span class="rv-ok">✓ Resolved</span>' : '') + '<span class="rv-pop-tools">' +
+        (mine(t) ? '<button data-popedit="' + t.id + '" aria-label="Edit" title="Edit">' + ICON.pencil + '</button>' : '') +
+        '<button data-copyc="' + t.id + '" aria-label="Copy comment" title="Copy comment">' + ICON.plane + '</button>' +
+        '<button data-resolve="' + t.id + '" class="' + (t.resolved ? 'ok' : '') + '" aria-label="' + (t.resolved ? 'Reopen' : 'Resolve') + '" title="' + (t.resolved ? 'Reopen' : 'Resolve') + '">' + ICON.checkc + '</button>' +
+        '<button data-del="' + t.id + '" class="del" aria-label="Delete" title="Delete">' + ICON.trash + '</button>' +
+        '<button data-popclose aria-label="Close" title="Close">' + ICON.x + '</button></span></div>' +
       '<div class="rv-pop-body">' +
       (shot ? '<img class="rv-pop-shot" src="' + shot + '" alt="Snapshot" data-lb>' : '') +
       row(t.author, t.at, editing ? null : t.text,
@@ -601,9 +637,10 @@
       '<div class="rv-pop-f">' + avatar(S.name || S.nameInput || '?', 26) + '<div class="rv-pop-box">' +
         (!S.name ? '<input class="rv-pop-in" id="rvPopName" placeholder="Your name" value="' + esc(S.nameInput) + '">' : '') +
         '<textarea class="rv-pop-in" id="rvPopReply" rows="1" placeholder="Reply">' + esc(S.popReply) + '</textarea>' +
-        (S.popEmoji ? '<div class="rv-emo">' + ['👍','❤️','😊','🙏','✅','👀','🔥','🎉'].map(function (em) { return '<button data-emoji="' + em + '">' + em + '</button>'; }).join('') + '</div>' : '') +
         '<div class="rv-pop-tb"><button data-popemoji class="rv-pop-emo' + (S.popEmoji ? ' on' : '') + '" aria-label="Emoji" title="Emoji">' + ICON.smileplus + '</button><button data-popsend="' + t.id + '" class="rv-pop-send" aria-label="Send reply"' + (S.popReply.trim() && (S.name || S.nameInput.trim()) ? '' : ' disabled') + '>' + ICON.up + '</button></div>' +
-      '</div></div></div>';
+      '</div></div>' +
+      (S.popEmoji ? '<div class="rv-emo" role="listbox" aria-label="Emoji">' + EMOJIS.map(function (em) { return '<button data-emoji="' + em + '">' + em + '</button>'; }).join('') + '</div>' : '') +
+      '</div>';
     var ae = document.activeElement, keep = ae && pop.contains(ae) && ae.id ? [ae.id, ae.selectionStart, ae.selectionEnd] : null, sc = pop.querySelector('.rv-pop-body'), st = sc ? sc.scrollTop : 0;
     pop.innerHTML = h;
     var sc2 = pop.querySelector('.rv-pop-body'); if (sc2) sc2.scrollTop = st;
@@ -627,13 +664,16 @@
     setTimeout(function () { var b = pop.querySelector('.rv-pop-body'); if (b) b.scrollTop = b.scrollHeight; }, 30);
   }
   pop.addEventListener('click', function (e) {
-    var b = e.target.closest('button'); if (!b) return; var a;
+    var b = e.target.closest('button');
+    if (S.popEmoji && !e.target.closest('.rv-emo') && !(b && b.hasAttribute('data-popemoji'))) { S.popEmoji = false; renderPop(); if (!b) return; }
+    if (!b) return; var a;
     if (b.hasAttribute('data-popclose')) { S.pop = null; S.popMenu = S.popEmoji = false; return renderAll(); }
     if (b.hasAttribute('data-popmore')) { S.popMenu = !S.popMenu; return renderPop(); }
     if (b.hasAttribute('data-popemoji')) { S.popEmoji = !S.popEmoji; return renderPop(); }
     if ((a = b.getAttribute('data-popsend'))) return sendPopReply(a);
-    if ((a = b.getAttribute('data-emoji'))) { S.popReply += a; renderPop(); var ri = pop.querySelector('#rvPopReply'); if (ri) { ri.focus(); ri.setSelectionRange(ri.value.length, ri.value.length); } return; }
+    if ((a = b.getAttribute('data-emoji'))) { S.popReply += a; S.popEmoji = false; renderPop(); var ri = pop.querySelector('#rvPopReply'); if (ri) { ri.focus(); ri.setSelectionRange(ri.value.length, ri.value.length); } return; }
     if ((a = b.getAttribute('data-popedit'))) { var t = findT(a); if (!t || !mine(t)) return; S.pop = a; S.popMenu = false; S.editing = a; S.editWhere = 'pop'; S.editText = t ? t.text : ''; renderPop(); var ed = pop.querySelector('#rvPopEdit'); if (ed) { ed.focus(); ed.setSelectionRange(ed.value.length, ed.value.length); } return; }
+    if ((a = b.getAttribute('data-copyc'))) { var tc = findT(a); S.popMenu = false; renderPop(); if (tc) copyText(tc.text, function () { toast('Copied'); }); e.stopPropagation(); return; }
     if (b.hasAttribute('data-del') || b.hasAttribute('data-resolve')) S.popMenu = false;
   });
   pop.addEventListener('input', function (e) {
@@ -696,6 +736,7 @@
       '.rv-devbar{flex:none;height:56px;display:flex;align-items:center;justify-content:center;gap:8px;background:rgba(255,255,255,.8);backdrop-filter:blur(8px);box-shadow:0 1px 0 rgba(15,23,42,.06)}' +
       '.rv-devstage{flex:1;min-height:0;display:flex;justify-content:center;padding:12px 12px 14px;overflow:auto}' +
       '.rv-devstage iframe{height:100%;max-width:100%;border:8px solid #1e293b;border-radius:28px;background:#fff;box-shadow:0 20px 50px rgba(15,40,90,.25)}' +
+      '@media (max-width:1024px){.rv-dev{padding:4px;gap:4px;left:8px;bottom:10px}.rv-dev button,.rv-devbar button{height:28px;padding:0 11px;font-size:12px}.rv-devbar{height:46px;gap:6px}}' +
       '@media (max-width:768px){.rv-dev{display:none}}';
     var st = document.createElement('style'); st.textContent = dcss; document.head.appendChild(st);
     var bar = document.createElement('div'); bar.className = 'rv rv-dev'; bar.setAttribute('data-review-ui', '');

@@ -621,7 +621,7 @@
     var h = '<div class="rv-pop" role="dialog" aria-label="Comment">' +
       '<div class="rv-pop-h"><b>Comment</b>' + (t.resolved ? '<span class="rv-ok">✓ Resolved</span>' : '') + '<span class="rv-pop-tools">' +
         (mine(t) ? '<button data-popedit="' + t.id + '" aria-label="Edit" title="Edit">' + ICON.pencil + '</button>' : '') +
-        '<button data-copyc="' + t.id + '" aria-label="Copy comment" title="Copy comment">' + ICON.plane + '</button>' +
+        '<button data-copyc="' + t.id + '" aria-label="Copy comment" title="Copy comment">' + ICON.copy + '</button>' +
         '<button data-resolve="' + t.id + '" class="' + (t.resolved ? 'ok' : '') + '" aria-label="' + (t.resolved ? 'Reopen' : 'Resolve') + '" title="' + (t.resolved ? 'Reopen' : 'Resolve') + '">' + ICON.checkc + '</button>' +
         '<button data-del="' + t.id + '" class="del" aria-label="Delete" title="Delete">' + ICON.trash + '</button>' +
         '<button data-popclose aria-label="Close" title="Close">' + ICON.x + '</button></span></div>' +

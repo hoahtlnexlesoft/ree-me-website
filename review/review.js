@@ -124,7 +124,7 @@
   /* ---------- styles ---------- */
   var css = '' +
   '.rv,.rv *{box-sizing:border-box;font-family:"Plus Jakarta Sans",system-ui,-apple-system,sans-serif}' +
-  '.rv button{font:inherit;cursor:pointer;border:0;background:none;color:inherit;margin:0;padding:0}' +
+  ':where(.rv) button{font:inherit;cursor:pointer;border:0;background:none;color:inherit;margin:0;padding:0;line-height:1}' +
   '.rv-layer{position:fixed;inset:0;pointer-events:none;z-index:2147482000}' +
   '.rv-pin{pointer-events:auto;position:absolute;width:30px;height:30px;transform:translate(-50%,-100%);border-radius:50% 50% 50% 0;color:#fff;font-size:12px;font-weight:700;display:grid;place-items:center;box-shadow:0 6px 16px rgba(0,0,0,.28);outline:2px solid #fff;transition:transform .15s}' +
   '.rv-pin:hover{transform:translate(-50%,-100%) scale(1.12)}.rv-pin.on{transform:translate(-50%,-100%) scale(1.25)}' +
@@ -166,7 +166,7 @@
   '.rv-copy1{position:absolute;right:12px;top:12px;width:28px;height:28px;border-radius:50%;background:rgba(255,255,255,.85);color:#64748b;display:grid;place-items:center;box-shadow:0 1px 3px rgba(0,0,0,.12)}.rv-copy1:hover{color:#0b3f8f}' +
   '.rv-copy1 svg,.rv-act svg{width:14px;height:14px}' +
   '.rv-sub{margin-left:40px}' +
-  '.rv-reacts{display:flex;gap:6px;margin-top:6px}.rv-react{height:26px;padding:0 8px;border-radius:999px;background:#fff;color:#64748b;font-size:12px;font-weight:700;display:inline-flex;align-items:center;gap:4px;outline:1px solid #e2e8f0}' +
+  '.rv-reacts{display:flex;gap:6px;margin-top:6px}.rv-react svg{width:14px;height:14px;flex:none;display:block}.rv-react{height:28px;min-width:34px;justify-content:center;padding:0 9px;border-radius:999px;background:#fff;color:#64748b;font-size:12px;font-weight:700;display:inline-flex;align-items:center;gap:4px;outline:1px solid #e2e8f0}' +
   '.rv-react:disabled{opacity:.55;cursor:not-allowed}.rv-react.on{background:#e0f2fe;color:#0369a1;outline-color:#7dd3fc}' +
   '.rv-reply{margin-top:8px;border-left:2px solid;padding-left:8px;font-size:12.5px;color:#475569;word-break:break-word}' +
   '.rv-acts{display:flex;align-items:center;gap:4px;margin-top:8px;font-size:12px;font-weight:700;color:#64748b}' +

@@ -1,0 +1,316 @@
+<!doctype html>
+<html lang="vi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Vị trí đang tuyển · REE M&amp;E</title>
+<link rel="stylesheet" href="assets/fonts.css">
+<link rel="stylesheet" href="assets/site.css">
+<style>
+  :root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+  body{margin:0}
+  [hidden]{display:none!important}
+  /* hero + search (ref: flight search) */
+  .jl-hero{min-height:clamp(340px,44vh,430px);display:flex;align-items:center;padding:calc(var(--hdr-h) + 8px) 0 118px;text-align:center;
+    background:linear-gradient(180deg,rgba(10,45,130,.55) 0%,rgba(16,55,140,.5) 45%,rgba(30,80,170,.55) 100%),image-set(url("assets/img/jobs-hero.webp") type("image/webp"),url("assets/img/jobs-hero.jpg") type("image/jpeg")) center 30%/cover no-repeat,#1C3D80}
+  .jl-hero::before{display:none}
+  .jl-hero-in{width:100%}
+  .jl-hero h1{font-size:clamp(2rem,1rem + 3.4vw,3.75rem);font-weight:800;line-height:1.05;letter-spacing:-.03em;color:#fff;text-transform:none;text-shadow:0 6px 30px rgba(0,20,80,.35)}
+  .jl-hero p{margin-top:14px;font-size:clamp(.92rem,.86rem + .2vw,1.06rem);color:rgba(255,255,255,.92)}
+  .sx-wrap{position:relative;z-index:5;margin-top:-118px;display:flex;flex-direction:column;align-items:center}
+  .sx-tabs{position:relative;display:flex;gap:4px;padding:9px 14px 0;background:#fff;border-radius:18px 18px 0 0;max-width:100%;overflow-x:auto;scrollbar-width:none}
+  .sx-tabs::before,.sx-tabs::after{content:"";position:absolute;bottom:0;width:22px;height:22px;background:radial-gradient(circle at 0 0,transparent 21px,#fff 22px)}
+  .sx-tabs::before{left:-22px;background:radial-gradient(circle at 0 0,transparent 21px,#fff 22px);transform:scaleX(-1)}
+  .sx-tabs::after{right:-22px}
+  .sx-tab{display:inline-flex;align-items:center;gap:7px;white-space:nowrap;padding:8px 14px;border:0;border-radius:999px!important;background:transparent;color:#41496A;font:inherit;font-size:14px;cursor:pointer;transition:background .2s,color .2s}
+  .sx-tab svg{width:16px;height:16px}
+  .sx-tab:hover{background:#F1F3F8}
+  .sx-tab[aria-selected="true"]{background:#0E1530;color:#fff}
+  .sx-tab em{font-style:normal;font-size:11px;opacity:.6}
+  .sx-tabs{padding-bottom:8px!important}
+  .sx{position:relative}
+  .sx::before{content:"";position:absolute;left:18px;right:18px;top:0;height:1px;background:#DCE0EA}
+  .sx-tab{position:relative}
+  .sx-tab+.sx-tab{margin-left:9px}
+  .sx-tab+.sx-tab::before{content:"";position:absolute;left:-7px;top:50%;width:1px;height:18px;transform:translateY(-50%);background:#DCE0EA;transition:opacity .2s}
+  .sx-tab[aria-selected="true"]::before,.sx-tab[aria-selected="true"]+.sx-tab::before{opacity:0}
+  .sx{width:100%;background:#fff;border-radius:16px;box-shadow:0 24px 50px -24px rgba(10,30,90,.35);padding:16px 18px 18px}
+  .sx-top{display:flex;align-items:center;justify-content:space-between;gap:12px;padding-bottom:12px;margin-bottom:14px;border-bottom:1px solid #EEF0F5}
+  .sx-radios{display:flex;flex-wrap:wrap;gap:6px 22px}
+  .sx-radio{display:inline-flex;align-items:center;gap:8px;border:0;background:none;padding:2px 0;font:inherit;font-size:13.5px;color:#5A6280;cursor:pointer}
+  .sx-radio i{width:16px;height:16px;border-radius:50%;border:1.5px solid #9AA2BA;display:grid;place-items:center}
+  .sx-radio[aria-checked="true"]{color:#0E1530;font-weight:600}
+  .sx-radio[aria-checked="true"] i{border-color:#1E3A80}
+  .sx-radio[aria-checked="true"] i::after{content:"";width:8px;height:8px;border-radius:50%;background:#1E3A80}
+  .sx-sort select{appearance:none;-webkit-appearance:none;height:36px;padding:0 34px 0 14px;border:1px solid #E3E6EE;border-radius:999px!important;background:#fff url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%230E1530' stroke-width='2'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E") right 12px center/14px no-repeat;font:inherit;font-size:13.5px;color:#0E1530;cursor:pointer}
+  .sx-row{display:flex;align-items:center;gap:8px}
+  .sx-f{display:flex;align-items:center;gap:12px;min-width:0;flex:1 1 0;height:58px;padding:0 16px;border-radius:14px;background:#F6F7FA;cursor:pointer;transition:box-shadow .2s,background .2s}
+  .sx-f.grow{flex:1.6 1 0;cursor:text}
+  .sx-f:focus-within{background:#fff;box-shadow:0 0 0 2px #1E3A80 inset}
+  .sx-ic{flex:none;width:22px;height:22px;color:#0E1530;display:grid;place-items:center;padding-right:12px;border-right:1px solid #DDE1EA;box-sizing:content-box}
+  .sx-ic svg{width:20px;height:20px}
+  .sx-t{display:grid;min-width:0;flex:1}
+  .sx-t small{font-size:12px;font-weight:600;color:#0E1530;line-height:1.3}
+  .sx-t input,.sx-t select{width:100%;min-width:0;border:0;background:transparent;padding:0;font:inherit;font-size:13.5px;color:#7B829A;outline:none;cursor:pointer;-webkit-appearance:none;appearance:none}
+  .sx-t input{cursor:text;color:#0E1530}
+  .sx-t input::placeholder{color:#8A90A6}
+  .sx-num{flex:0 1 auto;cursor:default}
+  .sx-num>b{font-size:20px;font-weight:600;color:#0E1530;padding-right:12px;border-right:1px solid #DDE1EA}
+  .sx-num .sx-t>span{font-size:13px;color:#7B829A}
+  .sx-num .sx-t>span b{color:#C7483A;font-weight:700}
+  .sx-reset{flex:none;width:44px;height:44px;border-radius:50%!important;border:1px solid #E3E6EE;background:#fff;color:#7B829A;display:grid;place-items:center;cursor:pointer}
+  .sx-reset svg{width:17px;height:17px}
+  .sx-reset:hover{color:#C7483A;border-color:#C7483A}
+  .sx-go{flex:none;width:56px;height:56px;border-radius:50%!important;border:0;background:#1E3A8A;color:#fff;display:grid;place-items:center;cursor:pointer;box-shadow:0 10px 20px -10px rgba(30,58,138,.8);transition:background .2s}
+  .sx-go:hover{background:#16306F}
+  .sx-go svg{width:20px;height:20px}
+  @media (max-width:1000px){.sx-row{flex-wrap:wrap}.sx-f{flex:1 1 calc(50% - 8px)}.sx-f.grow{flex-basis:100%}.sx-num{flex:1 1 auto}}
+  @media (max-width:600px){.sx-top{flex-direction:column;align-items:flex-start}.sx-f{flex-basis:100%}.sx-go{flex:1;width:auto;border-radius:14px!important;height:48px}.sx-reset{height:48px;width:48px}.sx-wrap{margin-top:-90px}.sx-tabs{padding:8px 8px 0}}
+
+  .toolbar{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:12px;margin-block:44px 14px}
+  .toolbar p{font-size:var(--t-sm);color:var(--muted)}
+  .toolbar p b{font-family:var(--f-display);font-size:1.28rem;color:var(--fg);font-weight:700;margin-right:4px}
+  .tools{display:flex;gap:8px;align-items:center}
+  .tools select{border:1px solid var(--line-strong);background:transparent;color:var(--fg);border-radius:2px;padding:9px 10px;font:inherit;font-size:13px}
+  .view{display:flex;border:1px solid var(--line-strong)}
+  .view button{width:40px;height:38px;border:0;background:transparent;display:grid;place-items:center;color:var(--muted)}
+  .view button+button{border-left:1px solid var(--line-strong)}
+  .view button[aria-pressed="true"]{background:var(--fg);color:var(--bg)}
+  .view svg{width:16px;height:16px}
+  .empty{padding:64px 24px;text-align:center;border:1px dashed var(--line-strong);display:grid;gap:12px;justify-items:center}
+  .empty h3{font-size:1.6rem;text-transform:uppercase;color:var(--brand-ink)}
+  .pager{display:flex;justify-content:center;gap:6px;margin-top:32px}
+  .pager button{min-width:40px;height:40px;border:1px solid var(--line-strong);background:transparent;font-weight:600;font-variant-numeric:tabular-nums;border-radius:2px}
+  .pager button[aria-current="page"]{background:var(--fg);border-color:var(--fg);color:var(--bg)}
+  .pager button:disabled{opacity:.35;cursor:default}
+  .alert-band{position:relative;overflow:hidden;isolation:isolate;margin-top:72px;display:flex;align-items:center;justify-content:space-between;gap:20px 40px;flex-wrap:wrap;padding:30px clamp(24px,3.5vw,44px);border-radius:12px;color:#fff;background:linear-gradient(100deg,#0D3D84 0%,#0F4693 55%,#1452A8 100%)}
+  .alert-band::before,.alert-band::after{content:"";position:absolute;z-index:-1;border-radius:50%;pointer-events:none}
+  .alert-band::before{width:520px;height:520px;right:-120px;top:-300px;background:radial-gradient(circle,rgba(255,255,255,.16),rgba(255,255,255,0) 65%)}
+  .alert-band::after{width:700px;height:700px;right:-260px;top:-80px;border:1px solid rgba(255,255,255,.14)}
+  .alert-band h3{font-size:clamp(1.25rem,1rem + .9vw,1.7rem);font-weight:600;letter-spacing:-.01em;text-transform:none;color:#fff}
+  .ab-items{display:flex;flex-wrap:wrap;gap:16px 44px}
+  .ab-it{display:flex;align-items:center;gap:14px;color:#fff}
+  .ab-ic{flex:none;width:40px;height:40px;border-radius:50%;background:#fff;color:#0D3D84;display:grid;place-items:center}
+  .ab-ic svg{width:18px;height:18px}
+  .ab-it small{display:block;font-size:12.5px;color:rgba(255,255,255,.85)}
+  .ab-it b{display:block;font-size:14px;font-weight:600;margin-top:2px}
+  .ab-it:hover b{text-decoration:underline;text-underline-offset:3px}
+  main{overflow-x:clip}
+  /* no header / footer on this page */
+  .site-header,#site-header{display:none!important}
+  .jl-hero{padding-top:84px!important}
+  .jl-topbar{position:absolute;top:22px;left:0;right:0;z-index:2;text-align:left}
+  .jl-back{display:inline-flex;align-items:center;gap:8px;height:40px;padding:0 16px 0 12px;border-radius:10px;border:1px solid rgba(255,255,255,.28);background:rgba(255,255,255,.1);backdrop-filter:blur(6px);color:#fff;font-size:14px;font-weight:600;transition:background .2s,border-color .2s}
+  .jl-back svg{width:18px;height:18px;transition:transform .2s}
+  .jl-back:hover{background:rgba(255,255,255,.2);border-color:rgba(255,255,255,.5)}
+  .jl-back:hover svg{transform:translateX(-3px)}
+  #site-footer,.site-footer{display:none!important}
+  /* alert band: sticky full-width bar */
+  .list-sec{padding-bottom:0!important}
+  .alert-band{position:sticky!important;bottom:0;z-index:20;width:100vw;margin-left:calc(50% - 50vw);margin-top:72px;border-radius:0!important;padding:14px max(clamp(16px,4vw,40px),calc((100vw - var(--wrap))/2 + clamp(16px,4vw,40px)));box-shadow:0 -12px 30px -16px rgba(5,25,70,.45);border-bottom:1px solid rgba(255,255,255,.12)}
+  .alert-band h3{font-size:clamp(1.05rem,.95rem + .5vw,1.35rem)}
+  .alert-band::before{opacity:.6}
+  body:has(.alert-band) .fab,body:has(.alert-band) .qc-pop{transform:translateY(-84px)}
+  @media (max-width:700px){.alert-band{padding-block:12px;gap:10px}.alert-band h3{display:none}.ab-items{flex-wrap:nowrap;gap:12px;width:100%;justify-content:space-between}.ab-it{gap:8px;min-width:0}.ab-ic{width:32px;height:32px}.ab-it small{font-size:11px}.ab-it b{font-size:12.5px;white-space:nowrap}body:has(.alert-band) .fab,body:has(.alert-band) .qc-pop{transform:translateY(-78px)}}
+  .list-sec{position:relative;isolation:isolate}
+  .list-sec::before{content:"";position:absolute;z-index:-1;top:-260px;bottom:0;left:50%;width:100vw;transform:translateX(-50%);pointer-events:none;background:url(assets/img/jobs-list-bg.webp) right bottom/cover no-repeat}
+  :root[data-theme="dark"] .list-sec::before{opacity:.12}
+  @media not all{:root:not([data-theme="light"]) .list-sec::before{opacity:.12}}
+  .list-sec{position:relative;isolation:isolate}
+  .list-sec::before{content:"";position:absolute;z-index:-1;top:-260px;bottom:0;left:50%;width:100vw;transform:translateX(-50%);pointer-events:none;background:url(assets/img/list-bg.webp) center bottom/cover no-repeat;-webkit-mask-image:linear-gradient(to bottom,transparent 0,#000 260px);mask-image:linear-gradient(to bottom,transparent 0,#000 260px)}
+  :root[data-theme="dark"] .list-sec::before{opacity:.12}
+  @media not all{:root:not([data-theme="light"]) .list-sec::before{opacity:.12}}
+  html,body{overflow-x:clip}
+  .jl-hero{background:radial-gradient(760px 380px at 42% 92%,rgba(28,104,184,.6),rgba(28,104,184,0) 70%),radial-gradient(520px 300px at 20% 0%,rgba(4,52,140,.5),transparent 70%),linear-gradient(90deg,#0B3F8F 0%,#0B4291 30%,rgba(10,70,150,.95) 52%,rgba(12,72,150,.84) 66%,rgba(16,66,140,.68) 82%,rgba(18,60,128,.6) 100%),linear-gradient(rgba(0,25,80,.32),rgba(0,25,80,.32)),linear-gradient(#1A55B0,#1A55B0),image-set(url("assets/img/jobs-hero.webp") type("image/webp"),url("assets/img/jobs-hero.jpg") type("image/jpeg")) right 30%/cover no-repeat,#0B3F8F!important;background-blend-mode:normal,normal,normal,multiply,color,normal!important}
+  .jl-hero::after{content:"";position:absolute;inset:0;pointer-events:none;background-image:linear-gradient(rgba(255,255,255,.05) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.05) 1px,transparent 1px);background-size:88px 88px}
+  .jl-hero-in{position:relative;z-index:1}
+  .jl-hero{z-index:2}
+  mark{background:var(--warn-soft);color:inherit;padding:0 1px}
+  /* tighter page spacing */
+  .jl-hero{padding-top:72px!important;min-height:clamp(300px,40vh,380px)!important}
+  .sx-wrap{margin-bottom:-20px}
+  .toolbar{margin-bottom:8px!important}
+  #list{padding-top:4px!important;gap:10px!important}
+  .jrow,.job{padding-top:16px!important;padding-bottom:16px!important}
+  #pager{margin-top:16px!important}
+  .alert-band{margin-top:16px!important}
+  .pager button[aria-current="page"],.view button[aria-pressed="true"]{background:linear-gradient(90deg,#0B3F8F 0%,#0F4A9C 55%,#1656AE 100%)!important;border-color:transparent!important;color:#fff!important;box-shadow:0 6px 14px -8px rgba(11,63,143,.7)}
+  /* compact job cards + small badges */
+  .jrow{padding-top:12px!important;padding-bottom:12px!important}
+  .jmain{gap:4px!important}
+  .jmain .code{font-size:11px}
+  .jmain h3{font-size:clamp(1rem,.94rem + .2vw,1.1rem)!important}
+  .jchip{padding:2px 9px!important;font-size:11px!important;gap:4px!important;line-height:1.5}
+  .jchip.hot svg{width:10px!important;height:10px!important}
+  .tags{gap:5px!important}
+  .jcell{font-size:13.5px}
+  @media (min-width:1001px){.jrow{grid-template-columns:76px minmax(0,1.6fr) repeat(3,minmax(0,.62fr)) 48px!important}
+    .jico svg{width:20px!important;height:20px!important;padding:13px!important;box-shadow:0 0 0 6px color-mix(in srgb,var(--c) 7%,transparent)!important}}
+  /* "Chưa thấy vị trí phù hợp?" — same style as the job page apply dock */
+  .alert-band.dk{display:flex;flex-wrap:nowrap;align-items:center;gap:18px;justify-content:flex-start;background:rgba(34,34,38,.8)!important;color:#fff;padding:14px max(64px,calc(50vw - 600px + 40px)) 14px max(16px,calc(50vw - 600px))!important;border-bottom:0!important;box-shadow:0 -10px 30px -18px rgba(0,0,0,.45)!important;animation:abIn .4s cubic-bezier(.2,.8,.2,1) both}
+  .alert-band.dk::before,.alert-band.dk::after{display:none!important}
+  @keyframes abIn{from{transform:translateY(16px);opacity:0}}
+  .ab-th{flex:none;width:92px;height:72px;border-radius:6px;object-fit:cover;border:2px solid rgba(255,255,255,.85)}
+  .ab-tx{min-width:0;flex:1}
+  .alert-band.dk h3{font-size:17px!important;font-weight:600;letter-spacing:-.01em;color:#fff;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .ab-sub{display:inline-flex;align-items:center;gap:6px;margin-top:4px;font-size:15px;color:rgba(255,255,255,.82)}
+  .ab-sub:hover{color:#fff}
+  .ab-act{display:flex;gap:14px;flex:none}
+  .ab-btn{display:inline-flex;align-items:center;gap:10px;height:50px;padding:0 26px;border-radius:999px;font-size:18px;font-weight:600;transition:transform .2s,filter .2s}
+  .ab-btn:hover{transform:translateY(-1px)}
+  .ab-btn svg{width:20px;height:20px}
+  .ab-btn.light{background:#fff;color:#141416;padding-left:14px}
+  .ab-bic{display:grid;place-items:center;width:28px;height:28px;border-radius:50%;background:#141416;color:#fff}
+  .ab-bic svg{width:15px;height:15px}
+  .ab-btn.pri{color:#fff;background:linear-gradient(90deg,#B83A2B 0%,#C84634 45%,#DE6248 100%);border:1px solid #B83A2B;box-shadow:inset 0 1px 0 rgba(255,255,255,.18),0 10px 22px -10px rgba(200,70,52,.65)}
+  .ab-btn.pri:hover{filter:brightness(1.08)}
+  .ab-x{position:absolute;top:50%;transform:translateY(-50%);right:max(16px,calc(50vw - 640px));width:28px;height:28px;border:0;background:none;color:rgba(255,255,255,.8);cursor:pointer;display:grid;place-items:center}
+  .ab-x svg{width:18px;height:18px}
+  .ab-x:hover{color:#fff}
+  @media (max-width:860px){.ab-btn{height:42px;padding:0 16px;font-size:14px}.ab-th{width:64px;height:50px}.alert-band.dk h3{font-size:14px!important;display:block!important}.ab-sub{font-size:12.5px}.alert-band.dk{gap:12px;padding:12px 44px 12px 12px!important}}
+  @media (max-width:600px){.ab-sub,.ab-th,.ab-btn.light .ab-lb{display:none}.ab-btn.light{padding:0 7px}.alert-band.dk h3{font-size:13px!important}.ab-btn.pri svg{display:none}}
+</style>
+<script>window.PAGE="jobs"</script>
+</head>
+<body>
+<div id="site-header"></div>
+
+<main>
+  <section class="plate on-navy jl-hero" id="top">
+    <div class="wrap jl-topbar"><a class="jl-back" href="./"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>Cơ hội nghề nghiệp</a></div>
+    <div class="wrap jl-hero-in">
+      <h1>Các vị trí đang tuyển</h1>
+      <p>Tìm đúng cơ hội tại tổng thầu cơ điện hàng đầu Việt Nam — chỉ với một lần tìm kiếm.</p>
+    </div>
+  </section>
+
+  <section class="wrap sx-wrap">
+    <div class="sx-tabs" id="deptTabs" role="tablist" aria-label="Bộ phận"></div>
+    <form class="sx" id="filterForm" role="search">
+      <div class="sx-top">
+        <div class="sx-radios" id="locRadios" role="radiogroup" aria-label="Địa điểm"></div>
+        <label class="sx-sort"><span class="sr">Sắp xếp</span><select id="sort"><option value="hot">Tuyển gấp trước</option><option value="deadline">Hạn nộp gần nhất</option><option value="salary">Thu nhập cao nhất</option><option value="az">Tên A → Z</option></select></label>
+      </div>
+      <div class="sx-row">
+        <label class="sx-f grow" for="f-q"><span class="sx-ic" id="icQ"></span><span class="sx-t"><small>Từ khóa</small><input id="f-q" placeholder="Chức danh, kỹ năng, mã vị trí…" autocomplete="off"></span></label>
+        <label class="sx-f" for="f-lv"><span class="sx-ic" id="icLv"></span><span class="sx-t"><small>Cấp bậc</small><select id="f-lv"><option value="">Tất cả cấp bậc</option></select></span></label>
+        <label class="sx-f" for="f-sys"><span class="sx-ic" id="icSys"></span><span class="sx-t"><small>Hệ thống</small><select id="f-sys"><option value="">Tất cả hệ thống</option></select></span></label>
+        <div class="sx-f sx-num"><b class="num" id="totalCount">12</b><span class="sx-t"><small>Vị trí đang mở</small><span><b id="hotCount">5</b> tuyển gấp</span></span></div>
+        <button type="button" class="sx-reset" id="resetBtn" aria-label="Xóa bộ lọc"></button>
+        <button type="submit" class="sx-go" id="goBtn" aria-label="Tìm việc"></button>
+      </div>
+    </form>
+  </section>
+
+  <section class="wrap list-sec" style="padding-bottom:96px">
+    <div class="toolbar">
+      <p id="resultText"></p>
+      <div class="tools">
+        <div class="view" role="group" aria-label="Kiểu hiển thị"><button id="vList" aria-pressed="true" aria-label="Dạng danh sách"></button><button id="vGrid" aria-pressed="false" aria-label="Dạng lưới"></button></div>
+      </div>
+    </div>
+    <div id="list"></div>
+    <div class="empty" id="empty" hidden>
+      <h3>Chưa có vị trí khớp</h3>
+      <p style="color:var(--muted);font-size:14px;max-width:46ch">Thử bỏ bớt điều kiện lọc, hoặc đăng ký nhận tin để được báo khi có vị trí phù hợp.</p>
+      <div style="display:flex;gap:10px;flex-wrap:wrap;justify-content:center"><button class="btn btn-ghost" id="emptyReset">Xóa bộ lọc</button><button class="btn btn-accent" data-open="alert">Nhận tin việc làm</button></div>
+    </div>
+    <div class="pager" id="pager"></div>
+
+    <div class="alert-band dk" id="alertBand">
+      <img class="ab-th" src="assets/img/core-team.jpg" alt="">
+      <div class="ab-tx"><h3>Chưa thấy vị trí phù hợp?</h3>
+        <a class="ab-sub" href="mailto:ree@reeme.com.vn">Gửi CV qua email ree@reeme.com.vn <svg width="10" height="10" viewBox="0 0 24 24" fill="currentColor"><path d="M6 9h12l-6 7z"/></svg></a></div>
+      <div class="ab-act">
+        <a class="ab-btn light" href="tel:19003339"><span class="ab-bic" id="abPhone"></span><span class="ab-lb">Hotline 1900 3339</span></a>
+        <a class="ab-btn pri" href="mailto:ree@reeme.com.vn"><span id="abMail"></span>Gửi CV ngay</a>
+      </div>
+      <button type="button" class="ab-x" id="abX" aria-label="Ẩn thanh này"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M6 6l12 12M18 6 6 18"/></svg></button>
+    </div>
+  </section>
+</main>
+
+<div id="site-footer"></div>
+
+<script src="assets/jobs-data.js"></script>
+<script src="assets/site.js"></script>
+<script>
+(function(){
+  if('scrollRestoration' in history) history.scrollRestoration = 'manual';
+  const toTop = () => { if(!location.hash || location.hash === '#top') scrollTo(0,0); };
+  toTop(); addEventListener('load', toTop); addEventListener('pageshow', toTop);
+  const $ = s => document.querySelector(s);
+  const PER = 8;
+  const st = { q:"", loc:"", dept:"", lv:"", sys:"", sort:"hot", page:1, view: store.get("ree_view","list") };
+
+  $("#resetBtn").innerHTML = ic("reset"); $("#goBtn").innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>';
+  $("#icQ").innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>'; $("#icLv").innerHTML = ic("brief"); $("#icSys").innerHTML = ic("fan"); $("#vList").innerHTML = ic("list"); $("#vGrid").innerHTML = ic("grid");
+  $("#abPhone").innerHTML = ic("phone"); $("#abMail").innerHTML = ic("mail");
+  $("#abX")?.addEventListener("click", () => { $("#alertBand").hidden = true; });
+  $("#totalCount").textContent = JOBS.length; $("#hotCount").textContent = JOBS.filter(j => j.hot).length;
+
+  const uniq = a => [...new Set(a)];
+  const LOCS = uniq(JOBS.flatMap(j => j.loc.split(" · ")));
+  uniq(JOBS.map(j => j.level)).forEach(l => $("#f-lv").insertAdjacentHTML("beforeend", `<option>${l}</option>`));
+  Object.keys(SYSTEMS).forEach(k => $("#f-sys").insertAdjacentHTML("beforeend", `<option value="${k}">${k} · ${SYSTEMS[k]}</option>`));
+  const DEPT_IC = { "":"grid", site:"gear", design:"cube", qs:"calc" };
+
+  const h = location.hash.slice(1); if(DEPTS[h]) st.dept = h;
+  try{ const s = JSON.parse(sessionStorage.getItem("ree_q") || "null"); if(s){ st.q = s.q || ""; st.loc = s.loc || ""; st.sys = s.sys || ""; sessionStorage.removeItem("ree_q"); } }catch(e){}
+
+  const norm = s => s.normalize("NFD").replace(/[̀-ͯ]/g,"").replace(/đ/g,"d").replace(/Đ/g,"D").toLowerCase();
+  const salaryTop = j => Math.max(...(j.salary.match(/\d+/g) || [0]).map(Number));
+  const match = (j, skip) => {
+    if(st.q){ const hay = norm([j.title,j.en,j.code,j.summary,j.systems.join(" "),DEPTS[j.dept].name].join(" ")); if(!norm(st.q).split(/\s+/).every(w => hay.includes(w))) return false; }
+    if(st.loc && !j.loc.includes(st.loc)) return false;
+    if(skip !== "dept" && st.dept && j.dept !== st.dept) return false;
+    if(skip !== "sys" && st.sys && !j.systems.includes(st.sys)) return false;
+    if(st.lv && j.level !== st.lv) return false;
+    return true;
+  };
+  const hl = html => { if(!st.q) return html; const w = norm(st.q).split(/\s+/).find(x => x.length > 1); if(!w) return html;
+    return html.replace(/(<h3><a[^>]*>)([^<]+)(<\/a>)/, (m,a,t,c) => { const i = norm(t).indexOf(w); return i < 0 ? m : a + t.slice(0,i) + "<mark>" + t.slice(i,i+w.length) + "</mark>" + t.slice(i+w.length) + c; }); };
+
+  function render(){
+    $("#f-q").value = st.q; $("#f-lv").value = st.lv; $("#f-sys").value = st.sys; $("#sort").value = st.sort;
+    $("#vList").setAttribute("aria-pressed", st.view === "list"); $("#vGrid").setAttribute("aria-pressed", st.view === "grid");
+    const bd = JOBS.filter(j => match(j, "dept"));
+    $("#deptTabs").innerHTML = [["","Tất cả"], ...Object.entries(DEPTS).map(([k,d]) => [k, d.short])].map(([k,t]) => `<button type="button" class="sx-tab" role="tab" data-dept="${k}" aria-selected="${st.dept===k}">${ic(DEPT_IC[k] || "brief")}${t} <em>${k ? bd.filter(j=>j.dept===k).length : bd.length}</em></button>`).join("");
+    $("#locRadios").innerHTML = [["","Tất cả địa điểm"], ...LOCS.map(l => [l,l])].map(([v,t]) => `<button type="button" class="sx-radio" role="radio" data-loc="${v}" aria-checked="${st.loc===v}"><i></i>${t}</button>`).join("");
+
+    let res = JOBS.filter(j => match(j));
+    const sorters = { hot:(a,b)=> (b.hot-a.hot) || a.deadline.localeCompare(b.deadline), deadline:(a,b)=>a.deadline.localeCompare(b.deadline), salary:(a,b)=>salaryTop(b)-salaryTop(a), az:(a,b)=>a.title.localeCompare(b.title,"vi") };
+    res.sort(sorters[st.sort]);
+    const pages = Math.max(1, Math.ceil(res.length / PER)); st.page = Math.min(st.page, pages);
+    const slice = res.slice((st.page-1)*PER, st.page*PER);
+    const list = $("#list"); list.className = st.view === "list" ? "rows" : "job-grid";
+    list.innerHTML = slice.map(j => hl(st.view === "list" ? jobRow(j) : jobCard(j))).join("");
+    $("#empty").hidden = res.length > 0; list.hidden = !res.length;
+    const active = [st.q && `“${st.q}”`, st.loc, st.dept && DEPTS[st.dept].short, st.sys, st.lv].filter(Boolean);
+    $("#resultText").innerHTML = `<b class="num">${res.length}</b> vị trí${active.length ? " · " + active.join(" · ") : " đang mở"}`;
+    $("#pager").innerHTML = pages < 2 ? "" : `<button data-pg="${st.page-1}" ${st.page===1?"disabled":""} aria-label="Trang trước">‹</button>` +
+      Array.from({length:pages},(_,i)=>`<button data-pg="${i+1}" ${i+1===st.page?'aria-current="page"':""}>${i+1}</button>`).join("") +
+      `<button data-pg="${st.page+1}" ${st.page===pages?"disabled":""} aria-label="Trang sau">›</button>`;
+  }
+
+  const read = () => { st.q = $("#f-q").value.trim(); st.lv = $("#f-lv").value; st.sys = $("#f-sys").value; st.page = 1; };
+  $("#filterForm").addEventListener("submit", e => { e.preventDefault(); read(); render(); scrollTo({top: $(".toolbar").getBoundingClientRect().top + scrollY - 90, behavior:"smooth"}); });
+  ["#f-lv","#f-sys"].forEach(s => $(s).addEventListener("change", () => { read(); render(); }));
+  let t; $("#f-q").addEventListener("input", () => { clearTimeout(t); t = setTimeout(() => { read(); render(); }, 220); });
+  $("#sort").addEventListener("change", e => { st.sort = e.target.value; render(); });
+  const setView = v => { st.view = v; store.set("ree_view", v); render(); };
+  $("#vList").onclick = () => setView("list"); $("#vGrid").onclick = () => setView("grid");
+  const reset = () => { Object.assign(st, { q:"", loc:"", dept:"", lv:"", sys:"", page:1 }); render(); };
+  $("#resetBtn").onclick = reset; $("#emptyReset").onclick = reset;
+  document.addEventListener("click", e => {
+    const c = e.target.closest("[data-dept]"); if(c){ st.dept = c.dataset.dept; st.page = 1; render(); return; }
+    const lc = e.target.closest("[data-loc]"); if(lc){ st.loc = lc.dataset.loc; st.page = 1; render(); return; }
+    const s = e.target.closest("[data-sysf]"); if(s){ st.sys = st.sys === s.dataset.sysf ? "" : s.dataset.sysf; st.page = 1; render(); return; }
+    const p = e.target.closest("[data-pg]"); if(p && !p.disabled){ st.page = +p.dataset.pg; render(); scrollTo({top: $(".toolbar").getBoundingClientRect().top + scrollY - 90, behavior:"smooth"}); }
+  });
+  addEventListener("hashchange", () => { const h = location.hash.slice(1); if(DEPTS[h]){ st.dept = h; st.page = 1; render(); } });
+  render();
+})();
+</script>
+</body>
+</html>

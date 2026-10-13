@@ -1,0 +1,563 @@
+<!doctype html>
+<html lang="vi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Dịch vụ &amp; giải pháp · REE M&amp;E</title>
+<link rel="stylesheet" href="assets/fonts.css">
+<link rel="stylesheet" href="assets/site.css">
+<style>
+  body{margin:0}
+  [hidden]{display:none!important}
+  html,body{overflow-x:clip}
+  :root{--sv-navy:#0B3F8F;--sv-ink:#0E1A3A;--sv-muted:#5A647C;--sv-line:#E3E7F0;--sv-soft:#F4F6FB;--sv-red:#D62E33}
+
+  /* shared bits */
+  .sv-ruler{display:flex;align-items:center;gap:14px;font-size:11px;font-weight:700;letter-spacing:.38em;text-transform:uppercase;color:var(--sv-red)}
+  .sv-ruler::before{content:"";width:40px;height:2px;background:currentColor;flex:none}
+  .on-navy .sv-ruler{color:rgba(255,255,255,.78)}
+  .on-navy .sv-ruler::before{background:var(--sv-red)}
+  .sv-h2{margin-top:14px;font-size:clamp(1.6rem,1.1rem + 1.6vw,2.4rem);font-weight:800;line-height:1.12;letter-spacing:-.015em;text-transform:uppercase;color:var(--sv-navy);text-wrap:balance}
+  .sv-intro{margin-top:14px;max-width:62ch;color:var(--sv-muted);font-size:15.5px;line-height:1.7}
+  .sv-sec{padding-block:clamp(56px,7vw,96px)}
+  .sv-head{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,.9fr);gap:24px 56px;align-items:end;padding-bottom:clamp(28px,3.5vw,40px);border-bottom:1px solid var(--sv-line);margin-bottom:clamp(28px,3.5vw,44px)}
+  .sv-head .sv-intro{margin-top:0;justify-self:end}
+  @media (max-width:860px){.sv-head{grid-template-columns:1fr}.sv-head .sv-intro{justify-self:start}}
+
+  /* hero */
+  .sv-hero{min-height:clamp(520px,78vh,720px);display:flex;align-items:center;padding:calc(var(--hdr-h) + 32px) 0 56px;
+    background:radial-gradient(760px 380px at 40% 100%,rgba(28,104,184,.55),rgba(28,104,184,0) 70%),
+      linear-gradient(90deg,#0B3F8F 0%,#0B4291 34%,rgba(10,70,150,.94) 50%,rgba(12,72,150,.78) 66%,rgba(16,66,140,.6) 84%,rgba(18,60,128,.52) 100%),
+      linear-gradient(rgba(0,25,80,.28),rgba(0,25,80,.28)),linear-gradient(#1A55B0,#1A55B0),
+      url("assets/img/svc/acmv-0.jpg") right center/cover no-repeat,#0B3F8F!important;
+    background-blend-mode:normal,normal,multiply,color,normal!important}
+  .sv-hero::before{display:none}
+  .sv-hero::after{content:"";position:absolute;inset:0;pointer-events:none;background-image:linear-gradient(rgba(255,255,255,.05) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.05) 1px,transparent 1px);background-size:88px 88px}
+  .sv-hero .wrap{position:relative;z-index:1;width:100%}
+  .sv-hero h1{margin-top:20px;font-size:clamp(1.8rem,1rem + 2.2vw,3rem);font-weight:800;line-height:1.04;letter-spacing:-.02em;text-transform:uppercase;color:#fff}
+  .sv-lead{margin-top:16px;max-width:62ch;font-size:clamp(.9rem,.86rem + .15vw,.98rem);line-height:1.7;color:rgba(255,255,255,.8)}
+  .sv-lead b{color:#fff;font-weight:700}
+  .sv-cta{display:flex;flex-wrap:wrap;gap:12px;margin-top:30px}
+  .sv-btn{display:inline-flex;align-items:center;gap:10px;height:48px;padding:0 22px;border-radius:10px;font-size:12.5px;font-weight:700;letter-spacing:.18em;text-transform:uppercase;border:1px solid transparent;cursor:pointer;transition:transform .2s,background .2s,border-color .2s,box-shadow .2s}
+  .sv-btn svg{width:16px;height:16px;transition:transform .2s}
+  .sv-btn:hover svg{transform:translateX(3px)}
+  .sv-btn.pri{background:linear-gradient(90deg,#C42529 0%,#D62E33 55%,#E04A43 100%);color:#fff;box-shadow:0 14px 28px -14px rgba(214,46,51,.85)}
+  .sv-btn.pri:hover{transform:translateY(-1px)}
+  .sv-btn.ghost{background:rgba(255,255,255,.08);border-color:rgba(255,255,255,.32);color:#fff;backdrop-filter:blur(6px)}
+  .sv-btn.ghost:hover{background:rgba(255,255,255,.16);border-color:rgba(255,255,255,.55)}
+  .sv-stats{display:grid;grid-template-columns:repeat(3,max-content);gap:24px clamp(40px,7vw,104px);margin-top:clamp(36px,5vw,56px);padding-top:clamp(24px,3vw,32px);border-top:1px solid rgba(255,255,255,.2);max-width:860px}
+  .sv-stats b{display:block;font-size:clamp(1.9rem,1.4rem + 1.4vw,2.7rem);font-weight:800;line-height:1;color:#fff;font-variant-numeric:tabular-nums}
+  .sv-stats b i{font-style:normal;color:#FF7A6E}
+  .sv-stats span{display:block;margin-top:10px;font-size:11px;font-weight:700;letter-spacing:.22em;text-transform:uppercase;color:rgba(255,255,255,.66)}
+  @media (max-width:560px){.sv-stats{grid-template-columns:repeat(3,minmax(0,1fr));gap:16px}.sv-stats span{letter-spacing:.12em;font-size:10px}}
+
+  /* four standards */
+  .std-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:18px}
+  .std{position:relative;overflow:hidden;padding:28px 26px 30px;border:1px solid var(--sv-line);border-radius:16px;background:#fff;transition:transform .3s,box-shadow .3s,border-color .3s}
+  .std::before{content:"";position:absolute;left:0;top:0;height:3px;width:100%;background:linear-gradient(90deg,var(--sv-red),#F0675B);transform:scaleX(0);transform-origin:left;transition:transform .4s}
+  .std:hover{transform:translateY(-4px);box-shadow:0 26px 50px -30px rgba(11,63,143,.45);border-color:transparent}
+  .std:hover::before{transform:scaleX(1)}
+  .std-top{display:flex;align-items:center;justify-content:space-between}
+  .std-ic{width:52px;height:52px;border-radius:14px;display:grid;place-items:center;color:#fff;background:linear-gradient(135deg,#0B3F8F,#1656AE);box-shadow:0 12px 24px -12px rgba(11,63,143,.8)}
+  .std-ic svg{width:22px;height:22px}
+  .std-n{font-size:12px;font-weight:700;letter-spacing:.2em;color:#B4BCCD}
+  .std h3{margin-top:24px;font-size:1.15rem;font-weight:800;letter-spacing:.01em;text-transform:uppercase;color:var(--sv-navy)}
+  .std p{margin-top:10px;font-size:14.5px;line-height:1.65;color:var(--sv-muted)}
+  @media (max-width:1000px){.std-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+  @media (max-width:560px){.std-grid{grid-template-columns:1fr}}
+
+  /* services: sticky index + content */
+  .sv-types{background:var(--sv-soft)}
+  .sv-layout{display:grid;grid-template-columns:280px minmax(0,1fr);gap:clamp(32px,4vw,64px);align-items:start}
+  .sv-index{position:sticky;top:96px;padding:10px;border-radius:16px;background:#fff;border:1px solid var(--sv-line);box-shadow:0 20px 40px -32px rgba(11,63,143,.4)}
+  .sv-index a{display:flex;align-items:center;gap:12px;padding:11px 12px;border-radius:10px;font-size:14px;font-weight:600;line-height:1.35;color:#3B4560;transition:background .2s,color .2s}
+  .sv-index a small{flex:none;width:26px;font-size:11px;font-weight:700;letter-spacing:.12em;color:#A3ACBF}
+  .sv-index a:hover{background:var(--sv-soft);color:var(--sv-navy)}
+  .sv-index a.on{background:linear-gradient(90deg,#0B3F8F,#1656AE);color:#fff}
+  .sv-index a.on small{color:#FFB4AE}
+  .sv-index .sv-ix-cta{margin:8px 2px 2px;justify-content:center;border:1px dashed #C9D1E2;color:var(--sv-navy);font-size:12.5px;letter-spacing:.06em}
+  .sv-index .sv-ix-cta:hover{border-color:var(--sv-navy)}
+  @media (max-width:1000px){
+    .sv-layout{grid-template-columns:1fr}
+    .sv-index{top:calc(var(--hdr-h) - 28px);z-index:6;display:flex;gap:6px;overflow-x:auto;scrollbar-width:none;padding:8px;border-radius:14px}
+    .sv-index::-webkit-scrollbar{display:none}
+    .sv-index a{flex:none;white-space:nowrap;padding:9px 12px;font-size:13px}
+    .sv-index a small{width:auto}
+    .sv-index .sv-ix-cta{display:none}
+    .svc{scroll-margin-top:calc(var(--hdr-h) + 40px)}}
+
+  .svc{scroll-margin-top:96px;padding:clamp(28px,3vw,40px);border-radius:20px;background:#fff;border:1px solid var(--sv-line)}
+  .svc + .svc{margin-top:22px}
+  .svc-head{display:flex;align-items:flex-end;justify-content:space-between;gap:16px}
+  .svc-num{font-size:12px;font-weight:700;letter-spacing:.24em;color:var(--sv-red)}
+  .svc-num em{font-style:normal;color:#B4BCCD}
+  .svc h3{margin-top:8px;font-size:clamp(1.25rem,1rem + .9vw,1.75rem);font-weight:800;line-height:1.2;letter-spacing:-.005em;text-transform:uppercase;color:var(--sv-navy);text-wrap:balance}
+  .svc-tag{flex:none;display:inline-flex;align-items:center;height:28px;padding:0 12px;border-radius:999px;background:#EAF0FB;color:var(--sv-navy);font-size:11.5px;font-weight:700;letter-spacing:.12em}
+  .svc-body{display:grid;grid-template-columns:minmax(0,1.05fr) minmax(0,.95fr);gap:clamp(22px,3vw,40px);margin-top:24px;align-items:start}
+  .svc-text p{font-size:15px;line-height:1.75;color:#3C465E}
+  .svc-text p + p{margin-top:12px}
+  .svc-text b{color:var(--sv-navy)}
+  .svc-note{margin-top:16px;display:flex;gap:12px;padding:14px 16px;border-radius:12px;background:#FFF4F2;border:1px solid #FAD9D4;color:#7A2A22;font-size:14px;line-height:1.6}
+  .svc-note svg{flex:none;width:18px;height:18px;margin-top:2px;color:var(--sv-red)}
+  .fig{position:relative;margin:0;overflow:hidden;border-radius:14px;background:#DCE2EE;cursor:zoom-in}
+  .fig img{width:100%;height:100%;object-fit:cover;transition:transform .6s cubic-bezier(.2,.8,.2,1)}
+  .fig:hover img{transform:scale(1.04)}
+  .fig figcaption{position:absolute;left:10px;right:10px;bottom:10px;padding:8px 12px;border-radius:10px;background:rgba(9,30,78,.72);backdrop-filter:blur(6px);color:#fff;font-size:12.5px;font-weight:500;line-height:1.4;opacity:0;transform:translateY(6px);transition:opacity .3s,transform .3s}
+  .fig:hover figcaption,.fig.lead figcaption{opacity:1;transform:none}
+  .fig.lead{aspect-ratio:4/3}
+  .svc-gal{display:grid;grid-template-columns:repeat(var(--n,3),minmax(0,1fr));gap:12px;margin-top:clamp(18px,2vw,24px)}
+  .svc-gal .fig{aspect-ratio:4/3}
+  @media (hover:none){.fig figcaption{opacity:1;transform:none}}
+  @media (max-width:860px){.svc-body{grid-template-columns:1fr}.svc-gal{grid-template-columns:repeat(2,minmax(0,1fr))}}
+  @media (max-width:560px){.svc{padding:20px;border-radius:16px}.svc-tag{display:none}.svc-gal{grid-template-columns:1fr 1fr;gap:8px}}
+
+  /* data center features */
+  .dc-feat{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;margin-top:18px}
+  .dc-feat div{padding:14px 16px;border-radius:12px;background:var(--sv-soft);border:1px solid var(--sv-line)}
+  .dc-feat h4{display:flex;align-items:center;gap:10px;font-size:14px;font-weight:800;text-transform:uppercase;letter-spacing:.04em;color:var(--sv-navy)}
+  .dc-feat h4 svg{width:18px;height:18px;color:var(--sv-red)}
+  .dc-feat p{margin-top:6px;font-size:13.5px;line-height:1.55;color:var(--sv-muted)}
+  @media (max-width:420px){.dc-feat{grid-template-columns:1fr}}
+
+  /* maintenance projects */
+  .mt-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;margin-top:22px}
+  .mt-grid .fig{aspect-ratio:3/4}
+  .mt-grid figcaption{opacity:1;transform:none;background:linear-gradient(180deg,transparent,rgba(9,30,78,.85));left:0;right:0;bottom:0;border-radius:0;padding:40px 14px 14px}
+  .mt-grid figcaption b{display:block;font-size:14px;font-weight:700}
+  .mt-grid figcaption span{font-size:11.5px;opacity:.78;letter-spacing:.04em}
+  @media (max-width:860px){.mt-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+
+  /* closing cta */
+  .sv-close{position:relative;overflow:hidden;isolation:isolate;padding:clamp(40px,5vw,64px) clamp(24px,4vw,56px);border-radius:20px;color:#fff;background:radial-gradient(600px 300px at 85% 0%,rgba(80,150,255,.35),transparent 70%),linear-gradient(100deg,#0B3F8F 0%,#0F4A9C 55%,#1656AE 100%);display:flex;align-items:center;justify-content:space-between;gap:24px 40px;flex-wrap:wrap}
+  .sv-close::after{content:"";position:absolute;inset:0;z-index:-1;background-image:linear-gradient(rgba(255,255,255,.06) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.06) 1px,transparent 1px);background-size:56px 56px;mask-image:linear-gradient(90deg,transparent,#000)}
+  .sv-close h2{margin-top:12px;max-width:24ch;font-size:clamp(1.4rem,1rem + 1.3vw,2.1rem);font-weight:800;line-height:1.2;text-transform:uppercase;color:#fff}
+  .sv-close .sv-cta{margin-top:0}
+  .sv-closing-sec{padding-block:0 clamp(56px,7vw,96px);background:var(--sv-soft)}
+
+  /* lightbox */
+  .lb{position:fixed;inset:0;z-index:200;display:grid;place-items:center;padding:24px;background:rgba(5,14,40,.88);backdrop-filter:blur(4px);opacity:0;pointer-events:none;transition:opacity .25s}
+  .lb.open{opacity:1;pointer-events:auto}
+  .lb figure{margin:0;max-width:min(1100px,100%);display:grid;gap:12px}
+  .lb img{max-height:78vh;width:auto;max-width:100%;border-radius:12px;justify-self:center}
+  .lb figcaption{color:rgba(255,255,255,.85);font-size:14px;text-align:center}
+  .lb button{position:absolute;top:18px;right:18px;width:44px;height:44px;border-radius:10px;border:1px solid rgba(255,255,255,.3);background:rgba(255,255,255,.08);color:#fff;font-size:22px;cursor:pointer}
+
+  :root[data-theme="dark"] .std,:root[data-theme="dark"] .svc,:root[data-theme="dark"] .sv-index{background:#111a2e;border-color:#22304d}
+  /* slider */
+  .sv-slider{min-width:0;scroll-margin-top:96px}
+  .sv-ctrl{display:flex;align-items:center;gap:14px;margin-bottom:14px}
+  .sv-arrow{flex:none;width:44px;height:44px;display:grid;place-items:center;border-radius:10px;border:1px solid var(--sv-line);background:#fff;color:var(--sv-navy);cursor:pointer;transition:background .2s,color .2s,border-color .2s}
+  .sv-arrow svg{width:18px;height:18px}
+  .sv-arrow:hover{background:linear-gradient(90deg,#0B3F8F,#1656AE);border-color:transparent;color:#fff}
+  .sv-count{flex:none;font-size:13px;font-weight:700;letter-spacing:.2em;color:#9AA4BA;font-variant-numeric:tabular-nums}
+  .sv-count b{color:var(--sv-navy)}
+  .sv-bar{flex:1;height:3px;border-radius:3px;background:var(--sv-line);overflow:hidden}
+  .sv-bar i{display:block;height:100%;width:12.5%;background:linear-gradient(90deg,var(--sv-red),#F0675B);transition:width .45s cubic-bezier(.2,.8,.2,1)}
+  .svc + .svc{margin-top:0!important}
+  .svc.in{animation:svIn .5s cubic-bezier(.2,.8,.2,1) both}
+  @keyframes svIn{from{opacity:0;transform:translateX(calc(var(--dir,1) * 28px))}to{opacity:1;transform:none}}
+  @media (prefers-reduced-motion:reduce){.svc.in{animation:none}.sv-bar i{transition:none}}
+  .sv-index{position:sticky}
+  @media (max-width:1000px){.sv-ctrl{margin-top:4px}}
+  /* ===== Cơ điện công trình — full-bleed slider (ref: Newtecons) ===== */
+  .mx{position:relative;overflow:hidden;isolation:isolate;color:#fff;min-height:clamp(680px,100vh,960px);display:flex;align-items:center;padding:clamp(72px,9vw,120px) 0;background:#0B3F8F}
+  .mx-bg{position:absolute;inset:0;z-index:-2}
+  .mx-bg i{position:absolute;inset:-40px;background:center/cover no-repeat;filter:blur(6px) saturate(.7);opacity:0;transition:opacity .9s ease}
+  .mx-bg i.on{opacity:1}
+  .mx::before{content:"";position:absolute;inset:0;z-index:-1;background:linear-gradient(90deg,rgba(11,63,143,.92) 0%,rgba(14,74,158,.8) 42%,rgba(20,86,174,.68) 70%,rgba(18,78,164,.76) 100%),linear-gradient(#1A55B0,#1A55B0);background-blend-mode:normal,color}
+  .mx-lines{position:absolute;right:0;top:0;width:min(40vw,560px);height:100%;z-index:-1;fill:none;stroke:rgba(255,255,255,.14);stroke-width:1.2;vector-effect:non-scaling-stroke}
+  .mx-in{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.05fr);gap:clamp(32px,5vw,80px);align-items:center;padding-right:clamp(40px,7vw,112px)}
+  .mx-eye{display:inline-block;font-size:11.5px;font-weight:600;letter-spacing:.24em;text-transform:uppercase;color:rgba(255,255,255,.66)}
+  .mx-eye b{color:#FF8A80;font-weight:700}
+  .mx-t{margin-top:12px;font-size:clamp(1.4rem,1rem + 1.4vw,2.2rem);line-height:1.16;text-transform:uppercase;letter-spacing:.005em;color:#fff}
+  .mx-t span{display:block;font-weight:400}
+  .mx-t strong{display:block;font-weight:800}
+  .mx-text{margin-top:22px;max-width:58ch}
+  .mx-text p{font-size:15.5px;line-height:1.7;color:rgba(255,255,255,.88);text-align:justify;hyphens:auto}
+  .mx-text p + p,.mx-list{margin-top:14px}
+  .mx-text b{color:#fff}
+  .mx-list{list-style:none;padding:0;display:grid;gap:10px}
+  .mx-list li{font-size:15px;line-height:1.6;color:rgba(255,255,255,.88)}
+  .mx-list li::before{content:"•";margin-right:8px;color:#fff}
+  .mx-note{display:flex;gap:10px;padding:12px 14px;border-radius:10px;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.18);text-align:left!important}
+  .mx-note svg{flex:none;width:18px;height:18px;margin-top:3px;color:#FF8A80}
+  .mx-btn{margin-top:30px;display:inline-flex;align-items:stretch;height:56px;padding:0;border:0;background:#fff;color:#0B3F8F;cursor:pointer;font:inherit;border-radius:0;box-shadow:0 18px 30px -18px rgba(0,10,40,.6)}
+  .mx-btn span{display:flex;align-items:center;padding:0 30px;font-size:14px;font-weight:700;letter-spacing:.04em;text-transform:uppercase}
+  .mx-btn i{display:grid;place-items:center;width:58px;border-left:1px solid #D8DEEA;transition:background .2s,color .2s}
+  .mx-btn i svg{width:22px;height:22px;transition:transform .25s}
+  .mx-btn:hover i{background:#0B3F8F;color:#fff}
+  .mx-btn:hover i svg{transform:translateX(3px)}
+  .mx-media{position:relative}
+  .mx-arrows{display:flex;justify-content:flex-end;gap:16px;margin-bottom:clamp(24px,4vw,64px)}
+  .mx-arr{width:46px;height:46px;border-radius:50%;display:grid;place-items:center;border:1.5px solid rgba(255,255,255,.85);background:transparent;color:#fff;cursor:pointer;transition:background .2s,color .2s}
+  .mx-arr svg{width:22px;height:22px}
+  .mx-arr:hover{background:#fff;color:#0B3F8F}
+  .mx-main{position:relative;margin:0;aspect-ratio:16/10.5;overflow:hidden;background:rgba(255,255,255,.08);cursor:zoom-in;box-shadow:0 40px 70px -40px rgba(0,8,40,.8)}
+  .mx-main img{width:100%;height:100%;object-fit:cover;transition:transform .8s cubic-bezier(.2,.8,.2,1)}
+  .mx-main:hover img{transform:scale(1.03)}
+  .mx-main figcaption{position:absolute;left:0;right:0;bottom:0;padding:36px 18px 14px;background:linear-gradient(180deg,transparent,rgba(5,20,60,.82));font-size:13px;line-height:1.45;color:#fff}
+  .mx-thumbs{display:flex;gap:10px;margin-top:12px}
+  .mx-thumbs:empty{display:none}
+  .mx-thumbs button{flex:1;max-width:120px;aspect-ratio:4/3;padding:0;border:2px solid transparent;background:none;cursor:pointer;opacity:.6;overflow:hidden;transition:opacity .2s,border-color .2s}
+  .mx-thumbs button img{width:100%;height:100%;object-fit:cover}
+  .mx-thumbs button:hover{opacity:.9}
+  .mx-thumbs button.on{opacity:1;border-color:#fff}
+  .mx-nums{position:absolute;right:clamp(14px,3.4vw,56px);top:50%;transform:translateY(-50%);display:flex;flex-direction:column;gap:clamp(14px,3.2vh,32px);z-index:2}
+  .mx-nums button{position:relative;padding:0;border:0;background:none;color:rgba(255,255,255,.62);font:inherit;font-size:clamp(16px,1.3vw,21px);font-weight:300;cursor:pointer;text-align:right;transition:color .25s,font-size .25s,transform .25s}
+  .mx-nums button em{position:absolute;right:calc(100% + 14px);top:50%;transform:translateY(-50%);white-space:nowrap;font-style:normal;font-size:12px;letter-spacing:.04em;color:#fff;background:rgba(5,20,60,.6);padding:4px 10px;opacity:0;pointer-events:none;transition:opacity .2s}
+  .mx-nums button:hover{color:#fff}
+  .mx-nums button:hover em{opacity:1}
+  .mx-nums button.on{color:transparent;-webkit-text-stroke:1px #fff;font-size:clamp(24px,2vw,34px)}
+  .mx-copy.in{animation:mxIn .6s cubic-bezier(.2,.8,.2,1) both}
+  .mx-main.in img{animation:mxImg .7s cubic-bezier(.2,.8,.2,1) both}
+  @keyframes mxIn{from{opacity:0;transform:translateX(calc(var(--dir,1) * -24px))}to{opacity:1;transform:none}}
+  @keyframes mxImg{from{opacity:0;transform:scale(1.06)}to{opacity:1;transform:none}}
+  @media (prefers-reduced-motion:reduce){.mx-copy.in,.mx-main.in img{animation:none}}
+  .sv-closing-sec{padding-top:clamp(56px,7vw,96px)!important}
+  @media (max-width:1000px){
+    .mx{min-height:0;padding:40px 0 48px;flex-direction:column;align-items:stretch}
+    .mx-nums{order:-1}
+    .mx-in{grid-template-columns:1fr;padding-right:clamp(16px,4vw,40px)}
+    .mx-media{order:-1}
+    .mx-arrows{position:absolute;top:12px;right:12px;margin:0;z-index:2;gap:10px}
+    .mx-arr{width:40px;height:40px;background:rgba(5,20,60,.35);backdrop-filter:blur(4px)}
+    .mx-nums{position:static;transform:none;flex-direction:row;gap:22px;overflow-x:auto;scrollbar-width:none;padding:0 clamp(16px,4vw,40px) 24px;justify-content:flex-start}
+    .mx-nums::-webkit-scrollbar{display:none}
+    .mx-nums button em{display:none}
+    .mx-nums button.on{font-size:26px}
+    .mx-lines{display:none}
+    .mx-text p{text-align:left}
+    .mx-btn{width:100%;justify-content:space-between}}
+  /* ===== Hero — dark cinematic (ref: Modex) ===== */
+  .sv-hero.dk{min-height:clamp(640px,100vh,900px);padding:calc(var(--hdr-h) + 40px) 0 72px;background:radial-gradient(900px 600px at 78% 40%,#0E1D4A 0%,#081230 45%,#050A1C 100%)!important;background-blend-mode:normal!important}
+  .sv-hero.dk::after{background:linear-gradient(180deg,rgba(5,10,28,0) 70%,#050A1C 100%);background-size:auto}
+  .dk-art{position:absolute;top:0;right:0;bottom:0;width:62%;z-index:0;pointer-events:none}
+  .dk-img{position:absolute;inset:0;background:linear-gradient(#0E2F8A,#0E2F8A),url("assets/img/svc/util-0.jpg") center/cover no-repeat;background-blend-mode:color;filter:brightness(.42) contrast(1.25) saturate(1.1);
+    -webkit-mask-image:linear-gradient(90deg,transparent 0%,#000 38%),linear-gradient(0deg,transparent 0%,#000 30%);-webkit-mask-composite:source-in;mask-image:linear-gradient(90deg,transparent 0%,#000 38%),linear-gradient(0deg,transparent 0%,#000 30%);mask-composite:intersect}
+  .dk-ring{position:absolute;left:30%;top:14%;width:min(46vw,620px);aspect-ratio:1;border-radius:50%;border:1.5px solid rgba(140,175,255,.75);box-shadow:0 0 24px rgba(90,140,255,.55),inset 0 0 24px rgba(90,140,255,.35);
+    -webkit-mask-image:linear-gradient(180deg,#000 0%,#000 45%,transparent 75%);mask-image:linear-gradient(180deg,#000 0%,#000 45%,transparent 75%);animation:dkGlow 5s ease-in-out infinite}
+  .dk-beam{position:absolute;left:calc(30% + min(23vw,310px));top:10%;bottom:16%;width:2px;background:linear-gradient(180deg,rgba(160,190,255,0),rgba(170,200,255,.95) 40%,rgba(255,220,160,.9) 92%,rgba(255,220,160,0));box-shadow:0 0 18px rgba(120,160,255,.9);opacity:.85}
+  @keyframes dkGlow{0%,100%{opacity:.85}50%{opacity:1;box-shadow:0 0 36px rgba(90,140,255,.75),inset 0 0 30px rgba(90,140,255,.45)}}
+  .dk .wrap{z-index:1}
+  .dk-copy{max-width:820px}
+  .dk-eye{font-size:12px;font-weight:700;letter-spacing:.24em;text-transform:uppercase;color:#6F93FF}
+  .dk-eye i{font-style:normal;margin:0 12px;opacity:.8}
+  .sv-hero.dk h1{margin-top:22px;font-size:clamp(1.7rem,1rem + 1.9vw,2.75rem);font-weight:800;line-height:1.14;letter-spacing:-.025em;text-transform:none;color:#F4F6FB}
+  .dk-lead{margin-top:18px;max-width:52ch;font-size:clamp(.86rem,.84rem + .1vw,.92rem);line-height:1.7;color:rgba(220,228,245,.72)}
+  .dk-cmd{margin-top:28px;max-width:540px;display:flex;align-items:center;gap:12px;height:58px;padding:0 10px 0 18px;border-radius:12px;background:rgba(14,22,48,.72);border:1px solid rgba(120,145,210,.2);box-shadow:inset 0 1px 0 rgba(255,255,255,.04)}
+  .dk-pre{color:#4ADE80;font-size:15px}
+  .dk-cmd code{flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:14.5px;color:#DCE3F2;letter-spacing:.01em}
+  .dk-copybtn{flex:none;width:36px;height:36px;display:grid;place-items:center;border:0;border-radius:8px;background:transparent;color:rgba(200,212,240,.6);cursor:pointer;transition:background .2s,color .2s}
+  .dk-copybtn svg{width:16px;height:16px}
+  .dk-copybtn:hover{background:rgba(255,255,255,.08);color:#fff}
+  .dk-cta{display:flex;flex-wrap:wrap;gap:14px;margin-top:26px}
+  .dk-btn{display:inline-flex;align-items:center;gap:10px;height:54px;padding:0 26px;border-radius:10px;border:1px solid rgba(160,180,230,.28);background:rgba(10,16,36,.4);color:#F1F4FB;font:inherit;font-size:15px;font-weight:600;cursor:pointer;transition:background .2s,border-color .2s,transform .2s,box-shadow .2s}
+  .dk-btn svg{width:17px;height:17px;transition:transform .2s}
+  .dk-btn:hover{background:rgba(255,255,255,.06);border-color:rgba(190,205,245,.5)}
+  .dk-btn.pri{border-color:transparent;background:linear-gradient(180deg,#4C7DFF,#2F63F0);box-shadow:0 0 0 1px rgba(120,160,255,.35),0 12px 30px -10px rgba(60,110,255,.85)}
+  .dk-btn.pri:hover{transform:translateY(-1px)}
+  .dk-btn.pri:hover svg{transform:translateX(3px)}
+  .dk-stats{display:flex;flex-wrap:wrap;gap:24px clamp(24px,3.2vw,48px);margin-top:clamp(40px,6vh,72px)}
+  .dk-stats b{display:block;font-size:clamp(1.5rem,1.2rem + .9vw,2.1rem);font-weight:800;letter-spacing:-.02em;line-height:1;color:#F4F6FB}
+  .dk-stats span{display:block;margin-top:10px;font-size:13.5px;color:rgba(200,210,235,.62)}
+  @media (max-width:1000px){.dk-art{width:100%;opacity:.45}.dk-ring{left:40%}.dk-beam{display:none}}
+  @media (max-width:560px){.sv-hero.dk{min-height:0}.dk-cmd code{font-size:13px}.dk-stats{gap:20px 28px}.dk-stats > div{min-width:40%}}
+  :root:not([data-theme="dark"]) .sv-hero.dk + .sv-sec{background:#fff}
+  /* ===== Tiêu chuẩn dịch vụ — dark testimonial style (ref) ===== */
+  .sd{position:relative;overflow:hidden;isolation:isolate;padding:clamp(24px,3vw,40px) 0 clamp(48px,6vw,80px);color:#fff;background:linear-gradient(180deg,#050A1C 0%,#0A1733 30%,#0B1A38 60%,#081226 100%)}
+  .sd::before{content:"";position:absolute;inset:0;z-index:-1;background:linear-gradient(#123A9C,#123A9C),url("assets/img/svc/elec-2.jpg") center 30%/cover no-repeat;background-blend-mode:color;filter:blur(8px) brightness(.35);transform:scale(1.08);
+    -webkit-mask-image:linear-gradient(180deg,transparent 0%,#000 30%,#000 60%,transparent 100%);mask-image:linear-gradient(180deg,transparent 0%,#000 30%,#000 60%,transparent 100%)}
+  .sd-head{display:flex;align-items:flex-end;justify-content:space-between;gap:24px;margin-bottom:28px}
+  .sd-t{display:flex;align-items:center;gap:12px;font-size:clamp(1.15rem,1rem + .5vw,1.45rem);font-weight:500;letter-spacing:-.01em;color:#EEF2FA;text-transform:none}
+  .sd-t svg{width:22px;height:22px;color:#fff;flex:none}
+  .sd-sub{margin-top:10px;max-width:62ch;font-size:14.5px;line-height:1.65;color:rgba(214,222,240,.62)}
+  .sd-arrows{display:flex;gap:12px;flex:none}
+  .sd-arr{width:46px;height:46px;border-radius:50%;display:grid;place-items:center;border:0;background:rgba(255,255,255,.08);color:#fff;cursor:pointer;transition:background .2s}
+  .sd-arr svg{width:18px;height:18px}
+  .sd-arr:hover{background:rgba(255,255,255,.18)}
+  .sd-track{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:16px}
+  .sd-card{display:flex;flex-direction:column;min-height:300px;padding:22px 24px;border-radius:10px;background:rgba(12,18,34,.72);border:1px solid rgba(160,180,230,.12);backdrop-filter:blur(10px);transition:border-color .3s,background .3s,transform .3s}
+  .sd-card.on{border-color:rgba(160,185,255,.38);background:rgba(16,24,46,.82);transform:translateY(-4px)}
+  .sd-src{display:flex;align-items:center;gap:10px;font-size:12px;color:rgba(214,222,240,.7)}
+  .sd-src small{display:block;font-size:9.5px;color:rgba(214,222,240,.45);letter-spacing:.02em}
+  .sd-ic{width:30px;height:30px;border-radius:50%;display:grid;place-items:center;background:rgba(79,125,255,.18);color:#8FB0FF}
+  .sd-ic svg{width:16px;height:16px}
+  .sd-q{margin-top:22px;flex:1;font-size:clamp(.98rem,.92rem + .25vw,1.1rem);font-weight:300;line-height:1.45;color:rgba(238,242,250,.86)}
+  .sd-q b{font-weight:500;color:#fff}
+  .sd-foot{display:flex;align-items:center;gap:12px;margin-top:22px}
+  .sd-av{flex:none;width:44px;height:44px;border-radius:50%;display:grid;place-items:center;background:linear-gradient(135deg,#2F63F0,#0B3F8F);font-weight:700;font-size:16px;color:#fff}
+  .sd-av svg{width:20px;height:20px}
+  .sd-who{flex:1;min-width:0;line-height:1.3}
+  .sd-who b{display:block;font-size:15px;font-weight:400;color:#EEF2FA}
+  .sd-who small{display:block;font-size:12.5px;color:rgba(214,222,240,.5);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .sd-n{flex:none;font-size:20px;font-weight:300;color:#fff}
+  .sd-n em{font-style:normal;font-size:11px;margin-left:3px;color:#F4C34D;letter-spacing:.04em}
+  .sd-dots{display:flex;justify-content:center;gap:6px;margin-top:28px}
+  .sd-dots button{width:5px;height:5px;padding:0;border:0;border-radius:3px;background:rgba(255,255,255,.35);cursor:pointer;transition:width .3s,background .3s}
+  .sd-dots button.on{width:22px;background:#fff}
+  @media (max-width:1000px){.sd-track{display:flex;overflow-x:auto;scroll-snap-type:x mandatory;scrollbar-width:none;padding-bottom:6px}.sd-track::-webkit-scrollbar{display:none}.sd-card{flex:0 0 min(78vw,340px);scroll-snap-align:start}.sd-card.on{transform:none}}
+  @media (max-width:600px){.sd-head{flex-direction:column;align-items:flex-start}.sd-arrows{display:none}}
+  .sd-dots{display:none!important}
+  /* smaller type in standards cards */
+  .sd-card{min-height:260px;padding:20px 22px}
+  .sd-q{margin-top:18px;font-size:14.5px;line-height:1.6}
+  .sd-src{font-size:11.5px}
+  .sd-who b{font-size:14px}
+  .sd-who small{font-size:11.5px}
+  .sd-n{font-size:17px}
+  .sd-av{width:38px;height:38px}
+  .sd-av svg{width:17px;height:17px}
+  .sd-card{min-height:230px;padding:18px 20px}
+  .sd-q{margin-top:16px;font-size:13.5px;line-height:1.6}
+  .sd-src{font-size:11px}.sd-src small{font-size:9px}
+  .sd-who b{font-size:13px}.sd-who small{font-size:11px}
+  .sd-n{font-size:15px}
+  .sd-av{width:34px;height:34px}.sd-av svg{width:15px;height:15px}
+  .sd-ic{width:26px;height:26px}.sd-ic svg{width:14px;height:14px}
+  .sd-q{font-size:12.5px!important;line-height:1.6}
+  .sd-who b{font-size:12.5px}
+  /* photos like the client file: grayscale, full colour on hover */
+  .mx-main img,.mx-thumbs img{filter:grayscale(1);transition:filter .76s cubic-bezier(.2,.8,.2,1),transform .76s cubic-bezier(.2,.8,.2,1)}
+  .mx-main:hover img{filter:none;transform:scale(1.04)}
+  .mx-thumbs button:hover img,.mx-thumbs button.on img{filter:none}
+  @media (hover:none){.mx-main img,.mx-thumbs img{filter:none}}
+  /* ===== Match the home "Cung cấp dịch vụ" slider: red number, outline round arrows, dot timeline ===== */
+  .mx-no{margin:0;font-family:"Plus Jakarta Sans",ui-sans-serif,system-ui,sans-serif;font-size:clamp(1.875rem,1.2rem + 2vw,3rem);font-weight:700;line-height:1;color:oklch(58.6% .196 28)}
+  .mx-no + .mx-t{margin-top:16px}
+  .mx-arrows{gap:12px}
+  .mx-arr{width:48px;height:48px;border:1px solid rgba(255,255,255,.4);background:transparent;color:#fff;transition:border-color .3s,color .3s}
+  .mx-arr svg{width:18px;height:18px}
+  .mx-arr:hover{background:transparent;border-color:oklch(58.6% .196 28);color:oklch(58.6% .196 28)}
+  .mx-nums{gap:24px;padding-left:24px}
+  .mx-nums::before{content:"";position:absolute;left:7px;top:8px;bottom:8px;width:1px;background:rgba(255,255,255,.25);pointer-events:none}
+  .mx-nums button{display:flex;align-items:center;font-size:16px;font-weight:700;line-height:1.2;color:rgba(255,255,255,.4);-webkit-text-stroke:0}
+  .mx-nums button::before{content:"";position:absolute;left:-24px;top:50%;width:10px;height:10px;margin-left:2px;border-radius:50%;background:rgba(255,255,255,.4);transform:translateY(-50%);transition:all .3s}
+  .mx-nums button:hover{color:rgba(255,255,255,.7)}
+  .mx-nums button:hover::before{background:rgba(255,255,255,.7)}
+  .mx-nums button.on{color:#fff;-webkit-text-stroke:0;font-size:16px}
+  .mx-nums button.on::before{width:16px;height:16px;margin-left:-1px;background:#4da3ff;box-shadow:0 0 0 4px rgba(77,163,255,.25)}
+  .mx-nums button em{right:calc(100% + 40px)}
+  @media (max-width:1000px){
+    .mx-arr{width:40px;height:40px;background:rgba(5,20,60,.35)}
+    .mx-nums{padding-left:clamp(16px,4vw,40px);gap:20px}
+    .mx-nums::before{display:none}
+    .mx-nums button{gap:8px}
+    .mx-nums button::before{position:static;transform:none;margin:0;flex:none}
+    .mx-nums button.on{font-size:16px}
+    .mx-nums button.on::before{margin:0}}
+  /* numbers sit right next to the photo */
+  @media (min-width:1001px){
+    .mx-in{grid-template-columns:minmax(0,1fr) minmax(0,1.05fr) auto;padding-right:0}
+    .mx-nums{position:relative;right:auto;top:auto;transform:none;align-self:start;justify-content:space-between;gap:0;box-sizing:border-box;margin-left:calc(36px - clamp(32px,5vw,80px))}}
+  @media (max-width:1000px){
+    .mx-nums{order:-2;padding:0 0 4px!important;margin:0 0 -16px}}
+  @media (min-width:1001px){.mx-thumbs{min-height:94px}.mx-thumbs:empty{display:flex}}
+  /* red number on the same line as the heading */
+  .mx-copy{display:grid;grid-template-columns:auto minmax(0,1fr);column-gap:clamp(14px,1.6vw,22px);align-items:baseline}
+  .mx-copy>*{grid-column:1/-1}
+  .mx-copy>.mx-no{grid-column:1}
+  .mx-copy>.mx-no + .mx-t{grid-column:2;margin-top:0}
+  .mx-copy>.mx-btn{justify-self:start}
+</style>
+<script>window.PAGE="services"</script>
+</head>
+<body>
+<div id="site-header"></div>
+
+<main>
+  <section class="plate on-navy sv-hero dk" id="top">
+    <div class="dk-art" aria-hidden="true"><div class="dk-img"></div><span class="dk-ring"></span><span class="dk-beam"></span></div>
+    <div class="wrap">
+      <div class="dk-copy">
+        <span class="dk-eye rv">Cơ điện công trình <i>•</i> Trọn gói</span>
+        <h1 class="rv d1">Dịch vụ &amp; giải pháp.<br>Đồng hành đến bàn giao.</h1>
+        <p class="dk-lead rv d2">Trọn gói từ thiết kế, thi công đến bảo trì. Chúng tôi cung cấp hệ thống cơ điện cho các công trình trọng điểm, tuân thủ tiêu chuẩn kỹ thuật quốc tế và định hướng phát triển bền vững.</p>
+        <div class="dk-cta rv d3">
+          <a class="dk-btn pri" href="#dich-vu">Xem dịch vụ <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+          <button class="dk-btn" type="button" data-open="chat">Gửi yêu cầu</button>
+        </div>
+        <div class="dk-stats rv d3">
+          <div><b>08</b><span>Loại hình dịch vụ</span></div>
+          <div><b>04</b><span>Tiêu chuẩn dịch vụ</span></div>
+          <div><b>1.300+</b><span>Công trình</span></div>
+          <div><b>995+</b><span>Kỹ sư &amp; chuyên gia</span></div>
+          <div><b>40+</b><span>Năm uy tín</span></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="sd" id="tieu-chuan">
+    <div class="wrap">
+      <div class="sd-head">
+        <div>
+          <h2 class="sd-t"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M4 17.5c0-4.2 2-7.4 6-9.5l1 1.6c-2.2 1.3-3.3 2.8-3.5 4.4H10V20H4v-2.5Zm10 0c0-4.2 2-7.4 6-9.5l1 1.6c-2.2 1.3-3.3 2.8-3.5 4.4H20V20h-6v-2.5Z"/></svg>Bốn cam kết trong mọi dự án</h2>
+          <p class="sd-sub">Công nghệ, hiệu quả, bền vững và an toàn là bốn tiêu chuẩn chúng tôi áp dụng xuyên suốt, từ khâu thiết kế đến bàn giao và vận hành.</p>
+        </div>
+      </div>
+      <div class="sd-track" id="stdGrid"></div>
+      <div class="sd-dots" id="sdDots"></div>
+    </div>
+  </section>
+
+  <section class="mx" id="dich-vu" aria-roledescription="carousel" aria-label="Cơ điện công trình">
+    <div class="mx-bg" aria-hidden="true"><i></i><i></i></div>
+    <svg class="mx-lines" viewBox="0 0 600 900" preserveAspectRatio="none" aria-hidden="true"><path d="M170 80h300l120 240M120 260h270l200 420M60 520h220l230 380M360 0l240 520"/></svg>
+    <div class="wrap mx-in">
+      <div class="mx-copy" id="mxCopy" aria-live="polite"></div>
+      <div class="mx-media">
+        <div class="mx-arrows"><button type="button" class="mx-arr" id="svPrev" aria-label="Dịch vụ trước"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M11 6l-6 6 6 6"/></svg></button><button type="button" class="mx-arr" id="svNext" aria-label="Dịch vụ tiếp theo"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></button></div>
+        <figure class="mx-main" id="mxMain" data-lb><img alt=""><figcaption></figcaption></figure>
+        <div class="mx-thumbs" id="mxThumbs"></div>
+      </div>
+      <nav class="mx-nums" id="mxNums" aria-label="Chọn dịch vụ"></nav>
+    </div>
+  </section>
+
+</main>
+
+<div id="site-footer"></div>
+
+<div class="lb" id="lb" aria-hidden="true"><button type="button" aria-label="Đóng">×</button><figure><img alt=""><figcaption></figcaption></figure></div>
+
+<script src="assets/jobs-data.js"></script>
+<script src="assets/site.js"></script>
+<script>
+(function(){
+  const $ = s => document.querySelector(s);
+  const I = {
+    tech:'<path d="M12 3v3M12 18v3M3 12h3M18 12h3M5.6 5.6l2.1 2.1M16.3 16.3l2.1 2.1M5.6 18.4l2.1-2.1M16.3 7.7l2.1-2.1"/><circle cx="12" cy="12" r="3.5"/>',
+    eff:'<path d="M3 17l6-6 4 4 8-8"/><path d="M15 7h6v6"/>',
+    eco:'<path d="M5 19c0-8 5-13 14-14-1 9-6 14-14 14Z"/><path d="M5 19c3-5 6-7 9-8"/>',
+    safe:'<path d="M12 3l8 3v6c0 4.5-3.4 8.3-8 9-4.6-.7-8-4.5-8-9V6l8-3Z"/><path d="m8.5 12 2.5 2.5 4.5-5"/>',
+    net:'<rect x="3" y="4" width="18" height="6" rx="1.5"/><rect x="3" y="14" width="18" height="6" rx="1.5"/><path d="M7 7h.01M7 17h.01M11 7h6M11 17h6"/>',
+    power:'<path d="M13 2 4 14h7l-1 8 9-12h-7l1-8Z"/>',
+    fire:'<path d="M12 3c1 3 4 4.5 4 8.5a4 4 0 0 1-8 0c0-1.8.8-3 1.8-4 .2 1.5 1 2.3 2 2.5-.8-2.5-.3-5 .2-7Z"/>',
+    cool:'<path d="M12 2v20M4.9 6l14.2 12M19.1 6 4.9 18M9 4l3 2 3-2M9 20l3-2 3 2"/>',
+    badge:'<circle cx="12" cy="9" r="6"/><path d="m8.5 14.5-1.5 7 5-3 5 3-1.5-7"/>'
+  };
+  const svg = k => `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${I[k]}</svg>`;
+
+  const STD = [
+    ["tech","Công nghệ","Ứng dụng ERP để vận hành thông suốt, BIM để chuẩn xác hóa thiết kế và thi công; tiên phong công nghệ mới cho chất lượng vượt trội."],
+    ["eff","Hiệu quả","Kết hợp kinh nghiệm, công nghệ và năng lực quản lý tài chính để tối ưu nguồn lực, đảm bảo chất lượng và tiến độ chính xác."],
+    ["eco","Bền vững","Vận hành theo ISO 14001, triển khai giải pháp MEP đạt chuẩn LEED, BCA Green Mark, DGNB; kiến tạo giá trị dài hạn cho cộng đồng."],
+    ["safe","An toàn","Áp dụng nghiêm ngặt ISO 45001, huấn luyện định kỳ; an toàn kỹ thuật và vận hành được kiểm soát ngay từ khâu thiết kế."]
+  ];
+  const STD_TAG = ["ERP · BIM","Nguồn lực · Tiến độ","ISO 14001 · LEED · DGNB","ISO 45001"];
+  $("#stdGrid").innerHTML = STD.map(([k,t,d],i) => `<article class="sd-card" data-i="${i}">
+    <div class="sd-src"><span class="sd-ic">${svg(k)}</span><span><small>Tiêu chuẩn</small>dịch vụ 0${i+1}</span></div>
+    <p class="sd-q"><b>${t}.</b> ${d}</p>
+    <div class="sd-foot"><span class="sd-av">${svg(k)}</span><span class="sd-who"><b>${t}</b><small>${STD_TAG[i]}</small></span><span class="sd-n">0${i+1}<em>/04</em></span></div></article>`).join("");
+  { const track = $("#stdGrid"), cards = [...track.children], dots = $("#sdDots");
+    dots.innerHTML = cards.map((_,i) => `<button type="button" aria-label="Tiêu chuẩn ${i+1}"></button>`).join("");
+    const db = [...dots.children]; let si = 0;
+    const set = (n, scroll = true) => { si = (n + cards.length) % cards.length; cards.forEach((c,i) => c.classList.toggle("on", i === si)); db.forEach((d,i) => d.classList.toggle("on", i === si));
+      if(scroll && track.scrollWidth > track.clientWidth + 4) track.scrollTo({left: cards[si].offsetLeft - track.offsetLeft, behavior:"smooth"}); };
+    $("#sdPrev")?.addEventListener("click", () => set(si-1)); $("#sdNext")?.addEventListener("click", () => set(si+1));
+    db.forEach((d,i) => d.addEventListener("click", () => set(i)));
+    cards.forEach((c,i) => c.addEventListener("mouseenter", () => set(i, false)));
+    track.addEventListener("scroll", () => { if(track.scrollWidth <= track.clientWidth + 4) return; const n = Math.round(track.scrollLeft / (cards[0].offsetWidth + 16)); if(n !== si){ si = n; cards.forEach((c,i) => c.classList.toggle("on", i === si)); db.forEach((d,i) => d.classList.toggle("on", i === si)); } }, {passive:true});
+    set(0, false); }
+
+  const P = "assets/img/svc/";
+  const SV = [
+    { id:"acmv", tag:"ACMV", t:"Hệ thống điều hòa không khí & thông gió",
+      lead:["acmv-0.jpg","Lắp đặt hệ thống ống gió bọc cách nhiệt trên xe nâng người tại công trường"],
+      p:["Hệ thống điều hòa không khí & thông gió (ACMV) là hạ tầng cốt lõi kiểm soát nhiệt độ, độ ẩm và chất lượng không khí cho mọi công trình hiện đại. Kế thừa kinh nghiệm từ nền tảng điện lạnh, chúng tôi làm chủ công nghệ ACMV công suất lớn qua các đại dự án, tối ưu từ xử lý tổn thất áp suất, phân phối lưu lượng khí đến triệt tiêu rung chấn, tiếng ồn.",
+         "Hướng đến tiêu chuẩn công trình xanh, chúng tôi tiên phong tích hợp Chiller VSD, VRF và hệ thống quản lý tòa nhà BMS nhằm tối ưu hiệu suất năng lượng và bảo vệ môi trường.",
+         "<b>Phân khúc phòng sạch:</b> phát huy kinh nghiệm từ các dự án bệnh viện và nhà máy dược phẩm, chúng tôi đáp ứng nhu cầu phòng sạch cho nhà máy chip và bán dẫn, tuân thủ dòng khí chảy tầng, lọc HEPA/ULPA, cân bằng áp suất phòng và kiểm soát hạt bụi theo chuẩn ISO/GMP."],
+      gal:[["acmv-1.jpg","Trạm bơm và cụm van đường ống trong phòng kỹ thuật"],["acmv-2.jpg","Kiểm tra cao độ và tuyến ống bằng tia laser tại hiện trường"]] },
+    { id:"ps", tag:"P&S", t:"Hệ thống cấp thoát nước & vệ sinh",
+      lead:["ps-0.jpg","Bể nước thép không gỉ lắp ghép và cụm bơm tăng áp trong phòng kỹ thuật"],
+      p:["Hệ thống cấp thoát nước & vệ sinh (P&S) quyết định trực tiếp đến trải nghiệm sinh hoạt. Chúng tôi kiểm soát nghiêm ngặt từ chất lượng vật tư, kỹ thuật lắp đặt đến tiêu chuẩn kiểm thử, đảm bảo hệ thống đồng bộ với PCCC và các hạ tầng kỹ thuật khác.",
+         "Theo định hướng công trình xanh, chúng tôi tích hợp thiết bị thông minh qua nền tảng BMS, tự động hóa điều tiết và tối ưu tài nguyên nước trong suốt vòng đời dự án."],
+      gal:[["ps-1.jpg","Cụm bơm tăng áp trục đứng và bình tích áp"],["ps-2.jpg","Bồn chứa bọc cách nhiệt và bình tích áp"],["ps-3.jpg","Hệ thống ống và van phân phối"]] },
+    { id:"elec", tag:"ELEC", t:"Hệ thống điện động lực",
+      lead:["elec-0.jpg","Dãy tủ điện phân phối trong phòng điện"],
+      p:["Hệ thống điện là thành tố cốt lõi cho sự vận hành của tòa nhà, quyết định hiệu suất, an toàn và độ bền của toàn bộ hạ tầng MEP.",
+         "Chúng tôi cung cấp giải pháp điện toàn diện: trạm biến áp, hệ thống trung thế, trục dẫn phân phối chính, nguồn điện dự phòng khẩn cấp đến thiết bị đầu cuối; thiết kế tối ưu bố cục, dễ bảo trì và kiểm tra, vận hành an toàn với thời gian trễ tối thiểu.",
+         "Theo đuổi tiêu chuẩn công trình xanh, chúng tôi tích hợp giải pháp vận hành thông minh theo thời gian thực, ưu tiên thiết bị tiết kiệm năng lượng và tăng cường an toàn điện nhiều cấp độ."],
+      gal:[["elec-1.jpg","Thang cáp và ống luồn dây điện chạy dọc trục kỹ thuật"],["elec-2.jpg","Tổ máy phát điện dự phòng vỏ cách âm ngoài trời"],["elec-3.jpg","Hệ thống chiếu sáng hoàn thiện"]] },
+    { id:"elv", tag:"ELV · BMS", t:"Hệ thống điện nhẹ, điện điều khiển & tự động",
+      lead:["elv-0.jpg","Trung tâm giám sát với màn hình ghép camera CCTV"],
+      p:["Hệ thống điện điều khiển & tự động là bộ não của công trình: khi tích hợp vào BMS, mọi hoạt động từ an ninh, PCCC, chiếu sáng đến quản lý năng lượng đều vận hành tự động, tiết kiệm nhân lực và tối ưu tiêu thụ.",
+         "Chúng tôi cung cấp giải pháp ELV độc lập hoặc tích hợp theo tiêu chuẩn nghiêm ngặt nhất, với thế mạnh quản lý giao diện thi công phức tạp và bàn giao chìa khóa trao tay hoàn chỉnh."],
+      gal:[["elv-1.jpg","Camera, đầu phun, loa và đầu báo trên trần hành lang"],["elv-2.jpg","Tủ mạng và tủ máy chủ trong phòng kỹ thuật"],["elv-3.jpg","Cổng kiểm soát ra vào tại sảnh tòa nhà"]] },
+    { id:"fire", tag:"PCCC", t:"Hệ thống phòng cháy & chữa cháy",
+      lead:["fire-0.jpg","Thử nghiệm hệ thống báo cháy bằng khói tại tầng hầm"],
+      p:["Phòng cháy & chữa cháy là hệ thống phức hợp giữa thiết bị chuyên dụng (cảm biến, đầu phun) và các hệ MEP khác, bảo vệ công trình và con người khỏi hỏa hoạn.",
+         "Từ khâu thiết kế, chúng tôi tính toán để vận hành liên tục, giảm thiểu độ trễ liên động; thi công và kiểm tra theo quy trình khắt khe để bàn giao hệ thống PCCC đáng tin cậy ngay từ ngày đầu."],
+      note:"REE M&amp;E được Cảnh sát Phòng cháy Chữa cháy và Cứu hộ Cứu nạn TP.HCM cấp Giấy xác nhận đủ điều kiện kinh doanh dịch vụ phòng cháy chữa cháy số 193/GXN-PCCC.",
+      gal:[["fire-1.jpg","Phòng bơm chữa cháy với cụm bơm và đường ống"],["fire-2.jpg","Bình tích áp và van điều khiển hệ PCCC"],["fire-3.jpg","Thử nghiệm bằng nguồn nhiệt dưới trần tầng hầm"]] },
+    { id:"util", tag:"BOP", t:"Hạ tầng tiện ích điện",
+      lead:["util-0.jpg","Trạm biến áp ngoài trời với hệ thống cột xà và thiết bị cao áp"],
+      p:["Chúng tôi có nhiều năm kinh nghiệm thi công hạ tầng tiện ích điện cho các dự án năng lượng tái tạo: điện gió gần bờ, điện mặt trời, điện mặt trời mái nhà và điện sản xuất từ rác.",
+         "Với công trình đặc thù như điện gió gần bờ, toàn bộ hạ tầng (cáp ngầm, trạm biến áp, thiết bị đóng cắt) được tính toán để chịu môi trường ăn mòn muối biển cao. Chúng tôi tối ưu thiết kế và thi công hệ thống hạ tầng đồng bộ (BOP), đảm bảo giải tỏa công suất linh hoạt theo mọi quy mô."],
+      gal:[["util-1.jpg","Cột tháp truyền tải điện cao áp"],["util-2.jpg","Gian máy nhà máy điện với sàn thao tác, đường ống và cáp"],["util-3.jpg","Lắp đặt tấm pin điện mặt trời trên mái nhà xưởng"]] },
+    { id:"dc", tag:"Từ 2025", t:"Trung tâm dữ liệu",
+      lead:["dc-1.jpg","Phối cảnh Trung tâm Dữ liệu Viettel An Khánh"],
+      p:["Phát huy nền tảng công nghệ và kinh nghiệm vượt trội, chúng tôi cung cấp dịch vụ cơ điện cho trung tâm dữ liệu từ năm 2025: giải pháp MEP chuyên biệt, kiểm soát khắt khe từ thiết kế đến vận hành để bảo vệ trang thiết bị giá trị lớn."],
+      feat:[["net","Kết nối","Cáp cấu trúc mật độ cao, đồng bộ giám sát DCIM."],["power","Nguồn điện","UPS chuyển mạch tức thì, không gián đoạn."],["fire","Chữa cháy","Khí sạch áp lực cao, cảnh báo sớm VESDA."],["cool","Làm mát","CRAC 24/7, cô lập hành lang nóng/lạnh."]],
+      gal:[["dc-0.jpg","Phối cảnh Tòa TT1, Trung tâm Dữ liệu Viettel Hoàng Hoa Thám"]] },
+    { id:"mt", tag:"O&M", t:"Dịch vụ bảo trì",
+      p:["Chúng tôi cung cấp dịch vụ bảo trì định kỳ, sửa chữa khắc phục và dự báo tình trạng hệ thống M&amp;E, tối ưu chi phí vận hành. Đội kỹ thuật giàu kinh nghiệm luôn sẵn sàng đáp ứng bảo trì định kỳ và khẩn cấp, giảm thiểu thời gian ngừng hoạt động."],
+      proj:[["mt-0.jpg","Deutsches Haus HCMC","TP.HCM · phối cảnh"],["mt-1.jpg","Vietnam Television Center","Hà Nội · phối cảnh"],["mt-2.jpg","Lim 3 Tower","TP.HCM · phối cảnh"],["mt-3.jpg","American International Hospital","TP.HCM · phối cảnh"]] }
+  ];
+  const fig = (src,cap,cls="") => `<figure class="fig ${cls}" data-lb><img src="${P+src}" alt="${cap}" loading="lazy" decoding="async"><figcaption>${cap}</figcaption></figure>`;
+  const pad = n => String(n).padStart(2,"0");
+
+  const SPLIT = {acmv:["Hệ thống","Điều hòa không khí & thông gió"],ps:["Hệ thống","Cấp thoát nước & vệ sinh"],elec:["Hệ thống","Điện động lực"],elv:["Hệ thống điện nhẹ,","Điện điều khiển & tự động"],fire:["Hệ thống","Phòng cháy & chữa cháy"],util:["Hạ tầng","Tiện ích điện"],dc:["Trung tâm","Dữ liệu"],mt:["Dịch vụ","Bảo trì"]};
+  // every photo of a service, lead first
+  SV.forEach(s => { s.imgs = [...(s.lead ? [s.lead] : []), ...(s.gal || []), ...(s.proj || []).map(([a,b,c]) => [a, `${b} · ${c}`])]; });
+  const copy = $("#mxCopy"), main = $("#mxMain"), mImg = main.querySelector("img"), mCap = main.querySelector("figcaption"), thumbs = $("#mxThumbs"), bgs = [...document.querySelectorAll(".mx-bg i")];
+  $("#mxNums").innerHTML = SV.map((s,i) => `<button type="button" data-n="${i}" aria-label="${s.t}"><span>${pad(i+1)}</span><em>${s.t}</em></button>`).join("");
+  const nums = [...document.querySelectorAll("#mxNums button")];
+  let cur = -1, bgi = 0;
+  const show = (s, k) => { const [src, cap] = s.imgs[k]; mImg.src = P + src; mImg.alt = cap; mCap.textContent = cap; thumbs.querySelectorAll("button").forEach((t,j) => t.classList.toggle("on", j === k)); };
+  const copyHTML = n => { const s = SV[n], [t1, t2] = SPLIT[s.id]; return `<p class="mx-no">${pad(n+1)}</p>
+      <h2 class="mx-t"><span>${t1}</span><strong>${t2}</strong></h2>
+      <div class="mx-text">${s.p.map(x => `<p>${x}</p>`).join("")}
+        ${s.feat ? `<ul class="mx-list">${s.feat.map(([k,t,d]) => `<li><b>${t}:</b> ${d}</li>`).join("")}</ul>` : ""}
+        ${s.note ? `<p class="mx-note">${svg("badge")}<span>${s.note}</span></p>` : ""}</div>
+      <button type="button" class="mx-btn" data-open="chat"><span>Tư vấn giải pháp</span><i><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12h15m-5-5 5 5-5 5"/></svg></i></button>`; };
+  // keep the copy column as tall as the longest service so switching slides never shifts the page
+  const fitCopy = () => { copy.style.minHeight = ""; if(innerWidth <= 1000) return; const keep = copy.innerHTML; let max = 0;
+    SV.forEach((_, k) => { copy.innerHTML = copyHTML(k); max = Math.max(max, copy.offsetHeight); }); copy.innerHTML = keep; copy.style.minHeight = max + "px"; };
+  const go = n => { n = (n + SV.length) % SV.length; if(n === cur) return; const dir = n > cur ? 1 : -1; cur = n; const s = SV[n], [t1, t2] = SPLIT[s.id];
+    copy.innerHTML = copyHTML(n);
+    copy.style.setProperty("--dir", dir); copy.classList.remove("in"); main.classList.remove("in"); void copy.offsetWidth; copy.classList.add("in"); main.classList.add("in");
+    thumbs.innerHTML = s.imgs.length > 1 ? s.imgs.map(([src,cap],j) => `<button type="button" aria-label="${cap}"><img src="${P+src}" alt="" loading="lazy"></button>`).join("") : "";
+    thumbs.querySelectorAll("button").forEach((t,j) => t.addEventListener("click", () => show(s, j)));
+    show(s, 0);
+    bgi = 1 - bgi; bgs[bgi].style.backgroundImage = `url("${P + s.imgs[0][0]}")`; bgs.forEach((b,j) => b.classList.toggle("on", j === bgi));
+    nums.forEach((b,j) => { b.classList.toggle("on", j === n); b.setAttribute("aria-current", j === n ? "true" : "false"); });
+    if(innerWidth <= 1000){ const nv = nums[n].parentElement; nv.scrollTo({left: nums[n].offsetLeft - nv.clientWidth/2 + nums[n].offsetWidth/2, behavior:"smooth"}); } };
+  // desktop: stretch the number rail to the main photo's top and bottom edges
+  const navEl = $("#mxNums");
+  const alignNums = () => { if(innerWidth <= 1000){ navEl.style.marginTop = navEl.style.height = ""; return; }
+    const m = main.getBoundingClientRect(), g = navEl.parentElement.getBoundingClientRect();
+    navEl.style.marginTop = (m.top - g.top) + "px"; navEl.style.height = m.height + "px"; };
+  addEventListener("resize", alignNums); addEventListener("load", alignNums);
+  if(window.ResizeObserver) new ResizeObserver(alignNums).observe(main);
+  alignNums();
+  nums.forEach((b,i) => b.addEventListener("click", () => go(i)));
+  $("#svPrev").addEventListener("click", () => go(cur-1)); $("#svNext").addEventListener("click", () => go(cur+1));
+  let sx = null; const sec = $("#dich-vu");
+  sec.addEventListener("touchstart", e => sx = e.touches[0].clientX, {passive:true});
+  sec.addEventListener("touchend", e => { if(sx === null) return; const dx = e.changedTouches[0].clientX - sx; if(Math.abs(dx) > 60) go(cur + (dx < 0 ? 1 : -1)); sx = null; });
+  addEventListener("keydown", e => { if(document.querySelector(".lb.open")) return; const r = sec.getBoundingClientRect(); if(r.top > innerHeight*.5 || r.bottom < innerHeight*.5) return;
+    if(e.key === "ArrowRight") go(cur+1); if(e.key === "ArrowLeft") go(cur-1); });
+  go(0);
+  fitCopy(); let fcT; addEventListener("resize", () => { clearTimeout(fcT); fcT = setTimeout(fitCopy, 150); }); document.fonts && document.fonts.ready.then(fitCopy);
+
+  // lightbox
+  const lb = $("#lb"), lbImg = lb.querySelector("img"), lbCap = lb.querySelector("figcaption");
+  const close = () => { lb.classList.remove("open"); lb.setAttribute("aria-hidden","true"); };
+  document.addEventListener("click", e => { const f = e.target.closest("[data-lb]"); if(f){ const im = f.querySelector("img"); lbImg.src = im.src; lbImg.alt = im.alt; lbCap.textContent = im.alt; lb.classList.add("open"); lb.setAttribute("aria-hidden","false"); return; }
+    if(e.target === lb || e.target.closest(".lb button")) close(); });
+  addEventListener("keydown", e => { if(e.key === "Escape") close(); });
+})();
+</script>
+</body>
+</html>

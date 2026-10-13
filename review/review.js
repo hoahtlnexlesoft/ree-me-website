@@ -7,6 +7,7 @@
   'use strict';
   if (window.__reeReview) return; window.__reeReview = true;
 
+  var BASE = (document.currentScript && document.currentScript.src || '').replace(/[^/]*$/, '');
   var CFG = window.REE_REVIEW || {};
   var SB_URL = CFG.url, SB_KEY = CFG.key, TABLE = CFG.table || 'ree_review_comments';
   var REMOTE = !!(SB_URL && SB_KEY);
@@ -37,8 +38,8 @@
 
   /* ---------- helpers ---------- */
   var uid = function () { return Math.random().toString(36).slice(2, 10) + Date.now().toString(36).slice(-3); };
-  var esc = function (s) { return String(s == null ? '' : s).replace(/[&<>"']/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]; }); };
-  var authorKey = function (n) { return String(n || '').trim().toLowerCase(); };
+  var esc = function (s) { return String(s == null ? '' : s).normalize('NFC').replace(/[&<>"']/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]; }); };
+  var authorKey = function (n) { return String(n || '').normalize('NFC').trim().toLowerCase(); };
   var COLORS = ['#1d4ed8', '#0d9488', '#d97706', '#0284c7', '#c026d3', '#16a34a', '#dc2626', '#7c3aed', '#0891b2', '#65a30d', '#db2777', '#ca8a04', '#2563eb', '#059669', '#ea580c', '#9333ea'];
   var AUTHORS = [];
   function colorFor(name) {
@@ -99,11 +100,13 @@
   }
 
   /* ---------- state ---------- */
-  var S = { menu: null, editing: null, editText: '', threads: [], name: lsGet(NAME_KEY, ''), mode: false, open: false, draft: null, draftText: '', draftImages: [], nameInput: '',
+  var S = { pop: null, popMenu: false, popEmoji: false, popReply: '', editWhere: 'panel', menu: null, editing: null, editText: '', threads: [], name: lsGet(NAME_KEY, ''), mode: false, open: false, draft: null, draftText: '', draftImages: [], nameInput: '',
             active: null, flash: null, filter: 'all', replyFor: null, replyText: '', copied: false, copiedId: null, lightbox: null };
   var pending = 0, writes = 0, lastSend = '';
 
+  function nfcT(t) { var o = Object.assign({}, t); if (o.text) o.text = String(o.text).normalize('NFC'); if (o.author) o.author = String(o.author).normalize('NFC'); if (o.replies) o.replies = o.replies.map(function (r) { return Object.assign({}, r, { text: String(r.text || '').normalize('NFC'), author: String(r.author || '').normalize('NFC') }); }); return o; }
   function save(next) {
+    next = next.map(nfcT);
     var prev = S.threads; writes++; S.threads = next; renderAll();
     if (!REMOTE) { lsSet(KEY, JSON.stringify(next)); return; }
     var pm = {}; prev.forEach(function (t) { pm[t.id] = JSON.stringify(t); });
@@ -123,7 +126,7 @@
 
   /* ---------- styles ---------- */
   var css = '' +
-  '.rv,.rv *{box-sizing:border-box;font-family:"Plus Jakarta Sans",system-ui,-apple-system,sans-serif}' +
+  '.rv,.rv *{box-sizing:border-box;font-family:"Plus Jakarta Sans",-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,"Noto Sans",sans-serif;-webkit-font-smoothing:antialiased;font-feature-settings:normal;text-transform:none;letter-spacing:normal}' +
   ':where(.rv) button{font:inherit;cursor:pointer;border:0;background:none;color:inherit;margin:0;padding:0;line-height:1}' +
   '.rv-layer{position:fixed;inset:0;pointer-events:none;z-index:2147482000}' +
   '.rv-pin{pointer-events:auto;position:absolute;width:30px;height:30px;transform:translate(-50%,-100%);border-radius:50% 50% 50% 0;color:#fff;font-size:12px;font-weight:700;display:grid;place-items:center;box-shadow:0 6px 16px rgba(0,0,0,.28);outline:2px solid #fff;transition:transform .15s}' +
@@ -170,6 +173,31 @@
   '.rv-menu button{width:100%;height:36px;padding:0 10px;border-radius:8px;display:flex;align-items:center;gap:10px;font-size:14px;font-weight:500;color:#0f172a;text-align:left}.rv-menu button:hover{background:#f1f5f9}' +
   '.rv-menu button svg{width:16px;height:16px;flex:none}.rv-menu button.danger{color:#be123c}.rv-menu button.danger:hover{background:#fff1f2}' +
   '.rv-edit{margin:8px 0 0 40px}.rv-edit textarea{min-height:64px}' +
+  '.rv-row2{position:relative;margin:2px 8px;border-radius:12px}.rv-row2:hover,.rv-row2.on,.rv-row2.menu{background:#e9eaec}.rv-row2.done .rv-row2-main{opacity:.55}' +
+  '.rv-row2-main{display:flex;gap:12px;width:100%;padding:14px 44px 14px 12px;text-align:left;align-items:flex-start}.rv-row2-main .rv-av{width:24px;height:24px;font-size:11px;margin-top:1px}' +
+  '.rv-row2-b{min-width:0;flex:1}.rv-row2-m{display:flex;align-items:baseline;gap:6px;white-space:nowrap;overflow:hidden;line-height:1.6;padding-top:2px}.rv-row2-m b{font-size:14px;font-weight:700;color:#0f172a;overflow:hidden;text-overflow:ellipsis}.rv-row2-m span{font-size:13px;color:#64748b;flex:none}' +
+  '.rv-row2-m .rv-ok{padding:0 5px}.rv-nr{margin-left:auto;font-size:11.5px!important;color:#64748b}' +
+  '.rv-row2-t{display:block;margin-top:3px;padding-top:3px;font-size:14px;line-height:1.6;color:#334155;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}' +
+  '.rv-row2 .rv-more{top:10px;right:8px;opacity:0}.rv-row2:hover .rv-more,.rv-row2.on .rv-more,.rv-row2 .rv-more.on{opacity:1}' +
+  '.rv-row2 .rv-menu{top:42px;right:8px}' +
+  '.rv-pop-c+.rv-pop-c{border-top:1px solid #e5e7eb;padding-top:12px}' +
+  '.rv-pop-shot{object-fit:contain!important;background:#e5e7eb}' +
+  '.rv-emo{display:flex;gap:4px;margin:2px 0 6px}.rv-emo button{width:30px;height:30px;border-radius:8px;font-size:17px;line-height:30px}.rv-emo button:hover{background:#eef2f7}' +
+  '.rv-popwrap .rv-pop{position:fixed;z-index:2147482660;width:320px;max-width:calc(100vw - 24px);max-height:min(560px,calc(100vh - 24px));display:flex;flex-direction:column;background:#fff;color:#0f172a;border-radius:18px;box-shadow:0 24px 60px -14px rgba(10,25,60,.45),0 0 0 1px rgba(15,23,42,.06)}' +
+  '.rv-pop-h{position:relative;flex:none;display:flex;align-items:center;gap:8px;padding:14px 12px 8px 18px}.rv-pop-h>b{font-size:15px;font-weight:700}' +
+  '.rv-pop-tools{margin-left:auto;display:flex;gap:2px}.rv-pop-tools button{width:30px;height:30px;border-radius:8px;display:grid;place-items:center;color:#334155}.rv-pop-tools button:hover,.rv-pop-tools button.on{background:#f1f5f9;color:#0f172a}.rv-pop-tools svg{width:17px;height:17px}' +
+  '.rv-pop-h .rv-menu{top:44px;right:10px}' +
+  '.rv-pop-body{flex:1;min-height:0;overflow-y:auto;padding:4px 18px 6px}' +
+  '.rv-pop-shot{display:block;width:100%;aspect-ratio:2/1;object-fit:cover;border-radius:12px;margin:2px 0 14px;outline:1px solid rgba(15,23,42,.08);cursor:zoom-in}' +
+  '.rv-pop-c{display:flex;gap:10px;margin-bottom:12px}.rv-pop-c .rv-av{font-size:12px}.rv-pop-cb{min-width:0;flex:1}' +
+  '.rv-pop-meta{display:flex;align-items:baseline;gap:8px}.rv-pop-meta b{font-size:14px;font-weight:700}.rv-pop-meta span{font-size:12px;color:#94a3b8}' +
+  '.rv-pop-cb p{margin:3px 0 0;font-size:14px;line-height:1.45;color:#1e293b;white-space:pre-wrap;word-break:break-word}' +
+  '.rv-pop-f{flex:none;display:flex;gap:10px;align-items:flex-start;padding:8px 14px 14px 18px}' +
+  '.rv-pop-box{flex:1;min-width:0;border:1px solid #e2e8f0;border-radius:14px;background:#f8fafc;padding:8px 8px 6px 12px}.rv-pop-box:focus-within{border-color:#94a3b8;background:#fff}' +
+  '.rv-pop-in{display:block;width:100%;border:0;outline:none;background:transparent;resize:none;font-size:14px;line-height:1.4;color:#0f172a;padding:2px 0 6px}.rv-pop-in::placeholder{color:#94a3b8}#rvPopName{border-bottom:1px dashed #e2e8f0;margin-bottom:6px}' +
+  '.rv-pop-tb{display:flex;align-items:center;justify-content:space-between}' +
+  '.rv-pop-emo{width:30px;height:30px;border-radius:8px;display:grid;place-items:center;color:#334155}.rv-pop-emo:hover,.rv-pop-emo.on{background:#eef2f7}.rv-pop-emo svg{width:18px;height:18px}' +
+  '.rv-pop-send{width:30px;height:30px;border-radius:50%;display:grid;place-items:center;background:#475569;color:#fff}.rv-pop-send:disabled{background:#94a3b8;cursor:default}.rv-pop-send:not(:disabled):hover{background:#0f172a}.rv-pop-send svg{width:16px;height:16px}' +
   '.rv-item{border-radius:12px;margin:2px 8px;padding:12px 12px}.rv-item.on{background:#e9eaec}.rv-meta b{color:#0f172a}' +
   '.rv-sub{margin-left:40px}' +
   '.rv-reacts{display:flex;gap:6px;margin-top:6px}.rv-react svg{width:14px;height:14px;flex:none;display:block}.rv-react{height:28px;min-width:34px;justify-content:center;padding:0 9px;border-radius:999px;background:#fff;color:#64748b;font-size:12px;font-weight:700;display:inline-flex;align-items:center;gap:4px;outline:1px solid #e2e8f0}' +
@@ -188,6 +216,9 @@
     chat: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 5h16v11H9l-5 4V5z"/><path d="M8 9.5h8M8 12.5h5"/></svg>',
     copy: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="8" y="8" width="13" height="13" rx="2"/><path d="M16 8V5a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h3"/></svg>',
     check: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="m5 12.5 4.5 4.5L19 7"/></svg>',
+    x: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M6 6l12 12M18 6 6 18"/></svg>',
+    up: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M12 19V5M6 11l6-6 6 6"/></svg>',
+    smileplus: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5V12a9 9 0 1 1-9-9h.5"/><path d="M8 14s1.5 2 4 2 4-2 4-2M9 9h.01M15 9h.01M16 5h6M19 2v6"/></svg>',
     dots: '<svg viewBox="0 0 24 24" fill="currentColor"><circle cx="5" cy="12" r="1.9"/><circle cx="12" cy="12" r="1.9"/><circle cx="19" cy="12" r="1.9"/></svg>',
     pencil: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 3a2.8 2.8 0 0 1 4 4L7.5 20.5 2 22l1.5-5.5z"/><path d="m15 5 4 4"/></svg>',
     trash: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18M8 6V4h8v2M6 6l1 14h10l1-14"/></svg>',
@@ -249,7 +280,7 @@
     var ae = document.activeElement, keep = ae && (ae.id === 'rvText' || ae.id === 'rvName') ? [ae.id, ae.selectionStart, ae.selectionEnd] : null;
     if (layer.__html !== html) { layer.innerHTML = html; layer.__html = html; }
     if (keep) { var el = root.querySelector('#' + keep[0]); if (el) { el.focus(); try { el.setSelectionRange(keep[1], keep[2]); } catch (e) {} } }
-    syncSend();
+    syncSend(); placePop();
   }
   function syncSend() {
     var b = root.querySelector('#rvSend'); if (!b) return;
@@ -270,27 +301,14 @@
         '<div class="rv-filters">' + [['all', 'All'], ['open', 'Open'], ['resolved', 'Resolved']].map(function (f) { return '<button data-filter="' + f[0] + '" class="' + (S.filter === f[0] ? 'on' : '') + '">' + f[1] + '</button>'; }).join('') + '</div><div class="rv-list">';
       if (!shown.length) h += '<p class="rv-empty">' + (S.filter === 'resolved' ? 'Nothing resolved yet.' : 'No comments yet. Switch to “Comment” and click anything on the page.') + '</p>';
       shown.forEach(function (t) {
-        var idx = S.threads.indexOf(t) + 1, on = S.active === t.id, col = colorFor(t.author);
-        h += '<div class="rv-item' + (on ? ' on' : '') + (t.resolved ? ' done' : '') + '">' +
-          '<button class="rv-more' + (S.menu === t.id ? ' on' : '') + '" data-more="' + t.id + '" aria-label="More actions" aria-expanded="' + (S.menu === t.id) + '">' + ICON.dots + '</button>' +
-          (S.menu === t.id ? '<div class="rv-menu" role="menu"><button role="menuitem" data-edit="' + t.id + '">' + ICON.pencil + 'Edit</button><button role="menuitem" class="danger" data-del="' + t.id + '">' + ICON.trash + 'Delete</button></div>' : '') +
-          '<button class="rv-main" data-goto="' + t.id + '"><span class="rv-av" style="background:' + col + '">' + esc((t.author.trim()[0] || '?')) + '</span><span style="min-width:0;flex:1">' +
-          '<span class="rv-meta"><b>' + esc(t.author) + '</b><span>· ' + ago(t.at) + (t.edited ? ' · edited' : '') + '</span>' + (t.resolved ? '<span class="rv-ok">✓ Resolved</span>' : '') + '</span>' +
-          (S.editing === t.id ? '' : '<span class="rv-text">' + esc(t.text) + '</span>') +
-          (t.images && t.images.length ? '<span class="rv-imgs">' + t.images.map(function (src) { return '<img src="' + src + '" alt="Attachment" data-lb>'; }).join('') + '</span>' : '') +
-          '<span class="rv-where">#' + idx + ' · ' + esc(labelFor(t.page)) + '</span></span></button>' +
-          (S.editing === t.id ? '<div class="rv-edit"><textarea class="rv-in" id="rvEdit" data-for="' + t.id + '">' + esc(S.editText) + '</textarea><div class="rv-row" style="justify-content:flex-end"><button class="rv-btn ghost" data-editcancel>Cancel</button><button class="rv-btn pri" data-editsave="' + t.id + '">Save</button></div></div>' : '') +
-          '<div class="rv-sub"><div class="rv-reacts">' + REACTIONS.map(function (r) {
-            var who = (t.reactions && t.reactions[r[0]]) || [], mine = !!S.name && who.some(function (n) { return authorKey(n) === authorKey(S.name); });
-            return '<button class="rv-react' + (mine ? ' on' : '') + '" data-react="' + t.id + '|' + r[0] + '"' + (S.name ? '' : ' disabled') + ' title="' + esc(S.name ? (who.length ? r[1] + ': ' + who.join(', ') : r[1]) : 'Add a comment first to set your name') + '">' + ICON[r[0]] + (who.length ? '<span>' + who.length + '</span>' : '') + '</button>';
-          }).join('') + '</div>' +
-          (t.replies || []).map(function (r) { var rc = colorFor(r.author); return '<p class="rv-reply" style="border-color:' + rc + '"><b style="color:' + rc + '">' + esc(r.author) + '</b> · ' + esc(r.text) + '</p>'; }).join('') +
-          '<div class="rv-acts"><button class="lk' + (S.replyFor === t.id ? ' on' : '') + '" data-replyfor="' + t.id + '">Reply' + ((t.replies || []).length ? ' (' + t.replies.length + ')' : '') + '</button>' +
-          '<button class="lk" data-goto="' + t.id + '">Show on page</button><span style="flex:1"></span>' +
-          '<button class="rv-act ok" data-resolve="' + t.id + '" title="' + (t.resolved ? 'Reopen' : 'Resolve') + '">' + ICON.check + '</button>' +
-          '</div>' +
-          (S.replyFor === t.id ? '<input class="rv-in rv-replyin" id="rvReply" data-for="' + t.id + '" placeholder="' + (S.name ? 'Write a reply, press Enter…' : 'Add a comment first to set your name') + '"' + (S.name ? '' : ' disabled') + ' value="' + esc(S.replyText) + '">' : '') +
-          '</div></div>';
+        var on = S.active === t.id, col = t.resolved ? '#10b981' : colorFor(t.author), nr = (t.replies || []).length;
+        h += '<div class="rv-row2' + (on ? ' on' : '') + (t.resolved ? ' done' : '') + (S.menu === t.id ? ' menu' : '') + '">' +
+          '<button class="rv-row2-main" data-goto="' + t.id + '">' + '<span class="rv-av" style="background:' + col + '">' + esc((t.author.trim()[0] || '?')) + '</span>' +
+          '<span class="rv-row2-b"><span class="rv-row2-m"><b>' + esc(t.author) + '</b><span>· ' + ago(t.at) + '</span>' + (t.resolved ? '<span class="rv-ok">✓</span>' : '') + (nr ? '<span class="rv-nr">' + nr + ' ' + (nr > 1 ? 'replies' : 'reply') + '</span>' : '') + '</span>' +
+          '<span class="rv-row2-t">' + esc(t.text || (t.images && t.images.length ? '[image]' : '')) + '</span></span></button>' +
+          '<button class="rv-more' + (S.menu === t.id ? ' on' : '') + '" data-more="' + t.id + '" aria-label="More actions">' + ICON.dots + '</button>' +
+          (S.menu === t.id ? '<div class="rv-menu" role="menu">' + (mine(t) ? '<button role="menuitem" data-popedit="' + t.id + '" data-frompanel>' + ICON.pencil + 'Edit</button>' : '') + '<button role="menuitem" data-resolve="' + t.id + '">' + ICON.check + (t.resolved ? 'Reopen' : 'Resolve') + '</button><button role="menuitem" class="danger" data-del="' + t.id + '">' + ICON.trash + 'Delete</button></div>' : '') +
+          '</div>';
       });
       h += '</div></aside>';
     }
@@ -300,7 +318,7 @@
     var sc2 = ui.querySelector('.rv-list'); if (sc2) sc2.scrollTop = st;
     if (keepReply) { var ri = ui.querySelector('#' + keepId); if (ri) { ri.focus(); try { ri.setSelectionRange(keepReply[0], keepReply[0]); } catch (e) {} } }
   }
-  function renderAll() { computeAuthors(); renderUi(); renderPins(); }
+  function renderAll() { computeAuthors(); renderUi(); renderPins(); renderPop(); }
 
   /* ---------- comment mode across documents ---------- */
   var hoverEl = null, bound = [];
@@ -342,12 +360,13 @@
     if (last[0] === sig && Date.now() - Number(last[1]) < 1500) return; lastSend = sig + '@@' + Date.now();
     var d = S.draft, t = { id: uid(), page: d.page, selector: d.selector, rx: d.rx, ry: d.ry, ax: d.ax, ay: d.ay, author: n, text: S.draftText.trim(), at: Date.now(), resolved: false, replies: [] };
     if (S.draftImages.length) t.images = S.draftImages.slice();
-    S.draft = null; S.draftImages = []; S.draftText = ''; S.active = t.id; S.open = true;
+    S.draft = null; S.draftImages = []; S.draftText = ''; S.active = t.id; S.pop = t.id; S.popMenu = S.popEmoji = false;
     save(S.threads.concat([t]));
+    captureShot(t);
   }
   function focusThread(id) {
     var t = S.threads.filter(function (x) { return x.id === id; })[0]; if (!t) return;
-    S.active = id; S.flash = id; var c = ctx();
+    S.active = id; S.flash = id; S.pop = id; S.popMenu = S.popEmoji = false; var c = ctx();
     var el = null; try { el = t.selector ? c.doc.querySelector(t.selector) : null; } catch (e) {}
     if (el && el.scrollIntoView) el.scrollIntoView({ block: 'center', behavior: 'smooth' });
     else c.win.scrollTo({ top: Math.max(0, t.ay - c.win.innerHeight / 2), behavior: 'smooth' });
@@ -393,7 +412,7 @@
     });
   }
   function saveEdit(id) {
-    var text = S.editText.trim(); if (!text) return;
+    var text = S.editText.trim(), te0 = S.threads.filter(function (x) { return x.id === id; })[0]; if (!text || !te0 || !mine(te0)) { S.editing = null; return renderAll(); }
     S.editing = null;
     save(S.threads.map(function (t) { return t.id === id ? Object.assign({}, t, { text: text, edited: Date.now() }) : t; }));
   }
@@ -422,16 +441,17 @@
     if (b.id === 'rvCopyAll') return copyText(exportAll(), function () { S.copied = true; renderUi(); setTimeout(function () { S.copied = false; renderUi(); }, 1800); });
     var a;
     if ((a = b.getAttribute('data-rmimg')) != null) { S.draftImages.splice(+a, 1); return renderPins(); }
-    if ((a = b.getAttribute('data-pin'))) { S.active = a; S.open = true; return renderAll(); }
+    if ((a = b.getAttribute('data-pin'))) { S.active = a; S.pop = S.pop === a ? null : a; S.popMenu = S.popEmoji = false; S.popReply = ''; return renderAll(); }
     if ((a = b.getAttribute('data-filter'))) { S.filter = a; return renderUi(); }
     if ((a = b.getAttribute('data-goto'))) return goTo(a);
     if ((a = b.getAttribute('data-copy1'))) { var t1 = S.threads.filter(function (x) { return x.id === a; })[0]; return t1 && copyText(t1.text, function () { S.copiedId = a; renderUi(); setTimeout(function () { if (S.copiedId === a) { S.copiedId = null; renderUi(); } }, 1600); }); }
     if ((a = b.getAttribute('data-replyfor'))) { S.replyFor = S.replyFor === a ? null : a; S.replyText = ''; renderUi(); var ri = root.querySelector('#rvReply'); if (ri) ri.focus(); return; }
     if ((a = b.getAttribute('data-resolve'))) return save(S.threads.map(function (t) { return t.id === a ? Object.assign({}, t, { resolved: !t.resolved }) : t; }));
-    if ((a = b.getAttribute('data-del'))) { S.menu = null; if (!confirm('Delete this comment?')) return renderUi(); return save(S.threads.filter(function (t) { return t.id !== a; })); }
+    if ((a = b.getAttribute('data-del'))) { S.menu = null; if (S.pop === a) S.pop = null; return save(S.threads.filter(function (t) { return t.id !== a; })); }
+    if ((a = b.getAttribute('data-popedit')) && !pop.contains(b)) { var tp = findT(a); S.menu = null; if (!tp || !mine(tp)) return renderUi(); S.active = a; S.editing = a; S.editWhere = 'pop'; S.editText = tp.text; goTo(a); setTimeout(function () { S.editing = a; S.editWhere = 'pop'; renderPop(); var ed = pop.querySelector('#rvPopEdit'); if (ed) ed.focus(); }, 900); return; }
     if ((a = b.getAttribute('data-more'))) { S.menu = S.menu === a ? null : a; return renderUi(); }
-    if ((a = b.getAttribute('data-edit'))) { var te = S.threads.filter(function (x) { return x.id === a; })[0]; S.menu = null; S.editing = a; S.editText = te ? te.text : ''; S.active = a; renderUi(); var ed = root.querySelector('#rvEdit'); if (ed) { ed.focus(); ed.setSelectionRange(ed.value.length, ed.value.length); } return; }
-    if (b.hasAttribute('data-editcancel')) { S.editing = null; return renderUi(); }
+    if ((a = b.getAttribute('data-edit'))) { var te = S.threads.filter(function (x) { return x.id === a; })[0]; if (!te || !mine(te)) { S.menu = null; return renderUi(); } S.menu = null; S.editing = a; S.editWhere = 'panel'; S.editText = te ? te.text : ''; S.active = a; renderUi(); var ed = root.querySelector('#rvEdit'); if (ed) { ed.focus(); ed.setSelectionRange(ed.value.length, ed.value.length); } return; }
+    if (b.hasAttribute('data-editcancel')) { S.editing = null; return renderAll(); }
     if ((a = b.getAttribute('data-editsave'))) return saveEdit(a);
     if ((a = b.getAttribute('data-react'))) {
       if (!S.name) return; var p = a.split('|'), me = authorKey(S.name);
@@ -479,6 +499,120 @@
     if (!c.frame) lastFrameDoc = null;
     renderPins();
   }, 600);
+
+
+  /* ---------- comment popover (Figma-style card next to the pin) ---------- */
+  var pop = document.createElement('div'); pop.className = 'rv-popwrap'; root.appendChild(pop);
+  function mine(t) { return !!S.name && authorKey(t.author) === authorKey(S.name); }
+  function findT(id) { return S.threads.filter(function (x) { return x.id === id; })[0]; }
+  function avatar(name, size) { var c = colorFor(name || '?'); return '<span class="rv-av" style="background:' + c + ';width:' + size + 'px;height:' + size + 'px">' + esc(((name || '?').trim()[0] || '?')) + '</span>'; }
+  function renderPop() {
+    var t = S.pop && findT(S.pop);
+    if (!t || ctx().key !== t.page) { if (pop.innerHTML) pop.innerHTML = ''; return; }
+    var shot = t.shot || (t.images && t.images[0]), more = (t.images || []).slice(t.shot ? 0 : 1);
+    var reacts = REACTIONS.map(function (r) { var who = (t.reactions && t.reactions[r[0]]) || []; if (!who.length) return '';
+      var mine = !!S.name && who.some(function (n) { return authorKey(n) === authorKey(S.name); });
+      return '<button class="rv-react' + (mine ? ' on' : '') + '" data-react="' + t.id + '|' + r[0] + '" title="' + esc(r[1] + ': ' + who.join(', ')) + '">' + ICON[r[0]] + '<span>' + who.length + '</span></button>'; }).join('');
+    var editing = S.editing === t.id && S.editWhere === 'pop';
+    var row = function (name, at, text, extra) { return '<div class="rv-pop-c">' + avatar(name, 26) + '<div class="rv-pop-cb"><div class="rv-pop-meta"><b>' + esc(name) + '</b><span>' + ago(at) + '</span></div>' + (text != null ? '<p>' + esc(text) + '</p>' : '') + (extra || '') + '</div></div>'; };
+    var h = '<div class="rv-pop" role="dialog" aria-label="Comment">' +
+      '<div class="rv-pop-h"><b>Comment</b>' + (t.resolved ? '<span class="rv-ok">✓ Resolved</span>' : '') + '<span class="rv-pop-tools"><button data-popmore aria-label="More actions" class="' + (S.popMenu ? 'on' : '') + '">' + ICON.dots + '</button><button data-popclose aria-label="Close">' + ICON.x + '</button></span>' +
+      (S.popMenu ? '<div class="rv-menu" role="menu">' + (mine(t) ? '<button data-popedit="' + t.id + '">' + ICON.pencil + 'Edit</button>' : '') + '<button data-resolve="' + t.id + '">' + ICON.check + (t.resolved ? 'Reopen' : 'Resolve') + '</button><button class="danger" data-del="' + t.id + '">' + ICON.trash + 'Delete</button></div>' : '') + '</div>' +
+      '<div class="rv-pop-body">' +
+      (shot ? '<img class="rv-pop-shot" src="' + shot + '" alt="Snapshot" data-lb>' : '') +
+      row(t.author, t.at, editing ? null : t.text,
+        (editing ? '<div class="rv-edit" style="margin:6px 0 0"><textarea class="rv-in" id="rvPopEdit" data-for="' + t.id + '">' + esc(S.editText) + '</textarea><div class="rv-row" style="justify-content:flex-end"><button class="rv-btn ghost" data-editcancel>Cancel</button><button class="rv-btn pri" data-editsave="' + t.id + '">Save</button></div></div>' : '') +
+        (more.length ? '<div class="rv-imgs">' + more.map(function (src) { return '<img src="' + src + '" alt="Attachment" data-lb>'; }).join('') + '</div>' : '') +
+        '<div class="rv-reacts">' + REACTIONS.map(function (r) { var who = (t.reactions && t.reactions[r[0]]) || [], me = !!S.name && who.some(function (n) { return authorKey(n) === authorKey(S.name); });
+          return '<button class="rv-react' + (me ? ' on' : '') + '" data-react="' + t.id + '|' + r[0] + '"' + (S.name ? '' : ' disabled') + ' title="' + esc(S.name ? (who.length ? r[1] + ': ' + who.join(', ') : r[1]) : 'Add a comment first to set your name') + '">' + ICON[r[0]] + (who.length ? '<span>' + who.length + '</span>' : '') + '</button>'; }).join('') + '</div>') +
+      (t.replies || []).map(function (r) { return row(r.author, r.at || t.at, r.text); }).join('') +
+      '</div>' +
+      '<div class="rv-pop-f">' + avatar(S.name || S.nameInput || '?', 26) + '<div class="rv-pop-box">' +
+        (!S.name ? '<input class="rv-pop-in" id="rvPopName" placeholder="Your name" value="' + esc(S.nameInput) + '">' : '') +
+        '<textarea class="rv-pop-in" id="rvPopReply" rows="1" placeholder="Reply">' + esc(S.popReply) + '</textarea>' +
+        (S.popEmoji ? '<div class="rv-emo">' + ['👍','❤️','😊','🙏','✅','👀','🔥','🎉'].map(function (em) { return '<button data-emoji="' + em + '">' + em + '</button>'; }).join('') + '</div>' : '') +
+        '<div class="rv-pop-tb"><button data-popemoji class="rv-pop-emo' + (S.popEmoji ? ' on' : '') + '" aria-label="Emoji" title="Emoji">' + ICON.smileplus + '</button><button data-popsend="' + t.id + '" class="rv-pop-send" aria-label="Send reply"' + (S.popReply.trim() && (S.name || S.nameInput.trim()) ? '' : ' disabled') + '>' + ICON.up + '</button></div>' +
+      '</div></div></div>';
+    var ae = document.activeElement, keep = ae && pop.contains(ae) && ae.id ? [ae.id, ae.selectionStart, ae.selectionEnd] : null, sc = pop.querySelector('.rv-pop-body'), st = sc ? sc.scrollTop : 0;
+    pop.innerHTML = h;
+    var sc2 = pop.querySelector('.rv-pop-body'); if (sc2) sc2.scrollTop = st;
+    if (keep) { var el = pop.querySelector('#' + keep[0]); if (el) { el.focus(); try { el.setSelectionRange(keep[1], keep[2]); } catch (e) {} } }
+    autoGrow(pop.querySelector('#rvPopReply')); placePop();
+  }
+  function autoGrow(ta) { if (!ta) return; ta.style.height = 'auto'; ta.style.height = Math.min(120, ta.scrollHeight) + 'px'; }
+  function placePop() {
+    var card = pop.firstChild, t = S.pop && findT(S.pop); if (!card || !t) return;
+    var c = ctx(); if (c.key !== t.page) { pop.innerHTML = ''; return; }
+    var p = pos(t, c), w = card.offsetWidth, hh = card.offsetHeight, vw = innerWidth, vh = innerHeight;
+    var left = p.x + 22; if (left + w > vw - 12) left = p.x - w - 22; left = Math.max(12, Math.min(left, vw - w - 12));
+    var top = Math.max(12, Math.min(p.y - 40, vh - hh - 12));
+    card.style.left = left + 'px'; card.style.top = top + 'px';
+  }
+  function sendPopReply(id) {
+    var text = S.popReply.trim(); if (!text) return;
+    if (!S.name) { var n = S.nameInput.trim(); if (!n) { var ni = pop.querySelector('#rvPopName'); if (ni) ni.focus(); return; } S.name = n; lsSet(NAME_KEY, n); }
+    var now = Date.now(); S.popReply = ''; S.popEmoji = false;
+    save(S.threads.map(function (t) { return t.id === id ? Object.assign({}, t, { replies: (t.replies || []).concat([{ id: uid(), author: S.name, text: text, at: now }]) }) : t; }));
+    setTimeout(function () { var b = pop.querySelector('.rv-pop-body'); if (b) b.scrollTop = b.scrollHeight; }, 30);
+  }
+  pop.addEventListener('click', function (e) {
+    var b = e.target.closest('button'); if (!b) return; var a;
+    if (b.hasAttribute('data-popclose')) { S.pop = null; S.popMenu = S.popEmoji = false; return renderAll(); }
+    if (b.hasAttribute('data-popmore')) { S.popMenu = !S.popMenu; return renderPop(); }
+    if (b.hasAttribute('data-popemoji')) { S.popEmoji = !S.popEmoji; return renderPop(); }
+    if ((a = b.getAttribute('data-popsend'))) return sendPopReply(a);
+    if ((a = b.getAttribute('data-emoji'))) { S.popReply += a; renderPop(); var ri = pop.querySelector('#rvPopReply'); if (ri) { ri.focus(); ri.setSelectionRange(ri.value.length, ri.value.length); } return; }
+    if ((a = b.getAttribute('data-popedit'))) { var t = findT(a); if (!t || !mine(t)) return; S.pop = a; S.popMenu = false; S.editing = a; S.editWhere = 'pop'; S.editText = t ? t.text : ''; renderPop(); var ed = pop.querySelector('#rvPopEdit'); if (ed) { ed.focus(); ed.setSelectionRange(ed.value.length, ed.value.length); } return; }
+    if (b.hasAttribute('data-del') || b.hasAttribute('data-resolve')) S.popMenu = false;
+  });
+  pop.addEventListener('input', function (e) {
+    var t = e.target;
+    if (t.id === 'rvPopReply') { S.popReply = t.value; autoGrow(t); var sb = pop.querySelector('.rv-pop-send'); if (sb) sb.disabled = !(S.popReply.trim() && (S.name || S.nameInput.trim())); }
+    else if (t.id === 'rvPopName') { S.nameInput = t.value; var sb2 = pop.querySelector('.rv-pop-send'); if (sb2) sb2.disabled = !(S.popReply.trim() && S.nameInput.trim()); }
+    else if (t.id === 'rvPopEdit') S.editText = t.value;
+  });
+  pop.addEventListener('keydown', function (e) {
+    var t = e.target;
+    if (t.id === 'rvPopReply' && e.key === 'Enter' && !e.shiftKey && !e.isComposing) { e.preventDefault(); var tid = S.pop; if (tid) sendPopReply(tid); }
+    if (t.id === 'rvPopEdit' && e.key === 'Enter' && !e.shiftKey && !e.isComposing) { e.preventDefault(); saveEdit(t.getAttribute('data-for')); }
+    if (e.key === 'Escape') { if (S.editing) { S.editing = null; renderPop(); } else { S.pop = null; renderAll(); } }
+  });
+  // close the card when clicking elsewhere on the page (not while commenting)
+  function outside(e) { if (!S.pop || S.mode) return; var t = e.target; if (t && t.closest && (t.closest('[data-review-ui]'))) return; if (t && t.ownerDocument === document && root.contains(t)) return; S.pop = null; S.popMenu = S.popEmoji = false; renderPop(); }
+  document.addEventListener('mousedown', outside, true);
+
+  /* ---------- snapshot of the commented area (shown at the top of the card) ---------- */
+  var msLoad = null;
+  function loadShooter() {
+    if (window.modernScreenshot) return Promise.resolve(window.modernScreenshot);
+    if (msLoad) return msLoad;
+    msLoad = new Promise(function (res, rej) { var sc = document.createElement('script'); sc.src = BASE + 'modern-screenshot.min.js'; sc.onload = function () { res(window.modernScreenshot); }; sc.onerror = rej; document.head.appendChild(sc); });
+    return msLoad;
+  }
+  function captureShot(t) {
+    var c = ctx(); if (c.key !== t.page) return;
+    var doc = c.doc, win = c.win, cx = t.ax - win.scrollX, cy = t.ay - win.scrollY, el = null;
+    try { el = t.selector ? doc.querySelector(t.selector) : null; } catch (e) {}
+    if (!el) el = doc.elementFromPoint(cx, cy); if (!el) return;
+    var hasBg = function (e) { var cs = win.getComputedStyle(e); if (cs.backgroundImage !== 'none') return true; var bc = cs.backgroundColor; return !(bc === 'transparent' || /rgba\(.*,\s*0\)$/.test(bc)); };
+    // climb to the nearest block that carries its own background, so the crop looks like the page
+    while (el.parentElement && el !== doc.body) { var r0 = el.getBoundingClientRect(); if (hasBg(el) && r0.height >= 180 && r0.width >= win.innerWidth * 0.5) break; el = el.parentElement; }
+    loadShooter().then(function (ms) {
+      var rr = el.getBoundingClientRect(), W = Math.min(760, win.innerWidth, rr.width), H = Math.round(W / 2), k = 560 / W;
+      return ms.domToCanvas(el, { scale: k, backgroundColor: '#ffffff', timeout: 5000,
+        filter: function (n) { return !(n.tagName === 'VIDEO' || n.tagName === 'IFRAME' || (n.hasAttribute && n.hasAttribute('data-review-ui'))); } })
+        .then(function (cv) {
+          var px = cx - rr.left, py = cy - rr.top, x = Math.max(0, Math.min(px - W / 2, rr.width - W)), y = Math.max(0, Math.min(py - H / 2, rr.height - H));
+          var out = document.createElement('canvas'); out.width = 560; out.height = 280; var g = out.getContext('2d');
+          g.fillStyle = '#fff'; g.fillRect(0, 0, 560, 280); g.drawImage(cv, x * k, y * k, W * k, H * k, 0, 0, 560, 280);
+          var mx = (px - x) * k, my = (py - y) * k, col = colorFor(t.author);   // mark where the comment was left
+          g.fillStyle = col; g.strokeStyle = '#fff'; g.lineWidth = 3; g.beginPath(); g.arc(mx, my - 12, 10, 0, Math.PI * 2); g.fill(); g.stroke();
+          var url = out.toDataURL('image/jpeg', 0.72);
+          save(S.threads.map(function (x2) { return x2.id === t.id ? Object.assign({}, x2, { shot: url }) : x2; }));
+          if (S.pop === t.id) renderPop();
+        });
+    }).catch(function () {});
+  }
 
   /* ---------- Desktop / Tablet / Mobile preview (review only) ---------- */
   (function deviceSwitcher() {

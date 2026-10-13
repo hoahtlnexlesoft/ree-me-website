@@ -47,7 +47,7 @@
   }
   function ago(t) {
     var s = Math.max(1, Math.round((Date.now() - t) / 1000));
-    if (s < 60) return 'just now'; if (s < 3600) return Math.round(s / 60) + 'm ago';
+    if (s < 60) return 'Just now'; if (s < 3600) return Math.round(s / 60) + 'm ago';
     if (s < 86400) return Math.round(s / 3600) + 'h ago'; return Math.round(s / 86400) + 'd ago';
   }
   function selectorFor(el) {
@@ -99,7 +99,7 @@
   }
 
   /* ---------- state ---------- */
-  var S = { threads: [], name: lsGet(NAME_KEY, ''), mode: false, open: false, draft: null, draftText: '', draftImages: [], nameInput: '',
+  var S = { menu: null, editing: null, editText: '', threads: [], name: lsGet(NAME_KEY, ''), mode: false, open: false, draft: null, draftText: '', draftImages: [], nameInput: '',
             active: null, flash: null, filter: 'all', replyFor: null, replyText: '', copied: false, copiedId: null, lightbox: null };
   var pending = 0, writes = 0, lastSend = '';
 
@@ -165,6 +165,12 @@
   '.rv-imgs{display:flex;gap:6px;margin-top:6px}.rv-imgs img{width:48px;height:48px;border-radius:8px;object-fit:cover;outline:1px solid rgba(0,0,0,.1);cursor:zoom-in}.rv-item.on .rv-imgs img{width:96px;height:96px}' +
   '.rv-copy1{position:absolute;right:12px;top:12px;width:28px;height:28px;border-radius:50%;background:rgba(255,255,255,.85);color:#64748b;display:grid;place-items:center;box-shadow:0 1px 3px rgba(0,0,0,.12)}.rv-copy1:hover{color:#0b3f8f}' +
   '.rv-copy1 svg,.rv-act svg{width:14px;height:14px}' +
+  '.rv-more{position:absolute;right:12px;top:10px;z-index:2;width:30px;height:30px;border-radius:8px;display:grid;place-items:center;color:#475569}.rv-more:hover,.rv-more.on{background:#e5e7eb;color:#0f172a}.rv-more svg{width:16px;height:16px}' +
+  '.rv-menu{position:absolute;right:12px;top:44px;z-index:5;min-width:150px;padding:6px;border-radius:12px;background:#fff;box-shadow:0 12px 32px -8px rgba(15,23,42,.28),0 0 0 1px rgba(15,23,42,.06)}' +
+  '.rv-menu button{width:100%;height:36px;padding:0 10px;border-radius:8px;display:flex;align-items:center;gap:10px;font-size:14px;font-weight:500;color:#0f172a;text-align:left}.rv-menu button:hover{background:#f1f5f9}' +
+  '.rv-menu button svg{width:16px;height:16px;flex:none}.rv-menu button.danger{color:#be123c}.rv-menu button.danger:hover{background:#fff1f2}' +
+  '.rv-edit{margin:8px 0 0 40px}.rv-edit textarea{min-height:64px}' +
+  '.rv-item{border-radius:12px;margin:2px 8px;padding:12px 12px}.rv-item.on{background:#e9eaec}.rv-meta b{color:#0f172a}' +
   '.rv-sub{margin-left:40px}' +
   '.rv-reacts{display:flex;gap:6px;margin-top:6px}.rv-react svg{width:14px;height:14px;flex:none;display:block}.rv-react{height:28px;min-width:34px;justify-content:center;padding:0 9px;border-radius:999px;background:#fff;color:#64748b;font-size:12px;font-weight:700;display:inline-flex;align-items:center;gap:4px;outline:1px solid #e2e8f0}' +
   '.rv-react:disabled{opacity:.55;cursor:not-allowed}.rv-react.on{background:#e0f2fe;color:#0369a1;outline-color:#7dd3fc}' +
@@ -182,6 +188,8 @@
     chat: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 5h16v11H9l-5 4V5z"/><path d="M8 9.5h8M8 12.5h5"/></svg>',
     copy: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="8" y="8" width="13" height="13" rx="2"/><path d="M16 8V5a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h3"/></svg>',
     check: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="m5 12.5 4.5 4.5L19 7"/></svg>',
+    dots: '<svg viewBox="0 0 24 24" fill="currentColor"><circle cx="5" cy="12" r="1.9"/><circle cx="12" cy="12" r="1.9"/><circle cx="19" cy="12" r="1.9"/></svg>',
+    pencil: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 3a2.8 2.8 0 0 1 4 4L7.5 20.5 2 22l1.5-5.5z"/><path d="m15 5 4 4"/></svg>',
     trash: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18M8 6V4h8v2M6 6l1 14h10l1-14"/></svg>',
     chev: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M15 6l-6 6 6 6"/></svg>',
     side: '<svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="16" rx="3"/><path d="M15 4v16"/></svg>',
@@ -264,12 +272,14 @@
       shown.forEach(function (t) {
         var idx = S.threads.indexOf(t) + 1, on = S.active === t.id, col = colorFor(t.author);
         h += '<div class="rv-item' + (on ? ' on' : '') + (t.resolved ? ' done' : '') + '">' +
-          '<button class="rv-copy1" data-copy1="' + t.id + '" title="Copy comment">' + (S.copiedId === t.id ? ICON.check : ICON.copy) + '</button>' +
+          '<button class="rv-more' + (S.menu === t.id ? ' on' : '') + '" data-more="' + t.id + '" aria-label="More actions" aria-expanded="' + (S.menu === t.id) + '">' + ICON.dots + '</button>' +
+          (S.menu === t.id ? '<div class="rv-menu" role="menu"><button role="menuitem" data-edit="' + t.id + '">' + ICON.pencil + 'Edit</button><button role="menuitem" class="danger" data-del="' + t.id + '">' + ICON.trash + 'Delete</button></div>' : '') +
           '<button class="rv-main" data-goto="' + t.id + '"><span class="rv-av" style="background:' + col + '">' + esc((t.author.trim()[0] || '?')) + '</span><span style="min-width:0;flex:1">' +
-          '<span class="rv-meta"><b style="color:' + col + '">' + esc(t.author) + '</b><span>· ' + ago(t.at) + '</span>' + (t.resolved ? '<span class="rv-ok">✓ Resolved</span>' : '') + '</span>' +
-          '<span class="rv-text">' + esc(t.text) + '</span>' +
+          '<span class="rv-meta"><b>' + esc(t.author) + '</b><span>· ' + ago(t.at) + (t.edited ? ' · edited' : '') + '</span>' + (t.resolved ? '<span class="rv-ok">✓ Resolved</span>' : '') + '</span>' +
+          (S.editing === t.id ? '' : '<span class="rv-text">' + esc(t.text) + '</span>') +
           (t.images && t.images.length ? '<span class="rv-imgs">' + t.images.map(function (src) { return '<img src="' + src + '" alt="Attachment" data-lb>'; }).join('') + '</span>' : '') +
           '<span class="rv-where">#' + idx + ' · ' + esc(labelFor(t.page)) + '</span></span></button>' +
+          (S.editing === t.id ? '<div class="rv-edit"><textarea class="rv-in" id="rvEdit" data-for="' + t.id + '">' + esc(S.editText) + '</textarea><div class="rv-row" style="justify-content:flex-end"><button class="rv-btn ghost" data-editcancel>Cancel</button><button class="rv-btn pri" data-editsave="' + t.id + '">Save</button></div></div>' : '') +
           '<div class="rv-sub"><div class="rv-reacts">' + REACTIONS.map(function (r) {
             var who = (t.reactions && t.reactions[r[0]]) || [], mine = !!S.name && who.some(function (n) { return authorKey(n) === authorKey(S.name); });
             return '<button class="rv-react' + (mine ? ' on' : '') + '" data-react="' + t.id + '|' + r[0] + '"' + (S.name ? '' : ' disabled') + ' title="' + esc(S.name ? (who.length ? r[1] + ': ' + who.join(', ') : r[1]) : 'Add a comment first to set your name') + '">' + ICON[r[0]] + (who.length ? '<span>' + who.length + '</span>' : '') + '</button>';
@@ -278,17 +288,17 @@
           '<div class="rv-acts"><button class="lk' + (S.replyFor === t.id ? ' on' : '') + '" data-replyfor="' + t.id + '">Reply' + ((t.replies || []).length ? ' (' + t.replies.length + ')' : '') + '</button>' +
           '<button class="lk" data-goto="' + t.id + '">Show on page</button><span style="flex:1"></span>' +
           '<button class="rv-act ok" data-resolve="' + t.id + '" title="' + (t.resolved ? 'Reopen' : 'Resolve') + '">' + ICON.check + '</button>' +
-          '<button class="rv-act del" data-del="' + t.id + '" title="Delete">' + ICON.trash + '</button></div>' +
+          '</div>' +
           (S.replyFor === t.id ? '<input class="rv-in rv-replyin" id="rvReply" data-for="' + t.id + '" placeholder="' + (S.name ? 'Write a reply, press Enter…' : 'Add a comment first to set your name') + '"' + (S.name ? '' : ' disabled') + ' value="' + esc(S.replyText) + '">' : '') +
           '</div></div>';
       });
       h += '</div></aside>';
     }
     if (S.lightbox) h += '<div class="rv-lb" id="rvLb"><img src="' + S.lightbox + '" alt=""></div>';
-    var ae = document.activeElement, keepReply = ae && ae.id === 'rvReply' ? [ae.selectionStart] : null, scroller = ui.querySelector('.rv-list'), st = scroller ? scroller.scrollTop : 0;
+    var ae = document.activeElement, keepId = ae && (ae.id === 'rvReply' || ae.id === 'rvEdit') ? ae.id : null, keepReply = keepId ? [ae.selectionStart] : null, scroller = ui.querySelector('.rv-list'), st = scroller ? scroller.scrollTop : 0;
     ui.innerHTML = h;
     var sc2 = ui.querySelector('.rv-list'); if (sc2) sc2.scrollTop = st;
-    if (keepReply) { var ri = ui.querySelector('#rvReply'); if (ri) { ri.focus(); try { ri.setSelectionRange(keepReply[0], keepReply[0]); } catch (e) {} } }
+    if (keepReply) { var ri = ui.querySelector('#' + keepId); if (ri) { ri.focus(); try { ri.setSelectionRange(keepReply[0], keepReply[0]); } catch (e) {} } }
   }
   function renderAll() { computeAuthors(); renderUi(); renderPins(); }
 
@@ -382,6 +392,11 @@
       out = out.filter(Boolean); if (!out.length) return; S.draftImages = S.draftImages.concat(out).slice(0, MAX_IMAGES); renderPins();
     });
   }
+  function saveEdit(id) {
+    var text = S.editText.trim(); if (!text) return;
+    S.editing = null;
+    save(S.threads.map(function (t) { return t.id === id ? Object.assign({}, t, { text: text, edited: Date.now() }) : t; }));
+  }
   function addReply(id) {
     var text = S.replyText.trim(); if (!text || !S.name) return;
     var sig = id + '|' + authorKey(S.name) + '|' + text, now = Date.now(), last = lastSend.split('@@');
@@ -392,6 +407,7 @@
 
   /* ---------- events on our own UI ---------- */
   root.addEventListener('click', function (e) {
+    if (S.menu && !e.target.closest('.rv-menu,[data-more]')) { S.menu = null; renderUi(); }
     var a0, b = e.target.closest('button,[data-lb],#rvLb'); if (!b) return;
     if (b.id === 'rvLb') { S.lightbox = null; return renderUi(); }
     if (b.hasAttribute('data-lb')) { e.stopPropagation(); S.lightbox = b.getAttribute('src'); return renderUi(); }
@@ -412,7 +428,11 @@
     if ((a = b.getAttribute('data-copy1'))) { var t1 = S.threads.filter(function (x) { return x.id === a; })[0]; return t1 && copyText(t1.text, function () { S.copiedId = a; renderUi(); setTimeout(function () { if (S.copiedId === a) { S.copiedId = null; renderUi(); } }, 1600); }); }
     if ((a = b.getAttribute('data-replyfor'))) { S.replyFor = S.replyFor === a ? null : a; S.replyText = ''; renderUi(); var ri = root.querySelector('#rvReply'); if (ri) ri.focus(); return; }
     if ((a = b.getAttribute('data-resolve'))) return save(S.threads.map(function (t) { return t.id === a ? Object.assign({}, t, { resolved: !t.resolved }) : t; }));
-    if ((a = b.getAttribute('data-del'))) { if (!confirm('Delete this comment?')) return; return save(S.threads.filter(function (t) { return t.id !== a; })); }
+    if ((a = b.getAttribute('data-del'))) { S.menu = null; if (!confirm('Delete this comment?')) return renderUi(); return save(S.threads.filter(function (t) { return t.id !== a; })); }
+    if ((a = b.getAttribute('data-more'))) { S.menu = S.menu === a ? null : a; return renderUi(); }
+    if ((a = b.getAttribute('data-edit'))) { var te = S.threads.filter(function (x) { return x.id === a; })[0]; S.menu = null; S.editing = a; S.editText = te ? te.text : ''; S.active = a; renderUi(); var ed = root.querySelector('#rvEdit'); if (ed) { ed.focus(); ed.setSelectionRange(ed.value.length, ed.value.length); } return; }
+    if (b.hasAttribute('data-editcancel')) { S.editing = null; return renderUi(); }
+    if ((a = b.getAttribute('data-editsave'))) return saveEdit(a);
     if ((a = b.getAttribute('data-react'))) {
       if (!S.name) return; var p = a.split('|'), me = authorKey(S.name);
       return save(S.threads.map(function (t) {
@@ -427,11 +447,14 @@
     if (t.id === 'rvText') { S.draftText = t.value; syncSend(); }
     else if (t.id === 'rvName') { S.nameInput = t.value; syncSend(); }
     else if (t.id === 'rvReply') S.replyText = t.value;
+    else if (t.id === 'rvEdit') S.editText = t.value;
   });
   root.addEventListener('keydown', function (e) {
     var t = e.target;
     if (t.id === 'rvReply' && e.key === 'Enter' && !e.isComposing && !e.repeat) { e.preventDefault(); addReply(t.getAttribute('data-for')); }
     if (t.id === 'rvText' && e.key === 'Enter' && (e.metaKey || e.ctrlKey)) { e.preventDefault(); submitDraft(); }
+    if (t.id === 'rvEdit' && e.key === 'Enter' && !e.shiftKey && !e.isComposing) { e.preventDefault(); saveEdit(t.getAttribute('data-for')); }
+    if (t.id === 'rvEdit' && e.key === 'Escape') { S.editing = null; renderUi(); }
     e.stopPropagation();
   });
   root.addEventListener('paste', function (e) {

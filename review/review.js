@@ -141,12 +141,14 @@
   '.rv-thumb button{position:absolute;top:2px;right:2px;width:18px;height:18px;border-radius:50%;background:rgba(15,23,42,.75);color:#fff;font-size:12px;line-height:18px}' +
   '.rv-pill{position:fixed;left:50%;bottom:16px;transform:translateX(-50%);z-index:2147482600;display:flex;flex-direction:column;align-items:center;gap:8px}' +
   '.rv-hint{white-space:nowrap;background:rgba(15,23,42,.9);color:#fff;font-size:12px;font-weight:600;padding:6px 12px;border-radius:999px}' +
-  '.rv-seg{display:flex;gap:4px;padding:4px;border-radius:999px;background:#0f172a;box-shadow:0 18px 40px -10px rgba(0,0,0,.5);outline:1px solid rgba(255,255,255,.1)}' +
-  '.rv-seg button{height:38px;padding:0 16px;border-radius:999px;color:#cbd5e1;font-size:13.5px;font-weight:700;display:inline-flex;align-items:center;gap:8px}.rv-seg button:hover{color:#fff}' +
-  '.rv-seg button.on{background:#0b3f8f;color:#fff}.rv-seg svg{width:16px;height:16px}' +
-  '.rv-tab{position:fixed;top:50%;right:0;transform:translateY(-50%);z-index:2147482700;width:22px;height:84px;border-radius:12px 0 0 12px;background:#0b3f8f;color:#fff;display:grid;place-items:center;box-shadow:0 8px 20px rgba(0,0,0,.25)}' +
-  '.rv-tab.open{right:min(370px,100vw)}.rv-tab svg{width:14px;height:14px;transition:transform .2s}.rv-tab.open svg{transform:rotate(180deg)}' +
-  '.rv-tab b{position:absolute;left:-10px;top:-10px;min-width:20px;height:20px;padding:0 5px;border-radius:999px;background:#fff;color:#0b3f8f;font-size:10.5px;line-height:20px;text-align:center;box-shadow:0 2px 6px rgba(0,0,0,.2)}' +
+  '.rv-seg{display:flex;gap:4px;padding:5px;border-radius:999px;background:#223246;box-shadow:0 14px 34px -10px rgba(0,0,0,.55);outline:1px solid rgba(255,255,255,.08)}' +
+  '.rv-seg button{height:40px;padding:0 18px;border-radius:999px;color:#e2e8f0;font-size:15px;font-weight:600;display:inline-flex;align-items:center;gap:9px;transition:background .2s,color .2s}.rv-seg button:hover{color:#fff}' +
+  '.rv-seg button.on{background:#306eed;color:#fff;box-shadow:0 6px 16px -6px rgba(48,110,237,.8)}.rv-seg svg{width:18px;height:18px}' +
+  '.rv-rail{position:fixed;top:0;right:0;bottom:0;z-index:2147482650;width:54px;background:#f5f5f5;border-left:1px solid #e0e0e0;border-radius:0 0 0 16px;display:flex;flex-direction:column;align-items:center;padding-top:30px;box-shadow:-10px 0 30px -18px rgba(0,0,0,.3)}' +
+  '.rv-rail .rv-side{width:30px;height:30px;border-radius:8px;display:grid;place-items:center;color:#334155}.rv-rail .rv-side:hover{background:rgba(0,0,0,.06)}' +
+  '.rv-rail-list{flex:1;width:100%;overflow-y:auto;scrollbar-width:none;display:flex;flex-direction:column;align-items:center;gap:10px;padding:18px 0 90px}.rv-rail-list::-webkit-scrollbar{display:none}' +
+  '.rv-dot{flex:none;width:22px;height:22px;border-radius:50%;color:#fff;font-size:11px;font-weight:800;display:grid;place-items:center;text-transform:uppercase;transition:transform .15s,box-shadow .15s}' +
+  '.rv-dot:hover{transform:scale(1.15)}.rv-dot.on{box-shadow:0 0 0 3px #fff,0 0 0 5px currentColor}.rv-dot.done{opacity:.45}' +
   '.rv-panel{position:fixed;top:0;right:0;bottom:0;z-index:2147482650;width:370px;max-width:100vw;background:#f3f4f6;color:#0f172a;display:flex;flex-direction:column;box-shadow:-20px 0 50px -20px rgba(0,0,0,.35)}' +
   '.rv-head{display:flex;align-items:center;justify-content:space-between;padding:18px 18px 8px}.rv-head h2{margin:0;font-size:15px;font-weight:800}.rv-head>div{display:flex;align-items:center;gap:4px}' +
   '.rv-head .rv-btn{display:inline-flex;align-items:center;gap:6px;color:#475569}.rv-head .rv-btn:hover{background:rgba(0,0,0,.05)}' +
@@ -173,11 +175,11 @@
   '.rv-replyin{margin-top:8px;height:32px;border-radius:999px;font-size:12.5px}' +
   '.rv-lb{position:fixed;inset:0;z-index:2147483000;background:rgba(0,0,0,.82);display:grid;place-items:center;padding:16px;cursor:zoom-out}.rv-lb img{max-width:100%;max-height:100%;border-radius:12px}' +
   '.rv-toast{position:fixed;left:50%;bottom:84px;transform:translateX(-50%);z-index:2147483000;background:#0f172a;color:#fff;font-size:12.5px;font-weight:600;padding:8px 14px;border-radius:999px}' +
-  '@media (max-width:640px){.rv-panel{width:100vw}.rv-tab.open{display:none}.rv-seg button{padding:0 12px}}';
+  '@media (max-width:640px){.rv-panel{width:100vw}.rv-rail{width:44px}.rv-seg button{padding:0 14px}}';
 
   var ICON = {
-    pointer: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 9l5 12 1.8-5.2L21 14 9 9z"/><path d="M7.2 2.2 8 5.1M5.1 8 2.2 7.2M14 4.1 12 6.2M6.2 12l-2.1 2"/></svg>',
-    chat: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.4 8.4 0 0 1-12.2 7.5L3 21l2-5.6A8.4 8.4 0 1 1 21 11.5z"/></svg>',
+    pointer: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4l7 16 2.3-6.7L20 11 4 4z"/></svg>',
+    chat: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 5h16v11H9l-5 4V5z"/><path d="M8 9.5h8M8 12.5h5"/></svg>',
     copy: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="8" y="8" width="13" height="13" rx="2"/><path d="M16 8V5a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h3"/></svg>',
     check: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="m5 12.5 4.5 4.5L19 7"/></svg>',
     trash: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18M8 6V4h8v2M6 6l1 14h10l1-14"/></svg>',
@@ -249,8 +251,12 @@
     var open = S.threads.filter(function (t) { return !t.resolved; }).length;
     var shown = S.threads.filter(function (t) { return S.filter === 'all' ? true : S.filter === 'open' ? !t.resolved : t.resolved; });
     var h = '<div class="rv-pill">' + (S.mode ? '<span class="rv-hint">Bấm vào chỗ bất kỳ để góp ý · Esc để huỷ</span>' : '') +
-      '<div class="rv-seg"><button id="rvBrowse" class="' + (!S.mode ? 'on' : '') + '">' + ICON.pointer + 'Xem</button><button id="rvComment" class="' + (S.mode ? 'on' : '') + '">' + ICON.chat + 'Bình luận</button></div></div>' +
-      '<button class="rv-tab' + (S.open ? ' open' : '') + '" id="rvTab" aria-label="' + (S.open ? 'Đóng' : 'Mở') + ' danh sách bình luận">' + (open ? '<b>' + open + '</b>' : '') + ICON.chev + '</button>';
+      '<div class="rv-seg"><button id="rvBrowse" class="' + (!S.mode ? 'on' : '') + '">' + ICON.pointer + 'Browse</button><button id="rvComment" class="' + (S.mode ? 'on' : '') + '">' + ICON.chat + 'Comment</button></div></div>';
+    if (!S.open) {
+      h += '<aside class="rv-rail"><button class="rv-side" id="rvTab" title="Mở danh sách bình luận" aria-label="Mở danh sách bình luận">' + ICON.side + '</button><div class="rv-rail-list">' +
+        S.threads.map(function (t, i) { var col = t.resolved ? '#10b981' : colorFor(t.author); return '<button class="rv-dot' + (S.active === t.id ? ' on' : '') + (t.resolved ? ' done' : '') + '" data-rail="' + t.id + '" style="background:' + col + ';color:' + col + '" title="#' + (i + 1) + ' ' + esc(t.author) + ': ' + esc(t.text.slice(0, 80)) + '"><span style="color:#fff">' + esc((t.author.trim()[0] || '?')) + '</span></button>'; }).join('') +
+        '</div></aside>';
+    }
     if (S.open) {
       h += '<aside class="rv-panel"><header class="rv-head"><h2>Bình luận</h2><div><button class="rv-btn" id="rvCopyAll">' + (S.copied ? ICON.check : ICON.copy).replace('<svg', '<svg width="14" height="14"') + (S.copied ? 'Đã chép' : 'Chép tất cả') + '</button><button class="rv-btn" id="rvClose" aria-label="Đóng">' + ICON.side + '</button></div></header>' +
         '<div class="rv-filters">' + [['all', 'Tất cả'], ['open', 'Đang mở'], ['resolved', 'Đã xong']].map(function (f) { return '<button data-filter="' + f[0] + '" class="' + (S.filter === f[0] ? 'on' : '') + '">' + f[1] + '</button>'; }).join('') + '</div><div class="rv-list">';
@@ -386,12 +392,13 @@
 
   /* ---------- events on our own UI ---------- */
   root.addEventListener('click', function (e) {
-    var b = e.target.closest('button,[data-lb],#rvLb'); if (!b) return;
+    var a0, b = e.target.closest('button,[data-lb],#rvLb'); if (!b) return;
     if (b.id === 'rvLb') { S.lightbox = null; return renderUi(); }
     if (b.hasAttribute('data-lb')) { e.stopPropagation(); S.lightbox = b.getAttribute('src'); return renderUi(); }
     if (b.id === 'rvBrowse') { S.draft = null; return setMode(false); }
     if (b.id === 'rvComment') { S.draft = null; return setMode(true); }
-    if (b.id === 'rvTab') { S.open = !S.open; return renderUi(); }
+    if (b.id === 'rvTab') { S.open = true; return renderUi(); }
+    if ((a0 = b.getAttribute('data-rail'))) { S.open = true; return goTo(a0); }
     if (b.id === 'rvClose') { S.open = false; return renderUi(); }
     if (b.id === 'rvCancel') { S.draft = null; return renderPins(); }
     if (b.id === 'rvSend') return submitDraft();

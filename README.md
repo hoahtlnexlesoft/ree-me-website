@@ -3,9 +3,9 @@
 Website tĩnh (không cần build). Mở `index.html` qua một web server bất kỳ.
 
 ## Khách hàng góp ý
-Ở cuối trang có thanh **Xem / Bình luận**:
-1. Bấm **Bình luận**, rồi bấm vào chỗ bất kỳ trên trang (kể cả các trang Tuyển dụng, Dịch vụ).
-2. Nhập tên (chỉ lần đầu) và nội dung, có thể đính kèm tối đa 3 ảnh (hoặc dán ảnh bằng Ctrl+V), rồi **Gửi**.
+Ở cuối trang có thanh **Browse / Comment** (giao diện bình luận bằng tiếng Anh):
+1. Bấm **Comment**, rồi bấm vào chỗ bất kỳ trên trang (kể cả các trang Tuyển dụng, Dịch vụ).
+2. Nhập tên (chỉ lần đầu) và nội dung, có thể đính kèm tối đa 3 ảnh (hoặc dán ảnh bằng Ctrl+V), rồi **Send**.
 3. Khung bên phải liệt kê mọi góp ý: trả lời, thả cảm xúc, đánh dấu đã xong, xoá, "Xem trên trang" để nhảy tới đúng chỗ, "Chép tất cả" để copy toàn bộ góp ý.
 
 Bình luận lưu chung trên Supabase (project `joy-review`, bảng `ree_review_comments`, cấu hình trong `review/config.js`), nên mọi người mở link đều thấy như nhau và tự cập nhật mỗi 5 giây.

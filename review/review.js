@@ -1,6 +1,6 @@
 /* R.E.E M&E — customer review layer (port of the Joy comment layer, plain JS).
- * Bottom pill: "Xem" (browse) / "Bình luận" (comment). In comment mode, click any element on the page
- * (also inside the embedded Tuyển dụng / Dịch vụ pages) to leave a note. No account: just a name.
+ * Bottom pill: Browse / Comment. In comment mode, click any element on the page
+ * (also inside the embedded Careers / Services pages) to leave a note. No account: just a name.
  * Threads are shared through Supabase (table configured in review/config.js); without config they stay in this browser.
  */
 (function () {
@@ -47,8 +47,8 @@
   }
   function ago(t) {
     var s = Math.max(1, Math.round((Date.now() - t) / 1000));
-    if (s < 60) return 'vừa xong'; if (s < 3600) return Math.round(s / 60) + ' phút trước';
-    if (s < 86400) return Math.round(s / 3600) + ' giờ trước'; return Math.round(s / 86400) + ' ngày trước';
+    if (s < 60) return 'just now'; if (s < 3600) return Math.round(s / 60) + 'm ago';
+    if (s < 86400) return Math.round(s / 3600) + 'h ago'; return Math.round(s / 86400) + 'd ago';
   }
   function selectorFor(el) {
     var parts = [], cur = el, doc = el.ownerDocument;
@@ -91,11 +91,11 @@
   function labelFor(key) {
     if (key.indexOf('careers/') === 0) {
       var f = key.slice(8);
-      if (f === 'index.html') return 'Tuyển dụng'; if (f === 'jobs.html') return 'Vị trí đang tuyển';
-      if (f === 'services.html') return 'Dịch vụ'; if (f.indexOf('job.html') === 0) return 'Chi tiết vị trí ' + f.slice(9);
+      if (f === 'index.html') return 'Careers'; if (f === 'jobs.html') return 'Open positions';
+      if (f === 'services.html') return 'Services'; if (f.indexOf('job.html') === 0) return 'Job · ' + f.slice(9);
       return f;
     }
-    var r = key.slice(5); return r === '/' ? 'Trang chủ' : r;
+    var r = key.slice(5); return r === '/' ? 'Home' : r;
   }
 
   /* ---------- state ---------- */
@@ -110,7 +110,7 @@
     var changed = next.filter(function (t) { return pm[t.id] !== JSON.stringify(t); });
     var gone = prev.filter(function (t) { return !next.some(function (n) { return n.id === t.id; }); }).map(function (t) { return t.id; });
     pending++;
-    Promise.all([remoteUpsert(changed), remoteDelete(gone)]).catch(function () { toast('Không lưu được, kiểm tra kết nối mạng'); })
+    Promise.all([remoteUpsert(changed), remoteDelete(gone)]).catch(function () { toast('Could not save. Please check your connection.'); })
       .then(function () { pending--; });
   }
   function pull() {
@@ -190,7 +190,7 @@
     heart: '<svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 14c1.5-1.5 3-3.2 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.8 0-3 .5-4.5 2-1.5-1.5-2.7-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4 3 5.5l7 7z"/></svg>',
     smile: '<svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M8 14s1.5 2 4 2 4-2 4-2M9 9h.01M15 9h.01"/></svg>'
   };
-  var REACTIONS = [['like', 'Thích'], ['heart', 'Yêu thích'], ['smile', 'Vui']];
+  var REACTIONS = [['like', 'Like'], ['heart', 'Love'], ['smile', 'Smile']];
 
   /* ---------- DOM ---------- */
   var root = document.createElement('div'); root.className = 'rv'; root.setAttribute('data-review-ui', '');
@@ -226,16 +226,16 @@
       if (t.page !== c.key) return;
       var p = pos(t, c); if (p.x < -40 || p.y < -10 || p.x > vw + 40 || p.y > vh + 40) return;
       var bg = t.resolved ? '#10b981' : colorFor(t.author);
-      html += '<button class="rv-pin' + (S.active === t.id ? ' on' : '') + (S.flash === t.id ? ' flash' : '') + '" data-pin="' + t.id + '" style="left:' + p.x + 'px;top:' + p.y + 'px;background:' + bg + ';color:' + bg + '" aria-label="Bình luận ' + (i + 1) + '"><span style="color:#fff">' + (t.resolved ? ICON.check.replace('<svg', '<svg width="14" height="14"') : (i + 1)) + '</span></button>';
+      html += '<button class="rv-pin' + (S.active === t.id ? ' on' : '') + (S.flash === t.id ? ' flash' : '') + '" data-pin="' + t.id + '" style="left:' + p.x + 'px;top:' + p.y + 'px;background:' + bg + ';color:' + bg + '" aria-label="Comment ' + (i + 1) + '"><span style="color:#fff">' + (t.resolved ? ICON.check.replace('<svg', '<svg width="14" height="14"') : (i + 1)) + '</span></button>';
     });
     if (S.draft) {
       var d = S.draft, dp = pos(d, c), left = Math.min(Math.max(12, dp.x - 20), Math.max(12, vw - 312)), top = Math.min(dp.y + 12, vh - 230);
       html += '<div class="rv-draft" style="left:' + left + 'px;top:' + Math.max(12, top) + 'px">' +
-        (!S.name ? '<input class="rv-in" id="rvName" placeholder="Tên của bạn" style="margin-bottom:8px" value="' + esc(S.nameInput) + '">' : '') +
-        '<textarea class="rv-in" id="rvText" placeholder="Viết góp ý… (dán ảnh bằng Ctrl+V)">' + esc(S.draftText) + '</textarea>' +
-        (S.draftImages.length ? '<div class="rv-thumbs">' + S.draftImages.map(function (src, i) { return '<div class="rv-thumb"><img src="' + src + '" alt=""><button data-rmimg="' + i + '" aria-label="Bỏ ảnh">×</button></div>'; }).join('') + '</div>' : '') +
-        '<div class="rv-row"><button class="rv-btn img" id="rvImg"' + (S.draftImages.length >= MAX_IMAGES ? ' disabled' : '') + '>' + ICON.image + 'Ảnh' + (S.draftImages.length ? ' (' + S.draftImages.length + '/' + MAX_IMAGES + ')' : '') + '</button>' +
-        '<button class="rv-btn ghost" id="rvCancel">Huỷ</button><button class="rv-btn pri" id="rvSend">Gửi</button></div></div>';
+        (!S.name ? '<input class="rv-in" id="rvName" placeholder="Your name" style="margin-bottom:8px" value="' + esc(S.nameInput) + '">' : '') +
+        '<textarea class="rv-in" id="rvText" placeholder="Leave a comment… (paste images with Ctrl+V)">' + esc(S.draftText) + '</textarea>' +
+        (S.draftImages.length ? '<div class="rv-thumbs">' + S.draftImages.map(function (src, i) { return '<div class="rv-thumb"><img src="' + src + '" alt=""><button data-rmimg="' + i + '" aria-label="Remove image">×</button></div>'; }).join('') + '</div>' : '') +
+        '<div class="rv-row"><button class="rv-btn img" id="rvImg"' + (S.draftImages.length >= MAX_IMAGES ? ' disabled' : '') + '>' + ICON.image + 'Image' + (S.draftImages.length ? ' (' + S.draftImages.length + '/' + MAX_IMAGES + ')' : '') + '</button>' +
+        '<button class="rv-btn ghost" id="rvCancel">Cancel</button><button class="rv-btn pri" id="rvSend">Send</button></div></div>';
     }
     // keep typing focus when re-rendering the draft
     var ae = document.activeElement, keep = ae && (ae.id === 'rvText' || ae.id === 'rvName') ? [ae.id, ae.selectionStart, ae.selectionEnd] : null;
@@ -250,36 +250,36 @@
   function renderUi() {
     var open = S.threads.filter(function (t) { return !t.resolved; }).length;
     var shown = S.threads.filter(function (t) { return S.filter === 'all' ? true : S.filter === 'open' ? !t.resolved : t.resolved; });
-    var h = '<div class="rv-pill">' + (S.mode ? '<span class="rv-hint">Bấm vào chỗ bất kỳ để góp ý · Esc để huỷ</span>' : '') +
+    var h = '<div class="rv-pill">' + (S.mode ? '<span class="rv-hint">Click anything to comment · Esc to cancel</span>' : '') +
       '<div class="rv-seg"><button id="rvBrowse" class="' + (!S.mode ? 'on' : '') + '">' + ICON.pointer + 'Browse</button><button id="rvComment" class="' + (S.mode ? 'on' : '') + '">' + ICON.chat + 'Comment</button></div></div>';
     if (!S.open) {
-      h += '<aside class="rv-rail"><button class="rv-side" id="rvTab" title="Mở danh sách bình luận" aria-label="Mở danh sách bình luận">' + ICON.side + '</button><div class="rv-rail-list">' +
+      h += '<aside class="rv-rail"><button class="rv-side" id="rvTab" title="Open comments" aria-label="Open comments">' + ICON.side + '</button><div class="rv-rail-list">' +
         S.threads.map(function (t, i) { var col = t.resolved ? '#10b981' : colorFor(t.author); return '<button class="rv-dot' + (S.active === t.id ? ' on' : '') + (t.resolved ? ' done' : '') + '" data-rail="' + t.id + '" style="background:' + col + ';color:' + col + '" title="#' + (i + 1) + ' ' + esc(t.author) + ': ' + esc(t.text.slice(0, 80)) + '"><span style="color:#fff">' + esc((t.author.trim()[0] || '?')) + '</span></button>'; }).join('') +
         '</div></aside>';
     }
     if (S.open) {
-      h += '<aside class="rv-panel"><header class="rv-head"><h2>Bình luận</h2><div><button class="rv-btn" id="rvCopyAll">' + (S.copied ? ICON.check : ICON.copy).replace('<svg', '<svg width="14" height="14"') + (S.copied ? 'Đã chép' : 'Chép tất cả') + '</button><button class="rv-btn" id="rvClose" aria-label="Đóng">' + ICON.side + '</button></div></header>' +
-        '<div class="rv-filters">' + [['all', 'Tất cả'], ['open', 'Đang mở'], ['resolved', 'Đã xong']].map(function (f) { return '<button data-filter="' + f[0] + '" class="' + (S.filter === f[0] ? 'on' : '') + '">' + f[1] + '</button>'; }).join('') + '</div><div class="rv-list">';
-      if (!shown.length) h += '<p class="rv-empty">' + (S.filter === 'resolved' ? 'Chưa có góp ý nào đã xử lý.' : 'Chưa có bình luận. Chuyển sang “Bình luận” rồi bấm vào chỗ bất kỳ trên trang.') + '</p>';
+      h += '<aside class="rv-panel"><header class="rv-head"><h2>Comments</h2><div><button class="rv-btn" id="rvCopyAll">' + (S.copied ? ICON.check : ICON.copy).replace('<svg', '<svg width="14" height="14"') + (S.copied ? 'Copied' : 'Copy all') + '</button><button class="rv-btn" id="rvClose" aria-label="Đóng">' + ICON.side + '</button></div></header>' +
+        '<div class="rv-filters">' + [['all', 'All'], ['open', 'Open'], ['resolved', 'Resolved']].map(function (f) { return '<button data-filter="' + f[0] + '" class="' + (S.filter === f[0] ? 'on' : '') + '">' + f[1] + '</button>'; }).join('') + '</div><div class="rv-list">';
+      if (!shown.length) h += '<p class="rv-empty">' + (S.filter === 'resolved' ? 'Nothing resolved yet.' : 'No comments yet. Switch to “Comment” and click anything on the page.') + '</p>';
       shown.forEach(function (t) {
         var idx = S.threads.indexOf(t) + 1, on = S.active === t.id, col = colorFor(t.author);
         h += '<div class="rv-item' + (on ? ' on' : '') + (t.resolved ? ' done' : '') + '">' +
-          '<button class="rv-copy1" data-copy1="' + t.id + '" title="Chép nội dung">' + (S.copiedId === t.id ? ICON.check : ICON.copy) + '</button>' +
+          '<button class="rv-copy1" data-copy1="' + t.id + '" title="Copy comment">' + (S.copiedId === t.id ? ICON.check : ICON.copy) + '</button>' +
           '<button class="rv-main" data-goto="' + t.id + '"><span class="rv-av" style="background:' + col + '">' + esc((t.author.trim()[0] || '?')) + '</span><span style="min-width:0;flex:1">' +
-          '<span class="rv-meta"><b style="color:' + col + '">' + esc(t.author) + '</b><span>· ' + ago(t.at) + '</span>' + (t.resolved ? '<span class="rv-ok">✓ Đã xong</span>' : '') + '</span>' +
+          '<span class="rv-meta"><b style="color:' + col + '">' + esc(t.author) + '</b><span>· ' + ago(t.at) + '</span>' + (t.resolved ? '<span class="rv-ok">✓ Resolved</span>' : '') + '</span>' +
           '<span class="rv-text">' + esc(t.text) + '</span>' +
-          (t.images && t.images.length ? '<span class="rv-imgs">' + t.images.map(function (src) { return '<img src="' + src + '" alt="Ảnh đính kèm" data-lb>'; }).join('') + '</span>' : '') +
+          (t.images && t.images.length ? '<span class="rv-imgs">' + t.images.map(function (src) { return '<img src="' + src + '" alt="Attachment" data-lb>'; }).join('') + '</span>' : '') +
           '<span class="rv-where">#' + idx + ' · ' + esc(labelFor(t.page)) + '</span></span></button>' +
           '<div class="rv-sub"><div class="rv-reacts">' + REACTIONS.map(function (r) {
             var who = (t.reactions && t.reactions[r[0]]) || [], mine = !!S.name && who.some(function (n) { return authorKey(n) === authorKey(S.name); });
-            return '<button class="rv-react' + (mine ? ' on' : '') + '" data-react="' + t.id + '|' + r[0] + '"' + (S.name ? '' : ' disabled') + ' title="' + esc(S.name ? (who.length ? r[1] + ': ' + who.join(', ') : r[1]) : 'Gửi một bình luận trước để đặt tên') + '">' + ICON[r[0]] + (who.length ? '<span>' + who.length + '</span>' : '') + '</button>';
+            return '<button class="rv-react' + (mine ? ' on' : '') + '" data-react="' + t.id + '|' + r[0] + '"' + (S.name ? '' : ' disabled') + ' title="' + esc(S.name ? (who.length ? r[1] + ': ' + who.join(', ') : r[1]) : 'Add a comment first to set your name') + '">' + ICON[r[0]] + (who.length ? '<span>' + who.length + '</span>' : '') + '</button>';
           }).join('') + '</div>' +
           (t.replies || []).map(function (r) { var rc = colorFor(r.author); return '<p class="rv-reply" style="border-color:' + rc + '"><b style="color:' + rc + '">' + esc(r.author) + '</b> · ' + esc(r.text) + '</p>'; }).join('') +
-          '<div class="rv-acts"><button class="lk' + (S.replyFor === t.id ? ' on' : '') + '" data-replyfor="' + t.id + '">Trả lời' + ((t.replies || []).length ? ' (' + t.replies.length + ')' : '') + '</button>' +
-          '<button class="lk" data-goto="' + t.id + '">Xem trên trang</button><span style="flex:1"></span>' +
-          '<button class="rv-act ok" data-resolve="' + t.id + '" title="' + (t.resolved ? 'Mở lại' : 'Đánh dấu đã xong') + '">' + ICON.check + '</button>' +
-          '<button class="rv-act del" data-del="' + t.id + '" title="Xoá">' + ICON.trash + '</button></div>' +
-          (S.replyFor === t.id ? '<input class="rv-in rv-replyin" id="rvReply" data-for="' + t.id + '" placeholder="' + (S.name ? 'Viết trả lời, nhấn Enter…' : 'Gửi một bình luận trước để đặt tên') + '"' + (S.name ? '' : ' disabled') + ' value="' + esc(S.replyText) + '">' : '') +
+          '<div class="rv-acts"><button class="lk' + (S.replyFor === t.id ? ' on' : '') + '" data-replyfor="' + t.id + '">Reply' + ((t.replies || []).length ? ' (' + t.replies.length + ')' : '') + '</button>' +
+          '<button class="lk" data-goto="' + t.id + '">Show on page</button><span style="flex:1"></span>' +
+          '<button class="rv-act ok" data-resolve="' + t.id + '" title="' + (t.resolved ? 'Reopen' : 'Resolve') + '">' + ICON.check + '</button>' +
+          '<button class="rv-act del" data-del="' + t.id + '" title="Delete">' + ICON.trash + '</button></div>' +
+          (S.replyFor === t.id ? '<input class="rv-in rv-replyin" id="rvReply" data-for="' + t.id + '" placeholder="' + (S.name ? 'Write a reply, press Enter…' : 'Add a comment first to set your name') + '"' + (S.name ? '' : ' disabled') + ' value="' + esc(S.replyText) + '">' : '') +
           '</div></div>';
       });
       h += '</div></aside>';
@@ -371,8 +371,8 @@
   function fallbackCopy(text) { var ta = document.createElement('textarea'); ta.value = text; ta.style.position = 'fixed'; ta.style.opacity = '0'; document.body.appendChild(ta); ta.select(); try { document.execCommand('copy'); } catch (e) {} ta.remove(); }
   function exportAll() {
     return S.threads.map(function (t, i) {
-      return '#' + (i + 1) + ' [' + (t.resolved ? 'đã xong' : 'đang mở') + '] trang: ' + labelFor(t.page) + ' (' + t.page + ') | phần tử: ' + t.selector + '\n  ' + t.author + ': ' + t.text +
-        (t.images && t.images.length ? '\n  (' + t.images.length + ' ảnh đính kèm — xem trong khung bình luận)' : '') +
+      return '#' + (i + 1) + ' [' + (t.resolved ? 'resolved' : 'open') + '] page: ' + labelFor(t.page) + ' (' + t.page + ') | element: ' + t.selector + '\n  ' + t.author + ': ' + t.text +
+        (t.images && t.images.length ? '\n  (' + t.images.length + ' image(s) attached — see the comments panel)' : '') +
         (t.replies || []).map(function (r) { return '\n    ↳ ' + r.author + ': ' + r.text; }).join('');
     }).join('\n\n');
   }
@@ -412,7 +412,7 @@
     if ((a = b.getAttribute('data-copy1'))) { var t1 = S.threads.filter(function (x) { return x.id === a; })[0]; return t1 && copyText(t1.text, function () { S.copiedId = a; renderUi(); setTimeout(function () { if (S.copiedId === a) { S.copiedId = null; renderUi(); } }, 1600); }); }
     if ((a = b.getAttribute('data-replyfor'))) { S.replyFor = S.replyFor === a ? null : a; S.replyText = ''; renderUi(); var ri = root.querySelector('#rvReply'); if (ri) ri.focus(); return; }
     if ((a = b.getAttribute('data-resolve'))) return save(S.threads.map(function (t) { return t.id === a ? Object.assign({}, t, { resolved: !t.resolved }) : t; }));
-    if ((a = b.getAttribute('data-del'))) { if (!confirm('Xoá bình luận này?')) return; return save(S.threads.filter(function (t) { return t.id !== a; })); }
+    if ((a = b.getAttribute('data-del'))) { if (!confirm('Delete this comment?')) return; return save(S.threads.filter(function (t) { return t.id !== a; })); }
     if ((a = b.getAttribute('data-react'))) {
       if (!S.name) return; var p = a.split('|'), me = authorKey(S.name);
       return save(S.threads.map(function (t) {
@@ -485,7 +485,7 @@
       }
       if (!box) {
         box = document.createElement('div'); box.className = 'rv rv-devwrap'; box.setAttribute('data-review-ui', '');
-        box.innerHTML = '<div class="rv-devbar"></div><div class="rv-devstage"><iframe name="ree-device" title="Xem trước"></iframe></div>';
+        box.innerHTML = '<div class="rv-devbar"></div><div class="rv-devstage"><iframe name="ree-device" title="Device preview"></iframe></div>';
         frame = box.querySelector('iframe');
         frame.src = location.pathname + location.search + location.hash;
         document.body.appendChild(box);

@@ -83,6 +83,13 @@
   .sx-media.in .sx-strip{animation:sxIn .8s cubic-bezier(.2,.8,.2,1) both!important;animation-delay:calc(var(--k) * 90ms)!important}
   @keyframes sxIn{from{opacity:0;transform:translateY(24px)}to{opacity:1;transform:none}}
   @media (max-width:1000px){.sx-in{grid-template-columns:minmax(0,1fr)!important}.sx-media{height:min(78vw,440px)!important;gap:6px!important}.sx-strip{flex-basis:40px!important}.sx-k{bottom:16px;font-size:11px}}
+
+  /* full-height open photo + smaller heading */
+  .sx-media{justify-content:flex-end}
+  .sx-strip.on{flex:0 0 var(--w,62%)!important}
+  .sx-strip.on .sx-img{object-fit:cover}
+  .sx-t{font-size:clamp(1.45rem,1rem + 1.15vw,2.25rem)!important;line-height:1.15!important}
+  .sx-ghost{font-size:clamp(3.4rem,2rem + 4.6vw,6.8rem)!important}
 </style>
 <link rel="stylesheet" href="assets/site.css">
 <style>
@@ -719,7 +726,13 @@
         ${s.feat ? `<ul class="mx-list">${s.feat.map(([k,t,d]) => `<li><b>${t}:</b> ${d}</li>`).join("")}</ul>` : ""}
         ${s.note ? `<p class="mx-note">${svg("badge")}<span>${s.note}</span></p>` : ""}</div>
       <button type="button" class="sx-cta" data-open="chat"><i><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 7l8 5-8 5z" fill="currentColor"/></svg></i><span>Tư vấn giải pháp</span></button>`; };
-  const layout = () => { [...media.children].forEach((st, k) => { const on = k === act; st.classList.toggle("on", on); if(on) st.setAttribute("data-lb", ""); else st.removeAttribute("data-lb"); st.setAttribute("aria-expanded", on); }); };
+  // the open panel takes the photo's own proportions at full height, so the whole picture shows edge to edge
+  const layout = () => { const strips = [...media.children], n = strips.length, W = media.clientWidth, H = media.clientHeight; if(!n || !W) return;
+    strips.forEach((st, k) => { const on = k === act; st.classList.toggle("on", on); if(on) st.setAttribute("data-lb", ""); else st.removeAttribute("data-lb"); st.setAttribute("aria-expanded", on); });
+    const gap = parseFloat(getComputedStyle(media).columnGap) || 10, sw = n > 1 ? (innerWidth <= 1000 ? 40 : Math.min(72, Math.max(52, innerWidth * .046))) : 0;
+    const st = strips[act], im = st.querySelector(".sx-img"), ar = im.naturalWidth && im.naturalHeight ? im.naturalWidth / im.naturalHeight : 4/3, room = W - (n - 1) * (sw + gap);
+    st.style.setProperty("--w", Math.max(120, Math.round(Math.min(room, H * ar))) + "px"); };
+  addEventListener("resize", () => requestAnimationFrame(layout));
   media.addEventListener("click", e => { const st = e.target.closest(".sx-strip"); if(!st) return; const k = [...media.children].indexOf(st); if(k !== act){ e.stopPropagation(); act = k; layout(); } }, true);
   const fitCopy = () => { copy.style.minHeight = ""; if(innerWidth <= 1000) return; const keep = copy.innerHTML; let max = 0;
     SV.forEach((_, k) => { copy.innerHTML = copyHTML(k); max = Math.max(max, copy.offsetHeight); }); copy.innerHTML = keep; copy.style.minHeight = max + "px"; };
@@ -729,6 +742,7 @@
     copy.style.setProperty("--dir", dir); copy.classList.remove("in"); media.classList.remove("in"); void copy.offsetWidth; copy.classList.add("in"); media.classList.add("in");
     act = 0;
     media.innerHTML = s.imgs.map(([src, cap], k) => `<figure class="sx-strip" style="--k:${k}" title="${cap}"><img class="sx-bg" src="${P + src}" alt="" aria-hidden="true"><img class="sx-img" src="${P + src}" alt="${cap}"><span class="sx-k">${pad(k+1)}</span><figcaption><b>${pad(k+1)} / ${pad(s.imgs.length)}</b>${cap}</figcaption></figure>`).join("");
+    media.querySelectorAll(".sx-img").forEach(im => im.complete ? 0 : im.addEventListener("load", layout, {once:true}));
     layout(); requestAnimationFrame(layout);
     $("#sxN").textContent = pad(n+1); $("#sxName").textContent = SHORT[s.id]; $("#sxProg").style.width = ((n+1) / SV.length * 100) + "%"; };
   addEventListener("resize", layout); addEventListener("load", layout); if(window.ResizeObserver) new ResizeObserver(layout).observe(media);

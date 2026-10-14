@@ -235,7 +235,7 @@
   '.rv-off .rv-layer,.rv-off .rv-popwrap,.rv-off .rv-dev{display:none!important}' +
   '.rv-show{position:fixed;right:0;top:50%;transform:translateY(-50%);z-index:2147482650;width:34px;height:40px;padding-left:2px;border-radius:10px 0 0 10px;background:rgba(255,255,255,.92);color:#334155;border:1px solid #e0e0e0;border-right:0;box-shadow:-4px 4px 16px rgba(0,0,0,.14);display:grid;place-items:center;opacity:.7;transition:opacity .2s,width .2s}.rv-show:hover{opacity:1;width:40px}.rv-show svg{width:17px;height:17px}' +
   '.rv-show span{position:absolute;top:-6px;left:-6px;min-width:16px;height:16px;padding:0 4px;border-radius:999px;background:#e5484d;color:#fff;font-size:10px;font-weight:700;line-height:16px;text-align:center}' +
-  '.rv-rail #rvHide{margin-top:6px}' +
+  '.rv-rail #rvHide{margin-top:6px}.rv-panel .rv-head{padding-right:12px}.rv-head>div{gap:2px}' +
   '@media (max-width:1024px){' +
     '.rv-seg{padding:4px;gap:3px}.rv-seg button{height:34px;padding:0 14px;font-size:13px;gap:7px}.rv-seg svg{width:16px;height:16px}.rv-pill{bottom:12px;gap:6px}.rv-hint{font-size:11px;padding:5px 10px}' +
     '.rv-pin{width:26px;height:26px;font-size:11px}' +
@@ -363,7 +363,7 @@
         .slice().sort(function (a, b) { return b.at - a.at; });
       var groups = [], gi = {};
       list.forEach(function (t) { var g = labelFor(t.page); if (gi[g] == null) { gi[g] = groups.length; groups.push({ name: g, items: [] }); } groups[gi[g]].items.push(t); });
-      h += '<aside class="rv-panel"><header class="rv-head"><h2>Comments</h2></header>' +
+      h += '<aside class="rv-panel"><header class="rv-head"><h2>Comments</h2><div><button class="rv-ib" id="rvHide" title="Hide comments (full view)" aria-label="Hide comments">' + ICON.eyeoff + '</button><button class="rv-ib" id="rvClose" title="Close panel" aria-label="Close panel">' + ICON.x + '</button></div></header>' +
         '<div class="rv-tools"><label class="rv-search">' + ICON.search + '<input id="rvSearch" placeholder="Search" value="' + esc(S.q || '') + '"></label>' +
         '<button class="rv-ib' + (S.filter !== 'all' || S.pmenu === 'filter' ? ' on' : '') + '" data-pmenu="filter" aria-label="Filter" title="Filter">' + ICON.filter + '</button>' +
         '<button class="rv-ib' + (S.pmenu === 'more' ? ' on' : '') + '" data-pmenu="more" aria-label="More" title="More">' + ICON.dots + '</button>' +

@@ -90,3 +90,8 @@ section:has(+ .ree-rel) span.size-10.bottom-5{bottom:150px!important}
 /* thinner project fact dividers */
 .project-fact:after,.project-fact:nth-child(odd):before{border-left-width:.5px;opacity:.55}
 @media (width<=479px){.project-fact:after{border-left-width:0;border-top-width:.5px}}
+/* project cards: grayscale until hover */
+@media (hover:hover){
+.bg-ice-sheen a.group>img,.ree-nat-img{filter:grayscale(1) contrast(1.05);transition:filter .5s ease,transform .7s}
+.bg-ice-sheen a.group:hover>img,.bg-ice-sheen a.group:focus-visible>img,.ree-nat-card:hover .ree-nat-img,.ree-nat-card:focus-visible .ree-nat-img{filter:none}
+}

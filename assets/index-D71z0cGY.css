@@ -27,13 +27,8 @@
 .ree-fempty{margin:28px auto 0;max-width:36rem;text-align:center;font-size:14px;color:#5b6b85}
 @media (max-width:760px){.ree-fbar{flex-wrap:wrap}.ree-dd{flex:1 1 100%}.ree-dd+.ree-dd{border-left:0;border-top:1px solid rgba(11,42,94,.08)}.ree-ddbtn{padding:12px 16px}.ree-fmeta{flex:1 1 100%;flex-direction:row;justify-content:space-between;align-items:center;border-left:0;border-top:1px solid rgba(11,42,94,.08);padding:10px 16px}.ree-ddmenu{left:8px;right:8px;width:auto;max-width:none}}
 /* national key projects bento */
-.ree-nat{position:relative;isolation:isolate;background:var(--navy-deep);padding:96px 0}
-.ree-nat::before{content:"";position:absolute;left:0;right:0;top:0;z-index:-1;aspect-ratio:2716/1056;background:url(./national/bg-tower.jpg) center top/cover no-repeat;-webkit-mask-image:linear-gradient(180deg,#000 55%,transparent);mask-image:linear-gradient(180deg,#000 55%,transparent)}
-.ree-nat>div>.text-center{text-align:left;max-width:560px;min-height:clamp(0px,20vw,330px);margin:0}
-.ree-nat>div>.text-center>*{margin-left:0!important;margin-right:0!important}
-.ree-nat>div>.text-center p:first-child{color:var(--brand-red-glow)}
-.ree-nat h2{color:#fff}
-.ree-nat-lead{max-width:460px;text-wrap:balance;margin:14px auto 0;font-size:14px;line-height:1.65;color:oklch(100% 0 0/.75)}
+.ree-nat{position:relative;isolation:isolate;background:#e8f2fb url(./national/bg-light.jpg) center/cover no-repeat;padding:96px 0}
+.ree-nat-lead{max-width:780px;text-wrap:balance;margin:14px auto 0;font-size:14px;line-height:1.65;color:oklch(40% .04 260)}
 .ree-nat-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));grid-template-rows:270px 270px 300px;gap:12px;margin-top:40px}
 .ree-nat-grid .c1{grid-column:1;grid-row:1/3}.ree-nat-grid .c2{grid-column:2;grid-row:1}.ree-nat-grid .c3{grid-column:2;grid-row:2}
 .ree-nat-grid .c4{grid-column:3;grid-row:1/3}.ree-nat-grid .c5{grid-column:4;grid-row:1}.ree-nat-grid .c6{grid-column:4;grid-row:2}
@@ -66,7 +61,6 @@
 }
 @media (max-width:639px){
 .ree-nat{padding:64px 0}
-.ree-nat::before{aspect-ratio:auto;height:300px;background-position:88% top;opacity:.5}
 .ree-nat-grid{grid-template-columns:1fr;grid-auto-rows:auto}
 .ree-nat-grid .ree-nat-card{grid-column:1!important;grid-row:auto!important;min-height:230px}
 .ree-nat-grid .c1,.ree-nat-grid .c4{min-height:300px}

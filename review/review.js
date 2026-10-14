@@ -233,6 +233,8 @@
   '.rv-pop-tb{border-top:1px solid #e5e7eb;padding:6px 6px 6px 8px}.rv-pop-send{width:34px;height:34px;background:#8b8b8b}.rv-pop-send:disabled{background:#a3a3a3}' +
   '.rv-emo{position:absolute;left:18px;right:18px;bottom:64px;z-index:6;display:grid;grid-template-columns:repeat(8,1fr);gap:2px;margin:0;padding:8px;background:#fff;border-radius:14px;box-shadow:0 14px 36px -10px rgba(15,23,42,.35),0 0 0 1px rgba(15,23,42,.08)}' +
   '.rv-emo button{width:auto;height:auto;aspect-ratio:1;font-size:20px;line-height:1;border-radius:8px;display:grid;place-items:center}.rv-emo button:hover,.rv-emo button:focus-visible{background:#f1f5f9;outline:2px solid #306eed;outline-offset:-2px}' +
+  '.rv-ok{white-space:nowrap;flex:none;line-height:1}.rv-pop-h .rv-ok{height:22px;padding:0 9px;font-size:11px;gap:4px}.rv-pop-h>b{flex:none;white-space:nowrap}.rv-ok i{font-style:normal}.rv-pop-tools{flex:none}' +
+  '@media (max-width:640px){.rv-pop-h .rv-ok{padding:0 6px}.rv-pop-h .rv-ok i{display:none}}' +
   '.rv-tbox{width:260px}.rv-tbox textarea.rv-in{min-height:64px;font-size:14px;line-height:1.45}.rv-was{margin-top:6px;font-size:11.5px;color:#64748b;line-height:1.4;max-height:54px;overflow:auto}' +
   '.rv-off .rv-layer,.rv-off .rv-popwrap,.rv-off .rv-dev{display:none!important}' +
   '.rv-show{position:fixed;right:0;top:50%;transform:translateY(-50%);z-index:2147482650;width:34px;height:40px;padding-left:2px;border-radius:10px 0 0 10px;background:rgba(255,255,255,.92);color:#334155;border:1px solid #e0e0e0;border-right:0;box-shadow:-4px 4px 16px rgba(0,0,0,.14);display:grid;place-items:center;opacity:.7;transition:opacity .2s,width .2s}.rv-show:hover{opacity:1;width:40px}.rv-show svg{width:17px;height:17px}' +
@@ -768,7 +770,7 @@
     var editing = S.editing === t.id && S.editWhere === 'pop';
     var row = function (name, at, text, extra) { return '<div class="rv-pop-c">' + avatar(name, 26) + '<div class="rv-pop-cb"><div class="rv-pop-meta"><b>' + esc(name) + '</b><span>' + ago(at) + '</span></div>' + (text != null ? '<p>' + esc(text) + '</p>' : '') + (extra || '') + '</div></div>'; };
     var h = '<div class="rv-pop" role="dialog" aria-label="Comment">' +
-      '<div class="rv-pop-h"><b>Comment</b>' + (t.resolved ? '<span class="rv-ok">✓ Resolved</span>' : '') + '<span class="rv-pop-tools">' +
+      '<div class="rv-pop-h"><b>Comment</b>' + (t.resolved ? '<span class="rv-ok" title="Resolved">✓<i>Resolved</i></span>' : '') + '<span class="rv-pop-tools">' +
         (mine(t) && t.kind !== 'edit' ? '<button data-popedit="' + t.id + '" aria-label="Edit" title="Edit">' + ICON.pencil + '</button>' : '') +
         '<button data-copyc="' + t.id + '" aria-label="Copy comment" title="Copy comment">' + ICON.copy + '</button>' +
         '<button data-resolve="' + t.id + '" class="' + (t.resolved ? 'ok' : '') + '" aria-label="' + (t.resolved ? 'Reopen' : 'Resolve') + '" title="' + (t.resolved ? 'Reopen' : 'Resolve') + '">' + ICON.checkc + '</button>' +

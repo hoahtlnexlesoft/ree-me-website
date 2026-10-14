@@ -186,3 +186,6 @@ section:has(+ .ree-rel) span.size-10.bottom-5{bottom:150px!important}
 .ree-hero-pill{padding:4px 22px 4px 4px;font-size:14px;min-width:250px}
 .ree-hero-pico{width:40px;height:40px}.ree-hero-pico svg{width:20px;height:20px}
 }
+/* side menu: never let items collapse under the contact block on short screens */
+.ree-mnav{min-height:auto;flex-shrink:0}
+.ree-mnav li{flex-shrink:0}

@@ -100,7 +100,7 @@
   }
 
   /* ---------- state ---------- */
-  var S = { hidden: lsGet(HIDE_KEY, '') === '1', q: '', pmenu: null, expanded: {}, pop: null, popMenu: false, popEmoji: false, popReply: '', editWhere: 'panel', menu: null, editing: null, editText: '', threads: [], name: lsGet(NAME_KEY, ''), mode: false, open: false, draft: null, draftText: '', draftImages: [], nameInput: '',
+  var S = { tedit: null, teditText: '', hidden: lsGet(HIDE_KEY, '') === '1', q: '', pmenu: null, expanded: {}, pop: null, popMenu: false, popEmoji: false, popReply: '', editWhere: 'panel', menu: null, editing: null, editText: '', threads: [], name: lsGet(NAME_KEY, ''), mode: false, open: false, draft: null, draftText: '', draftImages: [], nameInput: '',
             active: null, flash: null, filter: 'all', replyFor: null, replyText: '', copied: false, copiedId: null, lightbox: null };
   var pending = 0, writes = 0, lastSend = '';
 
@@ -116,6 +116,7 @@
     Promise.all([remoteUpsert(changed), remoteDelete(gone)]).catch(function () { toast('Could not save. Please check your connection.'); })
       .then(function () { pending--; });
   }
+  function saveAll(next) { save(next); }
   function pull() {
     if (!REMOTE || pending > 0 || document.hidden) return;
     var w = writes;
@@ -232,6 +233,7 @@
   '.rv-pop-tb{border-top:1px solid #e5e7eb;padding:6px 6px 6px 8px}.rv-pop-send{width:34px;height:34px;background:#8b8b8b}.rv-pop-send:disabled{background:#a3a3a3}' +
   '.rv-emo{position:absolute;left:18px;right:18px;bottom:64px;z-index:6;display:grid;grid-template-columns:repeat(8,1fr);gap:2px;margin:0;padding:8px;background:#fff;border-radius:14px;box-shadow:0 14px 36px -10px rgba(15,23,42,.35),0 0 0 1px rgba(15,23,42,.08)}' +
   '.rv-emo button{width:auto;height:auto;aspect-ratio:1;font-size:20px;line-height:1;border-radius:8px;display:grid;place-items:center}.rv-emo button:hover,.rv-emo button:focus-visible{background:#f1f5f9;outline:2px solid #306eed;outline-offset:-2px}' +
+  '.rv-tbox{width:320px}.rv-tbox textarea.rv-in{min-height:64px;font-size:14px;line-height:1.45}.rv-was{margin-top:6px;font-size:11.5px;color:#64748b;line-height:1.4;max-height:54px;overflow:auto}' +
   '.rv-off .rv-layer,.rv-off .rv-popwrap,.rv-off .rv-dev{display:none!important}' +
   '.rv-show{position:fixed;right:0;top:50%;transform:translateY(-50%);z-index:2147482650;width:34px;height:40px;padding-left:2px;border-radius:10px 0 0 10px;background:rgba(255,255,255,.92);color:#334155;border:1px solid #e0e0e0;border-right:0;box-shadow:-4px 4px 16px rgba(0,0,0,.14);display:grid;place-items:center;opacity:.7;transition:opacity .2s,width .2s}.rv-show:hover{opacity:1;width:40px}.rv-show svg{width:17px;height:17px}' +
   '.rv-show span{position:absolute;top:-6px;left:-6px;min-width:16px;height:16px;padding:0 4px;border-radius:999px;background:#e5484d;color:#fff;font-size:10px;font-weight:700;line-height:16px;text-align:center}' +
@@ -294,6 +296,79 @@
 
   function toast(msg) { var t = document.createElement('div'); t.className = 'rv-toast'; t.textContent = msg; root.appendChild(t); setTimeout(function () { t.remove(); }, 2200); }
 
+  /* ---------- direct text editing ---------- */
+  var BAD_TAG = /^(HTML|BODY|SCRIPT|STYLE|SVG|PATH|IMG|VIDEO|IFRAME|INPUT|TEXTAREA|SELECT|CANVAS|PICTURE)$/i;
+  function textTarget(el) {
+    for (var i = 0, cur = el; cur && cur.nodeType === 1 && i < 4; i++, cur = cur.parentElement) {
+      if (BAD_TAG.test(cur.tagName) || inUi(cur)) return null;
+      var ok = true, has = false;
+      for (var n = cur.firstChild; n; n = n.nextSibling) {
+        if (n.nodeType === 3) { if (n.nodeValue.trim()) has = true; }
+        else if (n.nodeType === 8 || (n.nodeType === 1 && n.tagName === 'BR')) {}
+        else { ok = false; break; }
+      }
+      if (ok && has) return cur;
+    }
+    return null;
+  }
+  function readText(el) { var o = ''; for (var n = el.firstChild; n; n = n.nextSibling) { if (n.nodeType === 3) o += n.nodeValue; else if (n.nodeType === 1 && n.tagName === 'BR') o += '\n'; } return o; }
+  function normT(x) { return String(x || '').normalize('NFC').split('\n').map(function (l) { return l.replace(/\s+/g, ' ').trim(); }).join('\n').trim(); }
+  // change existing text nodes only (never add/remove nodes), so the site's React stays happy
+  function writeText(el, text) {
+    if (!el.__rvOrig) { el.__rvOrig = []; for (var n0 = el.firstChild; n0; n0 = n0.nextSibling) if (n0.nodeType === 3) el.__rvOrig.push([n0, n0.nodeValue]); }
+    var segs = [[]]; for (var n = el.firstChild; n; n = n.nextSibling) { if (n.nodeType === 3) segs[segs.length - 1].push(n); else if (n.nodeType === 1 && n.tagName === 'BR') segs.push([]); }
+    segs = segs.filter(function (g) { return g.length; }); if (!segs.length) return;
+    var lines = String(text).split('\n'), k = 0;
+    segs.forEach(function (g, i) {
+      var v = i === segs.length - 1 ? lines.slice(k).join(' ') : (lines[k] != null ? lines[k] : '');
+      k++; g[0].nodeValue = v; for (var j = 1; j < g.length; j++) g[j].nodeValue = '';
+    });
+  }
+  function restoreText(el) { if (el.__rvOrig) { el.__rvOrig.forEach(function (p) { p[0].nodeValue = p[1]; }); el.__rvOrig = null; } }
+  var APPLIED = [];
+  function applyEdits() {
+    var c = ctx(), live = {};
+    S.threads.forEach(function (t) {
+      if (t.kind !== 'edit' || t.page !== c.key) return; live[t.id] = 1;
+      var el = null; try { el = c.doc.querySelector(t.selector); } catch (e) {} if (!el || el.__rvLive) return;
+      var cur = normT(readText(el));
+      if (cur === normT(t.to)) { if (el.__rvOrig && APPLIED.indexOf(el) < 0) { el.__rvEid = t.id; APPLIED.push(el); } return; }
+      if (cur === normT(t.from) || (el.__rvOrig && el.__rvEid === t.id)) { writeText(el, t.to); el.__rvEid = t.id; if (APPLIED.indexOf(el) < 0) APPLIED.push(el); }
+    });
+    APPLIED = APPLIED.filter(function (el) {
+      if (!el.isConnected) return false;
+      if (el.__rvLive || live[el.__rvEid]) return true;
+      if (el.ownerDocument === c.doc && !S.threads.some(function (t) { return t.id === el.__rvEid; })) { restoreText(el); return false; }
+      return true;
+    });
+  }
+  function startTextEdit(el) {
+    var c = ctx(), win = el.ownerDocument.defaultView, r = el.getBoundingClientRect(), sel = selectorFor(el);
+    var ex = S.threads.filter(function (t) { return t.kind === 'edit' && t.page === c.key && t.selector === sel; })[0];
+    var before = readText(el);
+    S.tedit = { el: el, id: ex ? ex.id : null, page: c.key, selector: sel, from: ex ? ex.from : normT(before), before: before, rx: 0, ry: 1, ax: r.left + win.scrollX, ay: r.bottom + win.scrollY };
+    el.__rvLive = true;
+    S.teditText = normT(before);
+    S.nameInput = S.name || ''; S.draft = null; setMode(false);
+    setTimeout(function () { var ta = root.querySelector('#rvTEdit'); if (ta) { ta.focus(); ta.setSelectionRange(ta.value.length, ta.value.length); } }, 30);
+  }
+  function endTextEdit(ok) {
+    var d = S.tedit; if (!d) return; var el = d.el, now = normT(S.teditText);
+    if (ok && !S.name) { var n = S.nameInput.trim(); if (!n) { var ni = root.querySelector('#rvName'); if (ni) ni.focus(); return; } S.name = n; lsSet(NAME_KEY, n); }
+    S.tedit = null; el.__rvLive = false;
+    if (!ok || now === normT(d.before)) { if (normT(d.before) === normT(d.from)) restoreText(el); else writeText(el, d.before); return renderAll(); }
+    if (now === normT(d.from)) { restoreText(el); return saveAll(S.threads.filter(function (t) { return t.id !== d.id; })); }
+    var label = 'Edit text: "' + normT(d.from).replace(/\n/g, ' / ') + '" → "' + now.replace(/\n/g, ' / ') + '"', t;
+    writeText(el, now);
+    if (d.id) { t = Object.assign({}, findT(d.id), { to: now, text: label, at: Date.now(), author: S.name, resolved: false }); el.__rvEid = t.id; saveAll(S.threads.map(function (x) { return x.id === t.id ? t : x; })); }
+    else {
+      t = { id: uid(), kind: 'edit', page: d.page, selector: d.selector, rx: 0, ry: 0, ax: d.ax, ay: d.ay, author: S.name, from: normT(d.from), to: now, text: label, at: Date.now(), resolved: false, replies: [] };
+      el.__rvEid = t.id; saveAll(S.threads.concat([t]));
+    }
+    if (APPLIED.indexOf(el) < 0) APPLIED.push(el);
+    S.active = t.id; toast('Text updated'); captureShot(t);
+  }
+
   /* ---------- positions ---------- */
   function pos(t, c) {
     c = c || ctx();
@@ -330,8 +405,16 @@
         '<div class="rv-row"><button class="rv-btn img" id="rvImg"' + (S.draftImages.length >= MAX_IMAGES ? ' disabled' : '') + '>' + ICON.image + 'Image' + (S.draftImages.length ? ' (' + S.draftImages.length + '/' + MAX_IMAGES + ')' : '') + '</button>' +
         '<button class="rv-btn ghost" id="rvCancel">Cancel</button><button class="rv-btn pri" id="rvSend">Send</button></div></div>';
     }
+    if (S.tedit) {
+      var te = S.tedit, tp = pos(te, c), tl = Math.min(Math.max(12, tp.x), Math.max(12, vw - 332)), tt0 = Math.min(tp.y + 10, vh - 250);
+      html += '<div class="rv-draft rv-tbox" style="left:' + tl + 'px;top:' + Math.max(12, tt0) + 'px"><span class="rv-lab">Edit text</span>' +
+        (!S.name ? '<input class="rv-in" id="rvName" placeholder="Your name" autocomplete="name" style="margin-bottom:8px" value="' + esc(S.nameInput) + '">' : '') +
+        '<textarea class="rv-in" id="rvTEdit" rows="3">' + esc(S.teditText) + '</textarea>' +
+        '<div class="rv-was">' + (normT(te.from) !== normT(S.teditText) ? 'Original: ' + esc(normT(te.from)) : 'Enter to save · Shift+Enter for a new line') + '</div>' +
+        '<div class="rv-row" style="justify-content:flex-end"><button class="rv-btn ghost" id="rvTCancel">Cancel</button><button class="rv-btn pri" id="rvTSave">Save</button></div></div>';
+    }
     // keep typing focus when re-rendering the draft
-    var ae = document.activeElement, keep = ae && (ae.id === 'rvText' || ae.id === 'rvName') ? [ae.id, ae.selectionStart, ae.selectionEnd] : null;
+    var ae = document.activeElement, keep = ae && (ae.id === 'rvText' || ae.id === 'rvName' || ae.id === 'rvTEdit') ? [ae.id, ae.selectionStart, ae.selectionEnd] : null;
     if (layer.__html !== html) { layer.innerHTML = html; layer.__html = html; }
     if (keep) { var el = root.querySelector('#' + keep[0]); if (el) { el.focus(); try { el.setSelectionRange(keep[1], keep[2]); } catch (e) {} } }
     syncSend(); placePop();
@@ -349,8 +432,8 @@
     }
     var open = S.threads.filter(function (t) { return !t.resolved; }).length;
     var shown = S.threads.filter(function (t) { return S.filter === 'all' ? true : S.filter === 'open' ? !t.resolved : t.resolved; });
-    var h = '<div class="rv-pill">' + (S.mode ? '<span class="rv-hint">Click anything to comment · Esc to cancel</span>' : '') +
-      '<div class="rv-seg"><button id="rvBrowse" class="' + (!S.mode ? 'on' : '') + '">' + ICON.pointer + 'Browse</button><button id="rvComment" class="' + (S.mode ? 'on' : '') + '">' + ICON.chat + 'Comment</button></div></div>';
+    var h = '<div class="rv-pill">' + (S.mode === 'edit' ? '<span class="rv-hint">Click any text to edit it · Esc to cancel</span>' : S.mode ? '<span class="rv-hint">Click anything to comment · Esc to cancel</span>' : '') +
+      '<div class="rv-seg"><button id="rvBrowse" class="' + (!S.mode ? 'on' : '') + '">' + ICON.pointer + 'Browse</button><button id="rvComment" class="' + (S.mode === true ? 'on' : '') + '">' + ICON.chat + 'Comment</button><button id="rvEditMode" class="' + (S.mode === 'edit' ? 'on' : '') + '">' + ICON.pencil + 'Edit text</button></div></div>';
     if (!S.open) {
       h += '<aside class="rv-rail"><button class="rv-side" id="rvTab" title="Open comments" aria-label="Open comments">' + ICON.side + '</button><button class="rv-side" id="rvHide" title="Hide comments (full view)" aria-label="Hide comments">' + ICON.eyeoff + '</button><div class="rv-rail-list">' +
         S.threads.map(function (t, i) { var col = t.resolved ? '#10b981' : colorFor(t.author); return '<button class="rv-dot' + (S.active === t.id ? ' on' : '') + (t.resolved ? ' done' : '') + '" data-rail="' + t.id + '" style="background:' + col + ';color:' + col + '" title="#' + (i + 1) + ' ' + esc(t.author) + ': ' + esc(t.text.slice(0, 80)) + '"><span style="color:#fff">' + esc((t.author.trim()[0] || '?')) + '</span></button>'; }).join('') +
@@ -383,7 +466,7 @@
             (nr ? '<button class="rv-nr" data-goto="' + t.id + '">' + nr + ' ' + (nr > 1 ? 'replies' : 'reply') + '</button>' : '') +
             '<span class="rv-row2-acts"><button class="rv-ib sm" data-resolve="' + t.id + '" title="' + (t.resolved ? 'Reopen' : 'Resolve') + '" aria-label="' + (t.resolved ? 'Reopen' : 'Resolve') + '">' + (t.resolved ? ICON.undo : ICON.checkc) + '</button>' +
             '<button class="rv-ib sm' + (S.menu === t.id ? ' on' : '') + '" data-more="' + t.id + '" aria-label="More actions">' + ICON.dots + '</button></span>' +
-            (S.menu === t.id ? '<div class="rv-menu" role="menu">' + (mine(t) ? '<button role="menuitem" data-popedit="' + t.id + '">' + ICON.pencil + 'Edit</button>' : '') + '<button role="menuitem" data-copyc="' + t.id + '">' + ICON.copy + 'Copy comment</button><button role="menuitem" class="danger" data-del="' + t.id + '">' + ICON.trash + 'Delete thread</button></div>' : '') +
+            (S.menu === t.id ? '<div class="rv-menu" role="menu">' + (mine(t) && t.kind !== 'edit' ? '<button role="menuitem" data-popedit="' + t.id + '">' + ICON.pencil + 'Edit</button>' : '') + '<button role="menuitem" data-copyc="' + t.id + '">' + ICON.copy + 'Copy comment</button><button role="menuitem" class="danger" data-del="' + t.id + '">' + ICON.trash + 'Delete thread</button></div>' : '') +
             '</div>';
         });
       });
@@ -396,7 +479,7 @@
     ui.querySelectorAll('.rv-sm').forEach(function (bt) { var row = bt.parentNode, tx = row.querySelector('.rv-row2-t'); if (tx && !tx.classList.contains('ex') && tx.scrollHeight <= tx.clientHeight + 2) bt.remove(); });
     if (keepReply) { var ri = ui.querySelector('#' + keepId); if (ri) { ri.focus(); try { ri.setSelectionRange(keepReply[0], keepReply[0]); } catch (e) {} } }
   }
-  function renderAll() { computeAuthors(); renderUi(); renderPins(); renderPop(); shiftFloaters(); }
+  function renderAll() { applyEdits(); computeAuthors(); renderUi(); renderPins(); renderPop(); shiftFloaters(); }
 
   /* ---------- comment mode across documents ---------- */
   var hoverEl = null, bound = [];
@@ -404,23 +487,25 @@
   function inUi(t) { return t && t.closest && t.closest('[data-review-ui]'); }
   function onMove(e) {
     var t = e.target; if (!t || t.nodeType !== 1 || inUi(t)) return clearHover();
+    if (S.mode === 'edit') { t = textTarget(t); if (!t) return clearHover(); }
     if (hoverEl !== t) { clearHover(); hoverEl = t; t.__rvO = t.style.outline; t.__rvOO = t.style.outlineOffset; t.style.outline = '2px dashed #4f46e5'; t.style.outlineOffset = '2px'; }
   }
   function onClick(e) {
     var t = e.target; if (!t || t.nodeType !== 1 || inUi(t)) return;
     e.preventDefault(); e.stopPropagation(); e.stopImmediatePropagation(); clearHover();
+    if (S.mode === 'edit') { var tt = textTarget(t); if (!tt) return toast('Click on a piece of text'); return startTextEdit(tt); }
     var doc = t.ownerDocument, win = doc.defaultView, r = t.getBoundingClientRect();
     S.draft = { page: ctx().key, selector: selectorFor(t), rx: r.width ? (e.clientX - r.left) / r.width : .5, ry: r.height ? (e.clientY - r.top) / r.height : .5, ax: e.clientX + win.scrollX, ay: e.clientY + win.scrollY };
     S.draftText = ''; S.draftImages = []; S.nameInput = S.name || ''; setMode(false);
     setTimeout(function () { var el = root.querySelector(S.name ? '#rvText' : '#rvName'); if (el) el.focus(); }, 30);
   }
-  function onKey(e) { if (S.hidden) return; if (e.key === 'Escape') { if (S.mode) setMode(false); else if (S.draft) { S.draft = null; renderPins(); } else if (S.lightbox) { S.lightbox = null; renderUi(); } } }
+  function onKey(e) { if (S.hidden) return; if (e.key === 'Escape') { if (S.tedit) endTextEdit(false); else if (S.mode) setMode(false); else if (S.draft) { S.draft = null; renderPins(); } else if (S.lightbox) { S.lightbox = null; renderUi(); } } }
   function bindDocs() {
     unbindDocs(); if (!S.mode) return;
     var docs = [document], c = ctx(); if (c.frame) docs.push(c.doc);
     docs.forEach(function (d) {
       d.addEventListener('mousemove', onMove, true); d.addEventListener('click', onClick, true); d.addEventListener('keydown', onKey);
-      d.documentElement.style.cursor = 'crosshair'; bound.push(d);
+      d.documentElement.style.cursor = S.mode === 'edit' ? 'text' : 'crosshair'; bound.push(d);
     });
   }
   function unbindDocs() {
@@ -509,7 +594,10 @@
     if (b.id === 'rvLb') { S.lightbox = null; return renderUi(); }
     if (b.hasAttribute('data-lb')) { e.stopPropagation(); S.lightbox = b.getAttribute('src'); return renderUi(); }
     if (b.id === 'rvBrowse') { S.draft = null; return setMode(false); }
-    if (b.id === 'rvComment') { S.draft = null; return setMode(true); }
+    if (b.id === 'rvComment') { S.draft = null; if (S.tedit) endTextEdit(false); return setMode(true); }
+    if (b.id === 'rvEditMode') { S.draft = null; if (S.tedit) endTextEdit(false); return setMode(S.mode === 'edit' ? false : 'edit'); }
+    if (b.id === 'rvTSave') return endTextEdit(true);
+    if (b.id === 'rvTCancel') return endTextEdit(false);
     if (b.id === 'rvTab') { S.open = true; renderUi(); return shiftFloaters(); }
     if ((a0 = b.getAttribute('data-rail'))) { S.open = true; return goTo(a0); }
     if (b.id === 'rvHide') { S.hidden = true; lsSet(HIDE_KEY, '1'); S.open = false; S.pmenu = null; S.pop = null; S.draft = null; S.mode = false; bindDocs(); renderAll(); return shiftFloaters(); }
@@ -547,6 +635,7 @@
   });
   root.addEventListener('input', function (e) {
     var t = e.target;
+    if (t.id === 'rvTEdit') { S.teditText = t.value; if (S.tedit) { writeText(S.tedit.el, t.value); var w = root.querySelector('.rv-was'); if (w) w.textContent = normT(S.tedit.from) !== normT(t.value) ? 'Original: ' + normT(S.tedit.from) : 'Enter to save · Shift+Enter for a new line'; } return; }
     if (t.id === 'rvText') { S.draftText = t.value; syncSend(); }
     else if (t.id === 'rvName') { S.nameInput = t.value; syncSend(); }
     else if (t.id === 'rvReply') S.replyText = t.value;
@@ -557,6 +646,8 @@
     var t = e.target;
     if (t.id === 'rvReply' && e.key === 'Enter' && !e.isComposing && !e.repeat) { e.preventDefault(); addReply(t.getAttribute('data-for')); }
     if (t.id === 'rvText' && e.key === 'Enter' && (e.metaKey || e.ctrlKey)) { e.preventDefault(); submitDraft(); }
+    if (t.id === 'rvTEdit' && e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); endTextEdit(true); }
+    if (t.id === 'rvTEdit' && e.key === 'Escape') { e.preventDefault(); endTextEdit(false); }
     if (t.id === 'rvEdit' && e.key === 'Enter' && !e.shiftKey && !e.isComposing) { e.preventDefault(); saveEdit(t.getAttribute('data-for')); }
     if (t.id === 'rvEdit' && e.key === 'Escape') { S.editing = null; renderUi(); }
     e.stopPropagation();
@@ -568,6 +659,7 @@
   });
   fileIn.addEventListener('change', function () { addImages(fileIn.files); fileIn.value = ''; });
   document.addEventListener('keydown', onKey);
+  setInterval(function () { try { applyEdits(); } catch (e) {} }, 900);
 
   /* ---------- keep pins in place ---------- */
   var raf = 0, lastFrameDoc = null;
@@ -633,7 +725,7 @@
     var row = function (name, at, text, extra) { return '<div class="rv-pop-c">' + avatar(name, 26) + '<div class="rv-pop-cb"><div class="rv-pop-meta"><b>' + esc(name) + '</b><span>' + ago(at) + '</span></div>' + (text != null ? '<p>' + esc(text) + '</p>' : '') + (extra || '') + '</div></div>'; };
     var h = '<div class="rv-pop" role="dialog" aria-label="Comment">' +
       '<div class="rv-pop-h"><b>Comment</b>' + (t.resolved ? '<span class="rv-ok">✓ Resolved</span>' : '') + '<span class="rv-pop-tools">' +
-        (mine(t) ? '<button data-popedit="' + t.id + '" aria-label="Edit" title="Edit">' + ICON.pencil + '</button>' : '') +
+        (mine(t) && t.kind !== 'edit' ? '<button data-popedit="' + t.id + '" aria-label="Edit" title="Edit">' + ICON.pencil + '</button>' : '') +
         '<button data-copyc="' + t.id + '" aria-label="Copy comment" title="Copy comment">' + ICON.copy + '</button>' +
         '<button data-resolve="' + t.id + '" class="' + (t.resolved ? 'ok' : '') + '" aria-label="' + (t.resolved ? 'Reopen' : 'Resolve') + '" title="' + (t.resolved ? 'Reopen' : 'Resolve') + '">' + ICON.checkc + '</button>' +
         '<button data-del="' + t.id + '" class="del" aria-label="Delete" title="Delete">' + ICON.trash + '</button>' +

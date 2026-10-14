@@ -276,19 +276,19 @@
   .sd-arr svg{width:18px;height:18px}
   .sd-arr:hover{background:rgba(255,255,255,.18)}
   .sd-track{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:16px}
-  .sd-card{display:flex;flex-direction:column;min-height:300px;padding:22px 24px;border-radius:10px;background:rgba(12,18,34,.72);border:1px solid rgba(160,180,230,.12);backdrop-filter:blur(10px);transition:border-color .3s,background .3s,transform .3s}
+  .sd-card{display:flex;flex-direction:column;min-height:300px;padding:22px 24px;border-radius:10px;background:rgba(10,16,32,.86);border:1px solid rgba(160,180,230,.18);backdrop-filter:blur(10px);transition:border-color .3s,background .3s,transform .3s}
   .sd-card.on{border-color:rgba(160,185,255,.38);background:rgba(16,24,46,.82);transform:translateY(-4px)}
   .sd-src{display:flex;align-items:center;gap:10px;font-size:12px;color:rgba(214,222,240,.7)}
   .sd-src small{display:block;font-size:9.5px;color:rgba(214,222,240,.45);letter-spacing:.02em}
   .sd-ic{width:30px;height:30px;border-radius:50%;display:grid;place-items:center;background:rgba(79,125,255,.18);color:#8FB0FF}
   .sd-ic svg{width:16px;height:16px}
-  .sd-q{margin-top:0;flex:1;font-size:clamp(.98rem,.92rem + .25vw,1.1rem);font-weight:300;line-height:1.45;color:rgba(238,242,250,.86)}
-  .sd-q b{font-weight:500;color:#fff}
+  .sd-q{margin-top:0;flex:1;font-size:16.5px;font-weight:400;line-height:1.6;color:#F2F5FC;text-shadow:0 1px 2px rgba(0,0,0,.35)}
+  .sd-q b{display:block;margin-bottom:8px;font-size:20px;font-weight:700;color:#fff}
   .sd-foot{display:flex;align-items:center;gap:12px;margin-top:22px}
   .sd-av{flex:none;width:44px;height:44px;border-radius:50%;display:grid;place-items:center;background:linear-gradient(135deg,#2F63F0,#0B3F8F);font-weight:700;font-size:16px;color:#fff}
   .sd-av svg{width:20px;height:20px}
   .sd-who{flex:1;min-width:0;line-height:1.3}
-  .sd-who b{display:block;font-size:15px;font-weight:400;color:#EEF2FA}
+  .sd-who b{display:block;font-size:15px;font-weight:600;color:#fff}
   .sd-who small{display:block;font-size:12.5px;color:rgba(214,222,240,.5);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
   .sd-n{flex:none;font-size:20px;font-weight:300;color:#fff}
   .sd-n em{font-style:normal;font-size:11px;margin-left:3px;color:#F4C34D;letter-spacing:.04em}
@@ -316,6 +316,11 @@
   .sd-ic{width:26px;height:26px}.sd-ic svg{width:14px;height:14px}
   .sd-q{font-size:12.5px!important;line-height:1.6}
   .sd-who b{font-size:12.5px}
+  /* standards text: more prominent */
+  .sd-q{margin-top:0;font-size:15px!important;line-height:1.6;font-weight:400;color:#F2F5FC}
+  .sd-q b{font-size:18px;margin-bottom:8px}
+  .sd-who b{font-size:14px;font-weight:600}
+  @media (max-width:600px){.sd-q{font-size:14px!important}.sd-q b{font-size:16.5px}}
   /* photos like the client file: grayscale, full colour on hover */
   .mx-main img,.mx-thumbs img{filter:grayscale(1);transition:filter .76s cubic-bezier(.2,.8,.2,1),transform .76s cubic-bezier(.2,.8,.2,1)}
   .mx-main:hover img{filter:none;transform:scale(1.04)}
@@ -446,7 +451,7 @@
   ];
   const STD_TAG = ["ERP · BIM","Nguồn lực · Tiến độ","ISO 14001 · LEED · DGNB","ISO 45001"];
   $("#stdGrid").innerHTML = STD.map(([k,t,d],i) => `<article class="sd-card" data-i="${i}">
-    <p class="sd-q"><b>${t}.</b> ${d}</p>
+    <p class="sd-q"><b>${t}</b>${d}</p>
     <div class="sd-foot"><span class="sd-av">${svg(k)}</span><span class="sd-who"><b>${t}</b></span><span class="sd-n">0${i+1}<em>/04</em></span></div></article>`).join("");
   { const track = $("#stdGrid"), cards = [...track.children], dots = $("#sdDots");
     dots.innerHTML = cards.map((_,i) => `<button type="button" aria-label="Tiêu chuẩn ${i+1}"></button>`).join("");

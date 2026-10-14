@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>Dịch vụ &amp; giải pháp · REE M&amp;E</title>
 <link rel="stylesheet" href="assets/fonts.css">
+<style>@font-face{font-family:"Great Vibes";font-style:normal;font-weight:400;font-display:swap;src:url(assets/fonts/great-vibes.woff2) format("woff2")}</style>
 <link rel="stylesheet" href="assets/site.css">
 <style>
   body{margin:0}
@@ -433,6 +434,45 @@
     .mx-copy{order:0!important}.mx-media{order:1!important;margin-top:8px}
     .mx-card{height:min(118vw,460px)}
     .mx-strip{gap:12px}}
+
+  /* ===== exact ref look, palette matched to the sections above ===== */
+  .mx{background:radial-gradient(1100px 700px at 85% 30%,#0E1D4A 0%,#081230 45%,#050A1C 100%)!important;min-height:clamp(700px,100vh,980px)}
+  .mx::before,.mx-bg,.mx-lines{display:none!important}
+  .mx::after{content:"";position:absolute;inset:0;z-index:-1;pointer-events:none;background:linear-gradient(180deg,#050A1C 0%,transparent 18%,transparent 82%,#050A1C 100%)}
+  .mx-copy{display:block!important}
+  .mx-copy>*{grid-column:auto!important}
+  .mx-no{font-size:12px!important;font-weight:600!important;letter-spacing:.26em;color:rgba(214,224,245,.55)!important;margin:0 0 18px!important}
+  .mx-no i{font-style:normal;opacity:.6}
+  .mx-t{margin:0!important;font-size:clamp(2rem,1.2rem + 2.2vw,3.3rem)!important;line-height:1.08!important;letter-spacing:-.015em!important;text-transform:none!important;color:#fff}
+  .mx-t span{display:block;font-weight:600!important}
+  .mx-t strong{display:block;font-weight:700!important}
+  .mx-script{margin:6px 0 0 clamp(20px,4vw,60px);font-family:"Great Vibes",cursive;font-size:clamp(2.6rem,1.6rem + 2.6vw,4.4rem);line-height:1.15;font-weight:400;max-width:100%;overflow:visible;padding-right:.2em;
+    background:linear-gradient(100deg,#E6EEFF 0%,#9DBBFF 45%,#5B86F0 100%);-webkit-background-clip:text;background-clip:text;color:transparent;filter:drop-shadow(0 4px 18px rgba(91,134,240,.35))}
+  .mx-lbl{margin:26px 0 0;font-size:17px;font-weight:500;color:#fff;letter-spacing:.01em}
+  .mx-text{margin-top:12px!important;max-width:54ch}
+  .mx-text p{font-size:13.5px!important;line-height:1.7!important;color:rgba(214,224,245,.72)!important;text-align:left!important}
+  .mx-text p + p{margin-top:10px!important}
+  .mx-btn{margin-top:26px!important;height:42px!important;background:rgba(255,255,255,.08)!important;color:#fff!important;box-shadow:none!important;border:1px solid rgba(255,255,255,.12)!important;border-radius:4px!important;backdrop-filter:blur(6px)}
+  .mx-btn span{padding:0 26px!important;font-size:13px!important;font-weight:600!important;letter-spacing:.02em!important;text-transform:none!important}
+  .mx-btn i{display:none!important}
+  .mx-btn{width:auto!important;display:inline-flex!important}
+  .mx-btn:hover{background:#fff!important;color:#0B1A38!important}
+  .mx-nums button{color:rgba(214,224,245,.45)!important;font-size:14px!important;font-weight:600!important}
+  .mx-nums button.on{color:#fff!important}
+  .mx-nums::before{background:rgba(214,224,245,.18)!important}
+  .mx-nums button::before{background:rgba(214,224,245,.35)!important;width:8px!important;height:8px!important}
+  .mx-nums button.on::before{background:#9DBBFF!important;width:12px!important;height:12px!important;box-shadow:0 0 0 4px rgba(157,187,255,.18)!important}
+  .mx-strip{gap:20px}
+  .mx-card{height:clamp(420px,62vh,560px);aspect-ratio:1/1.62;border-radius:0;box-shadow:none;background:#0B1430}
+  .mx-card img{filter:brightness(.8)!important}
+  .mx-card:hover img,.mx-card.on img{filter:brightness(.92)!important}
+  .mx-card::after{background:linear-gradient(180deg,transparent 50%,rgba(3,8,24,.78))}
+  .mx-card figcaption{left:26px;right:26px;bottom:26px;font-size:clamp(17px,1.25vw,21px);font-weight:400;line-height:1.3;-webkit-line-clamp:2}
+  .mx-ctrl{margin-top:20px;gap:8px}
+  .mx-sarr{width:30px;height:30px;border-color:rgba(255,255,255,.55)}
+  .mx-sarr svg{width:14px;height:14px}
+  .mx-cnt{display:none}
+  @media (max-width:1000px){.mx-script{margin-left:12px}.mx-card{height:min(124vw,480px)}.mx-card figcaption{left:18px;right:18px;bottom:18px}}
 </style>
 <script>window.PAGE="services"</script>
 </head>
@@ -603,8 +643,11 @@
   // let the photo strip run past the content width to the right edge of the screen
   const bleed = () => { media.style.marginRight = ""; if(innerWidth <= 1000){ media.style.marginRight = -(innerWidth - media.getBoundingClientRect().right) + "px"; return; } media.style.marginRight = -(innerWidth - media.getBoundingClientRect().right) + "px"; };
   addEventListener("resize", bleed); addEventListener("load", bleed);
-  const copyHTML = n => { const s = SV[n], [t1, t2] = SPLIT[s.id]; return `<p class="mx-no">${pad(n+1)}</p>
+  const SCRIPT = {acmv:"Air Conditioning",ps:"Plumbing",elec:"Power",elv:"Smart Systems",fire:"Fire Safety",util:"Utilities",dc:"Data Center",mt:"Maintenance"};
+  const copyHTML = n => { const s = SV[n], [t1, t2] = SPLIT[s.id]; return `<p class="mx-no">${pad(n+1)} <i>/ ${pad(SV.length)}</i></p>
       <h2 class="mx-t"><span>${t1}</span><strong>${t2}</strong></h2>
+      <p class="mx-script" aria-hidden="true">${SCRIPT[s.id] || ""}</p>
+      <p class="mx-lbl">${s.tag}</p>
       <div class="mx-text">${s.p.map(x => `<p>${x}</p>`).join("")}
         ${s.feat ? `<ul class="mx-list">${s.feat.map(([k,t,d]) => `<li><b>${t}:</b> ${d}</li>`).join("")}</ul>` : ""}
         ${s.note ? `<p class="mx-note">${svg("badge")}<span>${s.note}</span></p>` : ""}</div>

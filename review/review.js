@@ -344,7 +344,7 @@
     document.documentElement.classList.toggle('rv-off', !!S.hidden);
     if (S.hidden) {
       var n0 = S.threads.filter(function (t) { return !t.resolved; }).length;
-      ui.innerHTML = '<button class="rv-show" id="rvShow" title="Show comments" aria-label="Show comments">' + ICON.chat + (n0 ? '<span>' + n0 + '</span>' : '') + '</button>';
+      ui.innerHTML = '<button class="rv-show" id="rvShow" title="Open comments" aria-label="Open comments">' + ICON.chat + (n0 ? '<span>' + n0 + '</span>' : '') + '</button>';
       return;
     }
     var open = S.threads.filter(function (t) { return !t.resolved; }).length;
@@ -513,7 +513,7 @@
     if (b.id === 'rvTab') { S.open = true; renderUi(); return shiftFloaters(); }
     if ((a0 = b.getAttribute('data-rail'))) { S.open = true; return goTo(a0); }
     if (b.id === 'rvHide') { S.hidden = true; lsSet(HIDE_KEY, '1'); S.open = false; S.pmenu = null; S.pop = null; S.draft = null; S.mode = false; bindDocs(); renderAll(); return shiftFloaters(); }
-    if (b.id === 'rvShow') { S.hidden = false; lsSet(HIDE_KEY, ''); renderAll(); return shiftFloaters(); }
+    if (b.id === 'rvShow') { S.hidden = false; lsSet(HIDE_KEY, ''); S.open = true; renderAll(); return shiftFloaters(); }
     if (b.id === 'rvClose') { S.open = false; S.pmenu = null; renderUi(); return shiftFloaters(); }
     if (b.id === 'rvCancel') { S.draft = null; return renderPins(); }
     if (b.id === 'rvSend') return submitDraft();

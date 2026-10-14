@@ -403,6 +403,36 @@
   .lx-ic{width:64px;height:64px;border-radius:0;background:none;box-shadow:none}
   .lx-ic svg{width:60px;height:60px;stroke-width:2.4;filter:drop-shadow(0 0 10px rgba(110,152,255,.45))}
   @media (max-width:600px){.lx-ic{width:56px;height:56px}.lx-ic svg{width:52px;height:52px}}
+
+  /* ===== Services: content left, photo cards right (ref: "Modern & Elegant Interior") ===== */
+  .mx{align-items:center}
+  .mx-in{grid-template-columns:auto minmax(0,.95fr) minmax(0,1.25fr)!important;gap:clamp(28px,4vw,64px)!important;padding-right:0!important;align-items:center}
+  .mx-nums{order:-1;position:relative!important;right:auto!important;top:auto!important;transform:none!important;margin:0!important;height:auto!important;align-self:center;gap:22px!important;justify-content:center}
+  .mx-media{min-width:0;align-self:center}
+  .mx-strip{display:flex;gap:18px;overflow-x:auto;scroll-snap-type:x mandatory;scrollbar-width:none;padding:4px 0 6px;-webkit-overflow-scrolling:touch}
+  .mx-strip::-webkit-scrollbar{display:none}
+  .mx-card{position:relative;flex:0 0 auto;height:clamp(380px,58vh,540px);aspect-ratio:2/3;margin:0;overflow:hidden;scroll-snap-align:start;cursor:zoom-in;background:rgba(255,255,255,.06);box-shadow:0 30px 60px -30px rgba(0,8,40,.85)}
+  .mx-card img{width:100%;height:100%;object-fit:cover;filter:grayscale(.15) brightness(.86);transition:transform .9s cubic-bezier(.2,.8,.2,1),filter .6s}
+  .mx-card::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,transparent 55%,rgba(4,14,44,.85));pointer-events:none}
+  .mx-card:hover img,.mx-card.on img{filter:none}
+  .mx-card:hover img{transform:scale(1.04)}
+  .mx-card figcaption{position:absolute;z-index:1;left:22px;right:22px;bottom:20px;font-size:15px;font-weight:400;line-height:1.4;color:#fff;letter-spacing:.01em;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}
+  .mx-strip.in .mx-card{animation:mxCard .7s cubic-bezier(.2,.8,.2,1) both;animation-delay:calc(var(--k) * 70ms)}
+  @keyframes mxCard{from{opacity:0;transform:translateX(40px)}to{opacity:1;transform:none}}
+  .mx-ctrl{display:flex;align-items:center;gap:10px;margin-top:22px}
+  .mx-sarr{width:38px;height:38px;border-radius:50%;display:grid;place-items:center;border:1px solid rgba(255,255,255,.45);background:transparent;color:#fff;cursor:pointer;transition:border-color .25s,background .25s,opacity .25s}
+  .mx-sarr svg{width:16px;height:16px}
+  .mx-sarr:hover:not(:disabled){background:#fff;color:#0B3F8F;border-color:#fff}
+  .mx-sarr:disabled{opacity:.35;cursor:default}
+  .mx-cnt{margin-left:10px;font-size:13px;letter-spacing:.08em;color:rgba(255,255,255,.6)}
+  .mx-cnt b{color:#fff;font-weight:700}
+  @media (prefers-reduced-motion:reduce){.mx-strip.in .mx-card{animation:none}}
+  @media (max-width:1000px){
+    .mx-in{grid-template-columns:minmax(0,1fr)!important}
+    .mx-nums{order:-2;align-self:stretch}
+    .mx-copy{order:0!important}.mx-media{order:1!important;margin-top:8px}
+    .mx-card{height:min(118vw,460px)}
+    .mx-strip{gap:12px}}
 </style>
 <script>window.PAGE="services"</script>
 </head>
@@ -451,10 +481,9 @@
     <svg class="mx-lines" viewBox="0 0 600 900" preserveAspectRatio="none" aria-hidden="true"><path d="M170 80h300l120 240M120 260h270l200 420M60 520h220l230 380M360 0l240 520"/></svg>
     <div class="wrap mx-in">
       <div class="mx-copy" id="mxCopy" aria-live="polite"></div>
-      <div class="mx-media">
-        <div class="mx-arrows"><button type="button" class="mx-arr" id="svPrev" aria-label="Dịch vụ trước"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M11 6l-6 6 6 6"/></svg></button><button type="button" class="mx-arr" id="svNext" aria-label="Dịch vụ tiếp theo"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></button></div>
-        <figure class="mx-main" id="mxMain" data-lb><img alt=""><figcaption></figcaption></figure>
-        <div class="mx-thumbs" id="mxThumbs"></div>
+      <div class="mx-media" id="mxMedia">
+        <div class="mx-strip" id="mxStrip" aria-label="Hình ảnh dịch vụ"></div>
+        <div class="mx-ctrl"><button type="button" class="mx-sarr" id="stPrev" aria-label="Ảnh trước"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="m14 6-6 6 6 6"/></svg></button><button type="button" class="mx-sarr" id="stNext" aria-label="Ảnh tiếp theo"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="m10 6 6 6-6 6"/></svg></button><span class="mx-cnt" id="mxCnt"></span></div>
       </div>
       <nav class="mx-nums" id="mxNums" aria-label="Chọn dịch vụ"></nav>
     </div>
@@ -561,11 +590,19 @@
   const SPLIT = {acmv:["Hệ thống","Điều hòa không khí & thông gió"],ps:["Hệ thống","Cấp thoát nước & vệ sinh"],elec:["Hệ thống","Điện động lực"],elv:["Hệ thống điện nhẹ,","Điện điều khiển & tự động"],fire:["Hệ thống","Phòng cháy & chữa cháy"],util:["Hạ tầng","Tiện ích điện"],dc:["Trung tâm","Dữ liệu"],mt:["Dịch vụ","Bảo trì"]};
   // every photo of a service, lead first
   SV.forEach(s => { s.imgs = [...(s.lead ? [s.lead] : []), ...(s.gal || []), ...(s.proj || []).map(([a,b,c]) => [a, `${b} · ${c}`])]; });
-  const copy = $("#mxCopy"), main = $("#mxMain"), mImg = main.querySelector("img"), mCap = main.querySelector("figcaption"), thumbs = $("#mxThumbs"), bgs = [...document.querySelectorAll(".mx-bg i")];
+  const copy = $("#mxCopy"), strip = $("#mxStrip"), media = $("#mxMedia"), cnt = $("#mxCnt"), bgs = [...document.querySelectorAll(".mx-bg i")];
   $("#mxNums").innerHTML = SV.map((s,i) => `<button type="button" data-n="${i}" aria-label="${s.t}"><span>${pad(i+1)}</span><em>${s.t}</em></button>`).join("");
   const nums = [...document.querySelectorAll("#mxNums button")];
   let cur = -1, bgi = 0;
-  const show = (s, k) => { const [src, cap] = s.imgs[k]; mImg.src = P + src; mImg.alt = cap; mCap.textContent = cap; thumbs.querySelectorAll("button").forEach((t,j) => t.classList.toggle("on", j === k)); };
+  const cards = () => [...strip.children];
+  const curCard = () => { const cs = cards(); if(!cs.length) return 0; const x = strip.scrollLeft; let b = 0, d = 1e9; cs.forEach((c,j) => { const dd = Math.abs(c.offsetLeft - strip.offsetLeft - x); if(dd < d){ d = dd; b = j; } }); return b; };
+  const syncCnt = () => { const cs = cards(), k = curCard(); cnt.innerHTML = `<b>${pad(k+1)}</b> / ${pad(cs.length)}`; cs.forEach((c,j) => c.classList.toggle("on", j === k)); $("#stPrev").disabled = k === 0; $("#stNext").disabled = strip.scrollLeft + strip.clientWidth >= strip.scrollWidth - 4; };
+  const stepTo = k => { const cs = cards(); k = Math.max(0, Math.min(cs.length - 1, k)); strip.scrollTo({left: cs[k].offsetLeft - strip.offsetLeft, behavior:"smooth"}); };
+  $("#stPrev").addEventListener("click", () => stepTo(curCard() - 1)); $("#stNext").addEventListener("click", () => stepTo(curCard() + 1));
+  let scT; strip.addEventListener("scroll", () => { clearTimeout(scT); scT = setTimeout(syncCnt, 60); }, {passive:true});
+  // let the photo strip run past the content width to the right edge of the screen
+  const bleed = () => { media.style.marginRight = ""; if(innerWidth <= 1000){ media.style.marginRight = -(innerWidth - media.getBoundingClientRect().right) + "px"; return; } media.style.marginRight = -(innerWidth - media.getBoundingClientRect().right) + "px"; };
+  addEventListener("resize", bleed); addEventListener("load", bleed);
   const copyHTML = n => { const s = SV[n], [t1, t2] = SPLIT[s.id]; return `<p class="mx-no">${pad(n+1)}</p>
       <h2 class="mx-t"><span>${t1}</span><strong>${t2}</strong></h2>
       <div class="mx-text">${s.p.map(x => `<p>${x}</p>`).join("")}
@@ -577,25 +614,16 @@
     SV.forEach((_, k) => { copy.innerHTML = copyHTML(k); max = Math.max(max, copy.offsetHeight); }); copy.innerHTML = keep; copy.style.minHeight = max + "px"; };
   const go = n => { n = (n + SV.length) % SV.length; if(n === cur) return; const dir = n > cur ? 1 : -1; cur = n; const s = SV[n], [t1, t2] = SPLIT[s.id];
     copy.innerHTML = copyHTML(n);
-    copy.style.setProperty("--dir", dir); copy.classList.remove("in"); main.classList.remove("in"); void copy.offsetWidth; copy.classList.add("in"); main.classList.add("in");
-    thumbs.innerHTML = s.imgs.length > 1 ? s.imgs.map(([src,cap],j) => `<button type="button" aria-label="${cap}"><img src="${P+src}" alt="" loading="lazy"></button>`).join("") : "";
-    thumbs.querySelectorAll("button").forEach((t,j) => t.addEventListener("click", () => show(s, j)));
-    show(s, 0);
+    copy.style.setProperty("--dir", dir); copy.classList.remove("in"); strip.classList.remove("in"); void copy.offsetWidth; copy.classList.add("in"); strip.classList.add("in");
+    strip.innerHTML = s.imgs.map(([src,cap],j) => `<figure class="mx-card" data-lb style="--k:${j}"><img src="${P+src}" alt="${cap}" loading="${j < 3 ? "eager" : "lazy"}"><figcaption>${cap}</figcaption></figure>`).join("");
+    strip.scrollLeft = 0; syncCnt();
     bgi = 1 - bgi; bgs[bgi].style.backgroundImage = `url("${P + s.imgs[0][0]}")`; bgs.forEach((b,j) => b.classList.toggle("on", j === bgi));
     nums.forEach((b,j) => { b.classList.toggle("on", j === n); b.setAttribute("aria-current", j === n ? "true" : "false"); });
     if(innerWidth <= 1000){ const nv = nums[n].parentElement; nv.scrollTo({left: nums[n].offsetLeft - nv.clientWidth/2 + nums[n].offsetWidth/2, behavior:"smooth"}); } };
-  // desktop: stretch the number rail to the main photo's top and bottom edges
-  const navEl = $("#mxNums");
-  const alignNums = () => { if(innerWidth <= 1000){ navEl.style.marginTop = navEl.style.height = ""; return; }
-    const m = main.getBoundingClientRect(), g = navEl.parentElement.getBoundingClientRect();
-    navEl.style.marginTop = (m.top - g.top) + "px"; navEl.style.height = m.height + "px"; };
-  addEventListener("resize", alignNums); addEventListener("load", alignNums);
-  if(window.ResizeObserver) new ResizeObserver(alignNums).observe(main);
-  alignNums();
+  bleed();
   nums.forEach((b,i) => b.addEventListener("click", () => go(i)));
-  $("#svPrev").addEventListener("click", () => go(cur-1)); $("#svNext").addEventListener("click", () => go(cur+1));
   let sx = null; const sec = $("#dich-vu");
-  sec.addEventListener("touchstart", e => sx = e.touches[0].clientX, {passive:true});
+  sec.addEventListener("touchstart", e => sx = e.target.closest(".mx-strip") ? null : e.touches[0].clientX, {passive:true});
   sec.addEventListener("touchend", e => { if(sx === null) return; const dx = e.changedTouches[0].clientX - sx; if(Math.abs(dx) > 60) go(cur + (dx < 0 ? 1 : -1)); sx = null; });
   addEventListener("keydown", e => { if(document.querySelector(".lb.open")) return; const r = sec.getBoundingClientRect(); if(r.top > innerHeight*.5 || r.bottom < innerHeight*.5) return;
     if(e.key === "ArrowRight") go(cur+1); if(e.key === "ArrowLeft") go(cur-1); });

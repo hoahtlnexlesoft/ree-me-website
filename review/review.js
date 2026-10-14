@@ -302,6 +302,7 @@
   var BAD_TAG = /^(HTML|BODY|SCRIPT|STYLE|SVG|PATH|IMG|VIDEO|IFRAME|INPUT|TEXTAREA|SELECT|CANVAS|PICTURE)$/i;
   function decorEl(n) { // icons, arrows, dots that sit next to editable text
     if (/^(SVG|IMG|I|PICTURE)$/i.test(n.tagName)) return true;
+    if (/^(B|STRONG|EM|I|U|SPAN|A|SMALL|SUP|SUB|MARK|CODE|ABBR|TIME)$/i.test(n.tagName) && !n.querySelector('p,div,h1,h2,h3,h4,h5,h6,li,ul,ol,img,video')) return true; // inline words (bold, links…) stay as they are; click them to edit separately
     return (n.textContent || '').trim().length <= 2 && !n.querySelector('p,div,h1,h2,h3,h4,h5,h6,li');
   }
   function textTarget(el) {
@@ -327,7 +328,7 @@
     var lines = String(text).split('\n'), k = 0;
     segs.forEach(function (g, i) {
       var v = i === segs.length - 1 ? lines.slice(k).join(' ') : (lines[k] != null ? lines[k] : '');
-      k++; g[0].nodeValue = v; for (var j = 1; j < g.length; j++) g[j].nodeValue = '';
+      k++; var o0 = g[0].__o0 != null ? g[0].__o0 : (g[0].__o0 = g.map(function (x) { return x.nodeValue; }).join('')); if (v) v = (/^\s/.test(o0) ? ' ' : '') + v.replace(/^\s+|\s+$/g, '') + (/\s$/.test(o0) ? ' ' : ''); g[0].nodeValue = v; for (var j = 1; j < g.length; j++) g[j].nodeValue = '';
     });
   }
   function restoreText(el) { if (el.__rvOrig) { el.__rvOrig.forEach(function (p) { p[0].nodeValue = p[1]; }); el.__rvOrig = null; } }

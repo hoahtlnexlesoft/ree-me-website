@@ -26,6 +26,7 @@ window.__REE_PAGE = function (edits) {
   var BAD = /^(HTML|BODY|SCRIPT|STYLE|SVG|PATH|IMG|VIDEO|IFRAME|INPUT|TEXTAREA|SELECT|CANVAS|PICTURE)$/i;
   function decor(n) { // small inline bits that may sit next to editable text: icons, arrows, dots
     if (/^(SVG|IMG|I|PICTURE)$/i.test(n.tagName)) return true;
+    if (/^(B|STRONG|EM|I|U|SPAN|A|SMALL|SUP|SUB|MARK|CODE|ABBR|TIME)$/i.test(n.tagName) && !n.querySelector('p,div,h1,h2,h3,h4,h5,h6,li,ul,ol,img,video')) return true; // inline words (bold, links…) stay as they are; click them to edit separately
     return (n.textContent || '').trim().length <= 2 && !n.querySelector('p,div,h1,h2,h3,h4,h5,h6,li');
   }
   function inUi(el) { return el && el.closest && el.closest('[data-ree-edit-ui],[data-review-ui]'); }
@@ -49,7 +50,7 @@ window.__REE_PAGE = function (edits) {
     var segs = [[]]; for (var n = el.firstChild; n; n = n.nextSibling) { if (n.nodeType === 3) segs[segs.length - 1].push(n); else if (n.nodeType === 1 && n.tagName === 'BR') segs.push([]); }
     segs = segs.filter(function (g) { return g.length; }); if (!segs.length) return;
     var lines = String(text).split('\n'), k = 0;
-    segs.forEach(function (g, i) { var v = i === segs.length - 1 ? lines.slice(k).join(' ') : (lines[k] != null ? lines[k] : ''); k++; g[0].nodeValue = v; for (var j = 1; j < g.length; j++) g[j].nodeValue = ''; });
+    segs.forEach(function (g, i) { var v = i === segs.length - 1 ? lines.slice(k).join(' ') : (lines[k] != null ? lines[k] : ''); k++; var o0 = g[0].__o0 != null ? g[0].__o0 : (g[0].__o0 = g.map(function (x) { return x.nodeValue; }).join('')); if (v) v = (/^\s/.test(o0) ? ' ' : '') + v.replace(/^\s+|\s+$/g, '') + (/\s$/.test(o0) ? ' ' : ''); g[0].nodeValue = v; for (var j = 1; j < g.length; j++) g[j].nodeValue = ''; });
   }
   function restore(el) { if (el.__reeOrig) { el.__reeOrig.forEach(function (p) { p[0].nodeValue = p[1]; }); el.__reeOrig = null; } }
   function selectorFor(el) {
@@ -197,7 +198,7 @@ window.__REE_PAGE = function (edits) {
     }, function (err) {
       saving = false; var c = err && err.code;
       if (c === 'conflict') { showTip('Someone saved first — reloading, your changes are kept'); return; }
-      if (c === 'not_writer' || c === 'not_granted' || c === 'consent_required' || c === 'not_declared' || c === 'capability_disabled' || c === 'capability_removed') { readOnly = true; showTip('This view is read-only — your changes stay only in this tab'); }
+      if (c === 'not_writer' || c === 'not_granted' || c === 'consent_required' || c === 'not_declared' || c === 'capability_disabled' || c === 'capability_removed') { readOnly = true; showTip('Bạn chỉ có quyền xem trang này nên không lưu được. Hãy sửa chữ trên link review: ree-me-website.vercel.app', 9000); }
       else if (c === 'rate_limited') showTip('Saving too often — try again in a moment');
       else showTip('Could not save — please try again');
       renderBar();

@@ -264,9 +264,9 @@
   @media (max-width:560px){.sv-hero.dk{min-height:0}.dk-cmd code{font-size:13px}.dk-stats{gap:20px 28px}.dk-stats > div{min-width:40%}}
   :root:not([data-theme="dark"]) .sv-hero.dk + .sv-sec{background:#fff}
   /* ===== Tiêu chuẩn dịch vụ — dark testimonial style (ref) ===== */
-  .sd{position:relative;overflow:hidden;isolation:isolate;padding:clamp(24px,3vw,40px) 0 clamp(48px,6vw,80px);color:#fff;background:linear-gradient(180deg,#050A1C 0%,#0A1733 30%,#0B1A38 60%,#081226 100%)}
+  .sd{position:relative;overflow:hidden;isolation:isolate;padding:clamp(24px,3vw,40px) 0 clamp(48px,6vw,80px);color:#fff;background:linear-gradient(180deg,#050A1C 0%,#060D24 18%,#0A1733 48%,#0B1A38 70%,#081226 100%)}
   .sd::before{content:"";position:absolute;inset:0;z-index:-1;background:linear-gradient(#123A9C,#123A9C),url("assets/img/svc/elec-2.jpg") center 30%/cover no-repeat;background-blend-mode:color;filter:blur(8px) brightness(.35);transform:scale(1.08);
-    -webkit-mask-image:linear-gradient(180deg,transparent 0%,#000 30%,#000 60%,transparent 100%);mask-image:linear-gradient(180deg,transparent 0%,#000 30%,#000 60%,transparent 100%)}
+    -webkit-mask-image:linear-gradient(180deg,transparent 0%,rgba(0,0,0,.35) 22%,#000 50%,#000 64%,transparent 100%);mask-image:linear-gradient(180deg,transparent 0%,rgba(0,0,0,.35) 22%,#000 50%,#000 64%,transparent 100%)}
   .sd-head{display:flex;align-items:flex-end;justify-content:space-between;gap:24px;margin-bottom:28px}
   .sd-t{display:flex;align-items:center;gap:12px;font-size:clamp(1.15rem,1rem + .5vw,1.45rem);font-weight:500;letter-spacing:-.01em;color:#EEF2FA;text-transform:none}
   .sd-t svg{width:22px;height:22px;color:#fff;flex:none}
@@ -364,6 +364,7 @@
   .mx-copy>.mx-no + .mx-t{grid-column:2;margin-top:0}
   .mx-copy>.mx-btn{justify-self:start}
 
+  .sd::after{content:"";position:absolute;z-index:-1;left:0;right:0;top:0;height:220px;pointer-events:none;background:linear-gradient(180deg,#050A1C 0%,rgba(5,10,28,.7) 40%,transparent 100%)}
   /* ===== Bốn cam kết — luxury icon cards ===== */
   .sd-card.lux{position:relative;overflow:hidden;isolation:isolate;align-items:center;text-align:center;min-height:330px;padding:44px 26px 30px;border-radius:18px;
     background:linear-gradient(160deg,rgba(255,255,255,.085) 0%,rgba(255,255,255,.02) 42%,rgba(4,10,30,.35) 100%),linear-gradient(180deg,#12244d,#0b1733);

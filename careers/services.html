@@ -94,6 +94,14 @@
   .sx-text p{font-size:13px!important;line-height:1.7!important}
   .sx-text .mx-list li{font-size:13px!important}
   @media (max-width:600px){.sx-text p,.sx-text .mx-list li{font-size:13.5px!important}}
+
+  /* text column aligned with the photo panel: heading at its top edge, button at its bottom edge */
+  @media (min-width:1001px){
+    .sx-in{align-items:stretch!important}
+    .sx-copy{display:flex;flex-direction:column}
+    .sx-copy .sx-cta{margin-top:auto!important;align-self:flex-start}
+    .sx-copy .sx-text{margin-bottom:32px}
+    .sx-media{height:auto!important;min-height:clamp(420px,64vh,580px)}}
 </style>
 <link rel="stylesheet" href="assets/site.css">
 <style>

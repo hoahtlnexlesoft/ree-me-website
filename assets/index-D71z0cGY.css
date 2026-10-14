@@ -95,3 +95,87 @@ section:has(+ .ree-rel) span.size-10.bottom-5{bottom:150px!important}
 .bg-ice-sheen a.group>img,.ree-nat-img{filter:grayscale(1) contrast(1.05);transition:filter .5s ease,transform .7s}
 .bg-ice-sheen a.group:hover>img,.bg-ice-sheen a.group:focus-visible>img,.ree-nat-card:hover .ree-nat-img,.ree-nat-card:focus-visible .ree-nat-img{filter:none}
 }
+/* about: Tổng quan (luxury tower layout) */
+@font-face{font-family:"Great Vibes";font-style:normal;font-weight:400;font-display:swap;src:url(./fonts/gv-vietnamese.woff2) format("woff2");unicode-range:U+0102-0103,U+0110-0111,U+0128-0129,U+0168-0169,U+01A0-01A1,U+01AF-01B0,U+0300-0301,U+0303-0304,U+0308-0309,U+0323,U+0329,U+1EA0-1EF9,U+20AB}
+@font-face{font-family:"Great Vibes";font-style:normal;font-weight:400;font-display:swap;src:url(./fonts/gv-latin-ext.woff2) format("woff2");unicode-range:U+0100-02BA,U+02BD-02C5,U+02C7-02CC,U+02CE-02D7,U+02DD-02FF,U+0304,U+0308,U+0329,U+1D00-1DBF,U+1E00-1E9F,U+1EF2-1EFF,U+2020,U+20A0-20AB,U+20AD-20C0,U+2113,U+2C60-2C7F,U+A720-A7FF}
+@font-face{font-family:"Great Vibes";font-style:normal;font-weight:400;font-display:swap;src:url(./fonts/gv-latin.woff2) format("woff2");unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD}
+.ree-tq{position:relative;isolation:isolate;overflow:hidden;min-height:max(100svh,820px);display:flex;align-items:center;color:#fff;background:radial-gradient(70% 60% at 85% 20%,oklch(37.6% .13 259/.65),transparent 70%),linear-gradient(180deg,oklch(26% .1 262),oklch(22% .08 262))}
+.ree-tq-band{position:absolute;z-index:-2;top:0;bottom:0;left:3.5%;width:37%;background:linear-gradient(180deg,oklch(42% .17 263) 0%,oklch(37.6% .14 260/.75) 45%,oklch(37.6% .13 259/0) 85%);box-shadow:inset 0 0 0 1px oklch(70% .12 250/.12)}
+.ree-tq-img{position:absolute;z-index:-1;left:3.5%;top:0;bottom:0;width:37%;-webkit-mask-image:linear-gradient(180deg,transparent 0,#000 30%);mask-image:linear-gradient(180deg,transparent 0,#000 30%)}
+.ree-tq-img::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,oklch(42% .17 263/.55),transparent 55%),linear-gradient(90deg,transparent 70%,oklch(24% .09 262/.6))}
+.ree-tq-img img{width:100%;height:100%;object-fit:cover;object-position:78% 60%;transform:scaleX(-1)}
+.ree-tq-deco{position:absolute;z-index:-1;fill:none;stroke:oklch(70% .12 250/.22);stroke-width:1}
+.ree-tq-deco.d1{top:-10px;right:2%;width:260px;height:260px}
+.ree-tq-deco.d2{bottom:-30px;left:-20px;width:240px;height:240px;stroke:oklch(100% 0 0/.18)}
+.ree-tq-wrap{position:relative;width:100%;max-width:1600px;margin:0 auto;padding:140px 48px 150px}
+.ree-tq-copy{max-width:640px;margin-left:auto;text-align:right}
+.ree-tq-script{display:flex;align-items:center;justify-content:flex-end;gap:18px}
+.ree-tq-script span{font-family:"Great Vibes",cursive;font-size:clamp(54px,5.4vw,88px);line-height:1;color:#fff;transform:translateY(10px)}
+.ree-tq-script i{display:block;width:120px;height:1.5px;background:linear-gradient(90deg,oklch(65% .14 245),oklch(65% .14 245/.2));order:2;margin-top:28px}
+.ree-tq-h{margin-top:6px;font-size:clamp(28px,3.1vw,48px);font-weight:500;line-height:1.12;letter-spacing:-.01em;color:#fff}
+.ree-tq-h span{color:var(--brand-red-glow);font-weight:600}
+.ree-tq-box{display:inline-block;margin-top:26px;padding:16px 26px;border:1px solid oklch(70% .12 250/.35);border-radius:8px;background:oklch(37.6% .13 259/.25);font-size:clamp(16px,1.4vw,21px);font-weight:300;line-height:1.45;color:#fff;letter-spacing:.01em}
+.ree-tq-text{margin:24px 0 0 auto;max-width:600px;font-size:13.5px;line-height:1.75;color:oklch(100% 0 0/.72);text-align:justify;text-align-last:right}
+.ree-tq-list{margin-top:26px;display:flex;flex-direction:column;align-items:flex-end;gap:12px}
+.ree-tq-list li{display:flex;align-items:center;gap:14px;font-size:clamp(15px,1.25vw,19px);font-weight:300;color:#fff}
+.ree-tq-ico{width:16px;height:16px;flex-shrink:0;fill:#fff;stroke:var(--navy-deep);stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round}
+.ree-tq-ico rect{stroke:none}
+.ree-tq-pill{position:absolute;left:max(24px,6%);bottom:44px;display:flex;align-items:center;padding:10px 12px;border-radius:999px;background:linear-gradient(180deg,oklch(100% 0 0/.92),oklch(90% .01 250/.85));box-shadow:0 18px 40px -16px oklch(10% .05 260/.7),inset 0 1px 0 #fff;backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px)}
+.ree-tq-pill span{padding:6px clamp(18px,2.6vw,44px);font-size:clamp(15px,1.6vw,24px);font-weight:400;color:var(--navy-deep);letter-spacing:.02em}
+.ree-tq-pill span+span{border-left:1px solid oklch(29% .11 261/.25)}
+@media (max-width:1023px){
+.ree-tq{flex-direction:column;align-items:stretch;min-height:0}
+.ree-tq-img{position:relative;width:100%;height:56vh;min-height:360px;-webkit-mask-image:linear-gradient(180deg,transparent 0,#000 25%,#000 70%,transparent);mask-image:linear-gradient(180deg,transparent 0,#000 25%,#000 70%,transparent)}
+.ree-tq-band{width:60%;left:6%;height:56vh;bottom:auto}
+.ree-tq-wrap{padding:0 24px 120px;margin-top:-60px}
+.ree-tq-copy{max-width:none}
+.ree-tq-pill{left:50%;transform:translateX(-50%);bottom:32px;white-space:nowrap}
+.ree-tq-deco.d1{width:160px;height:160px}
+}
+@media (max-width:639px){
+.ree-tq-wrap{padding:0 20px 110px}
+.ree-tq-text{text-align:left;text-align-last:left;margin-left:0}
+.ree-tq-box{padding:12px 18px}
+.ree-tq-list li{font-size:14px}
+.ree-tq-pill{padding:6px 6px}
+.ree-tq-pill span{padding:5px 12px;font-size:13px}
+}
+/* about hero: Chúng tôi là R.E.E M&E */
+.ree-hero{position:relative;isolation:isolate;overflow:hidden;min-height:max(100svh,760px);display:flex;flex-direction:column;justify-content:center;color:#fff;background:var(--navy-deep)}
+.ree-hero-bg{position:absolute;inset:0;z-index:-4;width:100%;height:100%;object-fit:cover;object-position:center}
+.ree-hero-shade{position:absolute;inset:0;z-index:-3;background:linear-gradient(180deg,oklch(20% .09 262/.97) 0%,oklch(24% .1 262/.9) 35%,oklch(26% .1 262/.55) 62%,oklch(26% .1 262/.12) 85%,oklch(22% .08 262/.35) 100%)}
+.ree-hero-band{position:absolute;inset:0;z-index:-2;clip-path:inset(0 15% 0 56%)}
+.ree-hero-band img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center}
+.ree-hero-band span{position:absolute;inset:0;background:linear-gradient(180deg,oklch(36% .17 264/.92) 0%,oklch(40% .17 263/.55) 30%,oklch(45% .15 255/.12) 60%,transparent 80%)}
+.ree-hero-edge{position:absolute;top:0;bottom:12%;width:1px;z-index:-1;background:linear-gradient(180deg,oklch(75% .12 245/.5),oklch(75% .12 245/.15) 70%,transparent)}
+.ree-hero-edge.l{left:56%}.ree-hero-edge.r{right:15%}
+.ree-hero-wrap{position:relative;width:100%;max-width:1600px;margin:0 auto;padding:150px 48px 170px}
+.ree-hero-copy{position:relative;width:min(560px,46%);margin-left:max(0px,calc(28% - 300px));text-align:center}
+.ree-hero-deco{display:block;width:62%;margin:0 auto 34px;fill:none;stroke:oklch(65% .13 245/.45);stroke-width:1.2}
+.ree-hero-h{display:flex;flex-direction:column;align-items:center}
+.ree-hero-pre{font-size:clamp(20px,2.1vw,32px);font-weight:300;letter-spacing:.32em;text-transform:uppercase;color:oklch(100% 0 0/.92);padding-left:.32em}
+.ree-hero-brand{margin-top:6px;font-size:clamp(52px,6.6vw,104px);font-weight:600;line-height:1;letter-spacing:.02em;background:linear-gradient(90deg,var(--gold-light,#f3dfa2),var(--gold,#d4af6a));-webkit-background-clip:text;background-clip:text;color:transparent;white-space:nowrap}
+.ree-hero-bars{display:flex;justify-content:center;gap:16px;margin-top:20px}
+.ree-hero-bars i{display:block;height:3px;border-radius:2px;background:oklch(55% .13 245)}
+.ree-hero-bars i:nth-child(1),.ree-hero-bars i:nth-child(3){width:110px}.ree-hero-bars i:nth-child(2){width:60px}
+.ree-hero-box{margin-top:44px;padding:24px 30px;border:1px solid oklch(65% .13 245/.45);border-radius:10px;background:linear-gradient(180deg,oklch(40% .13 255/.28),oklch(30% .1 260/.18));backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);font-size:clamp(15px,1.3vw,19px);font-weight:300;line-height:1.6;color:#fff;letter-spacing:.01em}
+.ree-hero-pills{position:absolute;left:0;right:0;bottom:44px;display:flex;justify-content:center;gap:clamp(14px,3vw,48px);padding:0 24px}
+.ree-hero-pill{display:flex;align-items:center;gap:14px;padding:6px 30px 6px 6px;border-radius:999px;background:linear-gradient(90deg,oklch(100% 0 0/.95),oklch(93% .01 250/.82));box-shadow:0 18px 40px -16px oklch(10% .05 260/.7);color:var(--navy-deep);font-size:clamp(14px,1.35vw,20px);font-weight:400;white-space:nowrap}
+.ree-hero-pico{display:flex;align-items:center;justify-content:center;width:52px;height:52px;border-radius:50%;background:#fff;box-shadow:inset 0 0 0 1px oklch(29% .11 261/.12),0 2px 8px oklch(29% .11 261/.15)}
+.ree-hero-pico svg{width:26px;height:26px;fill:none;stroke:var(--navy-deep);stroke-width:1.4;stroke-linecap:round;stroke-linejoin:round}
+@media (max-width:1023px){
+.ree-hero-band{clip-path:inset(0 6% 0 58%)}.ree-hero-edge.l{left:58%}.ree-hero-edge.r{right:6%}
+.ree-hero-copy{width:min(560px,100%);margin:0 auto}
+.ree-hero-wrap{padding:150px 24px 200px}
+.ree-hero-pills{flex-wrap:wrap;bottom:28px;gap:10px}
+}
+@media (max-width:639px){
+.ree-hero-band{clip-path:inset(0 4% 0 52%)}.ree-hero-edge.l{left:52%}.ree-hero-edge.r{right:4%}
+.ree-hero-wrap{padding:130px 20px 210px}
+.ree-hero-deco{width:56%;margin-bottom:22px}
+.ree-hero-bars i:nth-child(1),.ree-hero-bars i:nth-child(3){width:70px}.ree-hero-bars i:nth-child(2){width:40px}
+.ree-hero-box{margin-top:28px;padding:16px 18px}
+.ree-hero-pills{flex-direction:column;align-items:center}
+.ree-hero-pill{padding:4px 22px 4px 4px;font-size:14px;min-width:250px}
+.ree-hero-pico{width:40px;height:40px}.ree-hero-pico svg{width:20px;height:20px}
+}

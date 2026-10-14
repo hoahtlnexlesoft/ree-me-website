@@ -451,7 +451,7 @@
   ];
   const STD_TAG = ["ERP · BIM","Nguồn lực · Tiến độ","ISO 14001 · LEED · DGNB","ISO 45001"];
   $("#stdGrid").innerHTML = STD.map(([k,t,d],i) => `<article class="sd-card" data-i="${i}">
-    <p class="sd-q"><b>${t}</b>${d}</p>
+    <p class="sd-q">${d}</p>
     <div class="sd-foot"><span class="sd-av">${svg(k)}</span><span class="sd-who"><b>${t}</b></span><span class="sd-n">0${i+1}<em>/04</em></span></div></article>`).join("");
   { const track = $("#stdGrid"), cards = [...track.children], dots = $("#sdDots");
     dots.innerHTML = cards.map((_,i) => `<button type="button" aria-label="Tiêu chuẩn ${i+1}"></button>`).join("");

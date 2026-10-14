@@ -384,6 +384,20 @@
   .lx-orn::after{content:"";position:absolute;left:50%;top:50%;width:5px;height:5px;border-radius:50%;transform:translate(-50%,-50%);background:#CFE0FF;box-shadow:0 0 0 3px #0e1c3e,0 0 10px 2px rgba(143,176,255,.8)}
   @media (max-width:1000px){.sd-card.lux{min-height:300px;padding:36px 22px 26px}.sd-card.lux:hover,.sd-card.lux.on{transform:none}}
   @media (max-width:600px){.lx-ic,.lx-ic svg{width:86px;height:86px}.lx-t{font-size:20px;margin-top:18px}.lx-d{font-size:14px}}
+
+  /* modern glass refresh */
+  .sd-card.lux{background:radial-gradient(120% 70% at 50% 0%,rgba(92,138,255,.20),transparent 62%),linear-gradient(180deg,rgba(255,255,255,.07),rgba(255,255,255,.015) 55%),rgba(12,24,54,.55);
+    border:1px solid transparent;backdrop-filter:blur(14px) saturate(130%);-webkit-backdrop-filter:blur(14px) saturate(130%);box-shadow:0 24px 48px -28px rgba(2,8,28,.9);padding:38px 26px 30px;min-height:300px}
+  .sd-card.lux::before{top:0;left:0;right:0;bottom:0;height:auto;border-radius:inherit;padding:1px;opacity:1;
+    background:linear-gradient(160deg,rgba(170,200,255,.55),rgba(170,200,255,.08) 40%,rgba(170,200,255,.04) 70%,rgba(110,152,255,.35));
+    -webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);-webkit-mask-composite:xor;mask:linear-gradient(#000 0 0) content-box exclude,linear-gradient(#000 0 0)}
+  .sd-card.lux::after{width:60%;height:60px;bottom:-34px;opacity:.35}
+  .sd-card.lux:hover,.sd-card.lux.on{border-color:transparent;background:radial-gradient(120% 70% at 50% 0%,rgba(92,138,255,.30),transparent 62%),linear-gradient(180deg,rgba(255,255,255,.09),rgba(255,255,255,.02) 55%),rgba(14,28,62,.62)}
+  .lx-ic{width:72px;height:72px;border-radius:20px;background:linear-gradient(145deg,rgba(120,160,255,.28),rgba(120,160,255,.06));box-shadow:inset 0 1px 0 rgba(255,255,255,.18),inset 0 0 0 1px rgba(160,190,255,.22),0 10px 24px -12px rgba(60,110,255,.6)}
+  .lx-ic svg{width:46px;height:46px;stroke-width:2;filter:none}
+  .sd-card.lux:hover .lx-ic svg,.sd-card.lux.on .lx-ic svg{transform:scale(1.08)}
+  .lx-t{margin:20px 0 10px;font-size:21px}
+  @media (max-width:600px){.lx-ic{width:64px;height:64px;border-radius:18px}.lx-ic svg{width:36px;height:36px}}
 </style>
 <script>window.PAGE="services"</script>
 </head>

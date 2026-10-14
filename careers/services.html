@@ -50,6 +50,18 @@
     .sx-media{height:min(96vw,460px)}
     .sx-ghost{font-size:clamp(3rem,14vw,5rem)}
     .sx-bar{grid-template-columns:1fr auto}.sx-scroll{display:none}.sx-now{gap:10px}.sx-line{width:44px}.sx-name{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.sx-arrows{gap:12px}.sx-arr{width:40px}}
+
+  /* accordion photos: whole picture on the open one */
+  .sx-media{display:flex!important;align-items:flex-start;gap:clamp(8px,1vw,14px);column-gap:clamp(8px,1vw,14px)}
+  .sx-strip{position:relative;flex:1 1 0;min-width:0;cursor:pointer;transition:flex-basis .7s cubic-bezier(.2,.8,.2,1),flex-grow .7s cubic-bezier(.2,.8,.2,1),top .7s cubic-bezier(.2,.8,.2,1),height .7s cubic-bezier(.2,.8,.2,1),transform .5s}
+  .sx-strip img{position:static!important;width:100%!important;height:100%!important;object-fit:cover;filter:brightness(.62) saturate(.85)}
+  .sx-strip.on{cursor:zoom-in}
+  .sx-strip.on img{filter:none}
+  .sx-strip:not(.on):hover img{filter:brightness(.85)}
+  .sx-strip figcaption{position:absolute;z-index:1;font-weight:500;left:18px;right:18px;bottom:16px;font-size:13.5px;line-height:1.4;color:#fff;opacity:0;transform:translateY(8px);transition:opacity .4s .3s,transform .4s .3s;text-shadow:0 1px 8px rgba(0,0,0,.6)}
+  .sx-strip.on figcaption{opacity:1;transform:none}
+  .sx-strip.on::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,transparent 65%,rgba(3,8,24,.7));pointer-events:none}
+  .sx-strip:hover{transform:none}
 </style>
 <link rel="stylesheet" href="assets/site.css">
 <style>
@@ -677,28 +689,31 @@
   const GHOST = {acmv:"ACMV",ps:"PLUMBING",elec:"POWER",elv:"ELV",fire:"FIRE",util:"UTILITY",dc:"DATA",mt:"SERVICE"};
   const SHORT = {acmv:"Điều hòa & thông gió",ps:"Cấp thoát nước",elec:"Điện động lực",elv:"Điện nhẹ & tự động",fire:"Phòng cháy chữa cháy",util:"Hạ tầng điện",dc:"Trung tâm dữ liệu",mt:"Dịch vụ bảo trì"};
   const copy = $("#mxCopy"), media = $("#sxMedia");
-  // 5 staggered vertical strips; neighbouring strips share one photo so it reads as one picture cut into slices
-  const TOPS = [7, 0, 4, 13, 3], HS = [80, 100, 88, 74, 97];
-  const groups = n => n >= 3 ? [[0,1],[2],[3,4]] : n === 2 ? [[0,1,2],[3,4]] : [[0,1,2,3,4]];
+  // one strip per photo; the open one shows the whole picture, the others narrow down beside it
+  const TOPS = [6, 12, 3, 9, 15, 5], HS = [86, 76, 92, 82, 70, 88];
+  let act = 0;
   const copyHTML = n => { const s = SV[n], [t1, t2] = SPLIT[s.id]; return `<p class="sx-ghost" aria-hidden="true">${GHOST[s.id]}</p>
       <h2 class="sx-t"><span>${t1}</span><strong>${t2}.</strong></h2>
       <div class="sx-text">${s.p.map(x => `<p>${x}</p>`).join("")}
         ${s.feat ? `<ul class="mx-list">${s.feat.map(([k,t,d]) => `<li><b>${t}:</b> ${d}</li>`).join("")}</ul>` : ""}
         ${s.note ? `<p class="mx-note">${svg("badge")}<span>${s.note}</span></p>` : ""}</div>
       <button type="button" class="sx-cta" data-open="chat"><i><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 7l8 5-8 5z" fill="currentColor"/></svg></i><span>Tư vấn giải pháp</span></button>`; };
-  const layout = () => { const W = media.clientWidth, H = media.clientHeight, strips = [...media.children]; if(!W || !strips.length) return;
-    strips.forEach(st => { const g = st._g, a = strips[g[0]], b = strips[g[g.length-1]], gl = a.offsetLeft, gw = b.offsetLeft + b.offsetWidth - gl, im = st.firstChild;
-      im.style.width = gw + "px"; im.style.height = H + "px"; im.style.left = (gl - st.offsetLeft) + "px"; im.style.top = -st.offsetTop + "px"; }); };
+  const layout = () => { const W = media.clientWidth, H = media.clientHeight, strips = [...media.children], n = strips.length; if(!W || !n) return;
+    const gap = parseFloat(getComputedStyle(media).columnGap) || 12, minW = n > 1 ? Math.max(40, Math.min(90, W * .08)) : 0;
+    strips.forEach((st, k) => { const on = k === act, im = st.firstChild, ar = im.naturalWidth && im.naturalHeight ? im.naturalWidth / im.naturalHeight : 1.5;
+      st.classList.toggle("on", on); if(on) st.setAttribute("data-lb", ""); else st.removeAttribute("data-lb");
+      if(on){ const w = Math.min(H * ar, W - (n - 1) * (minW + gap)); st.style.flex = `0 0 ${Math.max(w, W * .4)}px`; const hp = Math.min(100, (Math.max(w, W * .4) / ar) / H * 100); st.style.top = (100 - hp) / 2 + "%"; st.style.height = hp + "%"; }
+      else { const hp = HS[k % HS.length], off = (k % 2 ? 1 : -1) * (TOPS[k % TOPS.length] / 3); st.style.flex = "1 1 0"; st.style.top = Math.max(0, (100 - hp) / 2 + off) + "%"; st.style.height = hp + "%"; } }); };
+  media.addEventListener("click", e => { const st = e.target.closest(".sx-strip"); if(!st) return; const k = [...media.children].indexOf(st); if(k !== act){ e.stopPropagation(); act = k; layout(); } }, true);
   const fitCopy = () => { copy.style.minHeight = ""; if(innerWidth <= 1000) return; const keep = copy.innerHTML; let max = 0;
     SV.forEach((_, k) => { copy.innerHTML = copyHTML(k); max = Math.max(max, copy.offsetHeight); }); copy.innerHTML = keep; copy.style.minHeight = max + "px"; };
   let cur = -1;
   const go = n => { n = (n + SV.length) % SV.length; if(n === cur) return; const dir = n > cur ? 1 : -1; cur = n; const s = SV[n];
     copy.innerHTML = copyHTML(n);
     copy.style.setProperty("--dir", dir); copy.classList.remove("in"); media.classList.remove("in"); void copy.offsetWidth; copy.classList.add("in"); media.classList.add("in");
-    const gs = groups(s.imgs.length), parts = [];
-    gs.forEach((g, gi) => g.forEach(k => { const [src, cap] = s.imgs[gi % s.imgs.length]; parts[k] = {src, cap, g}; }));
-    media.innerHTML = parts.map((pt, k) => `<figure class="sx-strip" data-lb style="--k:${k};top:${TOPS[k]}%;height:${HS[k]}%"><img src="${P + pt.src}" alt="${pt.cap}"></figure>`).join("");
-    [...media.children].forEach((st, k) => st._g = parts[k].g);
+    act = 0;
+    media.innerHTML = s.imgs.map(([src, cap], k) => `<figure class="sx-strip" style="--k:${k}" title="${cap}"><img src="${P + src}" alt="${cap}"><figcaption>${cap}</figcaption></figure>`).join("");
+    media.querySelectorAll("img").forEach(im => im.complete ? 0 : im.addEventListener("load", layout, {once:true}));
     layout(); requestAnimationFrame(layout);
     $("#sxN").textContent = pad(n+1); $("#sxName").textContent = SHORT[s.id]; $("#sxProg").style.width = ((n+1) / SV.length * 100) + "%"; };
   addEventListener("resize", layout); addEventListener("load", layout); if(window.ResizeObserver) new ResizeObserver(layout).observe(media);

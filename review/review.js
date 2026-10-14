@@ -233,7 +233,7 @@
   '.rv-pop-tb{border-top:1px solid #e5e7eb;padding:6px 6px 6px 8px}.rv-pop-send{width:34px;height:34px;background:#8b8b8b}.rv-pop-send:disabled{background:#a3a3a3}' +
   '.rv-emo{position:absolute;left:18px;right:18px;bottom:64px;z-index:6;display:grid;grid-template-columns:repeat(8,1fr);gap:2px;margin:0;padding:8px;background:#fff;border-radius:14px;box-shadow:0 14px 36px -10px rgba(15,23,42,.35),0 0 0 1px rgba(15,23,42,.08)}' +
   '.rv-emo button{width:auto;height:auto;aspect-ratio:1;font-size:20px;line-height:1;border-radius:8px;display:grid;place-items:center}.rv-emo button:hover,.rv-emo button:focus-visible{background:#f1f5f9;outline:2px solid #306eed;outline-offset:-2px}' +
-  '.rv-tbox{width:320px}.rv-tbox textarea.rv-in{min-height:64px;font-size:14px;line-height:1.45}.rv-was{margin-top:6px;font-size:11.5px;color:#64748b;line-height:1.4;max-height:54px;overflow:auto}' +
+  '.rv-tbox{width:260px}.rv-tbox textarea.rv-in{min-height:64px;font-size:14px;line-height:1.45}.rv-was{margin-top:6px;font-size:11.5px;color:#64748b;line-height:1.4;max-height:54px;overflow:auto}' +
   '.rv-off .rv-layer,.rv-off .rv-popwrap,.rv-off .rv-dev{display:none!important}' +
   '.rv-show{position:fixed;right:0;top:50%;transform:translateY(-50%);z-index:2147482650;width:34px;height:40px;padding-left:2px;border-radius:10px 0 0 10px;background:rgba(255,255,255,.92);color:#334155;border:1px solid #e0e0e0;border-right:0;box-shadow:-4px 4px 16px rgba(0,0,0,.14);display:grid;place-items:center;opacity:.7;transition:opacity .2s,width .2s}.rv-show:hover{opacity:1;width:40px}.rv-show svg{width:17px;height:17px}' +
   '.rv-show span{position:absolute;top:-6px;left:-6px;min-width:16px;height:16px;padding:0 4px;border-radius:999px;background:#e5484d;color:#fff;font-size:10px;font-weight:700;line-height:16px;text-align:center}' +
@@ -298,13 +298,17 @@
 
   /* ---------- direct text editing ---------- */
   var BAD_TAG = /^(HTML|BODY|SCRIPT|STYLE|SVG|PATH|IMG|VIDEO|IFRAME|INPUT|TEXTAREA|SELECT|CANVAS|PICTURE)$/i;
+  function decorEl(n) { // icons, arrows, dots that sit next to editable text
+    if (/^(SVG|IMG|I|PICTURE)$/i.test(n.tagName)) return true;
+    return (n.textContent || '').trim().length <= 2 && !n.querySelector('p,div,h1,h2,h3,h4,h5,h6,li');
+  }
   function textTarget(el) {
     for (var i = 0, cur = el; cur && cur.nodeType === 1 && i < 4; i++, cur = cur.parentElement) {
       if (BAD_TAG.test(cur.tagName) || inUi(cur)) return null;
       var ok = true, has = false;
       for (var n = cur.firstChild; n; n = n.nextSibling) {
         if (n.nodeType === 3) { if (n.nodeValue.trim()) has = true; }
-        else if (n.nodeType === 8 || (n.nodeType === 1 && n.tagName === 'BR')) {}
+        else if (n.nodeType === 8 || (n.nodeType === 1 && (n.tagName === 'BR' || decorEl(n)))) {}
         else { ok = false; break; }
       }
       if (ok && has) return cur;
@@ -343,20 +347,59 @@
     });
   }
   function startTextEdit(el) {
+    if (S.tedit) { if (S.tedit.el === el) return; endTextEdit(true); if (S.tedit) return; }
     var c = ctx(), win = el.ownerDocument.defaultView, r = el.getBoundingClientRect(), sel = selectorFor(el);
     var ex = S.threads.filter(function (t) { return t.kind === 'edit' && t.page === c.key && t.selector === sel; })[0];
-    var before = readText(el);
-    S.tedit = { el: el, id: ex ? ex.id : null, page: c.key, selector: sel, from: ex ? ex.from : normT(before), before: before, rx: 0, ry: 1, ax: r.left + win.scrollX, ay: r.bottom + win.scrollY };
-    el.__rvLive = true;
-    S.teditText = normT(before);
-    S.nameInput = S.name || ''; S.draft = null; setMode(false);
-    setTimeout(function () { var ta = root.querySelector('#rvTEdit'); if (ta) { ta.focus(); ta.setSelectionRange(ta.value.length, ta.value.length); } }, 30);
+    var before = readText(el), nodes = Array.prototype.slice.call(el.childNodes);
+    var islands = nodes.filter(function (n) { return n.nodeType === 1 && n.tagName !== 'BR'; });
+    S.tedit = { el: el, id: ex ? ex.id : null, page: c.key, selector: sel, from: ex ? ex.from : normT(before), before: before, nodes: nodes, islands: islands, rx: 0, ry: 1, ax: r.left + win.scrollX, ay: r.bottom + win.scrollY,
+      ol: el.style.outline, olo: el.style.outlineOffset };
+    el.__rvLive = true; clearHover();
+    islands.forEach(function (n) { n.setAttribute('contenteditable', 'false'); });
+    el.style.outline = '2px solid #306eed'; el.style.outlineOffset = '3px';
+    try { el.contentEditable = 'plaintext-only'; } catch (x) {} if (el.contentEditable !== 'plaintext-only') el.contentEditable = 'true';
+    el.focus();
+    var d = el.ownerDocument, rg = d.createRange(), tn = nodes.filter(function (n) { return n.nodeType === 3 && n.nodeValue.trim(); });
+    if (islands.length && tn.length) { rg.setStart(tn[0], 0); rg.setEnd(tn[tn.length - 1], tn[tn.length - 1].nodeValue.length); } else rg.selectNodeContents(el);
+    var sl = d.defaultView.getSelection(); sl.removeAllRanges(); sl.addRange(rg);
+    el.addEventListener('keydown', onTEKey); el.addEventListener('keyup', stopTEKey, true); el.addEventListener('blur', onTEBlur);
+    S.nameInput = S.name || ''; S.draft = null; renderPins();
+  }
+  function onTEKey(e) {
+    if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); endTextEdit(true); }
+    else if (e.key === 'Escape') { e.preventDefault(); e.stopPropagation(); endTextEdit(false); }
+    else if (e.key === ' ') { e.preventDefault(); e.stopPropagation(); e.target.ownerDocument.execCommand('insertText', false, ' '); }
+  }
+  function stopTEKey(e) { if (e.key === ' ' || e.key === 'Enter') { e.preventDefault(); e.stopPropagation(); } }
+  function onTEBlur() { setTimeout(function () { if (!S.tedit) return; var ae = document.activeElement; if (ae && root.contains(ae)) return; endTextEdit(true); }, 0); }
+  function finishInline(d) {
+    var el = d.el, typed = '';
+    (function walk(node) {
+      for (var n = node.firstChild; n; n = n.nextSibling) {
+        if (n.nodeType === 3) typed += n.nodeValue;
+        else if (n.nodeType === 1) {
+          if (d.islands.indexOf(n) >= 0) continue;
+          if (n.tagName === 'BR') { typed += '\n'; continue; }
+          if (/^(DIV|P)$/.test(n.tagName) && typed && !/\n$/.test(typed)) typed += '\n'; walk(n);
+        }
+      }
+    })(el);
+    el.removeEventListener('keydown', onTEKey); el.removeEventListener('keyup', stopTEKey, true); el.removeEventListener('blur', onTEBlur);
+    el.removeAttribute('contenteditable'); el.style.outline = d.ol; el.style.outlineOffset = d.olo;
+    d.islands.forEach(function (n) { n.removeAttribute('contenteditable'); });
+    el.replaceChildren.apply(el, d.nodes);              // give the site its own nodes back
+    return typed;
   }
   function endTextEdit(ok) {
-    var d = S.tedit; if (!d) return; var el = d.el, now = normT(S.teditText);
-    if (ok && !S.name) { var n = S.nameInput.trim(); if (!n) { var ni = root.querySelector('#rvName'); if (ni) ni.focus(); return; } S.name = n; lsSet(NAME_KEY, n); }
+    var d = S.tedit; if (!d) return;
+    if (ok && !S.name) {
+      var n = S.nameInput.trim();
+      if (!n) { if (normT(finishPeek(d)) === normT(d.before)) { ok = false; } else { renderPins(); var ni = root.querySelector('#rvName'); if (ni) ni.focus(); toast('Enter your name to save'); return; } }
+      else { S.name = n; lsSet(NAME_KEY, n); }
+    }
+    var el = d.el, now = normT(finishInline(d));
     S.tedit = null; el.__rvLive = false;
-    if (!ok || now === normT(d.before)) { if (normT(d.before) === normT(d.from)) restoreText(el); else writeText(el, d.before); return renderAll(); }
+    if (!ok || !now || now === normT(d.before)) { writeText(el, d.before); if (normT(d.before) === normT(d.from)) restoreText(el); return renderAll(); }
     if (now === normT(d.from)) { restoreText(el); return saveAll(S.threads.filter(function (t) { return t.id !== d.id; })); }
     var label = 'Edit text: "' + normT(d.from).replace(/\n/g, ' / ') + '" → "' + now.replace(/\n/g, ' / ') + '"', t;
     writeText(el, now);
@@ -366,8 +409,9 @@
       el.__rvEid = t.id; saveAll(S.threads.concat([t]));
     }
     if (APPLIED.indexOf(el) < 0) APPLIED.push(el);
-    S.active = t.id; toast('Text updated'); captureShot(t);
+    S.active = t.id; toast('Saved · everyone sees it now'); captureShot(t);
   }
+  function finishPeek(d) { var o = ''; (function walk(node) { for (var n = node.firstChild; n; n = n.nextSibling) { if (n.nodeType === 3) o += n.nodeValue; else if (n.nodeType === 1 && d.islands.indexOf(n) < 0) { if (n.tagName === 'BR') o += '\n'; else walk(n); } } })(d.el); return o; }
 
   /* ---------- positions ---------- */
   function pos(t, c) {
@@ -405,13 +449,11 @@
         '<div class="rv-row"><button class="rv-btn img" id="rvImg"' + (S.draftImages.length >= MAX_IMAGES ? ' disabled' : '') + '>' + ICON.image + 'Image' + (S.draftImages.length ? ' (' + S.draftImages.length + '/' + MAX_IMAGES + ')' : '') + '</button>' +
         '<button class="rv-btn ghost" id="rvCancel">Cancel</button><button class="rv-btn pri" id="rvSend">Send</button></div></div>';
     }
-    if (S.tedit) {
-      var te = S.tedit, tp = pos(te, c), tl = Math.min(Math.max(12, tp.x), Math.max(12, vw - 332)), tt0 = Math.min(tp.y + 10, vh - 250);
-      html += '<div class="rv-draft rv-tbox" style="left:' + tl + 'px;top:' + Math.max(12, tt0) + 'px"><span class="rv-lab">Edit text</span>' +
-        (!S.name ? '<input class="rv-in" id="rvName" placeholder="Your name" autocomplete="name" style="margin-bottom:8px" value="' + esc(S.nameInput) + '">' : '') +
-        '<textarea class="rv-in" id="rvTEdit" rows="3">' + esc(S.teditText) + '</textarea>' +
-        '<div class="rv-was">' + (normT(te.from) !== normT(S.teditText) ? 'Original: ' + esc(normT(te.from)) : 'Enter to save · Shift+Enter for a new line') + '</div>' +
-        '<div class="rv-row" style="justify-content:flex-end"><button class="rv-btn ghost" id="rvTCancel">Cancel</button><button class="rv-btn pri" id="rvTSave">Save</button></div></div>';
+    if (S.tedit && !S.name) {
+      var te = S.tedit, tp = pos(te, c), tl = Math.min(Math.max(12, tp.x), Math.max(12, vw - 272)), tt0 = Math.min(tp.y + 12, vh - 140);
+      html += '<div class="rv-draft rv-tbox" style="left:' + tl + 'px;top:' + Math.max(12, tt0) + 'px"><span class="rv-lab">Your name (once)</span>' +
+        '<input class="rv-in" id="rvName" placeholder="e.g. Hoa Ho" autocomplete="name" value="' + esc(S.nameInput) + '">' +
+        '<div class="rv-row" style="justify-content:flex-end"><button class="rv-btn ghost" id="rvTCancel">Cancel</button><button class="rv-btn pri" id="rvTSave">Save text</button></div></div>';
     }
     // keep typing focus when re-rendering the draft
     var ae = document.activeElement, keep = ae && (ae.id === 'rvText' || ae.id === 'rvName' || ae.id === 'rvTEdit') ? [ae.id, ae.selectionStart, ae.selectionEnd] : null;
@@ -432,7 +474,7 @@
     }
     var open = S.threads.filter(function (t) { return !t.resolved; }).length;
     var shown = S.threads.filter(function (t) { return S.filter === 'all' ? true : S.filter === 'open' ? !t.resolved : t.resolved; });
-    var h = '<div class="rv-pill">' + (S.mode === 'edit' ? '<span class="rv-hint">Click any text to edit it · Esc to cancel</span>' : S.mode ? '<span class="rv-hint">Click anything to comment · Esc to cancel</span>' : '') +
+    var h = '<div class="rv-pill">' + (S.mode === 'edit' ? '<span class="rv-hint">Click any text and type · Enter to save · Esc to cancel</span>' : S.mode ? '<span class="rv-hint">Click anything to comment · Esc to cancel</span>' : '') +
       '<div class="rv-seg"><button id="rvBrowse" class="' + (!S.mode ? 'on' : '') + '">' + ICON.pointer + 'Browse</button><button id="rvComment" class="' + (S.mode === true ? 'on' : '') + '">' + ICON.chat + 'Comment</button><button id="rvEditMode" class="' + (S.mode === 'edit' ? 'on' : '') + '">' + ICON.pencil + 'Edit text</button></div></div>';
     if (!S.open) {
       h += '<aside class="rv-rail"><button class="rv-side" id="rvTab" title="Open comments" aria-label="Open comments">' + ICON.side + '</button><button class="rv-side" id="rvHide" title="Hide comments (full view)" aria-label="Hide comments">' + ICON.eyeoff + '</button><div class="rv-rail-list">' +
@@ -487,13 +529,14 @@
   function inUi(t) { return t && t.closest && t.closest('[data-review-ui]'); }
   function onMove(e) {
     var t = e.target; if (!t || t.nodeType !== 1 || inUi(t)) return clearHover();
-    if (S.mode === 'edit') { t = textTarget(t); if (!t) return clearHover(); }
+    if (S.mode === 'edit') { t = textTarget(t); if (!t || (S.tedit && S.tedit.el === t)) return clearHover(); }
     if (hoverEl !== t) { clearHover(); hoverEl = t; t.__rvO = t.style.outline; t.__rvOO = t.style.outlineOffset; t.style.outline = '2px dashed #4f46e5'; t.style.outlineOffset = '2px'; }
   }
   function onClick(e) {
     var t = e.target; if (!t || t.nodeType !== 1 || inUi(t)) return;
     e.preventDefault(); e.stopPropagation(); e.stopImmediatePropagation(); clearHover();
-    if (S.mode === 'edit') { var tt = textTarget(t); if (!tt) return toast('Click on a piece of text'); return startTextEdit(tt); }
+    if (S.tedit && (t === S.tedit.el || S.tedit.el.contains(t))) return;   // moving the caret inside the text being edited
+    if (S.mode === 'edit') { var tt = textTarget(t); if (!tt) { if (S.tedit) endTextEdit(true); return toast('Click on a piece of text'); } return startTextEdit(tt); }
     var doc = t.ownerDocument, win = doc.defaultView, r = t.getBoundingClientRect();
     S.draft = { page: ctx().key, selector: selectorFor(t), rx: r.width ? (e.clientX - r.left) / r.width : .5, ry: r.height ? (e.clientY - r.top) / r.height : .5, ax: e.clientX + win.scrollX, ay: e.clientY + win.scrollY };
     S.draftText = ''; S.draftImages = []; S.nameInput = S.name || ''; setMode(false);
@@ -593,9 +636,9 @@
     var a0, b = e.target.closest('button,[data-lb],#rvLb'); if (!b) return;
     if (b.id === 'rvLb') { S.lightbox = null; return renderUi(); }
     if (b.hasAttribute('data-lb')) { e.stopPropagation(); S.lightbox = b.getAttribute('src'); return renderUi(); }
-    if (b.id === 'rvBrowse') { S.draft = null; return setMode(false); }
-    if (b.id === 'rvComment') { S.draft = null; if (S.tedit) endTextEdit(false); return setMode(true); }
-    if (b.id === 'rvEditMode') { S.draft = null; if (S.tedit) endTextEdit(false); return setMode(S.mode === 'edit' ? false : 'edit'); }
+    if (b.id === 'rvBrowse') { S.draft = null; if (S.tedit) endTextEdit(true); return setMode(false); }
+    if (b.id === 'rvComment') { S.draft = null; if (S.tedit) endTextEdit(true); return setMode(true); }
+    if (b.id === 'rvEditMode') { S.draft = null; if (S.tedit) endTextEdit(true); return setMode(S.mode === 'edit' ? false : 'edit'); }
     if (b.id === 'rvTSave') return endTextEdit(true);
     if (b.id === 'rvTCancel') return endTextEdit(false);
     if (b.id === 'rvTab') { S.open = true; renderUi(); return shiftFloaters(); }
@@ -646,6 +689,7 @@
     var t = e.target;
     if (t.id === 'rvReply' && e.key === 'Enter' && !e.isComposing && !e.repeat) { e.preventDefault(); addReply(t.getAttribute('data-for')); }
     if (t.id === 'rvText' && e.key === 'Enter' && (e.metaKey || e.ctrlKey)) { e.preventDefault(); submitDraft(); }
+    if (t.id === 'rvName' && S.tedit && e.key === 'Enter') { e.preventDefault(); endTextEdit(true); }
     if (t.id === 'rvTEdit' && e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); endTextEdit(true); }
     if (t.id === 'rvTEdit' && e.key === 'Escape') { e.preventDefault(); endTextEdit(false); }
     if (t.id === 'rvEdit' && e.key === 'Enter' && !e.shiftKey && !e.isComposing) { e.preventDefault(); saveEdit(t.getAttribute('data-for')); }

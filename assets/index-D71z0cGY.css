@@ -191,7 +191,7 @@ section:has(+ .ree-rel) span.size-10.bottom-5{bottom:150px!important}
 .ree-mnav li{flex-shrink:0}
 
 /* projects catalogue: navy band with horizontal card strip */
-.ree-cat{position:relative;isolation:isolate;overflow:hidden;padding:104px 0 96px;color:#fff;background:url(./about/catalog-sky.jpg) center/cover no-repeat,var(--navy-deep)}
+.ree-cat{position:relative;isolation:isolate;overflow:hidden;padding:104px 0 250px;color:#fff;background:url(./about/catalog-ground.webp) center bottom/max(100%,1100px) auto no-repeat,url(./about/catalog-sky.jpg) center/cover no-repeat,var(--navy-deep)}
 .ree-cat::before{display:none}
 
 .ree-cat h2{color:#fff!important}
@@ -224,5 +224,5 @@ section:has(+ .ree-rel) span.size-10.bottom-5{bottom:150px!important}
 .ree-sctl button svg{width:20px;height:20px}
 .ree-sbar{position:relative;flex:1;height:2px;background:oklch(100% 0 0/.4);border-radius:2px;overflow:hidden}
 .ree-sbar i{position:absolute;top:0;bottom:0;background:var(--brand-red-glow);border-radius:2px;transition:left .15s linear,width .3s}
-@media (max-width:1023px){.ree-cat{padding:80px 0}.ree-strack{padding-right:32px}.ree-sctl{padding-right:32px;max-width:none}}
-@media (max-width:639px){.ree-cat{padding:64px 0}.ree-strip{margin-top:32px}.ree-strack{gap:14px;padding-right:20px}.ree-sc{flex-basis:76vw}.ree-sctl{padding-right:20px}.ree-sctl button{width:40px;height:40px}}
+@media (max-width:1023px){.ree-cat{padding:80px 0 220px}.ree-strack{padding-right:32px}.ree-sctl{padding-right:32px;max-width:none}}
+@media (max-width:639px){.ree-cat{padding:64px 0 200px}.ree-strip{margin-top:32px}.ree-strack{gap:14px;padding-right:20px}.ree-sc{flex-basis:76vw}.ree-sctl{padding-right:20px}.ree-sctl button{width:40px;height:40px}}

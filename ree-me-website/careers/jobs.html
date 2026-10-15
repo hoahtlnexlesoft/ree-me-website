@@ -353,7 +353,7 @@
     res.sort(sorters[st.sort]);
     /* grouped by location, same order as the recruiting site; a job listed in several locations shows in each group */
     const list = $("#list"); list.className = "jgroups";
-    const groups = LOC_TAGS.filter(g => !st.locs.length || st.locs.includes(g.k)).map(g => [g, res.filter(j => j.loc.split(" · ").includes(g.k))]).filter(([,a]) => a.length);
+    const groups = LOC_TAGS.map(g => [g, res.filter(j => j.loc.split(" · ").includes(g.k))]).filter(([,a]) => a.length);
     list.innerHTML = groups.map(([g, a]) => { const open = !st.closed.includes(g.k);
       return `<section class="jg${open ? "" : " shut"}"><small class="jg-eb">Địa điểm làm việc</small><button type="button" class="jg-h" data-grp="${g.k}" aria-expanded="${open}"><svg class="jg-chev" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg><span class="loc-pill jg-pill" style="background:${g.c};color:${g.t}">${g.k}</span><span class="jg-n">${a.length}</span></button>
         <div class="${st.view === "list" ? "rows" : "job-grid"}"${open ? "" : " hidden"}>${a.map(j => hl(st.view === "list" ? jobRow(j) : jobCard(j))).join("")}</div></section>`; }).join("");

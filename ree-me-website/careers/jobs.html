@@ -177,6 +177,7 @@
   @media (min-width:1081px){.jrow{grid-template-columns:76px minmax(0,1.8fr) repeat(2,minmax(0,.7fr)) 48px!important}}
   @media (max-width:1080px) and (min-width:561px){.jrow{grid-template-columns:64px repeat(2,minmax(0,1fr)) 46px!important}.jmain{grid-column:2/4!important}.jrow .arr{grid-column:4!important}}
   @media (max-width:560px){.jrow{grid-template-columns:repeat(2,minmax(0,1fr)) 40px!important}.jmain{grid-column:1/3!important}.jrow .arr{grid-column:3!important}}
+  .list-sec{padding-top:28px}
 </style>
 <script>window.PAGE="jobs"</script>
 </head>
@@ -194,15 +195,15 @@
   <section class="wrap sx-wrap">
     <div class="sx-tabs" id="deptTabs" role="tablist" aria-label="Bộ phận" hidden style="display:none"></div>
     <form class="sx" id="filterForm" role="search">
-      <div class="sx-top">
+      <div class="sx-top" hidden style="display:none">
         <div class="sx-radios" id="locRadios" role="radiogroup" aria-label="Địa điểm"></div>
         <label class="sx-sort" hidden style="display:none"><span class="sr">Sắp xếp</span><select id="sort"><option value="hot">Tuyển gấp trước</option><option value="deadline">Hạn nộp gần nhất</option><option value="salary">Thu nhập cao nhất</option><option value="az">Tên A → Z</option></select></label>
       </div>
       <div class="sx-row">
-        <label class="sx-f grow" for="f-q"><span class="sx-ic" id="icQ"></span><span class="sx-t"><small>Từ khóa</small><input id="f-q" placeholder="Chức danh, kỹ năng, mã vị trí…" autocomplete="off"></span></label>
-        <label class="sx-f" for="f-lv"><span class="sx-ic" id="icLv"></span><span class="sx-t"><small>Cấp bậc</small><select id="f-lv"><option value="">Tất cả cấp bậc</option></select></span></label>
-        <label class="sx-f" for="f-sys"><span class="sx-ic" id="icSys"></span><span class="sx-t"><small>Hệ thống</small><select id="f-sys"><option value="">Tất cả hệ thống</option></select></span></label>
-        <div class="sx-f sx-num"><b class="num" id="totalCount">12</b><span class="sx-t"><small>Vị trí đang mở</small><span><b id="hotCount">5</b> tuyển gấp</span></span></div>
+        <label class="sx-f" for="f-loc"><span class="sx-ic" id="icLoc"></span><span class="sx-t"><small>Địa điểm</small><select id="f-loc"><option value="">Tất cả địa điểm</option></select></span></label>
+        <label class="sx-f" for="f-sal"><span class="sx-ic" id="icSal"></span><span class="sx-t"><small>Mức lương</small><select id="f-sal"><option value="">Tất cả mức lương</option><option value="0-15">Dưới 15 triệu</option><option value="15-20">15 – 20 triệu</option><option value="20-30">20 – 30 triệu</option><option value="30-999">Trên 30 triệu</option><option value="neg">Thỏa thuận</option></select></span></label>
+        <label class="sx-f" for="f-exp"><span class="sx-ic" id="icExp"></span><span class="sx-t"><small>Kinh nghiệm</small><select id="f-exp"><option value="">Tất cả kinh nghiệm</option><option value="0-1">Dưới 1 năm</option><option value="1-3">1 – 3 năm</option><option value="3-5">3 – 5 năm</option><option value="5-99">Trên 5 năm</option></select></span></label>
+        <label class="sx-f" for="f-en"><span class="sx-ic" id="icEn"></span><span class="sx-t"><small>Tiếng Anh</small><select id="f-en"><option value="">Tất cả yêu cầu</option><option value="none">Không yêu cầu</option><option value="basic">Cơ bản</option><option value="comm">Giao tiếp</option><option value="fluent">Thành thạo</option></select></span></label>
         <button type="button" class="sx-reset" id="resetBtn" aria-label="Xóa bộ lọc"></button>
         <button type="submit" class="sx-go" id="goBtn" aria-label="Tìm việc"></button>
       </div>
@@ -248,18 +249,17 @@
   toTop(); addEventListener('load', toTop); addEventListener('pageshow', toTop);
   const $ = s => document.querySelector(s);
   const PER = 8;
-  const st = { q:"", loc:"", dept:"", lv:"", sys:"", sort:"hot", page:1, view: store.get("ree_view","list") };
+  const st = { q:"", loc:"", dept:"", lv:"", sys:"", sal:"", exp:"", en:"", sort:"hot", page:1, view: store.get("ree_view","list") };
 
   $("#resetBtn").innerHTML = ic("reset"); $("#goBtn").innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>';
-  $("#icQ").innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>'; $("#icLv").innerHTML = ic("brief"); $("#icSys").innerHTML = ic("fan"); $("#vList").innerHTML = ic("list"); $("#vGrid").innerHTML = ic("grid");
+  $("#icLoc").innerHTML = ic("pin"); $("#icSal").innerHTML = ic("money"); $("#icExp").innerHTML = ic("brief"); $("#icEn").innerHTML = ic("globe"); $("#vList").innerHTML = ic("list"); $("#vGrid").innerHTML = ic("grid");
   $("#abPhone").innerHTML = ic("phone"); $("#abMail").innerHTML = ic("mail");
   $("#abX")?.addEventListener("click", () => { $("#alertBand").hidden = true; });
-  $("#totalCount").textContent = JOBS.length; $("#hotCount").textContent = JOBS.filter(j => j.hot).length;
+
 
   const uniq = a => [...new Set(a)];
   const LOCS = uniq(JOBS.flatMap(j => j.loc.split(" · ")));
-  uniq(JOBS.map(j => j.level)).forEach(l => $("#f-lv").insertAdjacentHTML("beforeend", `<option>${l}</option>`));
-  Object.keys(SYSTEMS).forEach(k => $("#f-sys").insertAdjacentHTML("beforeend", `<option value="${k}">${k} · ${SYSTEMS[k]}</option>`));
+  LOCS.forEach(l => $("#f-loc").insertAdjacentHTML("beforeend", `<option>${l}</option>`));
   const DEPT_IC = { "":"grid", site:"gear", design:"cube", qs:"calc" };
 
   const h = location.hash.slice(1); if(DEPTS[h]) st.dept = h;
@@ -272,14 +272,16 @@
     if(st.loc && !j.loc.includes(st.loc)) return false;
     if(skip !== "dept" && st.dept && j.dept !== st.dept) return false;
     if(skip !== "sys" && st.sys && !j.systems.includes(st.sys)) return false;
-    if(st.lv && j.level !== st.lv) return false;
+    if(st.sal){ if(st.sal === "neg"){ if(/\d/.test(j.salary)) return false; } else { const n = (j.salary.match(/\d+/g)||[]).map(Number); if(!n.length) return false; const [a,b] = st.sal.split("-").map(Number), lo = n[0], hi = n[1] ?? n[0]; if((a > 0 && hi <= a) || lo >= b) return false; } }
+    if(st.exp){ const n = (j.exp.match(/\d+/g)||[]).map(Number); const [a,b] = st.exp.split("-").map(Number); const lo = n.length ? n[0] : 0, hi = /\+/.test(j.exp) ? 99 : (n[1] ?? n[0] ?? 0); if((a > 0 && hi <= a) || lo >= b) return false; }
+    if(st.en && (j.english || "") !== st.en) return false;
     return true;
   };
   const hl = html => { if(!st.q) return html; const w = norm(st.q).split(/\s+/).find(x => x.length > 1); if(!w) return html;
     return html.replace(/(<h3><a[^>]*>)([^<]+)(<\/a>)/, (m,a,t,c) => { const i = norm(t).indexOf(w); return i < 0 ? m : a + t.slice(0,i) + "<mark>" + t.slice(i,i+w.length) + "</mark>" + t.slice(i+w.length) + c; }); };
 
   function render(){
-    $("#f-q").value = st.q; $("#f-lv").value = st.lv; $("#f-sys").value = st.sys; $("#sort").value = st.sort;
+    $("#f-loc").value = st.loc; $("#f-sal").value = st.sal; $("#f-exp").value = st.exp; $("#f-en").value = st.en; $("#sort").value = st.sort;
     $("#vList").setAttribute("aria-pressed", st.view === "list"); $("#vGrid").setAttribute("aria-pressed", st.view === "grid");
     const bd = JOBS.filter(j => match(j, "dept"));
     $("#deptTabs").innerHTML = [["","Tất cả"], ...Object.entries(DEPTS).map(([k,d]) => [k, d.short])].map(([k,t]) => `<button type="button" class="sx-tab" role="tab" data-dept="${k}" aria-selected="${st.dept===k}">${ic(DEPT_IC[k] || "brief")}${t} <em>${k ? bd.filter(j=>j.dept===k).length : bd.length}</em></button>`).join("");
@@ -293,21 +295,21 @@
     const list = $("#list"); list.className = st.view === "list" ? "rows" : "job-grid";
     list.innerHTML = slice.map(j => hl(st.view === "list" ? jobRow(j) : jobCard(j))).join("");
     $("#empty").hidden = res.length > 0; list.hidden = !res.length;
-    const active = [st.q && `“${st.q}”`, st.loc, st.dept && DEPTS[st.dept].short, st.sys, st.lv].filter(Boolean);
+    const lbl = id => { const o = $(id).selectedOptions[0]; return o && o.value ? o.textContent : ""; };
+    const active = [st.loc, lbl("#f-sal"), lbl("#f-exp"), st.en && "Tiếng Anh: " + lbl("#f-en")].filter(Boolean);
     $("#resultText").innerHTML = `<b class="num">${res.length}</b> vị trí${active.length ? " · " + active.join(" · ") : " đang mở"}`;
     $("#pager").innerHTML = pages < 2 ? "" : `<button data-pg="${st.page-1}" ${st.page===1?"disabled":""} aria-label="Trang trước">‹</button>` +
       Array.from({length:pages},(_,i)=>`<button data-pg="${i+1}" ${i+1===st.page?'aria-current="page"':""}>${i+1}</button>`).join("") +
       `<button data-pg="${st.page+1}" ${st.page===pages?"disabled":""} aria-label="Trang sau">›</button>`;
   }
 
-  const read = () => { st.q = $("#f-q").value.trim(); st.lv = $("#f-lv").value; st.sys = $("#f-sys").value; st.page = 1; };
+  const read = () => { st.loc = $("#f-loc").value; st.sal = $("#f-sal").value; st.exp = $("#f-exp").value; st.en = $("#f-en").value; st.page = 1; };
   $("#filterForm").addEventListener("submit", e => { e.preventDefault(); read(); render(); scrollTo({top: $(".toolbar").getBoundingClientRect().top + scrollY - 90, behavior:"smooth"}); });
-  ["#f-lv","#f-sys"].forEach(s => $(s).addEventListener("change", () => { read(); render(); }));
-  let t; $("#f-q").addEventListener("input", () => { clearTimeout(t); t = setTimeout(() => { read(); render(); }, 220); });
+  ["#f-loc","#f-sal","#f-exp","#f-en"].forEach(s => $(s).addEventListener("change", () => { read(); render(); }));
   $("#sort").addEventListener("change", e => { st.sort = e.target.value; render(); });
   const setView = v => { st.view = v; store.set("ree_view", v); render(); };
   $("#vList").onclick = () => setView("list"); $("#vGrid").onclick = () => setView("grid");
-  const reset = () => { Object.assign(st, { q:"", loc:"", dept:"", lv:"", sys:"", page:1 }); render(); };
+  const reset = () => { Object.assign(st, { q:"", loc:"", dept:"", lv:"", sys:"", sal:"", exp:"", en:"", page:1 }); render(); };
   $("#resetBtn").onclick = reset; $("#emptyReset").onclick = reset;
   document.addEventListener("click", e => {
     const c = e.target.closest("[data-dept]"); if(c){ st.dept = c.dataset.dept; st.page = 1; render(); return; }

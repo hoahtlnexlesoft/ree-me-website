@@ -199,7 +199,7 @@ section:has(+ .ree-rel) span.size-10.bottom-5{bottom:150px!important}
 .ree-cat .ree-fbar{box-shadow:0 20px 50px -24px oklch(10% .06 262/.8)}
 .ree-cat .ree-fempty{color:oklch(100% 0 0/.75)}
 .ree-strip{margin-top:48px;margin-right:calc(50% - 50vw)}
-.ree-strack{display:flex;gap:20px;overflow-x:auto;scroll-snap-type:x mandatory;scroll-padding-left:0;padding:6px 48px 18px 0;scrollbar-width:none;cursor:grab;-webkit-overflow-scrolling:touch}
+.ree-strack{display:flex;gap:20px;overflow-x:auto;scroll-snap-type:x mandatory;scroll-padding-left:0;padding:24px 48px 64px 0;margin:-18px 0 -46px;scrollbar-width:none;cursor:grab;-webkit-overflow-scrolling:touch}
 .ree-strack::-webkit-scrollbar{display:none}
 .ree-strack.drag{cursor:grabbing;scroll-snap-type:none;user-select:none}
 .ree-strack.drag .ree-sc{pointer-events:none}

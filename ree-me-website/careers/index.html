@@ -82,18 +82,6 @@
     </div>
   </section>
 
-  <!-- JOBS -->
-  <section class="sec sec-jobs">
-    <div class="wrap">
-      <div class="sec-head">
-        <div><span class="eyebrow">Cơ hội mới nhất</span><h2 class="h-sec">Vị trí<br><em>đang tuyển</em></h2></div>
-        <div class="side" style="justify-self:end"><p class="lead">Các vị trí tuyển gấp được xếp trước. Xem toàn bộ để lọc theo bộ phận, địa điểm và hệ thống.</p>
-          <a class="btn btn-ghost" href="jobs.html#top">Tất cả vị trí <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M7 17 17 7M9 7h8v8"/></svg></a></div>
-      </div>
-      <div class="tiles minis" id="featured" aria-live="polite"></div>
-      <nav class="fpager" id="fpager" aria-label="Phân trang vị trí"></nav>
-    </div>
-  </section>
 
 
 </main>
@@ -248,7 +236,7 @@
       <span class="life-txt"><h3>${a.title}${i===0?`<i>${ic("right")}</i>`:""}</h3>${i===0?`<p>${a.text}</p>`:""}</span></button>`).join("");
 
   /* ---- jobs ---- */
-  { const list = [...JOBS].sort((a,b) => (b.hot - a.hot) || a.deadline.localeCompare(b.deadline)), PER = 8, pages = Math.ceil(list.length / PER);
+  if($("#featured")) { const list = [...JOBS].sort((a,b) => (b.hot - a.hot) || a.deadline.localeCompare(b.deadline)), PER = 8, pages = Math.ceil(list.length / PER);
     let pg = 1;
     const draw = (scroll) => {
       const box = $("#featured");

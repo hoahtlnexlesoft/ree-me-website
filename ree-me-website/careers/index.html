@@ -128,7 +128,7 @@
     const [hs] = [pr(111.9,17.6)], [ts] = [pr(115.7,8.4)];
     $("#vnStage").innerHTML = `<svg viewBox="0 0 ${VW} ${VH}" role="img" aria-label="Bản đồ Việt Nam">
       <g class="dots">${dots}</g>
-      ${marks}</svg>`;
+      </svg>`;
     const total = new Set(live.flatMap(c => byCity[c].map(j => j.id))).size;
 
     const pop = $("#vnPop");

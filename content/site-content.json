@@ -1,0 +1,666 @@
+{
+  "projects": [
+    {
+      "slug": "san-bay-quoc-te-long-thanh",
+      "name": "Sân Bay Quốc Tế Long Thành",
+      "scope": "Ga Hàng Không & Ga Tàu Điện Đô Thị",
+      "place": "Đồng Nai",
+      "img": "/assets/longthanh-new-ByhUAJUn.jpg",
+      "categories": [
+        "Hạ tầng Tiện ích Điện",
+        "Hệ thống Điện động lực"
+      ]
+    },
+    {
+      "slug": "san-bay-quoc-te-phu-quoc",
+      "name": "Sân Bay Quốc Tế Phú Quốc",
+      "scope": "Ga Hàng Không & Ga Tàu Điện Đô Thị",
+      "place": "An Giang",
+      "img": "/assets/phuquoc-new-Dkxy82ON.png",
+      "categories": [
+        "Hạ tầng Tiện ích Điện",
+        "Hệ thống Điều hòa Không khí & Thông gió"
+      ]
+    },
+    {
+      "slug": "tuyen-metro-so-1",
+      "name": "Tuyến Metro Số 1",
+      "scope": "Ga Hàng Không & Ga Tàu Điện Đô Thị",
+      "place": "Hồ Chí Minh",
+      "img": "/assets/metro-benthanh-new-CZQZqWwo.jpg",
+      "categories": [
+        "Hạ tầng Tiện ích Điện",
+        "Hệ thống Điện động lực"
+      ]
+    },
+    {
+      "slug": "ngoi-nha-duc-tphcm",
+      "name": "Ngôi Nhà Đức TP.HCM",
+      "scope": "Cao ốc văn phòng & Trung tâm thương mại",
+      "place": "Hồ Chí Minh",
+      "img": "/assets/ngoi-nha-duc-new-BTfaSY-4.jpg",
+      "categories": [
+        "Hệ thống Điều hòa Không khí & Thông gió",
+        "Hệ thống Điện nhẹ, Điều khiển & Tự động hóa"
+      ]
+    },
+    {
+      "slug": "khach-san-hilton-sai-gon",
+      "name": "Khách sạn Hilton Sài Gòn",
+      "scope": "Khách sạn, Resort & Chung cư",
+      "place": "Hồ Chí Minh",
+      "img": "/assets/hilton-saigon-new-D6V0w2XO.jpg",
+      "categories": [
+        "Hệ thống Điều hòa Không khí & Thông gió",
+        "Hệ thống Cấp thoát nước & Vệ sinh"
+      ]
+    },
+    {
+      "slug": "thap-the-sun",
+      "name": "Tháp The Sun",
+      "scope": "Khách sạn, Resort & Chung cư",
+      "place": "Hồ Chí Minh",
+      "img": "/assets/thap-the-sun-new-DAJREMYn.jpg",
+      "badge": "LEED",
+      "categories": [
+        "Hệ thống Điều hòa Không khí & Thông gió",
+        "Hệ thống Phòng cháy & Chữa cháy"
+      ]
+    },
+    {
+      "slug": "benh-vien-hong-ngoc",
+      "name": "Bệnh viện Hồng Ngọc",
+      "scope": "Bệnh viện & Nhà máy dược",
+      "place": "Hà Nội",
+      "img": "/assets/benh-vien-hong-ngoc-BFLNdWD2.jpg",
+      "focus": "58% 62%",
+      "categories": [
+        "Hệ thống Điều hòa Không khí & Thông gió",
+        "Hệ thống Cấp thoát nước & Vệ sinh",
+        "Hệ thống Phòng cháy & Chữa cháy"
+      ]
+    },
+    {
+      "slug": "nha-may-nhiet-dien-lng-nhon-trach-3-4",
+      "name": "Nhà máy Nhiệt điện LNG Nhơn Trạch 3&4",
+      "scope": "Nhà máy",
+      "place": "Đồng Nai",
+      "img": "/assets/nhon-trach-34-new-DMT6QBRf.jpg",
+      "categories": [
+        "Hệ thống Điện động lực",
+        "Hệ thống Điện nhẹ, Điều khiển & Tự động hóa"
+      ]
+    },
+    {
+      "slug": "trung-tam-du-lieu-an-khanh",
+      "name": "Trung tâm Dữ liệu An Khánh",
+      "scope": "Trung tâm dữ liệu",
+      "place": "Hà Nội",
+      "img": "/assets/dc-an-khanh-new-Cd64MEOS.jpg",
+      "categories": [
+        "Trung tâm Dữ liệu",
+        "Dịch vụ Bảo trì"
+      ]
+    }
+  ],
+  "projectDetails": {
+    "san-bay-quoc-te-long-thanh": {
+      "name": "Cảng Hàng không Quốc tế Long Thành - Giai đoạn 1 (gói thầu 5.10)",
+      "client": "Tổng Công ty Cảng hàng không Việt Nam (ACV)",
+      "type": "Ga hàng không  \nGa tàu điện",
+      "status": "Đang thi công",
+      "scale": [
+        "410.000 m²",
+        "Công suất 25 triệu hành khách/năm",
+        "1.2 triệu hàng hóa/năm"
+      ],
+      "location": "Tỉnh Đồng Nai"
+    },
+    "san-bay-quoc-te-phu-quoc": {
+      "name": "Đầu tư mở rộng Cảng hàng không Quốc tế Phú Quốc - Nhà ga hành khách T1, T2 & VVIP",
+      "client": "Sun Airport Joint Stock Company (SAC – Đơn vị thành viên thuộc Tập đoàn Sun Group)",
+      "type": "Ga hàng không & Ga tàu điện",
+      "status": "Đang thi công",
+      "scale": [
+        "1.050 ha",
+        "Công suất 20 triệu hành khách/năm"
+      ],
+      "location": "Phú Quốc, Tỉnh An Giang"
+    },
+    "tuyen-metro-so-1": {
+      "name": "Dự án xây dựng tuyến đường sắt đô thị số 1 Tp Hồ Chí Minh, Bến Thành – Suối Tiên (Metro)",
+      "client": "Ban Quản lý đường sắt đô thị – Uỷ ban Nhân dân TP.HCM",
+      "type": "Ga hàng không & Ga tàu điện",
+      "status": "Đã hoàn thành",
+      "scale": [
+        "22.600 m²",
+        "04 tầng hầm, 01 tầng kỹ thuật"
+      ],
+      "location": "TP.HCM"
+    },
+    "khach-san-hilton-sai-gon": {
+      "name": "Khách sạn Hilton Sài Gòn",
+      "client": "Công ty CP Đầu tư Sản xuất Kinh doanh Sài Gòn Cửu Long",
+      "type": "Khách sạn / Resort & Chung cư",
+      "status": "Đã hoàn thành",
+      "scale": [
+        "53.800 m²",
+        "05 tầng hầm, 40 tầng cao"
+      ],
+      "location": "TP.HCM"
+    },
+    "thap-the-sun": {
+      "name": "Tòa nhà văn phòng TMDV Marina Central Tower",
+      "client": "Công ty TNHH Đầu tư Marina Center",
+      "type": "Cao ốc văn phòng, Trung tâm thương mại & Trung tâm Hội nghị",
+      "status": "Đã hoàn thành",
+      "scale": [
+        "140.000 m²",
+        "5 tầng hầm, 55 tầng cao"
+      ],
+      "location": "TP.HCM",
+      "certification": "LEED Gold"
+    },
+    "ngoi-nha-duc-tphcm": {
+      "name": "Tòa nhà văn phòng Deutsches Haus - TP.HCM",
+      "client": "Công ty TNHH Ngôi Nhà Đức",
+      "type": "Cao ốc văn phòng, Trung tâm thương mại & Trung tâm Hội nghị",
+      "status": "Đã hoàn thành",
+      "scale": [
+        "50.000 m²",
+        "4 tầng hầm, 26 tầng cao"
+      ],
+      "location": "TP.HCM",
+      "certification": "LEED Platinum"
+    },
+    "benh-vien-hong-ngoc": {
+      "name": "Bệnh viện Đa khoa Hồng Ngọc - Phúc Trường Minh (Giai đoạn 2)",
+      "client": "Công ty TNHH Bệnh viện Hồng Ngọc - Phúc Trường Minh",
+      "type": "Bệnh viện & Nhà máy Dược",
+      "status": "Đã hoàn thành",
+      "scale": [
+        "27.000 m²",
+        "02 tầng hầm, 16 tầng cao"
+      ],
+      "location": "Hà Nội"
+    },
+    "nha-may-nhiet-dien-lng-nhon-trach-3-4": {
+      "name": "Nhà máy nhiệt điện Nhơn Trạch 3 & 4",
+      "client": "Tổng công ty Điện lực Dầu khí Việt Nam PV Power (thuộc Tập đoàn Công nghiệp - Năng lượng Quốc gia Việt Nam)",
+      "type": "Nhà máy",
+      "status": "Đã hoàn thành",
+      "scale": [
+        "Tổng công suất của 2 nhà máy đạt hơn 1,6GW",
+        "dự kiến cung cấp hơn 9 tỷ kWh mỗi năm"
+      ],
+      "location": "Tỉnh Đồng Nai"
+    },
+    "trung-tam-du-lieu-an-khanh": {
+      "name": "Đầu tư xây dựng Tổng trạm An Khánh",
+      "client": "Tổng Công ty Mạng lưới Viettel - Chi nhánh Tập đoàn Công nghiệp Viễn thông Quân đội",
+      "type": "Trung tâm dữ liệu",
+      "status": "Đang thi công",
+      "scale": [
+        "19.700 m²",
+        "07 tầng nổi và 01 tầng tum kỹ thuật"
+      ],
+      "location": "Hà Nội"
+    }
+  },
+  "nationalProjects": [
+    {
+      "img": "/assets/national/apec-s2.jpg",
+      "shortTitle": "Trung tâm APEC – Khu S2",
+      "subtitle": "Nhà hát đa năng · Phú Quốc, An Giang",
+      "fullName": "Tổ hợp Trung tâm Hội nghị & Triển lãm APEC (Khu S2 – Nhà hát đa năng)",
+      "client": "Công ty TNHH Xây dựng Dân dụng Thái Dương (Sun Group)",
+      "scale": "67.700 m² · 01 tầng hầm · 06 tầng",
+      "status": "Đang thi công",
+      "slug": "qg-apec-khu-s2"
+    },
+    {
+      "img": "/assets/national/apec-s3.jpg",
+      "shortTitle": "Trung tâm APEC – Khu S3",
+      "subtitle": "Trung tâm hội nghị · Phú Quốc, An Giang",
+      "fullName": "Tổ hợp Trung tâm Hội nghị & Triển lãm APEC (Khu S3 – Trung tâm hội nghị)",
+      "client": "Công ty TNHH Olympia (Sun Group)",
+      "scale": "157.300 m² · 01 tầng hầm · 03 tầng",
+      "status": "Đang thi công",
+      "slug": "qg-apec-khu-s3"
+    },
+    {
+      "img": "/assets/national/laos-na.jpg",
+      "shortTitle": "Nhà Quốc Hội Lào",
+      "subtitle": "Viêng Chăn, Lào",
+      "fullName": "Nhà Quốc Hội Lào",
+      "client": "Bộ Xây Dựng – Nước CHXHCN Việt Nam",
+      "scale": "31.400 m² · 01 tầng hầm · 05 tầng",
+      "status": "Đã hoàn thành",
+      "slug": "qg-nha-quoc-hoi-lao"
+    },
+    {
+      "img": "/assets/national/gov-office-2.jpg",
+      "img2": "/assets/national/gov-office-1.jpg",
+      "shortTitle": "Văn phòng Chính Phủ",
+      "subtitle": "Hà Nội",
+      "fullName": "Văn phòng Chính Phủ",
+      "client": "BQLDA Cải tạo trụ sở làm việc của Chính Phủ & Văn phòng Chính Phủ",
+      "scale": "25.000 m² · 09 tầng",
+      "status": "Đã hoàn thành",
+      "slug": "qg-van-phong-chinh-phu"
+    },
+    {
+      "img": "/assets/national/na-house.jpg",
+      "shortTitle": "Nhà Quốc Hội",
+      "subtitle": "Hà Nội",
+      "fullName": "Nhà Quốc Hội",
+      "client": "Ban QLDA Đầu tư xây dựng Nhà Quốc Hội và hội trường Ba Đình",
+      "scale": "63.200 m² · 02 tầng hầm · 05 tầng cao",
+      "status": "Đã hoàn thành",
+      "slug": "qg-nha-quoc-hoi"
+    },
+    {
+      "img": "/assets/national/hanoi-museum.jpg",
+      "shortTitle": "Bảo tàng Hà Nội",
+      "subtitle": "Hà Nội",
+      "fullName": "Bảo tàng Hà Nội",
+      "client": "Tổng Công ty CP Xuất Nhập Khẩu và Xây dựng Việt Nam (Vinaconex)",
+      "scale": "30.200 m² · 02 tầng hầm · 04 tầng cao",
+      "status": "Đã hoàn thành",
+      "slug": "qg-bao-tang-ha-noi"
+    },
+    {
+      "img": "/assets/national/ncc.jpg",
+      "shortTitle": "Trung tâm Hội nghị Quốc gia",
+      "subtitle": "NCC · Hà Nội",
+      "fullName": "Trung tâm Hội nghị Quốc gia (NCC)",
+      "client": "Ban Quản lý Dự án Xây dựng Hội nghị Quốc gia Hà Nội",
+      "scale": "60.000 m² · 05 tầng",
+      "status": "Đã hoàn thành",
+      "slug": "qg-trung-tam-hoi-nghi-quoc-gia"
+    },
+    {
+      "img": "/assets/national/exhibition.jpg",
+      "shortTitle": "Cung Triển lãm Quốc gia",
+      "subtitle": "Hà Nội",
+      "fullName": "Cung Triển lãm Quốc gia",
+      "client": "Ban QLDA Đầu tư xây dựng Nhà Quốc Hội và hội trường Ba Đình",
+      "scale": "5.500 m²",
+      "status": "Đã hoàn thành",
+      "slug": "qg-cung-trien-lam-quoc-gia"
+    }
+  ],
+  "projectTypes": [
+    {
+      "slug": "ha-tang-ga-hang-khong",
+      "title": "GA HÀNG KHÔNG & GA TÀU ĐIỆN ĐÔ THỊ",
+      "img": "/assets/type-airport-DBWX5khz.jpg",
+      "intro": "Hệ thống cơ điện cho nhà ga hành khách, ga metro và các công trình hạ tầng giao thông quy mô lớn.",
+      "projects": [
+        {
+          "name": "Nhà ga hành khách quốc tế Long Thành",
+          "scope": "Cơ điện toàn nhà ga",
+          "place": "Đồng Nai",
+          "year": "2024 – 2026",
+          "img": "/assets/project-airport-CK_98G66.jpg"
+        },
+        {
+          "name": "Nhà ga T3 Tân Sơn Nhất",
+          "scope": "HVAC · Điện · PCCC",
+          "place": "TP. Hồ Chí Minh",
+          "year": "2023 – 2025",
+          "img": "/assets/project-airport-CK_98G66.jpg"
+        },
+        {
+          "name": "Tuyến metro số 1 – các ga ngầm",
+          "scope": "Thông gió · Điện nhẹ",
+          "place": "TP. Hồ Chí Minh",
+          "year": "2020 – 2024",
+          "img": "/assets/type-airport-DBWX5khz.jpg"
+        }
+      ]
+    },
+    {
+      "slug": "cao-oc-van-phong-tttm",
+      "title": "CAO ỐC VĂN PHÒNG & TRUNG TÂM THƯƠNG MẠI",
+      "img": "/assets/type-commercial-CN_Y2yZK.jpg",
+      "intro": "Tháp văn phòng hạng A, trung tâm thương mại và toà nhà phức hợp với tiêu chuẩn tiện nghi cao.",
+      "projects": [
+        {
+          "name": "Tháp văn phòng hạng A",
+          "scope": "HVAC · Điện · PCCC",
+          "place": "TP. Hồ Chí Minh",
+          "year": "2022 – 2024",
+          "img": "/assets/project-tower-BxsA3ehu.jpg"
+        },
+        {
+          "name": "Trung tâm thương mại phức hợp",
+          "scope": "Cơ điện toàn khối đế",
+          "place": "Hà Nội",
+          "year": "2021 – 2023",
+          "img": "/assets/type-commercial-CN_Y2yZK.jpg"
+        },
+        {
+          "name": "Toà nhà văn phòng hạng A trung tâm",
+          "scope": "Điện · Điều hoà · BMS",
+          "place": "Hà Nội",
+          "year": "2023 – 2025",
+          "img": "/assets/project-tower-BxsA3ehu.jpg"
+        }
+      ]
+    },
+    {
+      "slug": "khach-san-resort-chung-cu",
+      "title": "KHÁCH SẠN, RESORT & CHUNG CƯ",
+      "img": "/assets/type-residential-fMpC5POY.jpg",
+      "intro": "Khách sạn, khu nghỉ dưỡng và chung cư cao tầng — cơ điện đồng bộ cho trải nghiệm lưu trú.",
+      "projects": [
+        {
+          "name": "Khu căn hộ cao cấp ven sông",
+          "scope": "Điện · Nước · Điều hoà",
+          "place": "TP. Hồ Chí Minh",
+          "year": "2023 – 2025",
+          "img": "/assets/type-residential-fMpC5POY.jpg"
+        },
+        {
+          "name": "Khu nghỉ dưỡng ven biển",
+          "scope": "Cơ điện toàn khu",
+          "place": "Khánh Hoà",
+          "year": "2022 – 2024",
+          "img": "/assets/type-residential-fMpC5POY.jpg"
+        }
+      ]
+    },
+    {
+      "slug": "benh-vien-nha-may-duoc",
+      "title": "BỆNH VIỆN & NHÀ MÁY DƯỢC",
+      "img": "/assets/type-healthcare-CtRxSIvf.jpg",
+      "intro": "Bệnh viện, phòng mổ áp lực và nhà máy dược đạt GMP với yêu cầu kiểm soát môi trường nghiêm ngặt.",
+      "projects": [
+        {
+          "name": "Bệnh viện đa khoa quốc tế",
+          "scope": "HVAC · Khí y tế",
+          "place": "Hà Nội",
+          "year": "2022 – 2024",
+          "img": "/assets/project-hospital-KTT__Z7s.jpg"
+        },
+        {
+          "name": "Nhà máy dược phẩm tiêu chuẩn GMP",
+          "scope": "Cleanroom · Utilities",
+          "place": "Bình Dương",
+          "year": "2021 – 2023",
+          "img": "/assets/project-hospital-KTT__Z7s.jpg"
+        }
+      ]
+    },
+    {
+      "slug": "nha-may",
+      "title": "NHÀ MÁY",
+      "img": "/assets/type-factory-D_4BCQ__.jpg",
+      "intro": "Cơ điện và utilities cho nhà máy sản xuất, cleanroom điện tử và hạ tầng khu công nghiệp.",
+      "projects": [
+        {
+          "name": "Nhà máy điện tử công nghệ cao",
+          "scope": "Cleanroom · Utilities",
+          "place": "Bắc Ninh",
+          "year": "2022 – 2024",
+          "img": "/assets/project-plant-Dm32HZwU.jpg"
+        },
+        {
+          "name": "Nhà máy thực phẩm & đồ uống",
+          "scope": "Lạnh công nghiệp · Điện",
+          "place": "Bình Dương",
+          "year": "2021 – 2023",
+          "img": "/assets/project-plant-Dm32HZwU.jpg"
+        },
+        {
+          "name": "Hạ tầng kỹ thuật KCN phía Bắc",
+          "scope": "Điện · Cấp thoát nước",
+          "place": "Hải Phòng",
+          "year": "2023 – 2025",
+          "img": "/assets/type-factory-D_4BCQ__.jpg"
+        }
+      ]
+    },
+    {
+      "slug": "ha-tang-tien-ich-dien",
+      "title": "HẠ TẦNG TIỆN ÍCH ĐIỆN",
+      "img": "/assets/type-power-CRJPNPIb.jpg",
+      "intro": "Trạm biến áp, hệ thống phân phối điện trung – hạ thế và hạ tầng tiện ích điện cho khu đô thị, khu công nghiệp.",
+      "projects": [
+        {
+          "name": "Trạm biến áp & hạ tầng cấp điện khu đô thị",
+          "scope": "Trung thế · Hạ thế · SCADA",
+          "place": "Hà Nội",
+          "year": "2022 – 2024",
+          "img": "/assets/type-power-CRJPNPIb.jpg"
+        },
+        {
+          "name": "Hệ thống phân phối điện khu công nghiệp",
+          "scope": "Trạm biến áp · Tủ phân phối",
+          "place": "Bình Dương",
+          "year": "2021 – 2023",
+          "img": "/assets/type-power-CRJPNPIb.jpg"
+        }
+      ]
+    },
+    {
+      "slug": "trung-tam-du-lieu",
+      "title": "TRUNG TÂM DỮ LIỆU",
+      "img": "/assets/type-datacenter-B0ZUEdIx.jpg",
+      "intro": "Trung tâm dữ liệu với hệ thống điện dự phòng, làm mát chính xác và vận hành liên tục theo tiêu chuẩn Tier.",
+      "projects": [
+        {
+          "name": "Trung tâm dữ liệu Tier III",
+          "scope": "Điện · Làm mát chính xác",
+          "place": "TP. Hồ Chí Minh",
+          "year": "2023 – 2025",
+          "img": "/assets/type-datacenter-B0ZUEdIx.jpg"
+        },
+        {
+          "name": "Trung tâm dữ liệu doanh nghiệp",
+          "scope": "UPS · Precision cooling · BMS",
+          "place": "Hà Nội",
+          "year": "2022 – 2024",
+          "img": "/assets/type-datacenter-B0ZUEdIx.jpg"
+        }
+      ]
+    }
+  ],
+  "services": [
+    {
+      "no": "01",
+      "img": "/assets/hvac-chiller-plant-DXL3kfVi.jpg",
+      "name": "Hệ thống Điều hòa Không khí & Thông gió",
+      "icon": {
+        "displayName": "Wind"
+      },
+      "desc": "Giải pháp HVAC đồng bộ cho cao ốc, nhà máy và công trình hạ tầng, tối ưu tiện nghi và tiêu thụ năng lượng."
+    },
+    {
+      "no": "02",
+      "img": "/assets/He_thong_cap_thoat_nuoc-BaFg8oA2.jpg",
+      "name": "Hệ thống Cấp thoát nước & Vệ sinh",
+      "icon": {
+        "displayName": "Droplets"
+      },
+      "desc": "Cấp nước, thoát nước, xử lý nước thải và thiết bị vệ sinh đạt chuẩn cho mọi loại hình công trình."
+    },
+    {
+      "no": "03",
+      "img": "/assets/He_thong_dien_dong_luc-8jUFqQE6.jpg",
+      "name": "Hệ thống Điện động lực",
+      "icon": {
+        "displayName": "Zap"
+      },
+      "desc": "Trạm biến áp, tủ phân phối, máy phát dự phòng và hệ thống chiếu sáng vận hành an toàn, liên tục."
+    },
+    {
+      "no": "04",
+      "img": "/assets/He_thong_dien_nhe_dien_dieu_khien_va_tu_dong-BMBFfBgV.jpg",
+      "name": "Hệ thống Điện nhẹ, Điều khiển & Tự động hóa",
+      "icon": {
+        "displayName": "Cpu"
+      },
+      "desc": "BMS, an ninh, mạng dữ liệu và tự động hóa giúp giám sát, điều khiển toàn bộ công trình tập trung."
+    },
+    {
+      "no": "05",
+      "img": "/assets/He_thong_phong_chay_chua_chay-C5IZfsyC.jpg",
+      "name": "Hệ thống Phòng cháy & Chữa cháy",
+      "icon": {
+        "displayName": "Flame"
+      },
+      "desc": "Báo cháy, chữa cháy tự động và thoát hiểm theo tiêu chuẩn NFPA, UL/FM và quy chuẩn Việt Nam."
+    },
+    {
+      "no": "06",
+      "img": "/assets/Ha_tang_tien_ich_dien-6h34Ntx5.jpg",
+      "name": "Hạ tầng Tiện ích Điện",
+      "icon": {
+        "displayName": "PlugZap"
+      },
+      "desc": "Hạ tầng cấp điện trung – hạ thế, trạm biến áp và mạng lưới phân phối cho khu đô thị, khu công nghiệp."
+    },
+    {
+      "no": "07",
+      "img": "/assets/Trung_tam_du_lieu-CH7rdXkd.jpg",
+      "name": "Trung tâm Dữ liệu",
+      "icon": {
+        "displayName": "Server"
+      },
+      "desc": "Hệ thống điện dự phòng, làm mát chính xác và giám sát vận hành liên tục theo tiêu chuẩn Tier."
+    },
+    {
+      "no": "08",
+      "img": "/assets/Dich_vu_bao_tri_2-B9wZrt4p.jpg",
+      "name": "Dịch vụ Bảo trì",
+      "icon": {
+        "displayName": "Wrench"
+      },
+      "desc": "Bảo trì, vận hành 24/7, duy trì vòng đời thiết bị và tối ưu chi phí vận hành cho chủ đầu tư."
+    }
+  ],
+  "jobs": [
+    {
+      "code": "26047_1",
+      "loc": "TP. Hồ Chí Minh",
+      "region": "south",
+      "title": "Chỉ Huy Trưởng MEPF Dự Án",
+      "desc": "Quản lý tổng thể công tác thi công cơ điện cho tòa nhà phức hợp hạng A; điều phối các nhà thầu",
+      "salary": "25 - 40 Triệu VND",
+      "exp": "Trên 3 năm KN",
+      "expMin": 3
+    },
+    {
+      "code": "26055_02",
+      "loc": "Đồng Nai / Miền Nam",
+      "region": "south",
+      "title": "Kỹ Sư Trưởng Hệ Thống HVAC",
+      "desc": "Chịu trách nhiệm giám sát lắp đặt hệ thống Chiller giải nhiệt nước công suất lớn, hệ thống…",
+      "salary": "18 - 28 Triệu VND",
+      "exp": "3 - 5 năm KN",
+      "expMin": 3
+    },
+    {
+      "code": "26062_1_1",
+      "loc": "Hà Nội",
+      "region": "north",
+      "title": "Chuyên Viên Kỹ Thuật BIM / Revit",
+      "desc": "Xây dựng mô hình 3D phối hợp Clash Detection cho trung tâm dữ liệu Tier III/IV; lập bản vẽ shop-",
+      "salary": "16 - 25 Triệu VND",
+      "exp": "Tối thiểu 3 năm KN",
+      "expMin": 3
+    },
+    {
+      "code": "26047_2",
+      "loc": "TP. Hồ Chí Minh",
+      "region": "south",
+      "title": "Kỹ Sư Hệ Cơ",
+      "desc": "Triển khai thi công cơ điện dân dụng & thương mại cao tầng; quản lý thầu phụ và nghiệm thu bàn",
+      "salary": "Thỏa thuận cạnh tranh",
+      "exp": "Được đào tạo",
+      "expMin": 0
+    },
+    {
+      "code": "26056_2_1",
+      "loc": "TP. Hồ Chí Minh",
+      "region": "south",
+      "title": "Kỹ Sư Giám Sát Hiện Trường MEP",
+      "desc": "Triển khai thi công tại hiện trường, quản lý hao hụt vật tư trên sàn, thực hiện các biên bản kiểm tra kỹ",
+      "salary": "12 - 18 Triệu VND",
+      "exp": "1 - 3 năm KN",
+      "expMin": 1
+    },
+    {
+      "code": "26055_01",
+      "loc": "TP. Hồ Chí Minh",
+      "region": "south",
+      "title": "Kỹ Sư Thiết Kế Cấp Thoát Nước",
+      "desc": "Tính toán thủy lực mạng lưới, thiết kế hồ sơ bản vẽ thi công và trạm xử lý nước thải cho tổ hợp cao…",
+      "salary": "14 - 20 Triệu VND",
+      "exp": "Trên 2 năm KN",
+      "expMin": 2
+    },
+    {
+      "code": "26060_2",
+      "loc": "TP. Hồ Chí Minh",
+      "region": "south",
+      "title": "Nhân Viên Kiểm Soát Giá Thành",
+      "desc": "Theo dõi chi phí vật tư máy móc công trường, thẩm tra định mức đơn giá và phân tích rủi ro chi…",
+      "salary": "Thương lượng",
+      "exp": "Fresh Grad",
+      "expMin": 0
+    },
+    {
+      "code": "26064_7",
+      "loc": "TP. Hồ Chí Minh",
+      "region": "south",
+      "title": "Nhân Viên QS (Quantity Surveyor)",
+      "desc": "Đo bóc khối lượng từ bản vẽ Shopdrawing, lập hồ sơ thanh toán hợp đồng và xử lý các khoản…",
+      "salary": "12 - 17 Triệu VND",
+      "exp": "1 - 3 năm KN",
+      "expMin": 1
+    },
+    {
+      "code": "26100",
+      "loc": "Hà Nội",
+      "region": "north",
+      "title": "Kỹ Sư Cơ Điện (MEP General)",
+      "desc": "Điều phối công tác thi công cơ điện hạ tầng & resort nghỉ dưỡng; nghiệm thu vật tư đầu vào tại…",
+      "salary": "14 - 20 Triệu VND",
+      "exp": "Trên 1 năm KN",
+      "expMin": 1
+    },
+    {
+      "code": "26033_2",
+      "loc": "Hà Nội",
+      "region": "north",
+      "title": "Kỹ Sư Hệ Cấp Thoát Nước (Plumbing)",
+      "desc": "Triển khai bản vẽ đường ống áp lực và trạm xử lý; thử áp và nghiệm thu kín nước trước khi đóng trần",
+      "salary": "12 - 18 Triệu VND",
+      "exp": "Trên 1 năm KN",
+      "expMin": 1
+    },
+    {
+      "code": "26032_3",
+      "loc": "Hà Nội",
+      "region": "north",
+      "title": "Kỹ Sư Hệ Điện (Power & ELV)",
+      "desc": "Chịu trách nhiệm thi công trạm biến áp, tủ điện tổng MSB và hệ thống điện nhẹ ELV (BMS,…",
+      "salary": "15 - 22 Triệu VND",
+      "exp": "Trên 2 năm KN",
+      "expMin": 2
+    },
+    {
+      "code": "26050",
+      "loc": "Hà Nội",
+      "region": "north",
+      "title": "Chuyên Viên QS (Hồ Sơ & Khối Lượng)",
+      "desc": "Đánh giá khối lượng thầu phụ, nghiệm thu giai đoạn thanh toán định kỳ và giải trình quyết toán…",
+      "salary": "13 - 18 Triệu VND",
+      "exp": "Trên 1 năm KN",
+      "expMin": 1
+    }
+  ]
+}

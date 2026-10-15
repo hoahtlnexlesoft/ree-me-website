@@ -1105,7 +1105,7 @@ html,body{overflow-x:clip}
 .pz-b:hover{transform:translateY(-1px)}
 .pz-b.dark{background:#1B1D17;color:#fff;border:0;box-shadow:0 10px 24px -12px rgba(0,0,0,.6)}
 .pz-b.light{background:#fff;color:#16181D;border:1px solid #DADDE3;box-shadow:0 8px 20px -14px rgba(0,0,0,.35)}
-.pz-pills{display:grid;grid-template-columns:auto minmax(0,1fr);align-items:center;gap:10px 20px;margin-top:34px;max-width:560px}
+.pz-pills{display:grid;grid-template-columns:auto minmax(0,1fr);align-items:center;gap:10px 20px;margin-top:30px;max-width:560px}
 .pz-k{font-size:15px;color:#4A4F5B;white-space:nowrap}
 .pz-v{display:flex;flex-wrap:wrap;gap:8px}
 .pz-pills .loc-pill{font-size:13.5px;font-weight:500;padding:4px 12px;border:1px solid rgba(20,22,27,.35)}
@@ -1379,7 +1379,6 @@ html,body{overflow-x:clip}
       <div class="pz-l">
         <h1 class="pz-t">${esc(j.title)}</h1>
         ${lead ? `<p class="pz-lead">${lead}</p>` : ''}
-        <div class="pz-cta"><button type="button" class="pz-b dark" data-to-form>Ứng tuyển ngay</button><button type="button" class="pz-b light" id="pzShare">Chia sẻ</button></div>
         <div class="pz-pills">${pills}</div>
       </div>
       <div class="pz-r">
@@ -1394,7 +1393,6 @@ html,body{overflow-x:clip}
         <button type="button" class="pz-ring" data-to-form aria-label="Ứng tuyển ngay"><svg viewBox="0 0 200 200"><defs><path id="pzRingP" d="M100,100 m-78,0 a78,78 0 1,1 156,0 a78,78 0 1,1 -156,0"/></defs><text><textPath href="#pzRingP" textLength="488" lengthAdjust="spacing">${ring}</textPath></text></svg><span><b>${esc(j.workTime || '')}</b><small>Thời gian làm việc</small></span></button>
       </div>
     </div>`;
-    const sh = $('#pzShare'); if(sh) sh.onclick = () => $('#jd-share').click();
     $('#jd-sections').innerHTML = jobDetailHTML(j, '', { noHead: true, only: ['Mô tả công việc', 'Yêu cầu', 'Phúc lợi'] });
     positions = [j.id]; regions = [regionOf(j)];
     $('#apply-form').hidden = false; $('#af-done').hidden = true;

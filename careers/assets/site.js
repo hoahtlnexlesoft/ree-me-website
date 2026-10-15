@@ -26,23 +26,6 @@
   setH(); addEventListener("resize", setH); setTimeout(setH, 300); setTimeout(setH, 1200);
 })();
 /* REE M&E careers — shared chrome, components and interactions */
-/* preview helper: reopen the last page you were reviewing after a republish (fresh load of the home page only) */
-(function(){
-  try{
-    const K = "ree_last_page", here = location.pathname.split("/").pop() || "";
-    const isHome = !/^(jobs?|services)\.html$/.test(location.pathname.split("/").pop());
-    const fresh = !document.referrer || new URL(document.referrer).origin !== location.origin;
-    let goingHome = false; try{ goingHome = sessionStorage.getItem("ree_go_home") === "1"; sessionStorage.removeItem("ree_go_home"); }catch(e){}
-    document.addEventListener("click", e => { const a = e.target.closest && e.target.closest("a[href]"); if(!a) return;
-      const h = a.getAttribute("href"); if(h === "./" || h === "index.html" || /^index\.html#/.test(h) || h === "/") { try{ sessionStorage.setItem("ree_go_home","1"); }catch(_){} } }, true);
-    if(isHome && fresh && !location.hash && !goingHome){
-      const v = JSON.parse(localStorage.getItem(K) || "null");
-      if(v && v.p && Date.now() - v.t < 2*60*60*1000 && /^(jobs?|services)\.html/.test(v.p)){ location.replace(v.p); return; }
-    }
-    const save = () => localStorage.setItem(K, JSON.stringify({ p: here + location.hash, t: Date.now() }));
-    save(); addEventListener("hashchange", save);
-  }catch(e){}
-})();
 (function(){
 const $ = (s, r=document) => r.querySelector(s);
 const $$ = (s, r=document) => [...r.querySelectorAll(s)];

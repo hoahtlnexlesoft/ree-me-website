@@ -1115,3 +1115,7 @@ html.embed main:has(#rx[hidden]) .jb-sec{display:block!important;padding:calc(va
 /* job list: no tag chips (Tuyển gấp / systems) */
 .jrow .tags,.jrow .jflag,.jtile .jt-skills{display:none!important}
 .job-top .chip,.job-foot .sysdot{display:none!important}
+
+/* location pills (same colours as the recruiting site) */
+.loc-pills{display:flex;flex-wrap:wrap;gap:4px;margin-top:2px}
+.loc-pill{display:inline-block;padding:2px 9px;border-radius:999px;font-size:12px;font-weight:600;line-height:18px;white-space:nowrap}

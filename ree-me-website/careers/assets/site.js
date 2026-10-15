@@ -118,9 +118,9 @@ window.jobRow = function(j, i){
     ${feat ? `<span class="jflag">${ic("flame")}Tuyển gấp</span>` : ""}
     <span class="jico" style="--c:${c};--bg:${bg}">${ic(k)}</span>
     <div class="jmain"><span class="code">${j.code}</span><h3><a href="${jobURL(j)}">${sentence(j.title)}</a></h3><div class="tags">${chips}</div></div>
-    <div class="jcell">${ic("pin")}<div><small>Địa điểm</small>${j.loc}</div></div>
-    <div class="jcell">${ic("brief")}<div><small>Thu nhập</small>${j.salary}</div></div>
-    <div class="jcell">${ic("cal")}<div><small>Hạn nộp</small><span class="num">${fmtDate(j.deadline)}</span></div></div>
+    <div class="jcell">${ic("pin")}<div><small>Địa điểm</small><span class="loc-pills">${window.locPills ? locPills(j) : j.loc}</span></div></div>
+    <div class="jcell">${ic("money")}<div><small>Mức lương</small>${j.salary}</div></div>
+    ${j.english !== undefined ? `<div class="jcell">${ic("brief")}<div><small>Kinh nghiệm</small>${j.exp}</div></div><div class="jcell">${ic("globe")}<div><small>Tiếng Anh</small>${j.english}</div></div>` : `<div class="jcell">${ic("cal")}<div><small>Hạn nộp</small><span class="num">${fmtDate(j.deadline)}</span></div></div>`}
     <span class="arr">${ic("right")}</span>
     <button class="jsave" data-save="${j.id}" aria-pressed="${isSaved(j.id)}" aria-label="Lưu việc làm">${ic("bookmark")}</button>
   </article>`;

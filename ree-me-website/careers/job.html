@@ -1089,6 +1089,7 @@ html,body{overflow-x:clip}
   #rx #jd-head{padding-top:20px!important;padding-bottom:24px!important}
   #rx .jd-sechead{margin-top:0!important}
   #rx .jd-wrap{padding-bottom:24px!important}
+.sx2-facts{display:grid;gap:14px;padding:18px 20px}.sx2-facts small{display:block;font-size:12px;opacity:.7;margin-bottom:4px}.sx2-facts b{font-size:16px}
 </style>
 <script>window.PAGE="job"</script>
 </head>
@@ -1275,8 +1276,8 @@ html,body{overflow-x:clip}
       <div class="jb-tools"><button class="jb-ib" data-save="${j.id}" aria-pressed="${saved}" aria-label="Lưu việc làm">${ic("heart")}</button><button class="jb-ib" data-copy="${j.title} – ${j.code}" aria-label="Sao chép mã">${ic("copy")}</button></div>
       <nav class="jb-crumbs" aria-label="Breadcrumb"><a href="./">Cơ Hội Nghề Nghiệp</a><span>/</span><a href="jobs.html">Vị Trí Đang Tuyển</a><span>/</span><b>${j.title}</b></nav>
       <h1 class="jb-title">${words.slice(0,cut).join(" ")} <em>${words.slice(cut).join(" ")}</em></h1>
-      <p class="jb-en">${left >= 0 ? `Còn <b>${left}</b> ngày nhận hồ sơ` : "Đã hết hạn nhận hồ sơ"}</p>
-      <div class="jb-tabs"><span class="on">${DEPTS[j.dept].short}</span><span>${j.level}</span><span>${j.type}</span>${j.hot?'<span class="hot">Tuyển gấp</span>':""}</div></div>`;
+      ${j.deadline ? `<p class="jb-en">${left >= 0 ? `Còn <b>${left}</b> ngày nhận hồ sơ` : "Đã hết hạn nhận hồ sơ"}</p>` : ""}
+      ${j.level ? `<div class="jb-tabs"><span class="on">${DEPTS[j.dept].short}</span><span>${j.level}</span><span>${j.type}</span>${j.hot?'<span class="hot">Tuyển gấp</span>':""}</div>` : ""}</div>`;
   }
 
   function renderDetail(j){
@@ -1300,30 +1301,30 @@ html,body{overflow-x:clip}
       <div class="sx2-copy">
         <div class="sx2-trust"><span class="sx2-av"><img src="assets/img/core-team.jpg" alt=""><img src="assets/img/core-training.jpg" alt=""><img src="assets/img/core-duct.jpg" alt=""></span>995+ kỹ sư đang làm việc tại REE M&amp;E</div>
         <h1 class="sx2-title">${esc(parts[0])}<br>${esc(parts[1])}</h1>
-        <p class="sx2-lead">${esc(j.summary)}</p>
+        ${j.summary ? `<p class="sx2-lead">${esc(j.summary)}</p>` : ""}
         <div class="sx2-cta"><button class="sx2-btn" type="button" data-save="${j.id}" aria-pressed="${saved}">${saved ? "Đã lưu" : "Lưu vị trí"}</button><button class="sx2-btn dark" type="button" data-to-form>Ứng tuyển ngay</button></div>
-        <div class="sx2-stats"><div><b>${esc(j.salary)}</b><small>Mức lương</small></div><div><b>${esc(j.exp)}</b><small>Kinh nghiệm</small></div><div><b>${j.qty}</b><small>Số lượng tuyển</small></div></div>
+        <div class="sx2-stats"><div><b>${esc(j.salary)}</b><small>Mức lương</small></div><div><b>${esc(j.exp)}</b><small>Kinh nghiệm</small></div>${j.english !== undefined ? `<div><b>${esc(j.english)}</b><small>Tiếng Anh</small></div>` : `<div><b>${j.qty}</b><small>Số lượng tuyển</small></div>`}</div>
       </div>
       <div class="sx2-art">
         <div class="sx2-win">
           <div class="sx2-bar"><i></i><i></i><i></i><span></span></div>
           <div class="sx2-wh"><b>Tổng quan vị trí</b><span class="sx2-live"><i></i>Đang tuyển</span></div>
-          <div class="sx2-score"><small>Thời hạn nộp hồ sơ ${ic("clock")}</small><div class="sx2-sc"><b>${dl}</b><span>${left>=0?"ngày còn lại":"đã hết hạn"}</span></div><div class="sx2-bars">${dbars}</div><p>Hạn chót ${fmtDate(j.deadline)} <span>|</span> ${esc(j.code)}</p></div>
+          ${!j.deadline ? `<div class="sx2-facts"><div><small>Mã vị trí</small><b>${esc(j.code)}</b></div><div><small>Địa điểm làm việc</small><span class="loc-pills">${locPills(j)}</span></div><div><small>Thời gian làm việc</small><b>${esc(j.workTime || "")}</b></div></div>` : `<div class="sx2-score"><small>Thời hạn nộp hồ sơ ${ic("clock")}</small><div class="sx2-sc"><b>${dl}</b><span>${left>=0?"ngày còn lại":"đã hết hạn"}</span></div><div class="sx2-bars">${dbars}</div><p>Hạn chót ${fmtDate(j.deadline)} <span>|</span> ${esc(j.code)}</p></div>`}
         </div>
-        <div class="sx2-threat"><b>Hệ thống phụ trách</b>${j.systems.map(x=>`<div><span class="sx2-ic">${ic("check")}</span><em>${esc(SYSTEMS[x]||x)}</em><strong>${esc(x)}</strong></div>`).join("")}</div>
-        <div class="sx2-row r1"><span class="sx2-ic">${ic("pin")}</span><div><b>Địa điểm làm việc</b><small>${esc(j.loc)} · ${esc(DEPTS[j.dept].name)}</small></div><span class="sx2-act"><i></i>${j.hot?"Tuyển gấp":"Đang mở"}</span>${ic("right")}</div>
-        <div class="sx2-row r2"><span class="sx2-ic">${ic("shield")}</span><div><b>Hình thức hợp đồng</b><small>${esc(j.type)} · Chính thức, 100% lương thử việc</small></div><span class="sx2-act"><i></i>Chính thức</span>${ic("right")}</div>
+        ${j.systems.length ? `<div class="sx2-threat"><b>Hệ thống phụ trách</b>${j.systems.map(x=>`<div><span class="sx2-ic">${ic("check")}</span><em>${esc(SYSTEMS[x]||x)}</em><strong>${esc(x)}</strong></div>`).join("")}</div>` : ""}
+        <div class="sx2-row r1"><span class="sx2-ic">${ic("pin")}</span><div><b>Địa điểm làm việc</b><small>${esc(j.loc)}${j.level ? " · " + esc(DEPTS[j.dept].name) : ""}</small></div><span class="sx2-act"><i></i>${j.hot?"Tuyển gấp":"Đang mở"}</span>${ic("right")}</div>
+        <div class="sx2-row r2"><span class="sx2-ic">${ic("shield")}</span><div><b>Hình thức hợp đồng</b><small>${j.type ? esc(j.type) + " · " : ""}Chính thức, 100% lương thử việc</small></div><span class="sx2-act"><i></i>Chính thức</span>${ic("right")}</div>
       </div>
     </div>`;
-    const pending = '<div class="jd-pending"><b>Nội dung chi tiết đang được cập nhật.</b> Tóm tắt: ' + esc(j.summary) + '</div>';
+    const pending = '<div class="jd-pending"><b>Nội dung chi tiết đang được cập nhật.</b>' + (j.summary ? ' Tóm tắt: ' + esc(j.summary) : '') + '</div>';
     const duties = j.desc ? '<ul class="jd-list">' + j.desc.map(t => '<li>' + esc(t) + '</li>').join('') + '<li class="note">Công việc chi tiết sẽ trao đổi khi phỏng vấn.</li></ul>' : pending;
-    const reqs = j.req ? '<ul class="jd-list navy">' + j.req.map(t => '<li>' + esc(t) + '</li>').join('') + '</ul>' : '<div class="jd-pending"><b>Yêu cầu chi tiết đang được cập nhật.</b> Kinh nghiệm: ' + esc(j.exp) + ' KN.</div>';
+    const reqs = j.req ? '<ul class="jd-list navy">' + j.req.map(t => '<li>' + esc(t) + '</li>').join('') + '</ul>' : '<div class="jd-pending"><b>Yêu cầu chi tiết đang được cập nhật.</b> Kinh nghiệm: ' + esc(j.exp) + (j.english ? '. Tiếng Anh: ' + esc(j.english) : '') + '.</div>';
     $('#jd-sections').innerHTML =
       sectionCard('i-tasks', 'Trách nhiệm chuyên môn', '1. Mô tả công việc', duties) +
       sectionCard('i-badge', 'Tiêu chuẩn tuyển chọn', '2. Tiêu chuẩn &amp; Yêu cầu ứng viên', reqs) +
       sectionCard('i-gift', 'Đãi ngộ toàn diện', '3. Chế độ đãi ngộ &amp; Phúc lợi', '<ul class="jd-list checks">' + BENEFITS.map(t => '<li><svg width="16" height="16"><use href="#i-check-c"/></svg><span>' + t + '</span></li>').join('') + '</ul>') +
       sectionCard('i-building', 'Không gian &amp; Văn hóa', '4. Thời gian &amp; Môi trường làm việc',
-        '<div class="jd-env"><div><span class="ico"><svg width="15" height="15"><use href="#i-clock"/></svg></span><div><h4>Thời gian làm việc:</h4><p>Từ <b>Thứ 2 – Thứ 7</b> (Nghỉ Chủ Nhật hàng tuần).</p></div></div>' +
+        '<div class="jd-env"><div><span class="ico"><svg width="15" height="15"><use href="#i-clock"/></svg></span><div><h4>Thời gian làm việc:</h4><p>' + (j.workTime ? esc(j.workTime) : 'Từ <b>Thứ 2 – Thứ 7</b> (Nghỉ Chủ Nhật hàng tuần).') + '</p></div></div>' +
         '<div><span class="ico"><svg width="15" height="15"><use href="#i-award"/></svg></span><div><h4>Môi trường &amp; Tiện ích:</h4><p>Làm việc tại trụ sở e.town 5 chuẩn xanh quốc tế <b>LEED Platinum</b>; đặc quyền tập luyện miễn phí tại <b>REENERGIZE Station</b> (phòng gym hiện đại, yoga), cùng chuỗi hoạt động gắn kết văn hóa thể thao Jardines Familympic định kỳ.</p></div></div></div>');
     positions = [j.id]; regions = [regionOf(j)];
     $('#apply-form').hidden = false; $('#af-done').hidden = true;

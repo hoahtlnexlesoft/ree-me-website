@@ -206,6 +206,28 @@
   .jg.shut .jg-h{margin-bottom:0}
   @media (max-width:1080px) and (min-width:561px){.jrow{row-gap:14px!important;grid-template-columns:repeat(2,minmax(0,1fr)) 46px!important}.jrow .jmain{grid-area:1/1/2/3!important}.jrow .arr{grid-area:1/3!important}.jrow .jcell:nth-of-type(2){grid-area:2/1!important}.jrow .jcell:nth-of-type(3){grid-area:2/2!important}.jrow .jcell:nth-of-type(4){grid-area:3/1!important}.jrow .jcell:nth-of-type(5){grid-area:3/2!important}.jrow .jcell:nth-of-type(2n){border-left:0;padding-left:0}}
   @media (max-width:560px){.jrow{grid-template-columns:minmax(0,1fr) minmax(0,1fr) 40px!important;row-gap:14px!important}.jrow .jmain{grid-area:1/1/2/3!important}.jrow .arr{grid-area:1/3!important}.jrow .jcell:nth-of-type(2){grid-area:2/1!important}.jrow .jcell:nth-of-type(3){grid-area:2/2!important}.jrow .jcell:nth-of-type(4){grid-area:3/1!important}.jrow .jcell:nth-of-type(5){grid-area:3/2!important}.jrow .jcell:nth-of-type(2n){border-left:0;padding-left:0}}
+  /* grid cards (reference: clean job-board cards) */
+  .jg .job-grid{grid-template-columns:repeat(3,minmax(0,1fr));gap:20px}
+  @media (max-width:1080px){.jg .job-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+  @media (max-width:620px){.jg .job-grid{grid-template-columns:1fr}}
+  .jx-card{position:relative;display:flex;flex-direction:column;gap:16px;padding:24px 24px 20px;background:#fff;border:1px solid #ECEEF3;border-radius:18px;box-shadow:0 1px 2px rgba(15,23,42,.04),0 12px 32px -22px rgba(15,23,42,.25);transition:transform .2s,box-shadow .2s}
+  .jx-card:hover{transform:translateY(-2px);box-shadow:0 1px 2px rgba(15,23,42,.05),0 22px 40px -24px rgba(15,23,42,.35)}
+  .jxc-h{display:flex;align-items:flex-start;justify-content:space-between;gap:12px}
+  .jxc-tt{min-width:0}
+  .jx-card h3{margin:0;font-size:18px!important;line-height:1.3;font-weight:600;letter-spacing:-.01em;text-transform:none;color:#14161B}
+  .jx-card h3 a{color:inherit}
+  .jxc-code{display:block;margin-top:4px;font-size:14px;color:#6B7180}
+  .jxc-save{position:relative;z-index:2;flex:none;width:34px;height:34px;display:grid;place-items:center;border:0;background:none;color:#3A3F4B;cursor:pointer;border-radius:8px}
+  .jxc-save:hover{background:#F2F4F8}
+  .jxc-save svg{width:20px;height:20px}
+  .jxc-save[aria-pressed="true"] svg{fill:currentColor;color:#C84634}
+  .jxc-tags{display:flex;flex-wrap:wrap;gap:8px}
+  .jxc-tags .loc-pill{font-size:13px;padding:4px 12px;border-radius:8px;font-weight:500}
+  .jxc-desc{margin:0;font-size:14px;line-height:1.6;color:#6B7180;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+  .jxc-f{margin-top:auto;padding-top:14px;border-top:1px solid #F0F1F5;display:flex;align-items:center;justify-content:space-between;gap:12px;font-size:14px;color:#6B7180}
+  .jxc-f b{color:#14161B;font-weight:600}
+  .jxc-wt{white-space:nowrap}
+  .jxc-link{position:absolute;inset:0;z-index:1;border-radius:inherit}
 </style>
 <script>window.PAGE="jobs"</script>
 </head>
@@ -338,6 +360,15 @@
   const hl = html => { if(!st.q) return html; const w = norm(st.q).split(/\s+/).find(x => x.length > 1); if(!w) return html;
     return html.replace(/(<h3><a[^>]*>)([^<]+)(<\/a>)/, (m,a,t,c) => { const i = norm(t).indexOf(w); return i < 0 ? m : a + t.slice(0,i) + "<mark>" + t.slice(i,i+w.length) + "</mark>" + t.slice(i+w.length) + c; }); };
 
+  /* grid card — only fields that exist in the data */
+  const jxCard = j => `<article class="jx-card">
+      <header class="jxc-h"><div class="jxc-tt"><h3><a href="${jobURL(j)}">${j.title}</a></h3><span class="jxc-code">${j.code}</span></div>
+        <button class="jxc-save" data-save="${j.id}" aria-pressed="${store.get("ree_saved", []).includes(j.id)}" aria-label="Lưu việc làm">${ic("bookmark")}</button></header>
+      <div class="jxc-tags">${locPills(j)}${j.exp ? fieldPill("exp", j.exp) : ""}${j.english ? fieldPill("english", j.english) : ""}</div>
+      ${j.desc ? `<p class="jxc-desc">${j.desc.join(" · ")}</p>` : ""}
+      <footer class="jxc-f"><span>Mức lương: <b>${j.salary}</b></span>${j.workTime ? `<span class="jxc-wt">${j.workTime}</span>` : ""}</footer>
+      <a class="jxc-link" href="${jobURL(j)}" aria-hidden="true" tabindex="-1"></a>
+    </article>`;
   function render(){
     $("#sort").value = st.sort;
     $("#vList").setAttribute("aria-pressed", st.view === "list"); $("#vGrid").setAttribute("aria-pressed", st.view === "grid");
@@ -353,7 +384,7 @@
     const groups = LOC_TAGS.map(g => [g, res.filter(j => j.loc.split(" · ").includes(g.k))]).filter(([,a]) => a.length);
     list.innerHTML = groups.map(([g, a]) => { const open = !st.closed.includes(g.k);
       return `<section class="jg${open ? "" : " shut"}"><small class="jg-eb">Địa điểm làm việc</small><button type="button" class="jg-h" data-grp="${g.k}" aria-expanded="${open}"><svg class="jg-chev" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg><span class="loc-pill jg-pill" style="background:${g.c};color:${g.t}">${g.k}</span><span class="jg-n">${a.length}</span></button>
-        <div class="${st.view === "list" ? "rows" : "job-grid"}"${open ? "" : " hidden"}>${a.map(j => hl(st.view === "list" ? jobRow(j) : jobCard(j))).join("")}</div></section>`; }).join("");
+        <div class="${st.view === "list" ? "rows" : "job-grid"}"${open ? "" : " hidden"}>${a.map(j => hl(st.view === "list" ? jobRow(j) : jxCard(j))).join("")}</div></section>`; }).join("");
     $("#empty").hidden = res.length > 0; list.hidden = !res.length;
     const lbl = id => { const o = $(id).selectedOptions[0]; return o && o.value ? o.textContent : ""; };
     const active = [st.locs.join(", "), st.sal.join(", "), st.exp.join(", "), st.en.length && "Tiếng Anh: " + st.en.join(", ")].filter(Boolean);

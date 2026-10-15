@@ -42,11 +42,12 @@ window.fieldPill = (f, v) => { const o = (FIELD_TAGS[f] || []).find(x => x.k ===
 
 window.JX_EXT = '<svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 4h6v6M20 4l-9 9M18 14v5a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h5"/></svg>';
 /* Detail record, exactly as on the recruiting site. `action` = HTML for the header button. */
-window.jobDetailHTML = (j, action) => {
+window.jobDetailHTML = (j, action, opts) => {
+  const only = opts && opts.only;  /* optional list of row labels to keep */
   const esc = t => String(t).replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
   const ul = a => '<ul class="jx-ul">' + a.map(t => '<li>' + t + '</li>').join('') + '</ul>';  /* data may contain <b> */
-  const row = (k, v) => v ? '<div class="jx-k">' + k + '</div><div class="jx-v">' + v + '</div>' : '';
-  return '<article class="jx"><header class="jx-h"><h1>' + esc(j.code) + ' - ' + esc(j.title) + '</h1>' + (action || '') + '</header><div class="jx-grid">' +
+  const row = (k, v) => v && (!only || only.includes(k)) ? '<div class="jx-k">' + k + '</div><div class="jx-v">' + v + '</div>' : '';
+  return '<article class="jx">' + (opts && opts.noHead ? '' : '<header class="jx-h"><h1>' + esc(j.code) + ' - ' + esc(j.title) + '</h1>' + (action || '') + '</header>') + '<div class="jx-grid">' +
     row('Vị trí', esc(j.title)) + row('Mã vị trí', esc(j.code)) +
     row('Địa điểm làm việc', '<span class="loc-pills">' + locPills(j) + '</span>') +
     row('Mức lương', j.salary && fieldPill('salary', j.salary)) +

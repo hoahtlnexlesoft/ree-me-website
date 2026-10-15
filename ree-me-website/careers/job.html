@@ -1090,6 +1090,19 @@ html,body{overflow-x:clip}
   #rx .jd-sechead{margin-top:0!important}
   #rx .jd-wrap{padding-bottom:24px!important}
 .sx2-facts{display:grid;gap:14px;padding:18px 20px}.sx2-facts small{display:block;font-size:12px;opacity:.7;margin-bottom:4px}.sx2-facts b{font-size:16px}
+/* recruiting-site style detail */
+.jb-band,.jb-sec,#jd-head,.jd-sechead,#dock{display:none!important}
+.rx .jd-sections{display:block!important}
+.jx{background:#fff;border:1px solid #E6E8EE;border-radius:14px;padding:28px 32px 32px;color:#1A1D24}
+.jx-h{display:flex;align-items:flex-start;justify-content:space-between;gap:20px;padding-bottom:18px;border-bottom:1px solid #ECEEF2;margin-bottom:22px}
+.jx-h h1{margin:0;font-size:32px;line-height:1.2;font-weight:700;letter-spacing:-.01em;color:#14161B}
+.jx-btn{flex-shrink:0;display:inline-flex;align-items:center;gap:8px;border:0;border-radius:8px;background:#1F5BD8;color:#fff;font:inherit;font-size:14px;font-weight:600;padding:10px 16px;cursor:pointer}
+.jx-btn:hover{background:#1849B3}
+.jx-grid{display:grid;grid-template-columns:200px minmax(0,1fr);gap:18px 24px;font-size:15px;line-height:1.55}
+.jx-k{color:#2B2F38;font-weight:500}
+.jx-v{color:#1A1D24;min-width:0}
+.jx-ul{margin:0;padding-left:18px}.jx-ul li{margin:0 0 6px}.jx-ul li::marker{color:#14161B}
+@media (max-width:560px){.jx{padding:20px 18px}.jx-h{flex-direction:column}.jx-h h1{font-size:24px}.jx-grid{grid-template-columns:1fr;gap:4px}.jx-v{margin-bottom:12px}}
 </style>
 <script>window.PAGE="job"</script>
 </head>
@@ -1326,6 +1339,24 @@ html,body{overflow-x:clip}
       sectionCard('i-building', 'Không gian &amp; Văn hóa', '4. Thời gian &amp; Môi trường làm việc',
         '<div class="jd-env"><div><span class="ico"><svg width="15" height="15"><use href="#i-clock"/></svg></span><div><h4>Thời gian làm việc:</h4><p>' + (j.workTime ? esc(j.workTime) : 'Từ <b>Thứ 2 – Thứ 7</b> (Nghỉ Chủ Nhật hàng tuần).') + '</p></div></div>' +
         '<div><span class="ico"><svg width="15" height="15"><use href="#i-award"/></svg></span><div><h4>Môi trường &amp; Tiện ích:</h4><p>Làm việc tại trụ sở e.town 5 chuẩn xanh quốc tế <b>LEED Platinum</b>; đặc quyền tập luyện miễn phí tại <b>REENERGIZE Station</b> (phòng gym hiện đại, yoga), cùng chuỗi hoạt động gắn kết văn hóa thể thao Jardines Familympic định kỳ.</p></div></div></div>');
+    /* Detail = exactly the recruiting-site record (no extra content) */
+    const ul = a => '<ul class="jx-ul">' + a.map(t => '<li>' + esc(t) + '</li>').join('') + '</ul>';
+    const row = (k, v) => v ? '<div class="jx-k">' + k + '</div><div class="jx-v">' + v + '</div>' : '';
+    $('#jd-head').innerHTML = '';
+    $('#jd-sections').innerHTML = '<article class="jx">' +
+      '<header class="jx-h"><h1>' + esc(j.code) + ' - ' + esc(j.title) + '</h1><button type="button" class="jx-btn" data-to-form>Ứng tuyển ngay<svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 4h6v6M20 4l-9 9M18 14v5a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h5"/></svg></button></header>' +
+      '<div class="jx-grid">' +
+        row('Vị trí', esc(j.title)) + row('Mã vị trí', esc(j.code)) +
+        row('Địa điểm làm việc', '<span class="loc-pills">' + locPills(j) + '</span>') +
+        row('Mức lương', j.salary && fieldPill('salary', j.salary)) +
+        row('Yêu cầu về kinh nghiệm', j.exp && fieldPill('exp', j.exp)) +
+        row('Yêu cầu về tiếng Anh', j.english && fieldPill('english', j.english)) +
+        row('Mô tả công việc', j.desc && ul(j.desc)) +
+        row('Yêu cầu', j.req && ul(j.req)) +
+        row('Phúc lợi', j.perks && ul(j.perks)) +
+        row('Thời gian làm việc', j.workTime && fieldPill('workTime', j.workTime)) +
+        row('Quy trình phỏng vấn', j.interview && fieldPill('interview', j.interview)) +
+      '</div></article>';
     positions = [j.id]; regions = [regionOf(j)];
     $('#apply-form').hidden = false; $('#af-done').hidden = true;
     renderRegions(); renderPositions(); clearErrors();
@@ -1375,6 +1406,7 @@ html,body{overflow-x:clip}
     hideErr(); form.hidden = true; $('#af-done').hidden = false; $('#apply-card').scrollIntoView({behavior:'smooth', block:'start'});
   });
   $('#af-again').addEventListener('click', () => { $('#apply-form').hidden = false; $('#af-done').hidden = true; });
+  $('#jd-sections').addEventListener('click', e => { if(e.target.closest('[data-to-form]')){ $('#apply-card').scrollIntoView({behavior:'smooth', block:'start'}); setTimeout(() => $('#af-name').focus({preventScroll:true}), 450); } });
   $('#jd-head').addEventListener('click', e => { if(e.target.closest('[data-to-form]')){ $('#apply-card').scrollIntoView({behavior:'smooth', block:'start'}); setTimeout(() => $('#af-name').focus({preventScroll:true}), 450); } });
   const tEl = $('#toast'); let tt; const showToast = m => { tEl.textContent = m; tEl.classList.add('show'); clearTimeout(tt); tt = setTimeout(() => tEl.classList.remove('show'), 2200); };
   $('#jd-share').addEventListener('click', () => { const url = location.href; if(navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(url).then(() => showToast('Đã sao chép liên kết vị trí'), () => showToast(url)); else showToast(url); });

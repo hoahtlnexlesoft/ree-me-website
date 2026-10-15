@@ -290,12 +290,9 @@
   const LOCOPTS = LOC_TAGS;
   /* tag colours copied from the recruiting site */
   const TAGS = {
-    sal: { field:"salary", all:"Tất cả mức lương", many:"mức lương", tags:[ { k:"Thương lượng", c:"#FCE8A6", t:"#5A4300" } ] },
-    exp: { field:"exp", all:"Tất cả kinh nghiệm", many:"mức kinh nghiệm", tags:[
-      { k:"Không yêu cầu", c:"#3F4652", t:"#fff" }, { k:"Ưu tiên có kinh nghiệm", c:"#D3E2FF", t:"#1B3C86" },
-      { k:"Trên 1 năm", c:"#8FB4F6", t:"#0B2A66" }, { k:"Trên 2 năm", c:"#BFE6FF", t:"#0B3A55" }, { k:"Trên 3 năm", c:"#1D4ED8", t:"#fff" } ] },
-    en: { field:"english", all:"Tất cả yêu cầu", many:"yêu cầu", tags:[
-      { k:"Không yêu cầu", c:"#A9ADB4", t:"#15181D" }, { k:"Đọc hiểu", c:"#D3E2FF", t:"#1B3C86" }, { k:"Đọc viết", c:"#BFEBFF", t:"#0B3A55" } ] }
+    sal: { field:"salary", all:"Tất cả mức lương", many:"mức lương", tags:FIELD_TAGS.salary },
+    exp: { field:"exp", all:"Tất cả kinh nghiệm", many:"mức kinh nghiệm", tags:FIELD_TAGS.exp },
+    en: { field:"english", all:"Tất cả yêu cầu", many:"yêu cầu", tags:FIELD_TAGS.english }
   };
   Object.values(TAGS).forEach(g => { const have = uniq(JOBS.map(j => j[g.field])); g.tags = g.tags.filter(t => have.includes(t.k)).concat(have.filter(v => !g.tags.some(t => t.k === v)).map(v => ({ k:v, c:"#E5E7EB", t:"#111" }))); });
   const closeAllMs = () => document.querySelectorAll(".ms-pop").forEach(p => { p.hidden = true; p.parentNode.querySelector(".ms-btn").setAttribute("aria-expanded", false); });

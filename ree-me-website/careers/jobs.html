@@ -215,9 +215,9 @@
       </div>
       <div class="sx-row">
         <div class="sx-f ms" id="locMs"><span class="sx-ic" id="icLoc"></span><button type="button" class="sx-t ms-btn" id="locBtn" aria-haspopup="listbox" aria-expanded="false"><small>Địa điểm</small><span class="ms-val" id="locVal">Tất cả địa điểm</span></button><div class="ms-pop" id="locPop" hidden><input class="ms-q" id="locQ" placeholder="Tìm địa điểm…" autocomplete="off"><div class="ms-list" id="locList" role="listbox" aria-multiselectable="true"></div></div></div>
-        <label class="sx-f" for="f-sal"><span class="sx-ic" id="icSal"></span><span class="sx-t"><small>Mức lương</small><select id="f-sal"><option value="">Tất cả mức lương</option><option value="0-15">Dưới 15 triệu</option><option value="15-20">15 – 20 triệu</option><option value="20-30">20 – 30 triệu</option><option value="30-999">Trên 30 triệu</option><option value="neg">Thỏa thuận</option></select></span></label>
-        <label class="sx-f" for="f-exp"><span class="sx-ic" id="icExp"></span><span class="sx-t"><small>Kinh nghiệm</small><select id="f-exp"><option value="">Tất cả kinh nghiệm</option><option value="0-1">Dưới 1 năm</option><option value="1-3">1 – 3 năm</option><option value="3-5">3 – 5 năm</option><option value="5-99">Trên 5 năm</option></select></span></label>
-        <label class="sx-f" for="f-en"><span class="sx-ic" id="icEn"></span><span class="sx-t"><small>Tiếng Anh</small><select id="f-en"><option value="">Tất cả yêu cầu</option><option value="none">Không yêu cầu</option><option value="basic">Cơ bản</option><option value="comm">Giao tiếp</option><option value="fluent">Thành thạo</option></select></span></label>
+        <div class="sx-f ms" id="salMs"><span class="sx-ic" id="icSal"></span><button type="button" class="sx-t ms-btn" id="salBtn" aria-haspopup="listbox" aria-expanded="false"><small>Mức lương</small><span class="ms-val" id="salVal">Tất cả mức lương</span></button><div class="ms-pop" id="salPop" hidden><input class="ms-q" id="salQ" placeholder="Tìm…" autocomplete="off"><div class="ms-list" id="salList" role="listbox" aria-multiselectable="true"></div></div></div>
+        <div class="sx-f ms" id="expMs"><span class="sx-ic" id="icExp"></span><button type="button" class="sx-t ms-btn" id="expBtn" aria-haspopup="listbox" aria-expanded="false"><small>Kinh nghiệm</small><span class="ms-val" id="expVal">Tất cả kinh nghiệm</span></button><div class="ms-pop" id="expPop" hidden><input class="ms-q" id="expQ" placeholder="Tìm…" autocomplete="off"><div class="ms-list" id="expList" role="listbox" aria-multiselectable="true"></div></div></div>
+        <div class="sx-f ms" id="enMs"><span class="sx-ic" id="icEn"></span><button type="button" class="sx-t ms-btn" id="enBtn" aria-haspopup="listbox" aria-expanded="false"><small>Tiếng Anh</small><span class="ms-val" id="enVal">Tất cả yêu cầu</span></button><div class="ms-pop" id="enPop" hidden><input class="ms-q" id="enQ" placeholder="Tìm…" autocomplete="off"><div class="ms-list" id="enList" role="listbox" aria-multiselectable="true"></div></div></div>
         <button type="button" class="sx-reset" id="resetBtn" aria-label="Xóa bộ lọc"></button>
         <button type="submit" class="sx-go" id="goBtn" aria-label="Tìm việc"></button>
       </div>
@@ -274,21 +274,38 @@
   const uniq = a => [...new Set(a)];
   const LOCS = uniq(JOBS.flatMap(j => j.loc.split(" · ")));
   const LOCOPTS = LOC_TAGS;
-  const ORDER = { exp:["Không yêu cầu","Ưu tiên có kinh nghiệm","Trên 1 năm","Trên 2 năm","Trên 3 năm"], english:["Không yêu cầu","Đọc hiểu","Đọc viết"] };
-  const fillOpts = (sel, key, all) => { const vals = uniq(JOBS.map(j => j[key])), o = ORDER[key] || []; vals.sort((a,b) => (o.indexOf(a)+1 || 99) - (o.indexOf(b)+1 || 99));
-    $(sel).innerHTML = `<option value="">${all}</option>` + vals.map(v => `<option value="${v}">${v}</option>`).join(""); };
-  fillOpts("#f-sal", "salary", "Tất cả mức lương"); fillOpts("#f-exp", "exp", "Tất cả kinh nghiệm"); fillOpts("#f-en", "english", "Tất cả yêu cầu");
+  /* tag colours copied from the recruiting site */
+  const TAGS = {
+    sal: { field:"salary", all:"Tất cả mức lương", many:"mức lương", tags:[ { k:"Thương lượng", c:"#FCE8A6", t:"#5A4300" } ] },
+    exp: { field:"exp", all:"Tất cả kinh nghiệm", many:"mức kinh nghiệm", tags:[
+      { k:"Không yêu cầu", c:"#3F4652", t:"#fff" }, { k:"Ưu tiên có kinh nghiệm", c:"#D3E2FF", t:"#1B3C86" },
+      { k:"Trên 1 năm", c:"#8FB4F6", t:"#0B2A66" }, { k:"Trên 2 năm", c:"#BFE6FF", t:"#0B3A55" }, { k:"Trên 3 năm", c:"#1D4ED8", t:"#fff" } ] },
+    en: { field:"english", all:"Tất cả yêu cầu", many:"yêu cầu", tags:[
+      { k:"Không yêu cầu", c:"#A9ADB4", t:"#15181D" }, { k:"Đọc hiểu", c:"#D3E2FF", t:"#1B3C86" }, { k:"Đọc viết", c:"#BFEBFF", t:"#0B3A55" } ] }
+  };
+  Object.values(TAGS).forEach(g => { const have = uniq(JOBS.map(j => j[g.field])); g.tags = g.tags.filter(t => have.includes(t.k)).concat(have.filter(v => !g.tags.some(t => t.k === v)).map(v => ({ k:v, c:"#E5E7EB", t:"#111" }))); });
+  const closeAllMs = () => document.querySelectorAll(".ms-pop").forEach(p => { p.hidden = true; p.parentNode.querySelector(".ms-btn").setAttribute("aria-expanded", false); });
+  Object.entries(TAGS).forEach(([id, g]) => {
+    st[id] = [];
+    const draw = () => { const q = norm($("#"+id+"Q").value.trim());
+      $("#"+id+"List").innerHTML = g.tags.filter(o => !q || norm(o.k).includes(q)).map(o => `<label class="ms-opt"><input type="checkbox" value="${o.k}" ${st[id].includes(o.k)?"checked":""}><span class="ms-pill" style="background:${o.c};color:${o.t}">${o.k}</span></label>`).join("") || '<p class="ms-none">Không tìm thấy</p>'; };
+    g.setVal = () => { const v = st[id]; $("#"+id+"Val").textContent = !v.length ? g.all : v.length <= 2 ? v.join(", ") : v.length + " " + g.many; $("#"+id+"Ms").classList.toggle("set", v.length > 0); };
+    $("#"+id+"Btn").addEventListener("click", e => { e.stopPropagation(); const was = $("#"+id+"Pop").hidden; closeAllMs(); if(was){ $("#"+id+"Pop").hidden = false; $("#"+id+"Btn").setAttribute("aria-expanded", true); $("#"+id+"Q").value = ""; draw(); setTimeout(() => $("#"+id+"Q").focus(), 0); } });
+    $("#"+id+"Pop").addEventListener("click", e => e.stopPropagation());
+    $("#"+id+"Q").addEventListener("input", draw);
+    $("#"+id+"List").addEventListener("change", e => { const v = e.target.value; st[id] = e.target.checked ? [...st[id], v] : st[id].filter(x => x !== v); st.page = 1; g.setVal(); render(); });
+  });
   st.locs = [];
   const drawLocList = () => { const q = norm($("#locQ").value.trim());
     $("#locList").innerHTML = LOCOPTS.filter(o => !q || norm(o.k).includes(q)).map(o => `<label class="ms-opt"><input type="checkbox" value="${o.k}" ${st.locs.includes(o.k)?"checked":""}><span class="ms-pill" style="background:${o.c};color:${o.t}">${o.k}</span></label>`).join("") || '<p class="ms-none">Không tìm thấy</p>'; };
   const setLocVal = () => { $("#locVal").textContent = !st.locs.length ? "Tất cả địa điểm" : st.locs.length <= 2 ? st.locs.join(", ") : st.locs.length + " địa điểm"; $("#locMs").classList.toggle("set", st.locs.length > 0); };
   const openLoc = on => { $("#locPop").hidden = !on; $("#locBtn").setAttribute("aria-expanded", on); if(on){ $("#locQ").value = ""; drawLocList(); setTimeout(() => $("#locQ").focus(), 0); } };
-  $("#locBtn").addEventListener("click", e => { e.stopPropagation(); openLoc($("#locPop").hidden); });
+  $("#locBtn").addEventListener("click", e => { e.stopPropagation(); const was = $("#locPop").hidden; closeAllMs(); openLoc(was); });
   $("#locPop").addEventListener("click", e => e.stopPropagation());
   $("#locQ").addEventListener("input", drawLocList);
   $("#locList").addEventListener("change", e => { const v = e.target.value; st.locs = e.target.checked ? [...st.locs, v] : st.locs.filter(x => x !== v); st.page = 1; setLocVal(); render(); });
-  document.addEventListener("click", () => openLoc(false));
-  document.addEventListener("keydown", e => { if(e.key === "Escape") openLoc(false); });
+  document.addEventListener("click", () => { openLoc(false); closeAllMs(); });
+  document.addEventListener("keydown", e => { if(e.key === "Escape"){ openLoc(false); closeAllMs(); } });
   const DEPT_IC = { "":"grid", site:"gear", design:"cube", qs:"calc" };
 
   const h = location.hash.slice(1); if(DEPTS[h]) st.dept = h;
@@ -302,16 +319,16 @@
     if(st.loc && !j.loc.includes(st.loc)) return false;
     if(skip !== "dept" && st.dept && j.dept !== st.dept) return false;
     if(skip !== "sys" && st.sys && !j.systems.includes(st.sys)) return false;
-    if(st.sal && j.salary !== st.sal) return false;
-    if(st.exp && j.exp !== st.exp) return false;
-    if(st.en && (j.english || "") !== st.en) return false;
+    if(st.sal.length && !st.sal.includes(j.salary)) return false;
+    if(st.exp.length && !st.exp.includes(j.exp)) return false;
+    if(st.en.length && !st.en.includes(j.english)) return false;
     return true;
   };
   const hl = html => { if(!st.q) return html; const w = norm(st.q).split(/\s+/).find(x => x.length > 1); if(!w) return html;
     return html.replace(/(<h3><a[^>]*>)([^<]+)(<\/a>)/, (m,a,t,c) => { const i = norm(t).indexOf(w); return i < 0 ? m : a + t.slice(0,i) + "<mark>" + t.slice(i,i+w.length) + "</mark>" + t.slice(i+w.length) + c; }); };
 
   function render(){
-    $("#f-sal").value = st.sal; $("#f-exp").value = st.exp; $("#f-en").value = st.en; $("#sort").value = st.sort;
+    $("#sort").value = st.sort;
     $("#vList").setAttribute("aria-pressed", st.view === "list"); $("#vGrid").setAttribute("aria-pressed", st.view === "grid");
     const bd = JOBS.filter(j => match(j, "dept"));
     $("#deptTabs").innerHTML = [["","Tất cả"], ...Object.entries(DEPTS).map(([k,d]) => [k, d.short])].map(([k,t]) => `<button type="button" class="sx-tab" role="tab" data-dept="${k}" aria-selected="${st.dept===k}">${ic(DEPT_IC[k] || "brief")}${t} <em>${k ? bd.filter(j=>j.dept===k).length : bd.length}</em></button>`).join("");
@@ -326,20 +343,19 @@
     list.innerHTML = slice.map(j => hl(st.view === "list" ? jobRow(j) : jobCard(j))).join("");
     $("#empty").hidden = res.length > 0; list.hidden = !res.length;
     const lbl = id => { const o = $(id).selectedOptions[0]; return o && o.value ? o.textContent : ""; };
-    const active = [st.locs.join(", "), lbl("#f-sal"), lbl("#f-exp"), st.en && "Tiếng Anh: " + lbl("#f-en")].filter(Boolean);
+    const active = [st.locs.join(", "), st.sal.join(", "), st.exp.join(", "), st.en.length && "Tiếng Anh: " + st.en.join(", ")].filter(Boolean);
     $("#resultText").innerHTML = `<b class="num">${res.length}</b> vị trí${active.length ? " · " + active.join(" · ") : " đang mở"}`;
     $("#pager").innerHTML = pages < 2 ? "" : `<button data-pg="${st.page-1}" ${st.page===1?"disabled":""} aria-label="Trang trước">‹</button>` +
       Array.from({length:pages},(_,i)=>`<button data-pg="${i+1}" ${i+1===st.page?'aria-current="page"':""}>${i+1}</button>`).join("") +
       `<button data-pg="${st.page+1}" ${st.page===pages?"disabled":""} aria-label="Trang sau">›</button>`;
   }
 
-  const read = () => { st.sal = $("#f-sal").value; st.exp = $("#f-exp").value; st.en = $("#f-en").value; st.page = 1; };
+  const read = () => { st.page = 1; };
   $("#filterForm").addEventListener("submit", e => { e.preventDefault(); read(); render(); scrollTo({top: $(".toolbar").getBoundingClientRect().top + scrollY - 90, behavior:"smooth"}); });
-  ["#f-sal","#f-exp","#f-en"].forEach(s => $(s).addEventListener("change", () => { read(); render(); }));
   $("#sort").addEventListener("change", e => { st.sort = e.target.value; render(); });
   const setView = v => { st.view = v; store.set("ree_view", v); render(); };
   $("#vList").onclick = () => setView("list"); $("#vGrid").onclick = () => setView("grid");
-  const reset = () => { Object.assign(st, { q:"", loc:"", locs:[], dept:"", lv:"", sys:"", sal:"", exp:"", en:"", page:1 }); setLocVal(); render(); };
+  const reset = () => { Object.assign(st, { q:"", loc:"", locs:[], dept:"", lv:"", sys:"", sal:[], exp:[], en:[], page:1 }); setLocVal(); Object.values(TAGS).forEach(g => g.setVal()); render(); };
   $("#resetBtn").onclick = reset; $("#emptyReset").onclick = reset;
   document.addEventListener("click", e => {
     const c = e.target.closest("[data-dept]"); if(c){ st.dept = c.dataset.dept; st.page = 1; render(); return; }

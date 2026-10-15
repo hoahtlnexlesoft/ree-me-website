@@ -1112,3 +1112,6 @@ html.embed .jl-hero{padding-top:calc(var(--hdr-h) + 64px)!important}
 html.embed .jl-topbar{top:calc(var(--hdr-h) + 14px)}
 html.embed #rx::before{content:"";display:block;height:var(--hdr-h);background:linear-gradient(102.85deg,#0D3F8F 0%,#0B4899 50%,#093778 100%)}
 html.embed main:has(#rx[hidden]) .jb-sec{display:block!important;padding:calc(var(--hdr-h) + 24px) 0 64px}
+/* job list: no tag chips (Tuyển gấp / systems) */
+.jrow .tags,.jrow .jflag,.jtile .jt-skills{display:none!important}
+.job-top .chip,.job-foot .sysdot{display:none!important}

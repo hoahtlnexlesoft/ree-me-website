@@ -146,7 +146,6 @@
     $("#vnStage").innerHTML = `<svg viewBox="0 0 ${VW} ${VH}" role="img" aria-label="Bản đồ Việt Nam">
       <g class="dots">${dots}</g>
       <text x="${hs[0]}" y="${hs[1]}" class="isl" text-anchor="middle">QĐ. Hoàng Sa</text><text x="${ts[0]}" y="${ts[1]}" class="isl" text-anchor="end">QĐ. Trường Sa</text>
-      <path d="${route}" class="route"/><path d="${route}" class="route-flow"/>
       ${marks}</svg>`;
     const total = new Set(live.flatMap(c => byCity[c].map(j => j.id))).size;
     $("#mapSum").textContent = `${live.length} tỉnh thành · ${total} vị trí`;

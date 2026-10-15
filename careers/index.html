@@ -138,9 +138,7 @@
     live.forEach(c => {
       const [x,y] = P(c), [lx,ly] = pr(...LABEL[c]), n = byCity[c].length;
       marks += `<g class="vn-pin" data-city="${c}" tabindex="0" role="button" aria-label="${c}: ${n} vị trí">
-        <path d="M${x},${y} L${lx-18},${ly}" class="lead"/><circle cx="${x}" cy="${y}" r="9" class="halo"/><circle cx="${x}" cy="${y}" r="4.2" class="core"/>
-        <circle cx="${lx}" cy="${ly}" r="17" class="bub"/><text x="${lx}" y="${ly+5}" class="cnt">${n}</text>
-        <text x="${lx+24}" y="${ly-1}" class="nm">${c}</text><text x="${lx+24}" y="${ly+12}" class="sub">${n} vị trí</text></g>`;
+        <circle cx="${x}" cy="${y}" r="9" class="halo"/><circle cx="${x}" cy="${y}" r="4.2" class="core"/></g>`;
     });
     const [hs] = [pr(111.9,17.6)], [ts] = [pr(115.7,8.4)];
     $("#vnStage").innerHTML = `<svg viewBox="0 0 ${VW} ${VH}" role="img" aria-label="Bản đồ Việt Nam">
@@ -157,7 +155,7 @@
         <ul>${list.slice(0,4).map(j => `<li><a href="${jobURL(j)}">${j.title}<small>${j.salary}</small></a></li>`).join("")}</ul>
         <a class="vp-all" href="jobs.html" data-go-loc="${c}">Xem tất cả tại ${c} ${ic("arrow")}</a>`;
       pop.hidden = false;
-      const fr = $("#vnmap").getBoundingClientRect(), b = g.querySelector(".bub").getBoundingClientRect();
+      const fr = $("#vnmap").getBoundingClientRect(), b = g.querySelector(".halo").getBoundingClientRect();
       const left = Math.min(Math.max(8, b.left - fr.left - 120), fr.width - pop.offsetWidth - 8);
       const top = b.bottom - fr.top + 10 + pop.offsetHeight > fr.height ? b.top - fr.top - pop.offsetHeight - 10 : b.bottom - fr.top + 10;
       pop.style.left = left + "px"; pop.style.top = Math.max(8, top) + "px";

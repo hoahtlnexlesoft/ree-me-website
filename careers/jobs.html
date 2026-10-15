@@ -173,8 +173,7 @@
   .jl-hero-in{transform:translateY(-34px)}
   @media (max-width:600px){.jl-hero-in{transform:translateY(-20px)}}
   /* list rows: no "Hạn nộp" column */
-  .jrow .jcell:nth-of-type(4){display:none!important}
-  @media (min-width:1081px){.jrow{grid-template-columns:76px minmax(0,1.8fr) repeat(2,minmax(0,.7fr)) 48px!important}}
+  @media (min-width:1081px){.jrow{grid-template-columns:76px minmax(0,1.35fr) minmax(0,1.15fr) repeat(3,minmax(0,.72fr)) 48px!important}}
   @media (max-width:1080px) and (min-width:561px){.jrow{grid-template-columns:64px repeat(2,minmax(0,1fr)) 46px!important}.jmain{grid-column:2/4!important}.jrow .arr{grid-column:4!important}}
   @media (max-width:560px){.jrow{grid-template-columns:repeat(2,minmax(0,1fr)) 40px!important}.jmain{grid-column:1/3!important}.jrow .arr{grid-column:3!important}}
   .list-sec{padding-top:28px}
@@ -274,14 +273,11 @@
 
   const uniq = a => [...new Set(a)];
   const LOCS = uniq(JOBS.flatMap(j => j.loc.split(" · ")));
-  const LOCOPTS = [
-    { k:"TP.HCM", m:"Hồ Chí Minh", c:"#2ED3C6", t:"#0B3B38" },
-    { k:"Hà Nội", m:"Hà Nội", c:"#C9F2D2", t:"#16502A" },
-    { k:"Đà Nẵng", m:"Đà Nẵng", c:"#F7A21B", t:"#3D2500" },
-    { k:"Đồng Nai", m:"Đồng Nai", c:"#F27AE0", t:"#4A0F40" },
-    { k:"Các tỉnh miền Bắc", m:"Miền Bắc", c:"#7FD87F", t:"#123B12" },
-    { k:"Phú Quốc", m:"Phú Quốc", c:"#A10F7A", t:"#fff" }
-  ];
+  const LOCOPTS = LOC_TAGS;
+  const ORDER = { exp:["Không yêu cầu","Ưu tiên có kinh nghiệm","Trên 1 năm","Trên 2 năm","Trên 3 năm"], english:["Không yêu cầu","Đọc hiểu","Đọc viết"] };
+  const fillOpts = (sel, key, all) => { const vals = uniq(JOBS.map(j => j[key])), o = ORDER[key] || []; vals.sort((a,b) => (o.indexOf(a)+1 || 99) - (o.indexOf(b)+1 || 99));
+    $(sel).innerHTML = `<option value="">${all}</option>` + vals.map(v => `<option value="${v}">${v}</option>`).join(""); };
+  fillOpts("#f-sal", "salary", "Tất cả mức lương"); fillOpts("#f-exp", "exp", "Tất cả kinh nghiệm"); fillOpts("#f-en", "english", "Tất cả yêu cầu");
   st.locs = [];
   const drawLocList = () => { const q = norm($("#locQ").value.trim());
     $("#locList").innerHTML = LOCOPTS.filter(o => !q || norm(o.k).includes(q)).map(o => `<label class="ms-opt"><input type="checkbox" value="${o.k}" ${st.locs.includes(o.k)?"checked":""}><span class="ms-pill" style="background:${o.c};color:${o.t}">${o.k}</span></label>`).join("") || '<p class="ms-none">Không tìm thấy</p>'; };
@@ -302,12 +298,12 @@
   const salaryTop = j => Math.max(...(j.salary.match(/\d+/g) || [0]).map(Number));
   const match = (j, skip) => {
     if(st.q){ const hay = norm([j.title,j.en,j.code,j.summary,j.systems.join(" "),DEPTS[j.dept].name].join(" ")); if(!norm(st.q).split(/\s+/).every(w => hay.includes(w))) return false; }
-    if(st.locs && st.locs.length && !st.locs.some(k => j.loc.includes(LOCOPTS.find(o => o.k === k).m))) return false;
+    if(st.locs && st.locs.length && !st.locs.some(k => j.loc.split(" · ").includes(k))) return false;
     if(st.loc && !j.loc.includes(st.loc)) return false;
     if(skip !== "dept" && st.dept && j.dept !== st.dept) return false;
     if(skip !== "sys" && st.sys && !j.systems.includes(st.sys)) return false;
-    if(st.sal){ if(st.sal === "neg"){ if(/\d/.test(j.salary)) return false; } else { const n = (j.salary.match(/\d+/g)||[]).map(Number); if(!n.length) return false; const [a,b] = st.sal.split("-").map(Number), lo = n[0], hi = n[1] ?? n[0]; if((a > 0 && hi <= a) || lo >= b) return false; } }
-    if(st.exp){ const n = (j.exp.match(/\d+/g)||[]).map(Number); const [a,b] = st.exp.split("-").map(Number); const lo = n.length ? n[0] : 0, hi = /\+/.test(j.exp) ? 99 : (n[1] ?? n[0] ?? 0); if((a > 0 && hi <= a) || lo >= b) return false; }
+    if(st.sal && j.salary !== st.sal) return false;
+    if(st.exp && j.exp !== st.exp) return false;
     if(st.en && (j.english || "") !== st.en) return false;
     return true;
   };

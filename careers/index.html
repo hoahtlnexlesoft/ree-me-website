@@ -94,7 +94,7 @@
 (function(){
   const $ = s => document.querySelector(s);
   $("#openCount").textContent = JOBS.length;
-  { const cities = [...new Set(JOBS.map(j => j.loc))]; $("#openWhere").textContent = `vị trí tại ${cities.length} thành phố`; }
+  { const cities = [...new Set(JOBS.flatMap(j => j.loc.split(" · ")))].filter(c => !/^Các dự án/.test(c)); $("#openWhere").textContent = `vị trí tại ${cities.length} thành phố`; }
 
   /* ---- dotted Vietnam map with hiring locations ---- */
   (function(){

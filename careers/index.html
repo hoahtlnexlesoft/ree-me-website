@@ -122,7 +122,7 @@
     let marks = "", tags = "";
     live.forEach(c => {
       const [x,y] = P(c), [lx,ly] = pr(...LABEL[c]), n = byCity[c].length;
-      marks += `<g class="vn-pin" data-city="${c}" tabindex="0" role="button" aria-label="${c}: ${n} vị trí">
+      marks += `<g class="vn-pin" data-city="${c}" aria-label="${c}" style="cursor:default">
         <circle cx="${x}" cy="${y}" r="9" class="halo"/><circle cx="${x}" cy="${y}" r="4.2" class="core"/></g>`;
     });
     const [hs] = [pr(111.9,17.6)], [ts] = [pr(115.7,8.4)];
@@ -144,8 +144,6 @@
       pop.style.left = left + "px"; pop.style.top = Math.max(8, top) + "px";
       document.querySelectorAll(".vn-pin").forEach(p => p.classList.toggle("on", p === g));
     };
-    $("#vnStage").addEventListener("click", e => { const g = e.target.closest(".vn-pin"); if(g){ e.stopPropagation(); show(g.dataset.city, g); } });
-    $("#vnStage").addEventListener("keydown", e => { const g = e.target.closest(".vn-pin"); if(g && (e.key === "Enter" || e.key === " ")){ e.preventDefault(); show(g.dataset.city, g); } });
     document.addEventListener("click", e => {
       const a = e.target.closest("[data-go-loc]"); if(a){ try{ sessionStorage.setItem("ree_q", JSON.stringify({ loc: a.dataset.goLoc })); }catch(err){} return; }
       if(!e.target.closest("#vnPop")){ pop.hidden = true; document.querySelectorAll(".vn-pin").forEach(p => p.classList.remove("on")); }

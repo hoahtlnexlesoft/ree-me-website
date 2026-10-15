@@ -246,3 +246,6 @@ section:has(+ .ree-rel) span.size-10.bottom-5{bottom:150px!important}
 .ree-hh-stack .ree-hh-big{display:block;font-size:1.32em;line-height:.95;font-weight:300;letter-spacing:-.015em;white-space:nowrap}
 .ree-hh-stack .ree-hh-line{display:block;margin-top:.06em;font-size:.86em;line-height:1.05;font-weight:300;white-space:nowrap}
 @media (max-width:639px){.ree-hh-t.ree-hh-stack{font-size:clamp(26px,8.2vw,40px)}}
+/* service-field pages: photos in original colour */
+.ree-page .ph-img img{filter:none!important}
+.card-media-color{opacity:1!important;clip-path:none!important;-webkit-mask:none!important;mask:none!important}

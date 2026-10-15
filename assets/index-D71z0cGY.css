@@ -191,8 +191,9 @@ section:has(+ .ree-rel) span.size-10.bottom-5{bottom:150px!important}
 .ree-mnav li{flex-shrink:0}
 
 /* projects catalogue: navy band with horizontal card strip */
-.ree-cat{position:relative;isolation:isolate;overflow:hidden;padding:104px 0 96px;color:#fff;background:linear-gradient(180deg,oklch(24% .1 262/.45) 0%,oklch(24% .1 262/0) 40%,oklch(24% .1 262/0) 75%,oklch(22% .09 262/.35) 100%),url(./about/catalog-sky.jpg) center/cover no-repeat,var(--navy-deep)}
-.ree-cat::before{display:none}
+.ree-cat{position:relative;isolation:isolate;overflow:hidden;padding:104px 0 96px;color:#fff;background:url(./about/catalog-sky.jpg) center/cover no-repeat,var(--navy-deep)}
+.ree-cat::before{content:"";position:absolute;z-index:-1;top:0;bottom:0;left:69%;width:22%;pointer-events:none;background:linear-gradient(180deg,oklch(38% .17 264/.9) 0%,oklch(42% .17 262/.55) 35%,oklch(55% .13 245/.18) 70%,transparent 95%);box-shadow:inset 1px 0 0 oklch(75% .12 245/.35),inset -1px 0 0 oklch(75% .12 245/.35);-webkit-mask-image:linear-gradient(180deg,#000 60%,transparent);mask-image:linear-gradient(180deg,#000 60%,transparent)}
+@media (max-width:639px){.ree-cat::before{left:auto;right:0;width:18%}}
 .ree-cat h2{color:#fff!important}
 .ree-cat .text-brand-red{color:var(--brand-red-glow)}
 .ree-cat .ree-fbar{box-shadow:0 20px 50px -24px oklch(10% .06 262/.8)}

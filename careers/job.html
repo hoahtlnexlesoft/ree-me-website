@@ -1142,8 +1142,9 @@ html,body{overflow-x:clip}
 .rx .jd-topbar{background:transparent!important;backdrop-filter:none!important;border-bottom:0!important}
 
 /* ---- three-panel band (Mô tả / Yêu cầu / Phúc lợi) ---- */
-.tp-band{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px;padding:16px;border-radius:28px;background:#6FA8E6 url(assets/img/job-clouds.jpg) center/cover no-repeat;align-items:stretch}
-.tp{border:10px solid rgba(255,255,255,.28);background-clip:padding-box!important;box-shadow:0 0 0 1px rgba(255,255,255,.35),0 24px 48px -28px rgba(0,0,0,.6)}
+.tp-band{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:20px;padding:0;align-items:stretch}
+.tp.a{background:#1B325C;color:#fff}.tp.a .tp-b{color:rgba(255,255,255,.92)}.tp.a .tp-b b{color:#fff}
+.tp.c{background:#F4F4F4;color:#14161B}.tp.c .tp-b{color:#14161B}
 .tp{border-radius:28px;padding:28px 28px 30px;min-width:0;background:#fff;color:#1E3A6E}
 .tp.b{background:linear-gradient(90deg,rgba(6,20,52,.55) 0%,rgba(6,20,52,.25) 50%,rgba(6,20,52,0) 62%),#0B2246 url(assets/img/job-palma.jpg) 70% bottom/cover no-repeat;color:#fff;text-shadow:0 1px 2px rgba(20,50,110,.25)}
 .rx .tp h2{margin:0 0 14px;font-size:clamp(18px,1.5vw,22px);line-height:1.1;font-weight:600;letter-spacing:-.02em;text-transform:uppercase;color:inherit}
@@ -1156,8 +1157,8 @@ html,body{overflow-x:clip}
 .tp-ul li{position:relative;padding-left:18px}
 .tp-ul li+li{margin-top:7px}
 .tp-ul li::before{content:"";position:absolute;left:0;top:.62em;width:7px;height:7px;background:currentColor;border-radius:1px}
-@media (max-width:1080px){.tp-band{grid-template-columns:1fr;padding:22px 18px 48px;gap:16px}.tp{padding:32px 26px}}
-@media (max-width:560px){.tp-band{padding:16px 12px 40px;border-radius:22px}.tp{border-width:7px}.tp{border-radius:24px;padding:26px 20px 30px}.tp-b{font-size:12.5px}}
+@media (max-width:1080px){.tp-band{grid-template-columns:1fr;padding:0;gap:16px}.tp{padding:32px 26px}}
+@media (max-width:560px){.tp-band{padding:0}.tp{border-radius:24px;padding:26px 20px 30px}.tp-b{font-size:12.5px}}
 </style>
 <script>window.PAGE="job"</script>
 </head>

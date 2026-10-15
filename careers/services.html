@@ -578,6 +578,9 @@
   .mx-sarr svg{width:14px;height:14px}
   .mx-cnt{display:none}
   @media (max-width:1000px){.mx-script{margin-left:12px}.mx-card{height:min(124vw,480px)}.mx-card figcaption{left:18px;right:18px;bottom:18px}}
+  /* ACMV gallery: keep original photo colours */
+  .sx-strip img.sx-img,.sx-strip:not(.on):hover .sx-img,.sx-strip:hover img{filter:none!important}
+  .sx-strip:not(.on)::after{background:linear-gradient(180deg,transparent 70%,rgba(3,8,24,.55))}
 </style>
 <script>window.PAGE="services"</script>
 </head>

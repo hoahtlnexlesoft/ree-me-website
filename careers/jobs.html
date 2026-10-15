@@ -365,7 +365,7 @@
       <header class="jxc-h"><div class="jxc-tt"><h3><a href="${jobURL(j)}">${j.title}</a></h3><span class="jxc-code">${j.code}</span></div>
         <button class="jxc-save" data-save="${j.id}" aria-pressed="${store.get("ree_saved", []).includes(j.id)}" aria-label="Lưu việc làm">${ic("bookmark")}</button></header>
       <div class="jxc-tags">${locPills(j)}${j.exp ? fieldPill("exp", j.exp) : ""}${j.english ? fieldPill("english", j.english) : ""}</div>
-      ${j.desc ? `<p class="jxc-desc">${j.desc.join(" · ")}</p>` : ""}
+      ${(() => { const t = (j.descIntro || (j.desc || []).join(" · ")).replace(/<[^>]+>/g, "").trim(); return t ? `<p class="jxc-desc">${t}</p>` : ""; })()}
       <footer class="jxc-f"><span>Mức lương: <b>${j.salary}</b></span>${j.workTime ? `<span class="jxc-wt">${j.workTime}</span>` : ""}</footer>
       <a class="jxc-link" href="${jobURL(j)}" aria-hidden="true" tabindex="-1"></a>
     </article>`;

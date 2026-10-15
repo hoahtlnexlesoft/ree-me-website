@@ -191,8 +191,8 @@ section:has(+ .ree-rel) span.size-10.bottom-5{bottom:150px!important}
 .ree-mnav li{flex-shrink:0}
 
 /* projects catalogue: navy band with horizontal card strip */
-.ree-cat{position:relative;isolation:isolate;overflow:hidden;padding:104px 0 96px;color:#fff;background:radial-gradient(60% 50% at 85% 0%,oklch(45% .15 258/.55),transparent 70%),radial-gradient(50% 60% at 0% 100%,oklch(37.6% .13 259/.7),transparent 70%),var(--navy-deep)}
-.ree-cat::before{content:"";position:absolute;inset:0;z-index:-1;pointer-events:none;background-image:linear-gradient(oklch(100% 0 0/.04) 1px,transparent 1px),linear-gradient(90deg,oklch(100% 0 0/.04) 1px,transparent 1px);background-size:64px 64px;-webkit-mask-image:linear-gradient(180deg,#000,transparent 70%);mask-image:linear-gradient(180deg,#000,transparent 70%)}
+.ree-cat{position:relative;isolation:isolate;overflow:hidden;padding:104px 0 96px;color:#fff;background:linear-gradient(180deg,oklch(22% .09 262/.7) 0%,oklch(24% .1 262/.2) 30%,oklch(22% .09 262/.35) 62%,oklch(20% .09 262/.88) 100%),url(./about/catalog-bg.jpg) 50% 34%/cover no-repeat,var(--navy-deep)}
+.ree-cat::before{display:none}
 .ree-cat h2{color:#fff!important}
 .ree-cat .text-brand-red{color:var(--brand-red-glow)}
 .ree-cat .ree-fbar{box-shadow:0 20px 50px -24px oklch(10% .06 262/.8)}

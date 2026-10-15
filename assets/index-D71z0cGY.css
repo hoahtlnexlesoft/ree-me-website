@@ -239,3 +239,10 @@ section:has(+ .ree-rel) span.size-10.bottom-5{bottom:150px!important}
 .ree-hh-rule{display:flex;flex-wrap:nowrap;gap:12px;margin-top:22px}
 .ree-hh-rule i{display:block;height:2px;width:clamp(56px,6.5vw,92px);background:oklch(72% .1 245/.7)}
 .ree-hh-box{margin:24px 0 0;max-width:640px;color:#fff;font-weight:300;font-size:clamp(17px,1.75vw,27px);line-height:1.35;letter-spacing:.005em;text-shadow:0 2px 18px oklch(15% .08 262/.5)}
+/* hero headline stacked lockup (Build For / Future) */
+.ree-hh-stack span{display:block}
+.ree-hh-stack .ree-hh-row{display:flex;align-items:center;gap:clamp(10px,1.2vw,18px)}
+.ree-hh-stack .ree-hh-sm{display:block;font-size:.5em;line-height:1.02;font-weight:300;letter-spacing:.005em;white-space:nowrap}
+.ree-hh-stack .ree-hh-big{display:block;font-size:1.32em;line-height:.95;font-weight:300;letter-spacing:-.015em;white-space:nowrap}
+.ree-hh-stack .ree-hh-line{display:block;margin-top:.06em;font-size:.86em;line-height:1.05;font-weight:300;white-space:nowrap}
+@media (max-width:639px){.ree-hh-t.ree-hh-stack{font-size:clamp(26px,8.2vw,40px)}}

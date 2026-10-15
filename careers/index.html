@@ -22,7 +22,6 @@
           </div>
         </div>
         <figure class="vnmap rv d2" id="vnmap" aria-label="Bản đồ các tỉnh thành đang tuyển dụng">
-          <figcaption><span>Mạng lưới tuyển dụng</span><b id="mapSum">5 tỉnh thành</b></figcaption>
           <div class="vn-stage" id="vnStage"></div>
           <div class="vn-pop" id="vnPop" hidden></div>
         </figure>
@@ -143,7 +142,6 @@
       <g class="dots">${dots}</g>
       ${marks}</svg>`;
     const total = new Set(live.flatMap(c => byCity[c].map(j => j.id))).size;
-    $("#mapSum").textContent = `${live.length} tỉnh thành · ${total} vị trí`;
 
     const pop = $("#vnPop");
     const show = (c, g) => {

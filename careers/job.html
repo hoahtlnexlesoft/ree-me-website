@@ -1135,17 +1135,10 @@ html,body{overflow-x:clip}
 @media (max-width:980px){.pz{grid-template-columns:1fr;gap:36px}.pz-r{padding:0 0 70px 0;max-width:560px}.pz-float{left:-8px;top:auto;bottom:120px;width:200px}.pz-curve{display:none}}
 @media (max-width:560px){.pz-lead{font-size:16px}.pz-b{height:50px;font-size:16px;padding:0 22px}.pz-pills .loc-pill{font-size:13px;padding:3px 11px}.pz-pills{grid-template-columns:1fr;gap:4px}.pz-k{margin-top:8px;font-size:13px}.pz-card{border-radius:30px;padding:14px 14px 40px}.pz-ph{border-radius:20px}.pz-code{font-size:26px}.pz-r{padding-bottom:10px}.pz-float{position:relative;left:auto;bottom:auto;width:58%;margin-top:-18px;padding:14px}.pz-fic{width:40px;height:40px;margin-bottom:6px}.pz-ring{width:140px;height:140px;right:0;bottom:0}.pz-ring text{font-size:16px}.pz-ring b{font-size:14px}.pz-ring small{font-size:11px}}
 
-/* page background (reference: soft pastel mesh with fine connector lines; no text/icons/avatars) */
+/* page background: the reference image with its text, icons, avatars, buttons and frame removed */
 .rx,.rx .jd-wrap{background:transparent!important}
 .rx{position:relative;isolation:isolate;background:#FAFBFC!important}
-.rx::before{content:"";position:absolute;z-index:-1;left:0;right:0;top:0;height:1100px;pointer-events:none;
-  background:url(assets/img/job-bg-lines.svg) center top/100% 900px no-repeat,
-  radial-gradient(780px 560px at 4% 6%,rgba(234,247,186,1),transparent 70%),
-  radial-gradient(860px 620px at 100% 4%,rgba(160,222,246,1),transparent 70%),
-  radial-gradient(700px 560px at 90% 64%,rgba(184,228,250,.85),transparent 70%),
-  radial-gradient(720px 560px at 2% 82%,rgba(252,218,220,.95),transparent 70%),
-  radial-gradient(520px 380px at 50% 40%,rgba(255,255,255,.9),transparent 75%);
-  -webkit-mask-image:linear-gradient(#000 70%,transparent);mask-image:linear-gradient(#000 70%,transparent)}
+.rx::before{content:"";position:absolute;z-index:-1;left:0;right:0;top:0;height:1000px;pointer-events:none;background:url(assets/img/job-bg.jpg) center top/cover no-repeat;-webkit-mask-image:linear-gradient(#000 75%,transparent);mask-image:linear-gradient(#000 75%,transparent)}
 .rx .jd-topbar{background:transparent!important;backdrop-filter:none!important;border-bottom:0!important}
 </style>
 <script>window.PAGE="job"</script>

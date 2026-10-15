@@ -1101,7 +1101,7 @@ html,body{overflow-x:clip}
 .jx-grid{display:grid;grid-template-columns:200px minmax(0,1fr);gap:18px 24px;font-size:15px;line-height:1.55}
 .jx-k{color:#2B2F38;font-weight:500}
 .jx-v{color:#1A1D24;min-width:0}
-.jx-ul{margin:0;padding-left:18px}.jx-ul li{margin:0 0 6px}.jx-ul li::marker{color:#14161B}
+.jx-p{margin:0 0 6px}.jx-ul{margin:0;padding-left:18px}.jx-ul li{margin:0 0 6px}.jx-ul li::marker{color:#14161B}
 @media (max-width:560px){.jx{padding:20px 18px}.jx-h{flex-direction:column}.jx-h h1{font-size:24px}.jx-grid{grid-template-columns:1fr;gap:4px}.jx-v{margin-bottom:12px}}
 </style>
 <script>window.PAGE="job"</script>
@@ -1340,7 +1340,7 @@ html,body{overflow-x:clip}
         '<div class="jd-env"><div><span class="ico"><svg width="15" height="15"><use href="#i-clock"/></svg></span><div><h4>Thời gian làm việc:</h4><p>' + (j.workTime ? esc(j.workTime) : 'Từ <b>Thứ 2 – Thứ 7</b> (Nghỉ Chủ Nhật hàng tuần).') + '</p></div></div>' +
         '<div><span class="ico"><svg width="15" height="15"><use href="#i-award"/></svg></span><div><h4>Môi trường &amp; Tiện ích:</h4><p>Làm việc tại trụ sở e.town 5 chuẩn xanh quốc tế <b>LEED Platinum</b>; đặc quyền tập luyện miễn phí tại <b>REENERGIZE Station</b> (phòng gym hiện đại, yoga), cùng chuỗi hoạt động gắn kết văn hóa thể thao Jardines Familympic định kỳ.</p></div></div></div>');
     /* Detail = exactly the recruiting-site record (no extra content) */
-    const ul = a => '<ul class="jx-ul">' + a.map(t => '<li>' + esc(t) + '</li>').join('') + '</ul>';
+    const ul = a => '<ul class="jx-ul">' + a.map(t => '<li>' + t + '</li>').join('') + '</ul>';  /* data may contain <b> */
     const row = (k, v) => v ? '<div class="jx-k">' + k + '</div><div class="jx-v">' + v + '</div>' : '';
     $('#jd-head').innerHTML = '';
     $('#jd-sections').innerHTML = '<article class="jx">' +
@@ -1351,7 +1351,7 @@ html,body{overflow-x:clip}
         row('Mức lương', j.salary && fieldPill('salary', j.salary)) +
         row('Yêu cầu về kinh nghiệm', j.exp && fieldPill('exp', j.exp)) +
         row('Yêu cầu về tiếng Anh', j.english && fieldPill('english', j.english)) +
-        row('Mô tả công việc', j.desc && ul(j.desc)) +
+        row('Mô tả công việc', j.desc && ((j.descIntro ? '<p class="jx-p">' + j.descIntro + '</p>' : '') + ul(j.desc))) +
         row('Yêu cầu', j.req && ul(j.req)) +
         row('Phúc lợi', j.perks && ul(j.perks)) +
         row('Thời gian làm việc', j.workTime && fieldPill('workTime', j.workTime)) +

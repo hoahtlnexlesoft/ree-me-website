@@ -1123,9 +1123,9 @@ html.embed main:has(#rx[hidden]) .jb-sec{display:block!important;padding:calc(va
 /* job detail record (job page + quick view) */
 .jx{background:#fff;border:1px solid #E6E8EE;border-radius:14px;padding:28px 32px 32px;color:#1A1D24}
 .jx-h{display:flex;align-items:flex-start;justify-content:space-between;gap:20px;padding-bottom:18px;border-bottom:1px solid #ECEEF2;margin-bottom:22px}
-.jx-h h1{margin:0;font-size:32px;line-height:1.2;font-weight:700;letter-spacing:-.01em;color:#14161B}
-.jx-btn{flex-shrink:0;display:inline-flex;align-items:center;gap:8px;border:0;border-radius:8px;background:#1F5BD8;color:#fff;font:inherit;font-size:14px;font-weight:600;padding:10px 16px;cursor:pointer}
-.jx-btn:hover{background:#1849B3}
+.jx-h h1{margin:0;font-size:32px;line-height:1.2;font-weight:700;letter-spacing:-.01em;color:#0A1A55}
+.jx-btn{flex-shrink:0;display:inline-flex;align-items:center;justify-content:center;gap:8px;height:44px;padding:0 24px;border:0;border-radius:12px;background:oklch(58.6% .196 28);color:#fff;font:inherit;font-size:14px;font-weight:700;letter-spacing:.04em;text-transform:uppercase;white-space:nowrap;cursor:pointer;filter:drop-shadow(0 4px 9px #c13c3473);transition:transform .2s,filter .2s}
+.jx-btn:hover{transform:translateY(-1px);filter:drop-shadow(0 6px 12px #c13c3480) brightness(1.05)}
 .jx-grid{display:grid;grid-template-columns:200px minmax(0,1fr);gap:18px 24px;font-size:15px;line-height:1.55}
 .jx-k{color:#2B2F38;font-weight:500}
 .jx-v{color:#1A1D24;min-width:0}

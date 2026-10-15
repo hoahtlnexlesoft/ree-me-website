@@ -1141,22 +1141,29 @@ html,body{overflow-x:clip}
 #rx{background:linear-gradient(180deg,rgba(250,250,251,0) 0,rgba(250,250,251,0) 620px,#FAFAFB 860px),url(assets/img/job-bg.svg?v=2) center top/max(100%,1440px) auto no-repeat,#FAFAFB!important}
 .rx .jd-topbar{background:transparent!important;backdrop-filter:none!important;border-bottom:0!important}
 
-/* ---- three-panel band (Mô tả / Yêu cầu / Phúc lợi) ---- */
-.tp-band{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:18px;padding:20px;border-radius:28px;background:#1E3A6E;align-items:stretch}
-.tp{border-radius:28px;padding:28px 28px 30px;min-width:0;background:#fff;color:#1E3A6E}
-.tp.b{background:#5C8FD8 url(assets/img/job-sky.jpg) center bottom/cover no-repeat;color:#fff;text-shadow:0 1px 2px rgba(20,50,110,.25)}
-.rx .tp h2{margin:0 0 16px;font-size:clamp(24px,2.1vw,30px);line-height:1.1;font-weight:600;letter-spacing:-.02em;text-transform:uppercase;color:inherit}
-
-.tp-b{font-family:inherit;font-size:13px;line-height:1.55;letter-spacing:.01em;text-transform:uppercase;color:#14213D}
-.tp.b .tp-b{color:#fff}
-.tp-b b{font-weight:700}
+/* ---- accordion cards (Mô tả / Yêu cầu / Phúc lợi) ---- */
+.ac-list{display:flex;flex-direction:column;gap:16px}
+.ac{background:#fff;border-radius:28px;box-shadow:0 1px 2px rgba(15,23,42,.04),0 18px 40px -26px rgba(15,23,42,.28);border:1px solid #EEF0F4}
+.ac-h{all:unset;box-sizing:border-box;width:100%;display:flex;align-items:center;justify-content:space-between;gap:24px;padding:26px 30px 26px 36px;cursor:pointer;border-radius:28px}
+.ac-h:focus-visible{outline:2px solid #1B47D6;outline-offset:-4px}
+.rx .ac-h h2{margin:0;font-size:22px;line-height:1.3;font-weight:600;letter-spacing:-.015em;color:#14161B;text-transform:none}
+.ac-btn{position:relative;flex:none;width:56px;height:56px;border-radius:50%;background:oklch(58.6% .196 28);box-shadow:0 10px 22px -10px rgba(193,60,52,.75);transition:transform .25s}
+.ac-btn i{position:absolute;left:50%;top:50%;width:18px;height:2.5px;margin:-1.25px 0 0 -9px;background:#fff;border-radius:2px;transition:transform .25s}
+.ac-btn i+i{transform:rotate(90deg)}
+.ac.open .ac-btn i+i{transform:rotate(0)}
+.ac-h:hover .ac-btn{transform:scale(1.05)}
+.ac-b{display:grid;grid-template-rows:0fr;transition:grid-template-rows .3s ease}
+.ac.open .ac-b{grid-template-rows:1fr}
+.ac-in{overflow:hidden;padding:0 36px;font-size:17px;line-height:1.75;color:#4A4F5B}
+.ac.open .ac-in{padding-bottom:30px}
+.ac-in b{color:#14161B;font-weight:600}
 .rx .tp-p{margin:0 0 10px}
 .tp-ul{list-style:none;margin:0;padding:0}
-.tp-ul li{position:relative;padding-left:18px}
-.tp-ul li+li{margin-top:7px}
-.tp-ul li::before{content:"";position:absolute;left:0;top:.62em;width:7px;height:7px;background:currentColor;border-radius:1px}
-@media (max-width:1080px){.tp-band{grid-template-columns:1fr;padding:18px;gap:16px}.tp{padding:32px 26px}}
-@media (max-width:560px){.tp-band{padding:12px;border-radius:22px}.tp{border-radius:24px;padding:26px 20px 30px}.tp-b{font-size:12.5px}}
+.tp-ul li{position:relative;padding-left:20px}
+.tp-ul li+li{margin-top:6px}
+.tp-ul li::before{content:"";position:absolute;left:2px;top:.72em;width:6px;height:6px;border-radius:50%;background:oklch(58.6% .196 28)}
+@media (prefers-reduced-motion:reduce){.ac-b,.ac-btn,.ac-btn i{transition:none}}
+@media (max-width:560px){.ac{border-radius:20px}.ac-h{padding:18px 18px 18px 22px;border-radius:20px}.rx .ac-h h2{font-size:18px}.ac-btn{width:44px;height:44px}.ac-in{padding:0 22px;font-size:15px}.ac.open .ac-in{padding-bottom:22px}}
 </style>
 <script>window.PAGE="job"</script>
 </head>
@@ -1417,13 +1424,14 @@ html,body{overflow-x:clip}
         <button type="button" class="pz-ring" data-to-form aria-label="Ứng tuyển ngay"><svg viewBox="0 0 200 200"><defs><path id="pzRingP" d="M100,100 m-78,0 a78,78 0 1,1 156,0 a78,78 0 1,1 -156,0"/></defs><text><textPath href="#pzRingP" textLength="488" lengthAdjust="spacing">${ring}</textPath></text></svg><span><b>${esc(j.workTime || '')}</b><small>Thời gian làm việc</small></span></button>
       </div>
     </div>`;
-    /* three-panel band (reference: poster cards on navy) — content unchanged */
+    /* accordion cards (reference: FAQ cards) — content unchanged */
     const tl = a => '<ul class="tp-ul">' + a.filter(Boolean).map(t => '<li>' + t + '</li>').join('') + '</ul>';
-    const panel = (cls, h, body) => body ? `<section class="tp ${cls}"><h2>${h}</h2><div class="tp-b">${body}</div></section>` : '';
-    $('#jd-sections').innerHTML = '<div class="tp-band">' +
+    const panel = (id, h, body) => body ? `<section class="ac open"><button type="button" class="ac-h" aria-expanded="true" aria-controls="ac-${id}"><h2>${h}</h2><span class="ac-btn" aria-hidden="true"><i></i><i></i></span></button><div class="ac-b" id="ac-${id}"><div class="ac-in">${body}</div></div></section>` : '';
+    $('#jd-sections').innerHTML = '<div class="ac-list">' +
       panel('a', 'Mô tả công việc', j.desc && ((j.descIntro ? '<p class="tp-p">' + j.descIntro + '</p>' : '') + tl(j.desc))) +
       panel('b', 'Yêu cầu', j.req && tl(j.req)) +
       panel('c', 'Phúc lợi', j.perks && tl(j.perks)) + '</div>';
+    $('#jd-sections').querySelectorAll('.ac-h').forEach(b => b.onclick = () => { const s = b.parentNode, on = !s.classList.contains('open'); s.classList.toggle('open', on); b.setAttribute('aria-expanded', on); });
     positions = [j.id]; regions = [regionOf(j)];
     $('#apply-form').hidden = false; $('#af-done').hidden = true;
     renderRegions(); renderPositions(); clearErrors();

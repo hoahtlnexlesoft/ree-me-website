@@ -92,7 +92,7 @@ section:has(+ .ree-rel) span.size-10.bottom-5{bottom:150px!important}
 @media (width<=479px){.project-fact:after{border-left-width:0;border-top-width:.5px}}
 /* project cards: grayscale until hover */
 @media (hover:hover){
-.ree-sc>img,.ree-nat-img{filter:grayscale(1) contrast(1.05);transition:filter .5s ease,transform .7s}
+.ree-sc>img,.ree-nat-img{filter:none;transition:filter .5s ease,transform .7s}
 .ree-sc:hover>img,.ree-sc:focus-visible>img,.ree-nat-card:hover .ree-nat-img,.ree-nat-card:focus-visible .ree-nat-img{filter:none}
 }
 /* about: Tổng quan (luxury tower layout) */

@@ -1119,3 +1119,15 @@ html.embed main:has(#rx[hidden]) .jb-sec{display:block!important;padding:calc(va
 /* location pills (same colours as the recruiting site) */
 .loc-pills{display:flex;flex-wrap:wrap;gap:4px;margin-top:2px}
 .loc-pill{display:inline-block;padding:2px 9px;border-radius:999px;font-size:12px;font-weight:600;line-height:18px;white-space:nowrap}
+
+/* job detail record (job page + quick view) */
+.jx{background:#fff;border:1px solid #E6E8EE;border-radius:14px;padding:28px 32px 32px;color:#1A1D24}
+.jx-h{display:flex;align-items:flex-start;justify-content:space-between;gap:20px;padding-bottom:18px;border-bottom:1px solid #ECEEF2;margin-bottom:22px}
+.jx-h h1{margin:0;font-size:32px;line-height:1.2;font-weight:700;letter-spacing:-.01em;color:#14161B}
+.jx-btn{flex-shrink:0;display:inline-flex;align-items:center;gap:8px;border:0;border-radius:8px;background:#1F5BD8;color:#fff;font:inherit;font-size:14px;font-weight:600;padding:10px 16px;cursor:pointer}
+.jx-btn:hover{background:#1849B3}
+.jx-grid{display:grid;grid-template-columns:200px minmax(0,1fr);gap:18px 24px;font-size:15px;line-height:1.55}
+.jx-k{color:#2B2F38;font-weight:500}
+.jx-v{color:#1A1D24;min-width:0}
+.jx-p{margin:0 0 6px}.jx-ul{margin:0;padding-left:18px}.jx-ul li{margin:0 0 6px}.jx-ul li::marker{color:#14161B}
+@media (max-width:560px){.jx{padding:20px 18px}.jx-h{flex-direction:column}.jx-h h1{font-size:24px}.jx-grid{grid-template-columns:1fr;gap:4px}.jx-v{margin-bottom:12px}}

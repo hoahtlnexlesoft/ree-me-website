@@ -228,6 +228,24 @@
   .jxc-f b{color:#14161B;font-weight:600}
   .jxc-wt{white-space:nowrap}
   .jxc-link{position:absolute;inset:0;z-index:1;border-radius:inherit}
+  /* quick view drawer */
+  .jrow,.jx-card{cursor:pointer}
+  .qv{position:fixed;inset:0;z-index:200}
+  .qv-bg{position:absolute;inset:0;background:rgba(10,16,32,.32);opacity:0;transition:opacity .22s}
+  .qv-panel{position:absolute;top:0;right:0;bottom:0;width:min(720px,100%);background:#fff;box-shadow:-24px 0 60px -20px rgba(10,16,32,.35);display:flex;flex-direction:column;transform:translateX(100%);transition:transform .25s cubic-bezier(.2,.8,.2,1)}
+  .qv.on .qv-bg{opacity:1}.qv.on .qv-panel{transform:none}
+  .qv-bar{display:flex;align-items:center;gap:4px;padding:10px 14px;border-bottom:1px solid #EEF0F4}
+  .qv-sp{flex:1}
+  .qv-ic{width:34px;height:34px;display:grid;place-items:center;border:0;border-radius:8px;background:none;color:#3A3F4B;cursor:pointer}
+  .qv-ic:hover{background:#F2F4F8}.qv-ic:disabled{opacity:.3;cursor:default;background:none}
+  .qv-ic svg{width:18px;height:18px}
+  .qv-body{flex:1;overflow:auto;overscroll-behavior:contain;padding:8px 8px 32px}
+  .qv-body .jx{border:0;border-radius:0;padding:28px 36px}
+  .qv-body .jx-h h1{font-size:30px}
+  .qv-body .jx-grid{grid-template-columns:160px minmax(0,1fr);font-size:14.5px}
+  .qv-body a.jx-btn{text-decoration:none}
+  .qv-toast{position:absolute;left:50%;bottom:20px;transform:translateX(-50%);background:#14161B;color:#fff;font-size:13px;padding:8px 14px;border-radius:8px}
+  @media (max-width:560px){.qv-body .jx{padding:20px 18px}.qv-body .jx-grid{grid-template-columns:1fr}.qv-body .jx-h h1{font-size:24px}}
 </style>
 <script>window.PAGE="jobs"</script>
 </head>
@@ -288,6 +306,22 @@
   </section>
 </main>
 
+
+<div class="qv" id="qv" hidden>
+  <div class="qv-bg" data-qv-close></div>
+  <aside class="qv-panel" role="dialog" aria-modal="true" aria-label="Xem nhanh vị trí">
+    <div class="qv-bar">
+      <button type="button" class="qv-ic" id="qvPrev" aria-label="Vị trí trước"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 15 6-6 6 6"/></svg></button>
+      <button type="button" class="qv-ic" id="qvNext" aria-label="Vị trí sau"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg></button>
+      <span class="qv-sp"></span>
+      <button type="button" class="qv-ic" id="qvCopy" aria-label="Sao chép liên kết"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 14a4 4 0 0 0 5.7 0l3-3a4 4 0 0 0-5.7-5.7l-1 1"/><path d="M14 10a4 4 0 0 0-5.7 0l-3 3a4 4 0 0 0 5.7 5.7l1-1"/></svg></button>
+      <a class="qv-ic" id="qvOpen" href="#" aria-label="Mở trang chi tiết"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 3h6v6M21 3l-8 8M9 21H3v-6M3 21l8-8"/></svg></a>
+      <button type="button" class="qv-ic" data-qv-close aria-label="Đóng"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M6 6l12 12M18 6 6 18"/></svg></button>
+    </div>
+    <div class="qv-body" id="qvBody"></div>
+    <div class="qv-toast" id="qvToast" hidden>Đã sao chép liên kết</div>
+  </aside>
+</div>
 <div id="site-footer"></div>
 
 <script src="assets/jobs-data.js"></script>
@@ -361,7 +395,7 @@
     return html.replace(/(<h3><a[^>]*>)([^<]+)(<\/a>)/, (m,a,t,c) => { const i = norm(t).indexOf(w); return i < 0 ? m : a + t.slice(0,i) + "<mark>" + t.slice(i,i+w.length) + "</mark>" + t.slice(i+w.length) + c; }); };
 
   /* grid card — only fields that exist in the data */
-  const jxCard = j => `<article class="jx-card">
+  const jxCard = j => `<article class="jx-card" data-jid="${j.id}">
       <header class="jxc-h"><div class="jxc-tt"><h3><a href="${jobURL(j)}">${j.title}</a></h3><span class="jxc-code">${j.code}</span></div>
         <button class="jxc-save" data-save="${j.id}" aria-pressed="${store.get("ree_saved", []).includes(j.id)}" aria-label="Lưu việc làm">${ic("bookmark")}</button></header>
       <div class="jxc-tags">${locPills(j)}${j.exp ? fieldPill("exp", j.exp) : ""}${j.english ? fieldPill("english", j.english) : ""}</div>
@@ -384,7 +418,7 @@
     const groups = LOC_TAGS.map(g => [g, res.filter(j => j.loc.split(" · ").includes(g.k))]).filter(([,a]) => a.length);
     list.innerHTML = groups.map(([g, a]) => { const open = !st.closed.includes(g.k);
       return `<section class="jg${open ? "" : " shut"}"><small class="jg-eb">Địa điểm làm việc</small><button type="button" class="jg-h" data-grp="${g.k}" aria-expanded="${open}"><svg class="jg-chev" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg><span class="loc-pill jg-pill" style="background:${g.c};color:${g.t}">${g.k}</span><span class="jg-n">${a.length}</span></button>
-        <div class="${st.view === "list" ? "rows" : "job-grid"}"${open ? "" : " hidden"}>${a.map(j => hl(st.view === "list" ? jobRow(j) : jxCard(j))).join("")}</div></section>`; }).join("");
+        <div class="${st.view === "list" ? "rows" : "job-grid"}"${open ? "" : " hidden"}>${a.map(j => hl(st.view === "list" ? jobRow(j).replace("<article class=\"jrow", `<article data-jid="${j.id}" class="jrow`) : jxCard(j))).join("")}</div></section>`; }).join("");
     $("#empty").hidden = res.length > 0; list.hidden = !res.length;
     const lbl = id => { const o = $(id).selectedOptions[0]; return o && o.value ? o.textContent : ""; };
     const active = [st.locs.join(", "), st.sal.join(", "), st.exp.join(", "), st.en.length && "Tiếng Anh: " + st.en.join(", ")].filter(Boolean);
@@ -407,6 +441,26 @@
     const p = e.target.closest("[data-pg]"); if(p && !p.disabled){ st.page = +p.dataset.pg; render(); scrollTo({top: $(".toolbar").getBoundingClientRect().top + scrollY - 90, behavior:"smooth"}); }
   });
   addEventListener("hashchange", () => { const h = location.hash.slice(1); if(DEPTS[h]){ st.dept = h; st.page = 1; render(); } });
+
+  /* ---- quick view (click a card / row) ---- */
+  let qvList = [], qvIdx = -1;
+  const qvShow = i => { qvIdx = i; const job = qvList[i]; if(!job) return;
+    $("#qvBody").innerHTML = jobDetailHTML(job, `<a class="jx-btn" href="${jobURL(job)}" data-qv-apply>Ứng tuyển ngay${JX_EXT}</a>`);
+    $("#qvBody").scrollTop = 0; $("#qvOpen").href = jobURL(job);
+    $("#qvPrev").disabled = i <= 0; $("#qvNext").disabled = i >= qvList.length - 1; };
+  const qvOpen = id => { const seen = new Set(); qvList = [...document.querySelectorAll("#list [data-jid]")].map(el => el.dataset.jid).filter(x => !seen.has(x) && seen.add(x)).map(x => JOBS.find(o => o.id === x));
+    $("#qv").hidden = false; document.documentElement.style.overflow = "hidden"; requestAnimationFrame(() => $("#qv").classList.add("on")); qvShow(qvList.findIndex(o => o.id === id)); };
+  const qvClose = () => { $("#qv").classList.remove("on"); document.documentElement.style.overflow = ""; setTimeout(() => { $("#qv").hidden = true; }, 220); };
+  document.addEventListener("click", e => {
+    if(e.target.closest("[data-qv-close]")){ qvClose(); return; }
+    if(e.target.closest("[data-qv-apply]")){ try{ sessionStorage.setItem("ree_apply", "1"); }catch(_){} return; }
+    if(e.metaKey || e.ctrlKey || e.shiftKey || e.button) return;
+    const card = e.target.closest("#list [data-jid]"); if(!card || e.target.closest("[data-save]")) return;
+    e.preventDefault(); qvOpen(card.dataset.jid);
+  }, true);
+  $("#qvPrev").onclick = () => qvShow(qvIdx - 1); $("#qvNext").onclick = () => qvShow(qvIdx + 1);
+  $("#qvCopy").onclick = () => { const u = new URL($("#qvOpen").getAttribute("href"), location.href).href; (navigator.clipboard ? navigator.clipboard.writeText(u) : Promise.reject()).catch(() => {}); const t = $("#qvToast"); t.hidden = false; clearTimeout(t._t); t._t = setTimeout(() => t.hidden = true, 1600); };
+  document.addEventListener("keydown", e => { if($("#qv").hidden) return; if(e.key === "Escape") qvClose(); if(e.key === "ArrowDown" || e.key === "ArrowRight"){ e.preventDefault(); qvShow(Math.min(qvIdx + 1, qvList.length - 1)); } if(e.key === "ArrowUp" || e.key === "ArrowLeft"){ e.preventDefault(); qvShow(Math.max(qvIdx - 1, 0)); } });
   render();
 })();
 </script>

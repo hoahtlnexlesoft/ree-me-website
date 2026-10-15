@@ -40,6 +40,26 @@ window.FIELD_TAGS = {
 };
 window.fieldPill = (f, v) => { const o = (FIELD_TAGS[f] || []).find(x => x.k === v) || { c:"#E5E7EB", t:"#111" }; return `<span class="loc-pill" style="background:${o.c};color:${o.t}">${v}</span>`; };
 
+window.JX_EXT = '<svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 4h6v6M20 4l-9 9M18 14v5a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h5"/></svg>';
+/* Detail record, exactly as on the recruiting site. `action` = HTML for the header button. */
+window.jobDetailHTML = (j, action) => {
+  const esc = t => String(t).replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+  const ul = a => '<ul class="jx-ul">' + a.map(t => '<li>' + t + '</li>').join('') + '</ul>';  /* data may contain <b> */
+  const row = (k, v) => v ? '<div class="jx-k">' + k + '</div><div class="jx-v">' + v + '</div>' : '';
+  return '<article class="jx"><header class="jx-h"><h1>' + esc(j.code) + ' - ' + esc(j.title) + '</h1>' + (action || '') + '</header><div class="jx-grid">' +
+    row('Vị trí', esc(j.title)) + row('Mã vị trí', esc(j.code)) +
+    row('Địa điểm làm việc', '<span class="loc-pills">' + locPills(j) + '</span>') +
+    row('Mức lương', j.salary && fieldPill('salary', j.salary)) +
+    row('Yêu cầu về kinh nghiệm', j.exp && fieldPill('exp', j.exp)) +
+    row('Yêu cầu về tiếng Anh', j.english && fieldPill('english', j.english)) +
+    row('Mô tả công việc', j.desc && ((j.descIntro ? '<p class="jx-p">' + j.descIntro + '</p>' : '') + ul(j.desc))) +
+    row('Yêu cầu', j.req && ul(j.req)) +
+    row('Phúc lợi', j.perks && ul(j.perks)) +
+    row('Thời gian làm việc', j.workTime && fieldPill('workTime', j.workTime)) +
+    row('Quy trình phỏng vấn', j.interview && fieldPill('interview', j.interview)) +
+    '</div></article>';
+};
+
 /* Positions copied from the REE M&E recruiting site (sites.google.com/reeme.com.vn/tuyendung): all fields verbatim.
    dept/systems/level/type/deadline/qty/summary are legacy fields, empty and not displayed. */
 window.JOBS = [

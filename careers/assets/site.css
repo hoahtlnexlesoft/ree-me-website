@@ -201,7 +201,7 @@ button{font:inherit;color:inherit;cursor:pointer}
 
 
 /* title block (drawing-sheet style data panel) */
-.tblock{display:grid;grid-template-columns:repeat(4,minmax(0,1fr)) minmax(0,1.3fr);border:1px solid var(--navy-line-2);margin-top:clamp(48px,6vw,80px);background:rgba(22,58,120,.4)}
+.tblock{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));border:1px solid var(--navy-line-2);margin-top:clamp(48px,6vw,80px);background:rgba(22,58,120,.4)}
 .tb{padding:16px 18px 18px;border-right:1px solid var(--navy-line-2);display:grid;gap:6px;align-content:start}
 .tb:last-child{border-right:0}
 .tb small{font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:var(--on-navy-muted)}
@@ -211,7 +211,7 @@ button{font:inherit;color:inherit;cursor:pointer}
 .tb.sheet{grid-template-columns:auto 1fr;column-gap:16px;row-gap:4px;font-size:11px;color:var(--on-navy-muted)}
 .tb.sheet dt{letter-spacing:.14em;text-transform:uppercase}
 .tb.sheet dd{margin:0;color:var(--on-navy);font-weight:500}
-@media (max-width:980px){.tblock{grid-template-columns:repeat(2,minmax(0,1fr))}.tb:nth-child(2n){border-right:0}.tb{border-bottom:1px solid var(--navy-line-2)}.tb.sheet{grid-column:1/-1;border-bottom:0}}
+@media (max-width:980px){.tblock{grid-template-columns:repeat(2,minmax(0,1fr))}.tb:nth-child(2n){border-right:0}.tb{border-bottom:1px solid var(--navy-line-2)}.tb.sheet{grid-column:1/-1;border-bottom:0}.tblock .tb:nth-last-child(-n+2):not(.sheet){border-bottom:0}}
 
 /* ---------- why REE (soft pastel card grid) ---------- */
 :root{--why-1:#F5F6F8;--why-2:#FFFFFF;--why-3a:#E6F0FC;--why-3b:#D2E4FA;--why-4a:#E1E6F1;--why-4b:#EEF8F8;--why-line:rgba(10,20,51,.08)}

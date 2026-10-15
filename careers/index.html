@@ -33,7 +33,6 @@
         <div class="tb"><small>Đối tác</small><b class="num">100<sup>+</sup></b><span>chủ đầu tư &amp; đối tác</span></div>
         <div class="tb"><small>Kinh nghiệm</small><b class="num">40<sup>+</sup></b><span>năm trong ngành cơ điện</span></div>
         <div class="tb"><small>Đang tuyển</small><b class="num" id="openCount">12</b><span id="openWhere">vị trí đang mở</span></div>
-        <dl class="tb sheet"><dt>Dự án</dt><dd>REE M&amp;E Careers</dd><dt>Bản vẽ</dt><dd>CAR-001 · Rev. C</dd><dt>Lập bởi</dt><dd>Phòng Nhân sự</dd><dt>Ngày</dt><dd id="today">07.10.2026</dd></dl>
       </div>
     </div>
   </section>
@@ -109,7 +108,6 @@
   const $ = s => document.querySelector(s);
   $("#openCount").textContent = JOBS.length;
   { const cities = [...new Set(JOBS.map(j => j.loc))]; $("#openWhere").textContent = `vị trí tại ${cities.length} thành phố`; }
-  const t = new Date(); $("#today").textContent = `${String(t.getDate()).padStart(2,"0")}.${String(t.getMonth()+1).padStart(2,"0")}.${t.getFullYear()}`;
 
   /* ---- dotted Vietnam map with hiring locations ---- */
   (function(){

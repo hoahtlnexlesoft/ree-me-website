@@ -178,6 +178,21 @@
   @media (max-width:1080px) and (min-width:561px){.jrow{grid-template-columns:64px repeat(2,minmax(0,1fr)) 46px!important}.jmain{grid-column:2/4!important}.jrow .arr{grid-column:4!important}}
   @media (max-width:560px){.jrow{grid-template-columns:repeat(2,minmax(0,1fr)) 40px!important}.jmain{grid-column:1/3!important}.jrow .arr{grid-column:3!important}}
   .list-sec{padding-top:28px}
+  /* location multi-select */
+  .ms{position:relative}
+  .ms-btn{all:unset;display:flex;flex-direction:column;min-width:0;flex:1;cursor:pointer}
+  .ms-btn small{font-size:12px;font-weight:600;color:#0E1530}
+  .ms-val{font-size:14px;color:#7B829A;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .ms.set .ms-val{color:#0E1530;font-weight:500}
+  .ms-pop{position:absolute;z-index:40;top:calc(100% + 8px);left:0;width:max(100%,260px);padding:10px;background:#fff;border:1px solid #DDE1EA;border-radius:12px;box-shadow:0 24px 48px -20px rgba(10,20,51,.35)}
+  .ms-q{width:100%;box-sizing:border-box;border:1px solid #DDE1EA;border-radius:8px;padding:9px 12px;font:inherit;font-size:14px;color:#0E1530;outline:none;margin-bottom:6px}
+  .ms-q:focus{border-color:#2F6BE8;box-shadow:0 0 0 3px rgba(47,107,232,.15)}
+  .ms-list{max-height:260px;overflow:auto}
+  .ms-opt{display:flex;align-items:center;gap:12px;padding:7px 6px;border-radius:8px;cursor:pointer}
+  .ms-opt:hover{background:#F3F5F9}
+  .ms-opt input{width:18px;height:18px;margin:0;accent-color:#123A9C;cursor:pointer}
+  .ms-pill{display:inline-block;padding:3px 12px;border-radius:999px;font-size:13.5px;font-weight:500;white-space:nowrap}
+  .ms-none{margin:8px 6px;font-size:13px;color:#7B829A}
 </style>
 <script>window.PAGE="jobs"</script>
 </head>
@@ -200,7 +215,7 @@
         <label class="sx-sort" hidden style="display:none"><span class="sr">Sắp xếp</span><select id="sort"><option value="hot">Tuyển gấp trước</option><option value="deadline">Hạn nộp gần nhất</option><option value="salary">Thu nhập cao nhất</option><option value="az">Tên A → Z</option></select></label>
       </div>
       <div class="sx-row">
-        <label class="sx-f" for="f-loc"><span class="sx-ic" id="icLoc"></span><span class="sx-t"><small>Địa điểm</small><select id="f-loc"><option value="">Tất cả địa điểm</option></select></span></label>
+        <div class="sx-f ms" id="locMs"><span class="sx-ic" id="icLoc"></span><button type="button" class="sx-t ms-btn" id="locBtn" aria-haspopup="listbox" aria-expanded="false"><small>Địa điểm</small><span class="ms-val" id="locVal">Tất cả địa điểm</span></button><div class="ms-pop" id="locPop" hidden><input class="ms-q" id="locQ" placeholder="Tìm địa điểm…" autocomplete="off"><div class="ms-list" id="locList" role="listbox" aria-multiselectable="true"></div></div></div>
         <label class="sx-f" for="f-sal"><span class="sx-ic" id="icSal"></span><span class="sx-t"><small>Mức lương</small><select id="f-sal"><option value="">Tất cả mức lương</option><option value="0-15">Dưới 15 triệu</option><option value="15-20">15 – 20 triệu</option><option value="20-30">20 – 30 triệu</option><option value="30-999">Trên 30 triệu</option><option value="neg">Thỏa thuận</option></select></span></label>
         <label class="sx-f" for="f-exp"><span class="sx-ic" id="icExp"></span><span class="sx-t"><small>Kinh nghiệm</small><select id="f-exp"><option value="">Tất cả kinh nghiệm</option><option value="0-1">Dưới 1 năm</option><option value="1-3">1 – 3 năm</option><option value="3-5">3 – 5 năm</option><option value="5-99">Trên 5 năm</option></select></span></label>
         <label class="sx-f" for="f-en"><span class="sx-ic" id="icEn"></span><span class="sx-t"><small>Tiếng Anh</small><select id="f-en"><option value="">Tất cả yêu cầu</option><option value="none">Không yêu cầu</option><option value="basic">Cơ bản</option><option value="comm">Giao tiếp</option><option value="fluent">Thành thạo</option></select></span></label>
@@ -259,7 +274,25 @@
 
   const uniq = a => [...new Set(a)];
   const LOCS = uniq(JOBS.flatMap(j => j.loc.split(" · ")));
-  LOCS.forEach(l => $("#f-loc").insertAdjacentHTML("beforeend", `<option>${l}</option>`));
+  const LOCOPTS = [
+    { k:"TP.HCM", m:"Hồ Chí Minh", c:"#2ED3C6", t:"#0B3B38" },
+    { k:"Hà Nội", m:"Hà Nội", c:"#C9F2D2", t:"#16502A" },
+    { k:"Đà Nẵng", m:"Đà Nẵng", c:"#F7A21B", t:"#3D2500" },
+    { k:"Đồng Nai", m:"Đồng Nai", c:"#F27AE0", t:"#4A0F40" },
+    { k:"Các tỉnh miền Bắc", m:"Miền Bắc", c:"#7FD87F", t:"#123B12" },
+    { k:"Phú Quốc", m:"Phú Quốc", c:"#A10F7A", t:"#fff" }
+  ];
+  st.locs = [];
+  const drawLocList = () => { const q = norm($("#locQ").value.trim());
+    $("#locList").innerHTML = LOCOPTS.filter(o => !q || norm(o.k).includes(q)).map(o => `<label class="ms-opt"><input type="checkbox" value="${o.k}" ${st.locs.includes(o.k)?"checked":""}><span class="ms-pill" style="background:${o.c};color:${o.t}">${o.k}</span></label>`).join("") || '<p class="ms-none">Không tìm thấy</p>'; };
+  const setLocVal = () => { $("#locVal").textContent = !st.locs.length ? "Tất cả địa điểm" : st.locs.length <= 2 ? st.locs.join(", ") : st.locs.length + " địa điểm"; $("#locMs").classList.toggle("set", st.locs.length > 0); };
+  const openLoc = on => { $("#locPop").hidden = !on; $("#locBtn").setAttribute("aria-expanded", on); if(on){ $("#locQ").value = ""; drawLocList(); setTimeout(() => $("#locQ").focus(), 0); } };
+  $("#locBtn").addEventListener("click", e => { e.stopPropagation(); openLoc($("#locPop").hidden); });
+  $("#locPop").addEventListener("click", e => e.stopPropagation());
+  $("#locQ").addEventListener("input", drawLocList);
+  $("#locList").addEventListener("change", e => { const v = e.target.value; st.locs = e.target.checked ? [...st.locs, v] : st.locs.filter(x => x !== v); st.page = 1; setLocVal(); render(); });
+  document.addEventListener("click", () => openLoc(false));
+  document.addEventListener("keydown", e => { if(e.key === "Escape") openLoc(false); });
   const DEPT_IC = { "":"grid", site:"gear", design:"cube", qs:"calc" };
 
   const h = location.hash.slice(1); if(DEPTS[h]) st.dept = h;
@@ -269,6 +302,7 @@
   const salaryTop = j => Math.max(...(j.salary.match(/\d+/g) || [0]).map(Number));
   const match = (j, skip) => {
     if(st.q){ const hay = norm([j.title,j.en,j.code,j.summary,j.systems.join(" "),DEPTS[j.dept].name].join(" ")); if(!norm(st.q).split(/\s+/).every(w => hay.includes(w))) return false; }
+    if(st.locs && st.locs.length && !st.locs.some(k => j.loc.includes(LOCOPTS.find(o => o.k === k).m))) return false;
     if(st.loc && !j.loc.includes(st.loc)) return false;
     if(skip !== "dept" && st.dept && j.dept !== st.dept) return false;
     if(skip !== "sys" && st.sys && !j.systems.includes(st.sys)) return false;
@@ -281,7 +315,7 @@
     return html.replace(/(<h3><a[^>]*>)([^<]+)(<\/a>)/, (m,a,t,c) => { const i = norm(t).indexOf(w); return i < 0 ? m : a + t.slice(0,i) + "<mark>" + t.slice(i,i+w.length) + "</mark>" + t.slice(i+w.length) + c; }); };
 
   function render(){
-    $("#f-loc").value = st.loc; $("#f-sal").value = st.sal; $("#f-exp").value = st.exp; $("#f-en").value = st.en; $("#sort").value = st.sort;
+    $("#f-sal").value = st.sal; $("#f-exp").value = st.exp; $("#f-en").value = st.en; $("#sort").value = st.sort;
     $("#vList").setAttribute("aria-pressed", st.view === "list"); $("#vGrid").setAttribute("aria-pressed", st.view === "grid");
     const bd = JOBS.filter(j => match(j, "dept"));
     $("#deptTabs").innerHTML = [["","Tất cả"], ...Object.entries(DEPTS).map(([k,d]) => [k, d.short])].map(([k,t]) => `<button type="button" class="sx-tab" role="tab" data-dept="${k}" aria-selected="${st.dept===k}">${ic(DEPT_IC[k] || "brief")}${t} <em>${k ? bd.filter(j=>j.dept===k).length : bd.length}</em></button>`).join("");
@@ -296,20 +330,20 @@
     list.innerHTML = slice.map(j => hl(st.view === "list" ? jobRow(j) : jobCard(j))).join("");
     $("#empty").hidden = res.length > 0; list.hidden = !res.length;
     const lbl = id => { const o = $(id).selectedOptions[0]; return o && o.value ? o.textContent : ""; };
-    const active = [st.loc, lbl("#f-sal"), lbl("#f-exp"), st.en && "Tiếng Anh: " + lbl("#f-en")].filter(Boolean);
+    const active = [st.locs.join(", "), lbl("#f-sal"), lbl("#f-exp"), st.en && "Tiếng Anh: " + lbl("#f-en")].filter(Boolean);
     $("#resultText").innerHTML = `<b class="num">${res.length}</b> vị trí${active.length ? " · " + active.join(" · ") : " đang mở"}`;
     $("#pager").innerHTML = pages < 2 ? "" : `<button data-pg="${st.page-1}" ${st.page===1?"disabled":""} aria-label="Trang trước">‹</button>` +
       Array.from({length:pages},(_,i)=>`<button data-pg="${i+1}" ${i+1===st.page?'aria-current="page"':""}>${i+1}</button>`).join("") +
       `<button data-pg="${st.page+1}" ${st.page===pages?"disabled":""} aria-label="Trang sau">›</button>`;
   }
 
-  const read = () => { st.loc = $("#f-loc").value; st.sal = $("#f-sal").value; st.exp = $("#f-exp").value; st.en = $("#f-en").value; st.page = 1; };
+  const read = () => { st.sal = $("#f-sal").value; st.exp = $("#f-exp").value; st.en = $("#f-en").value; st.page = 1; };
   $("#filterForm").addEventListener("submit", e => { e.preventDefault(); read(); render(); scrollTo({top: $(".toolbar").getBoundingClientRect().top + scrollY - 90, behavior:"smooth"}); });
-  ["#f-loc","#f-sal","#f-exp","#f-en"].forEach(s => $(s).addEventListener("change", () => { read(); render(); }));
+  ["#f-sal","#f-exp","#f-en"].forEach(s => $(s).addEventListener("change", () => { read(); render(); }));
   $("#sort").addEventListener("change", e => { st.sort = e.target.value; render(); });
   const setView = v => { st.view = v; store.set("ree_view", v); render(); };
   $("#vList").onclick = () => setView("list"); $("#vGrid").onclick = () => setView("grid");
-  const reset = () => { Object.assign(st, { q:"", loc:"", dept:"", lv:"", sys:"", sal:"", exp:"", en:"", page:1 }); render(); };
+  const reset = () => { Object.assign(st, { q:"", loc:"", locs:[], dept:"", lv:"", sys:"", sal:"", exp:"", en:"", page:1 }); setLocVal(); render(); };
   $("#resetBtn").onclick = reset; $("#emptyReset").onclick = reset;
   document.addEventListener("click", e => {
     const c = e.target.closest("[data-dept]"); if(c){ st.dept = c.dataset.dept; st.page = 1; render(); return; }

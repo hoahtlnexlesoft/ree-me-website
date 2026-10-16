@@ -298,6 +298,7 @@
   html body .alert-band.dk.ab-rest .ab-x{display:none}
   /* hotline: display only (not clickable) */
   html body .ab-btn.ab-static{cursor:default;pointer-events:none;user-select:text}
+  #list .jrow .arr{cursor:pointer}
 </style>
 <script>window.PAGE="jobs"</script>
 </head>
@@ -544,6 +545,7 @@
     if(e.target.closest("[data-qv-apply]")){ try{ sessionStorage.setItem("ree_apply", "1"); }catch(_){} return; }
     if(e.metaKey || e.ctrlKey || e.shiftKey || e.button) return;
     const card = e.target.closest("#list [data-jid]"); if(!card || e.target.closest("[data-save]")) return;
+    if(e.target.closest(".arr")){ const j = JOBS.find(o => o.id === card.dataset.jid); if(j){ e.preventDefault(); try{ sessionStorage.setItem("ree_apply", "1"); }catch(_){} location.href = jobURL(j); return; } }
     e.preventDefault(); qvOpen(card.dataset.jid);
   }, true);
   $("#qvPrev").onclick = () => qvShow(qvIdx - 1); $("#qvNext").onclick = () => qvShow(qvIdx + 1);

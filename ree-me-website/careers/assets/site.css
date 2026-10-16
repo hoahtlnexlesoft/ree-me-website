@@ -1127,7 +1127,7 @@ html.embed main:has(#rx[hidden]) .jb-sec{display:block!important;padding:calc(va
 .jx-btn{flex-shrink:0;display:inline-flex;align-items:center;justify-content:center;gap:8px;height:44px;padding:0 24px;border:0;border-radius:12px;background:oklch(58.6% .196 28);color:#fff;font:inherit;font-size:14px;font-weight:700;letter-spacing:.04em;text-transform:uppercase;white-space:nowrap;cursor:pointer;filter:drop-shadow(0 4px 9px #c13c3473);transition:transform .2s,filter .2s}
 .jx-btn:hover{transform:translateY(-1px);filter:drop-shadow(0 6px 12px #c13c3480) brightness(1.05)}
 .jx-grid{display:grid;grid-template-columns:200px minmax(0,1fr);gap:18px 24px;font-size:15px;line-height:1.55}
-.jx-k{color:#2B2F38;font-weight:500}
+.jx-k{color:#1A1D24;font-weight:600}
 .jx-v{color:#1A1D24;min-width:0}
 .jx-p{margin:0 0 6px}.jx-ul{margin:0;padding-left:18px}.jx-ul li{margin:0 0 6px}.jx-ul li::marker{color:#14161B}
 @media (max-width:560px){.jx{padding:20px 18px}.jx-h{flex-direction:column}.jx-h h1{font-size:24px}.jx-grid{grid-template-columns:1fr;gap:4px}.jx-v{margin-bottom:12px}}

@@ -49,7 +49,7 @@ button{font:inherit;color:inherit;cursor:pointer}
 /* ---------- labels & headings ---------- */
 .eyebrow{display:inline-flex;align-items:center;gap:10px;font-size:11px;font-weight:600;letter-spacing:.2em;text-transform:uppercase;color:var(--accent)}
 .eyebrow::before{content:"";width:7px;height:7px;background:currentColor;transform:rotate(45deg)}
-.on-navy .eyebrow{color:#FFC6C8}
+.on-navy .eyebrow{color:#FFC6C8}.on-navy .eyebrow::before{content:none}
 .h-sec{font-size:var(--t-h2);font-weight:700;line-height:1.12;text-transform:uppercase;color:var(--brand-ink);margin-top:14px}
 .h-sec em{font-style:normal;color:var(--accent)}
 .lead{color:var(--muted);max-width:60ch;font-size:var(--t-md)}

@@ -200,7 +200,7 @@
   '.rv-row2-acts{position:absolute;top:6px;right:6px;display:flex;gap:2px;opacity:0}.rv-row2:hover .rv-row2-acts,.rv-row2.on .rv-row2-acts,.rv-row2.menu .rv-row2-acts{opacity:1}' +
   '.rv-row2 .rv-menu{top:36px;right:6px;min-width:170px}' +
   '.rv-popwrap .rv-pop{position:fixed;z-index:2147482660;width:320px;max-width:calc(100vw - 24px);max-height:min(560px,calc(100vh - 24px));display:flex;flex-direction:column;background:#fff;color:#0f172a;border-radius:18px;box-shadow:0 24px 60px -14px rgba(10,25,60,.45),0 0 0 1px rgba(15,23,42,.06)}' +
-  '.rv-pop-h{position:relative;flex:none;display:flex;align-items:center;gap:8px;padding:14px 12px 8px 18px}.rv-pop-h>b{font-size:15px;font-weight:700}' +
+  '.rv-pop-h{position:relative;flex:none;display:flex;align-items:center;gap:6px;padding:14px 12px 8px 18px}.rv-pop-h>b{font-size:15px;font-weight:700}' +
   '.rv-pop-tools{margin-left:auto;display:flex;gap:2px}.rv-pop-tools button{width:30px;height:30px;border-radius:8px;display:grid;place-items:center;color:#334155}.rv-pop-tools button:hover,.rv-pop-tools button.on{background:#f1f5f9;color:#0f172a}.rv-pop-tools svg{width:17px;height:17px}' +
   '.rv-pop-h .rv-menu{top:44px;right:10px}' +
   '.rv-pop-body{flex:1;min-height:0;overflow-y:auto;padding:4px 18px 6px}' +
@@ -225,7 +225,7 @@
   '.rv-replyin{margin-top:8px;height:32px;border-radius:999px;font-size:12.5px}' +
   '.rv-lb{position:fixed;inset:0;z-index:2147483000;background:rgba(0,0,0,.82);display:grid;place-items:center;padding:16px;cursor:zoom-out}.rv-lb img{max-width:100%;max-height:100%;border-radius:12px}' +
   '.rv-toast{position:fixed;left:50%;bottom:84px;transform:translateX(-50%);z-index:2147483000;background:#0f172a;color:#fff;font-size:12.5px;font-weight:600;padding:8px 14px;border-radius:999px}' +
-  '.rv-pop{position:fixed}.rv-pop-tools{gap:4px}.rv-pop-tools button.del{color:#e5484d}.rv-pop-tools button.del:hover{background:#fff1f2;color:#be123c}.rv-pop-tools button.ok{color:#6B7280}' +
+  '.rv-pop{position:fixed}.rv-pop-tools{gap:2px}.rv-pop-tools button.del{color:#e5484d}.rv-pop-tools button.del:hover{background:#fff1f2;color:#be123c}.rv-pop-tools button.ok{color:#6B7280}' +
   '.rv-pop-shot{border-radius:14px;outline:1px solid #e5e7eb}' +
   '.rv-pop-f{align-items:flex-start}.rv-pop-f>.rv-av{margin-top:6px}' +
   '.rv-pop-box{padding:0;border-radius:16px;background:#fafafa;border-color:#e5e7eb;overflow:hidden}.rv-pop-box:focus-within{background:#fff}' +
@@ -233,7 +233,7 @@
   '.rv-pop-tb{border-top:1px solid #e5e7eb;padding:6px 6px 6px 8px}.rv-pop-send{width:34px;height:34px;background:#8b8b8b}.rv-pop-send:disabled{background:#a3a3a3}' +
   '.rv-emo{position:absolute;left:18px;right:18px;bottom:64px;z-index:6;display:grid;grid-template-columns:repeat(8,1fr);gap:2px;margin:0;padding:8px;background:#fff;border-radius:14px;box-shadow:0 14px 36px -10px rgba(15,23,42,.35),0 0 0 1px rgba(15,23,42,.08)}' +
   '.rv-emo button{width:auto;height:auto;aspect-ratio:1;font-size:20px;line-height:1;border-radius:8px;display:grid;place-items:center}.rv-emo button:hover,.rv-emo button:focus-visible{background:#f1f5f9;outline:2px solid #306eed;outline-offset:-2px}' +
-  '.rv-ok{white-space:nowrap;flex:none;line-height:1}.rv-pop-h .rv-ok{height:22px;padding:0 9px;font-size:11px;gap:4px}.rv-pop-h>b{flex:none;white-space:nowrap}.rv-ok i{font-style:normal}.rv-pop-tools{flex:none}' +
+  '.rv-ok{white-space:nowrap;flex:none;line-height:1}.rv-pop-h .rv-ok{height:22px;padding:0 7px;font-size:11px;gap:3px}.rv-pop-h>b{flex:none;white-space:nowrap}.rv-ok i{font-style:normal}.rv-pop-tools{flex:none}' +
   '@media (max-width:640px){.rv-pop-h .rv-ok{padding:0 6px}.rv-pop-h .rv-ok i{display:none}}' +
   '.rv-tbox{width:260px}.rv-tbox textarea.rv-in{min-height:64px;font-size:14px;line-height:1.45}.rv-was{margin-top:6px;font-size:11.5px;color:#64748b;line-height:1.4;max-height:54px;overflow:auto}' +
   '.rv-off .rv-layer,.rv-off .rv-popwrap,.rv-off .rv-dev{display:none!important}' +
@@ -772,7 +772,7 @@
     var row = function (name, at, text, extra) { return '<div class="rv-pop-c">' + avatar(name, 26) + '<div class="rv-pop-cb"><div class="rv-pop-meta"><b>' + esc(name) + '</b><span>' + ago(at) + '</span></div>' + (text != null ? '<p>' + esc(text) + '</p>' : '') + (extra || '') + '</div></div>'; };
     var h = '<div class="rv-pop" role="dialog" aria-label="Comment">' +
       '<div class="rv-pop-h"><b>Comment</b>' + (t.resolved ? '<span class="rv-ok" title="Resolved">✓<i>Resolved</i></span>' : '') + '<span class="rv-pop-tools">' +
-        (mine(t) && t.kind !== 'edit' ? '<button data-popedit="' + t.id + '" aria-label="Edit" title="Edit">' + ICON.pencil + '</button>' : '') +
+        (mine(t) && t.kind !== 'edit' && !t.resolved ? '<button data-popedit="' + t.id + '" aria-label="Edit" title="Edit">' + ICON.pencil + '</button>' : '') +
         '<button data-copyc="' + t.id + '" aria-label="Copy comment" title="Copy comment">' + ICON.copy + '</button>' +
         '<button data-resolve="' + t.id + '" class="' + (t.resolved ? 'ok' : '') + '" aria-label="' + (t.resolved ? 'Reopen' : 'Resolve') + '" title="' + (t.resolved ? 'Reopen' : 'Resolve') + '">' + ICON.checkc + '</button>' +
         '<button data-del="' + t.id + '" class="del" aria-label="Delete" title="Delete">' + ICON.trash + '</button>' +

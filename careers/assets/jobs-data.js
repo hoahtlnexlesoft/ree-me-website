@@ -26,7 +26,7 @@ window.LOC_TAGS = [
   { k:"Các tỉnh miền Bắc", c:"#F7EACD", t:"#675222" },
   { k:"Phú Quốc", c:"#CEF4F5", t:"#2A5E60" },
   { k:"Các dự án công ty thi công", c:"#F6CDD6", t:"#632734" },
-  { k:"Quảng Trị", c:"#F3E4D1", t:"#5B482E" }
+  { k:"Quảng Trị", c:"#DCE8C4", t:"#46562A" }
 ];
 window.locPills = j => j.loc.split(" · ").map(k => { const o = LOC_TAGS.find(x => x.k === k) || { c:"#e5e7eb", t:"#111" }; return `<span class="loc-pill" style="background:${o.c};color:${o.t}">${k}</span>`; }).join("");
 

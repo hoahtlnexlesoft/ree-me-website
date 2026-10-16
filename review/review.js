@@ -163,7 +163,7 @@
   '.rv-main{display:flex;gap:10px;width:100%;text-align:left;padding-right:30px}' +
   '.rv-av{flex:none;width:30px;height:30px;border-radius:50%;color:#fff;font-size:12px;font-weight:800;display:grid;place-items:center;text-transform:uppercase}' +
   '.rv-meta{display:flex;align-items:baseline;gap:6px;flex-wrap:wrap}.rv-meta b{font-weight:800}.rv-meta span{font-size:11.5px;color:#94a3b8}' +
-  '.rv-ok{display:inline-flex;align-items:center;gap:3px;font-size:10.5px;font-weight:800;color:#059669;background:#ecfdf5;border-radius:999px;padding:0 7px}' +
+  '.rv-ok{display:inline-flex;align-items:center;gap:3px;font-size:10.5px;font-weight:800;color:#6B7280;background:#F3F4F6;border-radius:999px;padding:0 7px}' +
   '.rv-text{display:block;margin-top:2px;color:#334155;white-space:pre-wrap;word-break:break-word}.rv-item:not(.on) .rv-text{display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}' +
   '.rv-where{display:block;margin-top:3px;font-size:11px;color:#94a3b8}' +
   '.rv-imgs{display:flex;gap:6px;margin-top:6px}.rv-imgs img{width:48px;height:48px;border-radius:8px;object-fit:cover;outline:1px solid rgba(0,0,0,.1);cursor:zoom-in}.rv-item.on .rv-imgs img{width:96px;height:96px}' +
@@ -225,7 +225,7 @@
   '.rv-replyin{margin-top:8px;height:32px;border-radius:999px;font-size:12.5px}' +
   '.rv-lb{position:fixed;inset:0;z-index:2147483000;background:rgba(0,0,0,.82);display:grid;place-items:center;padding:16px;cursor:zoom-out}.rv-lb img{max-width:100%;max-height:100%;border-radius:12px}' +
   '.rv-toast{position:fixed;left:50%;bottom:84px;transform:translateX(-50%);z-index:2147483000;background:#0f172a;color:#fff;font-size:12.5px;font-weight:600;padding:8px 14px;border-radius:999px}' +
-  '.rv-pop{position:fixed}.rv-pop-tools{gap:4px}.rv-pop-tools button.del{color:#e5484d}.rv-pop-tools button.del:hover{background:#fff1f2;color:#be123c}.rv-pop-tools button.ok{color:#059669}' +
+  '.rv-pop{position:fixed}.rv-pop-tools{gap:4px}.rv-pop-tools button.del{color:#e5484d}.rv-pop-tools button.del:hover{background:#fff1f2;color:#be123c}.rv-pop-tools button.ok{color:#6B7280}' +
   '.rv-pop-shot{border-radius:14px;outline:1px solid #e5e7eb}' +
   '.rv-pop-f{align-items:flex-start}.rv-pop-f>.rv-av{margin-top:6px}' +
   '.rv-pop-box{padding:0;border-radius:16px;background:#fafafa;border-color:#e5e7eb;overflow:hidden}.rv-pop-box:focus-within{background:#fff}' +
@@ -440,7 +440,7 @@
     S.threads.forEach(function (t, i) {
       if (t.page !== c.key) return;
       var p = pos(t, c); if (p.x < -40 || p.y < -10 || p.x > vw + 40 || p.y > vh + 40) return;
-      var bg = t.resolved ? '#10b981' : colorFor(t.author);
+      var bg = t.resolved ? '#9CA3AF' : colorFor(t.author);
       html += '<button class="rv-pin' + (S.active === t.id ? ' on' : '') + (S.flash === t.id ? ' flash' : '') + '" data-pin="' + t.id + '" style="left:' + p.x + 'px;top:' + p.y + 'px;background:' + bg + ';color:' + bg + '" aria-label="Comment ' + (i + 1) + '"><span style="color:#fff">' + (t.resolved ? ICON.check.replace('<svg', '<svg width="14" height="14"') : (i + 1)) + '</span></button>';
     });
     if (S.draft) {
@@ -481,7 +481,7 @@
       '<div class="rv-seg"><button id="rvBrowse" class="' + (!S.mode ? 'on' : '') + '">' + ICON.pointer + 'Browse</button><button id="rvComment" class="' + (S.mode === true ? 'on' : '') + '">' + ICON.chat + 'Comment</button><button id="rvEditMode" class="' + (S.mode === 'edit' ? 'on' : '') + '">' + ICON.pencil + 'Edit text</button></div></div>';
     if (!S.open) {
       h += '<aside class="rv-rail"><button class="rv-side" id="rvTab" title="Open comments" aria-label="Open comments">' + ICON.side + '</button><button class="rv-side" id="rvHide" title="Hide comments (full view)" aria-label="Hide comments">' + ICON.eyeoff + '</button><div class="rv-rail-list">' +
-        S.threads.map(function (t, i) { var col = t.resolved ? '#10b981' : colorFor(t.author); return '<button class="rv-dot' + (S.active === t.id ? ' on' : '') + (t.resolved ? ' done' : '') + '" data-rail="' + t.id + '" style="background:' + col + ';color:' + col + '" title="#' + (i + 1) + ' ' + esc(t.author) + ': ' + esc(t.text.slice(0, 80)) + '"><span style="color:#fff">' + esc((t.author.trim()[0] || '?')) + '</span></button>'; }).join('') +
+        S.threads.map(function (t, i) { var col = t.resolved ? '#9CA3AF' : colorFor(t.author); return '<button class="rv-dot' + (S.active === t.id ? ' on' : '') + (t.resolved ? ' done' : '') + '" data-rail="' + t.id + '" style="background:' + col + ';color:' + col + '" title="#' + (i + 1) + ' ' + esc(t.author) + ': ' + esc(t.text.slice(0, 80)) + '"><span style="color:#fff">' + esc((t.author.trim()[0] || '?')) + '</span></button>'; }).join('') +
         '</div></aside>';
     }
     if (S.open) {

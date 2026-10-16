@@ -24,7 +24,7 @@ window.LOC_TAGS = [
   { k:"Đà Nẵng", c:"#9C4027", t:"#FCF5D8" },
   { k:"Đồng Nai", c:"#B9D7DF", t:"#1C1C19" },
   { k:"Các tỉnh miền Bắc", c:"#FCF5D8", t:"#572E1E" },
-  { k:"Phú Quốc", c:"#DF9533", t:"#1C1C19" },
+  { k:"Phú Quốc", c:"#DEE5E9", t:"#1C1C19" },
   { k:"Các dự án công ty thi công", c:"#F6D6D1", t:"#1C1C19" },
   { k:"Quảng Trị", c:"#C88254", t:"#FCF5D8" }
 ];

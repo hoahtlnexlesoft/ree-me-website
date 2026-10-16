@@ -456,13 +456,15 @@
 
   /* ---- quick view (click a card / row) ---- */
   let qvList = [], qvIdx = -1;
+  /* inside the site frame, raise the frame above the site header while the panel is open */
+  const qvLift = on => { try{ const f = window.frameElement; if(f) f.style.zIndex = on ? "2147483000" : "1"; }catch(_){} };
   const qvShow = i => { qvIdx = i; const job = qvList[i]; if(!job) return;
     $("#qvBody").innerHTML = jobDetailHTML(job, `<a class="jx-btn" href="${jobURL(job)}" data-qv-apply>Ứng tuyển ngay${JX_EXT}</a>`);
     $("#qvBody").scrollTop = 0; $("#qvOpen").href = jobURL(job);
     $("#qvPrev").disabled = i <= 0; $("#qvNext").disabled = i >= qvList.length - 1; };
   const qvOpen = id => { const seen = new Set(); qvList = [...document.querySelectorAll("#list [data-jid]")].map(el => el.dataset.jid).filter(x => !seen.has(x) && seen.add(x)).map(x => JOBS.find(o => o.id === x));
-    $("#qv").hidden = false; document.documentElement.style.overflow = "hidden"; requestAnimationFrame(() => $("#qv").classList.add("on")); qvShow(qvList.findIndex(o => o.id === id)); };
-  const qvClose = () => { $("#qv").classList.remove("on"); document.documentElement.style.overflow = ""; setTimeout(() => { $("#qv").hidden = true; }, 220); };
+    $("#qv").hidden = false; document.documentElement.style.overflow = "hidden"; qvLift(true); requestAnimationFrame(() => $("#qv").classList.add("on")); qvShow(qvList.findIndex(o => o.id === id)); };
+  const qvClose = () => { $("#qv").classList.remove("on"); document.documentElement.style.overflow = ""; setTimeout(() => qvLift(false), 220); setTimeout(() => { $("#qv").hidden = true; }, 220); };
   document.addEventListener("click", e => {
     if(e.target.closest("[data-qv-close]")){ qvClose(); return; }
     if(e.target.closest("[data-qv-apply]")){ try{ sessionStorage.setItem("ree_apply", "1"); }catch(_){} return; }

@@ -1255,6 +1255,10 @@ html.embed-form body #rx .jd-wrap,html.embed-form body #rx .jd-grid,html.embed-f
 /* form card: tighter bottom (light lock note reads as empty space) */
 html:not(.embed-form) #rx .apply-card > .af{padding-bottom:26px!important}
 @media (max-width:600px){html:not(.embed-form) #rx .apply-card > .af{padding-bottom:20px!important}}
+
+/* no borders on the apply card or the inner form card */
+#rx #apply-card.apply-card{border:0!important}
+#rx .apply-card > .af,#rx .apply-card > .af-done{box-shadow:0 24px 60px -34px rgba(10,26,85,.35)!important;border:0!important}
 </style>
 <script>window.PAGE="job"</script>
 </head>

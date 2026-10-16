@@ -1183,3 +1183,8 @@ html body .jxc-save[aria-pressed="true"] svg{color:#1C1C19!important}
 /* careers index bar title: larger */
 html body .cd-bar .cd-t{font-size:20px!important;font-weight:600!important;letter-spacing:-.01em!important}
 @media (max-width:600px){html body .cd-bar .cd-t{font-size:18px!important}}
+
+/* bottom bars: full-width state opens from the centre (clip reveal), closes back to the centre */
+@keyframes bxOpen{from{clip-path:inset(0 calc((100% - min(760px,100vw - 32px))/2) round 14px)}to{clip-path:inset(0 0 round 0)}}
+html body .bx-open{animation:bxOpen .42s cubic-bezier(.2,.8,.2,1) both!important}
+html body .bx-close{animation:bxOpen .28s cubic-bezier(.4,0,.2,1) reverse both!important}

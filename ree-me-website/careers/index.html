@@ -7,6 +7,11 @@
   .cd-btn svg{width:18px;height:18px}
   body:has(.cd-bar) .fab,body:has(.cd-bar) .qc-pop{transform:translateY(-84px)}
   @media (max-width:600px){.cd-th{display:none}.cd-bar{gap:12px;padding:10px 16px}.cd-t{font-size:15px}.cd-btn{height:42px;padding:0 16px;font-size:14px}body:has(.cd-bar) .fab,body:has(.cd-bar) .qc-pop{transform:translateY(-70px)}}
+  /* bar at rest (end of page): full-width band, tighter gap above */
+  html body .cd-bar{transition:width .35s ease,border-radius .35s ease,padding .35s ease}
+  html body .cd-bar.cd-rest{width:100%!important;border-radius:0!important;border-left:0!important;border-right:0!important;border-bottom:0!important;box-shadow:none!important;background:rgba(22,26,40,.92)!important;padding:20px max(20px,calc(50vw - 580px))!important}
+  html body .sec-life{padding-bottom:56px!important}
+  #cdEnd{height:1px;margin-top:-1px}
 </style></head><body>
 <title>REE M&amp;E Careers</title>
 <link rel="stylesheet" href="assets/fonts.css">
@@ -98,6 +103,7 @@
     <h3 class="cd-t">Kiến tạo sự nghiệp</h3>
     <a class="cd-btn" href="jobs.html">Xem tất cả vị trí<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
   </div>
+  <div id="cdEnd"></div>
 </main>
 
 <div id="site-footer"></div>
@@ -276,4 +282,9 @@
 })();
 </script>
 
+<script>
+(function(){var b=document.getElementById("cdBar"),e=document.getElementById("cdEnd");if(!b||!e)return;
+function f(){var r=e.getBoundingClientRect();b.classList.toggle("cd-rest",r.top<=innerHeight-20)}
+addEventListener("scroll",f,{passive:true});addEventListener("resize",f);f();})();
+</script>
 </body></html>

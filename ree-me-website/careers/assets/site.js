@@ -417,3 +417,11 @@ window.reeBarRest = function(host, anim, cls, on){
   else if(first){ host.classList.remove(cls); }
   else { anim.classList.add("bx-close"); host._bt = setTimeout(() => { host.classList.remove(cls); anim.classList.remove("bx-close"); }, 280); }
 };
+
+/* decide rest state with hysteresis so the bar doesn't flicker at the threshold */
+window.reeBarCheck = function(host, anim, cls, end){
+  if(!host || !end) return;
+  const de = document.documentElement, d = end.getBoundingClientRect().top - (innerHeight - 20), b = de.scrollHeight - (scrollY + innerHeight);
+  const on = host._rest ? (d < 60 || b < 60) : (d <= 0 || b <= 4);
+  reeBarRest(host, anim, cls, on);
+};

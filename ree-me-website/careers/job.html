@@ -1212,7 +1212,7 @@ html,body{overflow-x:clip}
 
 /* dock: floating while scrolling, full-width band once it reaches the end of the page (same as careers index) */
 html body .rx .dock.dk-rest{bottom:0!important;padding:0!important;margin-left:calc(50% - 50vw)!important;margin-right:calc(50% - 50vw)!important;width:100vw!important}
-html body .rx .dock.dk-rest .dock-in{width:100%!important;border-radius:0!important;border-left:0!important;border-right:0!important;border-bottom:0!important;box-shadow:none!important;background:rgba(22,26,40,.92)!important;padding:20px max(var(--gut),calc(50vw - 720px + var(--gut)))!important}
+html body .rx .dock.dk-rest .dock-in{width:100%!important;border-radius:0!important;border-left:0!important;border-right:0!important;border-bottom:0!important;box-shadow:none!important;background:rgba(22,26,40,.92)!important;padding:18px max(var(--gut),calc(50vw - 720px + var(--gut)))!important}
 html body .rx .dock.dk-rest .dock-x{display:none}
 </style>
 <script>window.PAGE="job"</script>
@@ -1560,7 +1560,7 @@ html body .rx .dock.dk-rest .dock-x{display:none}
 </script>
 <script>
 (function(){var d=document.getElementById("dock"),e=document.getElementById("dockEnd");if(!d||!e)return;
-function f(){var de=document.documentElement;reeBarRest(d,d.querySelector(".dock-in"),"dk-rest",e.getBoundingClientRect().top<=innerHeight-20||scrollY+innerHeight>=de.scrollHeight-4)}
+function f(){reeBarCheck(d,d.querySelector(".dock-in"),"dk-rest",e)}
 addEventListener("scroll",f,{passive:true});addEventListener("resize",f);f();})();
 </script>
 </html>

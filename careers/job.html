@@ -1159,6 +1159,50 @@ html,body{overflow-x:clip}
 .tp-ul li::before{content:"";position:absolute;left:0;top:.62em;width:7px;height:7px;background:currentColor;border-radius:1px}
 @media (max-width:1080px){.tp-band{grid-template-columns:1fr;padding:0;gap:16px}.tp{padding:32px 26px}}
 @media (max-width:560px){.tp-band{padding:0}.tp{border-radius:24px;padding:26px 20px 30px}.tp-b{font-size:12.5px}}
+
+/* ===== Apply form — refined (brand navy / red) ===== */
+#rx .apply-card{position:relative;overflow:hidden;display:grid;grid-template-columns:340px minmax(0,1fr);gap:0;padding:0!important;border:1px solid #E6EAF3!important;border-radius:28px!important;background:#fff!important;box-shadow:0 40px 80px -48px rgba(10,26,85,.35)!important}
+#rx .af-head{grid-column:1;grid-row:1/span 2;align-self:stretch;display:block;padding:44px 36px;border:0;color:#fff;background:radial-gradient(420px 300px at 0% 100%,rgba(27,71,214,.55),transparent 70%),linear-gradient(165deg,#0F2A63 0%,#0A1A55 100%)}
+#rx .af-head > div{position:sticky;top:96px}
+#rx .af-head{align-self:stretch!important}
+#rx .af-tag{background:rgba(255,255,255,.1)!important;color:#fff!important;border:1px solid rgba(255,255,255,.22);padding:5px 12px;border-radius:999px;font-size:12px}
+#rx .af-tag i{background:oklch(58.6% .196 28)!important}
+#rx .af-head h3{margin-top:22px;font-size:34px;line-height:1.12;font-weight:600;letter-spacing:-.025em;color:#fff!important}
+#rx .af-head p{margin-top:16px;font-size:14px;line-height:1.6;color:rgba(225,232,255,.75);display:flex;gap:8px;align-items:flex-start}
+#rx .af-head p svg{flex:none;margin-top:4px;color:#9DB7F2!important}
+#rx .apply-card > .af,#rx .apply-card > .af-done{grid-column:2;padding:40px 44px 44px}
+#rx .af{display:flex;flex-direction:column;gap:30px}
+#rx .af-group{display:block;padding:0 0 30px;border-bottom:1px solid #EEF1F7}
+#rx .af-group legend{float:none;display:flex;flex-direction:row;align-items:center;gap:12px;margin-bottom:20px;font-size:17px;font-weight:600;color:#0A1A55}
+#rx .af-group legend span{display:grid;place-items:center;width:30px;height:30px;border-radius:50%;background:#EEF2FC;color:#1B47D6!important;font-size:12px;letter-spacing:0}
+#rx .af-grid{gap:18px 18px}
+#rx .af-lab,#rx .af-lab .lt{font-size:13px;font-weight:500;color:#3A4257!important}
+#rx .af-lab em{color:oklch(58.6% .196 28)!important}
+#rx .af-lab a{color:#1B47D6!important;font-weight:600;text-decoration:none}
+#rx .af input,#rx .af select,#rx .af textarea{height:52px;border:1px solid #E3E8F2!important;background:#F6F8FC!important;border-radius:14px!important;font-size:15px;color:#0A1A55!important;transition:border-color .2s,box-shadow .2s,background .2s}
+#rx .af textarea{height:auto;padding:14px 16px}
+#rx .af input,#rx .af select{padding-left:44px}
+#rx .af input.plain{padding-left:16px}
+#rx .af-in > svg{left:16px!important;top:19px!important;color:#7C88A6!important}
+#rx .af input:hover,#rx .af select:hover,#rx .af textarea:hover{border-color:#C9D3EA!important}
+#rx .af input:focus,#rx .af select:focus,#rx .af textarea:focus{background:#fff!important;border-color:#1B47D6!important;box-shadow:0 0 0 4px rgba(27,71,214,.12)!important}
+#rx .af-box{padding:10px;border-radius:16px;border:1px solid #E3E8F2!important;background:#F6F8FC!important;gap:8px}
+#rx .pill{padding:9px 14px;border-radius:999px;border:1px solid #DDE3F0;background:#fff;font-size:13.5px;color:#3A4257;transition:all .15s}
+#rx .pill:hover{border-color:#1B47D6}
+#rx .pill[aria-pressed="true"]{background:#0A1A55!important;border-color:#0A1A55!important;color:#fff!important}
+#rx .pill[aria-pressed="true"] .cb{color:#0A1A55!important}
+#rx .pos-chip{padding:8px 12px;border-radius:999px;background:#0A1A55!important;border-color:#0A1A55!important;color:#fff!important;font-size:13.5px}
+#rx .pos-chip button{color:rgba(255,255,255,.7)!important}
+#rx .pos-add span{padding:8px 14px;border-radius:999px;border:1px dashed #B9C6E4;color:#1B47D6;font-size:13.5px}
+#rx .drop{border:1.5px dashed #B9C6E4!important;border-radius:16px!important;background:linear-gradient(180deg,#F8FAFF,#F1F5FD)!important;transition:border-color .2s,background .2s}
+#rx .drop:hover,#rx .drop.over{border-color:#1B47D6!important;background:#EEF3FF!important}
+#rx .drop .cloud{width:48px;height:48px;border-radius:50%;background:#fff;color:#1B47D6;box-shadow:0 10px 20px -12px rgba(10,26,85,.4)}
+#rx .af-foot{display:flex!important;flex-direction:column;align-items:stretch;gap:12px;margin-top:4px}
+#rx .af-foot > *{grid-column:auto}
+#rx .af-submit{width:100%!important;max-width:none!important;height:58px!important;border-radius:16px!important;font-size:16px!important;font-weight:600;letter-spacing:.01em;text-transform:none;background:oklch(58.6% .196 28)!important;border:0!important;box-shadow:0 18px 34px -16px rgba(193,60,52,.7)!important;justify-content:center;gap:10px}
+#rx .af-submit:hover{filter:brightness(1.06);transform:translateY(-1px)}
+#rx .af-lock{justify-content:center!important;font-size:12.5px;color:#7C88A6}
+@media (max-width:1000px){#rx .apply-card{grid-template-columns:1fr}#rx .af-head{grid-row:auto;padding:30px 24px}#rx .af-head > div{position:static}#rx .af-head h3{font-size:28px}#rx .apply-card > .af,#rx .apply-card > .af-done{grid-column:1;padding:28px 22px 30px}}
 </style>
 <script>window.PAGE="job"</script>
 </head>

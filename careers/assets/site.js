@@ -400,6 +400,7 @@ if(document.readyState === "loading") document.addEventListener("DOMContentLoade
 document.addEventListener("click", function(e){
   var a = e.target.closest && e.target.closest('a[href^="mailto:"]'); if(!a) return;
   e.preventDefault();
+  try{ a.blur(); }catch(_){}
   var href = a.getAttribute("href"), addr = href.replace(/^mailto:/,"").split("?")[0];
   try{ var w = window.open(href, "_blank"); if(w) setTimeout(function(){ try{ if(w.location.href === "about:blank") w.close(); }catch(_){} }, 1500); }catch(_){}
   try{ navigator.clipboard && navigator.clipboard.writeText(addr).catch(function(){}); }catch(_){}
@@ -409,13 +410,7 @@ document.addEventListener("click", function(e){
 /* bottom bars (index / jobs / job detail): switch to the full-width "rest" state with an
    expand-from-centre reveal, and collapse back to the centre before returning to the floating bar */
 window.reeBarRest = function(host, anim, cls, on){
-  if(!host || !anim) return; on = !!on;
-  if(host._rest === on) return;
-  const first = host._rest === undefined; host._rest = on; clearTimeout(host._bt);
-  anim.classList.remove("bx-open","bx-close");
-  if(on){ host.classList.add(cls); if(!first){ void anim.offsetWidth; anim.classList.add("bx-open"); } }
-  else if(first){ host.classList.remove(cls); }
-  else { anim.classList.add("bx-close"); host._bt = setTimeout(() => { host.classList.remove(cls); anim.classList.remove("bx-close"); }, 280); }
+  if(!host) return; on = !!on; if(host._rest === on) return; host._rest = on; host.classList.toggle(cls, on);
 };
 
 /* decide rest state with hysteresis so the bar doesn't flicker at the threshold */

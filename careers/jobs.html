@@ -503,8 +503,11 @@
       qvHdr = document.createElement("div"); qvHdr.id = "qvHdr";
       qvHdr.style.cssText = "position:fixed;inset:0 0 auto 0;z-index:190;pointer-events:none";
       const sr = qvHdr.attachShadow({mode:"open"});
-      pd.querySelectorAll('link[rel="stylesheet"]').forEach(l => { const n = document.createElement("link"); n.rel = "stylesheet"; n.href = l.href; sr.appendChild(n); });
-      let vars = ""; try{ [...pd.styleSheets].forEach(ss => { try{ [...ss.cssRules].forEach(r => { if(r.selectorText === ":root") vars += r.cssText.replace(/^:root/, ":host") + "\n"; }); }catch(_){} }); }catch(_){}
+      pd.querySelectorAll('link[rel="stylesheet"]').forEach(l => { const n = document.createElement("link"); n.rel = "stylesheet"; n.href = l.href; sr.appendChild(n);
+        if(/fonts\.googleapis/.test(l.href)) document.head.appendChild(n.cloneNode()); /* @font-face only works at document level */ });
+      let vars = "", props = ""; const walk = rules => [...rules].forEach(r => { if(typeof CSSPropertyRule !== "undefined" && r instanceof pd.defaultView.CSSPropertyRule) props += r.cssText + "\n"; else if(r.cssRules && !r.selectorText) walk(r.cssRules); else if(r.selectorText && /(^|,)\s*:root\s*(,|$)/.test(r.selectorText) && !/:host/.test(r.selectorText)) vars += ":host{" + r.style.cssText + "}\n"; });
+      try{ [...pd.styleSheets].forEach(ss => { try{ walk(ss.cssRules); }catch(_){} }); }catch(_){}
+      if(props){ const ps = document.createElement("style"); ps.id = "qvHdrProps"; ps.textContent = props; document.head.appendChild(ps); } /* @property must be registered on the document, not in shadow DOM */
       const st = document.createElement("style"); st.textContent = vars + ":host{font-family:var(--font-sans);line-height:1.5;-webkit-font-smoothing:antialiased}"; sr.appendChild(st);
       const box = document.createElement("div"); box.className = "hc"; sr.appendChild(box);
       document.body.appendChild(qvHdr);

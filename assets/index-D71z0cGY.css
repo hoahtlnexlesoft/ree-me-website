@@ -300,3 +300,9 @@ section:has(+ .ree-rel) span.size-10.bottom-5{bottom:150px!important}
 /* news titles in black (hover stays brand red) */
 .pg-news .nf2-feat h3,.pg-news .nf2-row h4,.pg-news .ncard h3{color:#14161B!important}
 .pg-news .nf2-link:hover h3,.pg-news .nf2-row:hover h4,.pg-news .ncard-link:hover h3{color:var(--brand-red,#C8102E)!important}
+/* featured story: category tag + date after the title */
+.pg-news .nf2-feat .nf2-link{display:flex;flex-direction:column}
+.pg-news .nf2-feat figure{order:0}
+.pg-news .nf2-feat h3{order:1;margin-top:18px!important}
+.pg-news .nf2-feat .nf2-meta{order:2;margin-top:10px!important}
+.pg-news .nf2-feat p{order:3}

@@ -282,3 +282,11 @@ section:has(+ .ree-rel) span.size-10.bottom-5{bottom:150px!important}
 .pg-news .nf2-k2{display:flex;align-items:center;justify-content:space-between;gap:12px}
 .pg-news .nf2-all{display:inline-flex;align-items:center;gap:6px;border:0;background:none;padding:0;cursor:pointer;font:inherit;font-size:11.5px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--navy,#14306B)}
 .pg-news .nf2-all:hover{color:var(--brand-red,#C8102E)}
+/* news featured: smaller type, no rule under the column titles */
+.pg-news .nf2-k{border-bottom:0!important;padding-bottom:0!important;margin-bottom:14px!important;font-size:12px!important}
+.pg-news .nf2-all{font-size:11px!important}
+.pg-news .nf2-feat h3{font-size:clamp(20px,.95rem + .7vw,26px)!important;line-height:1.28!important}
+.pg-news .nf2-feat p{font-size:14.5px!important;line-height:1.6!important}
+.pg-news .nf2-row h4{font-size:14.5px!important;line-height:1.42!important}
+.pg-news .nf2-meta time{font-size:11.5px!important}
+@media (max-width:520px){.pg-news .nf2-row h4{font-size:14px!important}}

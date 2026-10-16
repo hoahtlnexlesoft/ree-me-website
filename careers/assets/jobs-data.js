@@ -19,24 +19,24 @@ window.WORK_ENV = "Làm việc tại trụ sở e.town 5 chuẩn xanh quốc t�
 
 /* Location tags, same order and colours as the recruiting site */
 window.LOC_TAGS = [
-  { k:"TP.HCM", c:"#172826", t:"#FCF5D8" },
-  { k:"Hà Nội", c:"#9C4027", t:"#FCF5D8" },
-  { k:"Đà Nẵng", c:"#4A6F6E", t:"#FCF5D8" },
-  { k:"Đồng Nai", c:"#C88254", t:"#FCF5D8" },
-  { k:"Các tỉnh miền Bắc", c:"#8EDBF7", t:"#1C1C19" },
-  { k:"Phú Quốc", c:"#B9D7DF", t:"#1C1C19" },
-  { k:"Các dự án công ty thi công", c:"#F6D6D1", t:"#1C1C19" },
-  { k:"Quảng Trị", c:"#DEE5E9", t:"#1C1C19" }
+  { k:"TP.HCM", c:"#C5D0D6", t:"#2F4651" },
+  { k:"Hà Nội", c:"#CCE1D4", t:"#355E47" },
+  { k:"Đà Nẵng", c:"#E6D4C3", t:"#6E4A2E" },
+  { k:"Đồng Nai", c:"#D6E3E2", t:"#3F6463" },
+  { k:"Các tỉnh miền Bắc", c:"#DCEEF8", t:"#2C627C" },
+  { k:"Phú Quốc", c:"#E3EDEF", t:"#46636D" },
+  { k:"Các dự án công ty thi công", c:"#F5E5E1", t:"#80473B" },
+  { k:"Quảng Trị", c:"#EEF1F3", t:"#525E66" }
 ];
 window.locPills = j => j.loc.split(" · ").map(k => { const o = LOC_TAGS.find(x => x.k === k) || { c:"#e5e7eb", t:"#111" }; return `<span class="loc-pill" style="background:${o.c};color:${o.t}">${k}</span>`; }).join("");
 
 /* Field tag colours (same as the recruiting site) */
 window.FIELD_TAGS = {
-  salary: [ { k:"Thương lượng", c:"#FCE8A6", t:"#5A4300" } ],
-  exp: [ { k:"Không yêu cầu", c:"#3F4652", t:"#fff" }, { k:"Ưu tiên có kinh nghiệm", c:"#D3E2FF", t:"#1B3C86" }, { k:"Trên 1 năm", c:"#8FB4F6", t:"#0B2A66" }, { k:"Trên 2 năm", c:"#BFE6FF", t:"#0B3A55" }, { k:"Trên 3 năm", c:"#1D4ED8", t:"#fff" } ],
-  english: [ { k:"Không yêu cầu", c:"#A9ADB4", t:"#15181D" }, { k:"Đọc hiểu", c:"#D3E2FF", t:"#1B3C86" }, { k:"Đọc viết", c:"#BFEBFF", t:"#0B3A55" } ],
-  workTime: [ { k:"Từ T2 - T7", c:"#F9A17C", t:"#4A1A06" }, { k:"Từ T2 - Sáng T7", c:"#FDD3BD", t:"#4A1A06" } ],
-  interview: [ { k:"Phỏng vấn từ 1 - 2 vòng", c:"#BFE6FF", t:"#0B3A55" } ]
+  salary: [ { k:"Thương lượng", c:"#F1EBDD", t:"#6B5A2E" } ],
+  exp: [ { k:"Không yêu cầu", c:"#EEF1F3", t:"#525E66" }, { k:"Ưu tiên có kinh nghiệm", c:"#E3EDEF", t:"#46636D" }, { k:"Trên 1 năm", c:"#D6E3E2", t:"#3F6463" }, { k:"Trên 2 năm", c:"#CCE1D4", t:"#355E47" }, { k:"Trên 3 năm", c:"#C5D0D6", t:"#2F4651" } ],
+  english: [ { k:"Không yêu cầu", c:"#EEF1F3", t:"#525E66" }, { k:"Đọc hiểu", c:"#DCEEF8", t:"#2C627C" }, { k:"Đọc viết", c:"#E6D4C3", t:"#6E4A2E" } ],
+  workTime: [ { k:"Từ T2 - T7", c:"#E6D4C3", t:"#6E4A2E" }, { k:"Từ T2 - Sáng T7", c:"#F5E5E1", t:"#80473B" } ],
+  interview: [ { k:"Phỏng vấn từ 1 - 2 vòng", c:"#DCEEF8", t:"#2C627C" } ]
 };
 window.fieldPill = (f, v) => { const o = (FIELD_TAGS[f] || []).find(x => x.k === v) || { c:"#E5E7EB", t:"#111" }; return `<span class="loc-pill" style="background:${o.c};color:${o.t}">${v}</span>`; };
 

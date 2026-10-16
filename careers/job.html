@@ -1267,6 +1267,14 @@ html.embed-form #rx .apply-card > .af,html.embed-form #rx .apply-card > .af-done
 /* CV upload icon: file + image + upload badge (no round chip) */
 #rx .drop .cloud.cv-ic{width:auto!important;height:auto!important;background:none!important;border:0!important;border-radius:0!important;box-shadow:none!important;margin-bottom:2px}
 #rx .drop .cloud.cv-ic svg{display:block}
+
+/* page-wide: cards, buttons, boxes, inputs use 4px corners (tags and circular icons keep their shape) */
+#rx .jd-back,#rx .jd-share,#rx .pz-card,#rx .pz-ph,#rx .pz-float,#rx .pz-fic,#rx .tp,#rx .tp-band > *,
+#rx #apply-card.apply-card,#rx .apply-card > .af,#rx .apply-card > .af-done,#rx .apply-card > .af-head,
+#rx .af input,#rx .af select,#rx .af textarea,#rx .af .af-box,#rx .af-box,#rx .drop,#rx .pos-add span,#rx .pos-add select,
+#rx .af-submit,#rx .btn-grad,#rx #af-again,#rx .af-done button,
+html body .rx .dock-in,html body .rx .dock-btn,#rx .toast,.rx .toast,#toTop,.top{border-radius:4px!important}
+#rx .pz-card::before,#rx .pz-card::after,#rx .tp::before,#rx .tp::after{border-radius:4px!important}
 </style>
 <script>window.PAGE="job"</script>
 </head>

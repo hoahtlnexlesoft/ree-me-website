@@ -302,10 +302,14 @@
   /* "Gửi CV ngay" modal: the online application form */
   .cvm{position:fixed;inset:0;z-index:210;display:grid;place-items:center;padding:24px 16px}
   .cvm-bg{position:absolute;inset:0;background:rgba(10,16,32,.42);opacity:0;transition:opacity .22s}
-  .cvm-box{position:relative;width:min(880px,100%);height:min(860px,calc(100vh - 48px));background:#fff;border-radius:20px;overflow:hidden;box-shadow:0 40px 90px -30px rgba(10,16,32,.55);opacity:0;transform:translateY(14px) scale(.985);transition:opacity .25s ease,transform .3s cubic-bezier(.2,.8,.2,1)}
+  .cvm-box{position:relative;display:flex;flex-direction:column;width:min(840px,100%);height:min(860px,calc(100vh - 48px));background:#fff;border-radius:20px;overflow:hidden;box-shadow:0 40px 90px -30px rgba(10,16,32,.55);opacity:0;transform:translateY(14px) scale(.985);transition:opacity .25s ease,transform .3s cubic-bezier(.2,.8,.2,1)}
   .cvm.on .cvm-bg{opacity:1}.cvm.on .cvm-box{opacity:1;transform:none}
-  .cvm-f{display:block;width:100%;height:100%;border:0;background:#fff}
-  .cvm-x{position:absolute;top:14px;right:14px;z-index:2;width:36px;height:36px;border-radius:50%;border:1px solid #E3E6EC;background:#fff;color:#3A3F4B;display:grid;place-items:center;cursor:pointer}
+  .cvm-f{display:block;width:100%;flex:1;min-height:0;border:0;background:#fff}
+  .cvm-h{display:flex;align-items:flex-start;justify-content:space-between;gap:16px;padding:20px 20px 16px 32px;border-bottom:1px solid #EEF1F7}
+  .cvm-h h2{margin:0;font-size:22px;line-height:1.25;font-weight:700;letter-spacing:-.015em;color:#0A1A55}
+  .cvm-h p{margin:4px 0 0;font-size:13px;color:#5B6170}
+  @media (max-width:600px){.cvm-h{padding:16px 14px 12px 16px}.cvm-h h2{font-size:18px}}
+  .cvm-x{flex:none;width:36px;height:36px;border-radius:50%;border:1px solid #E3E6EC;background:#fff;color:#3A3F4B;display:grid;place-items:center;cursor:pointer}
   .cvm-x:hover{background:#F2F4F8}.cvm-x svg{width:16px;height:16px}
   @media (max-width:600px){.cvm{padding:0}.cvm-box{width:100%;height:100%;border-radius:0}}
 </style>
@@ -373,7 +377,8 @@
 <div class="cvm" id="cvm" hidden>
   <div class="cvm-bg" data-cvm-close></div>
   <div class="cvm-box" role="dialog" aria-modal="true" aria-label="Gửi CV ứng tuyển">
-    <button type="button" class="cvm-x" data-cvm-close aria-label="Đóng"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M6 6l12 12M18 6 6 18"/></svg></button>
+    <header class="cvm-h"><div><h2>Nộp Hồ Sơ Ứng Tuyển</h2><p>Ban Nhân Sự sẽ phản hồi hồ sơ trong vòng 24 – 48 giờ làm việc.</p></div>
+      <button type="button" class="cvm-x" data-cvm-close aria-label="Đóng"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M6 6l12 12M18 6 6 18"/></svg></button></header>
     <iframe class="cvm-f" id="cvmFrame" title="Gửi CV ứng tuyển" src="about:blank"></iframe>
   </div>
 </div>

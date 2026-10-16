@@ -395,3 +395,13 @@ document.addEventListener("submit", e => {
 
 if(document.readyState === "loading") document.addEventListener("DOMContentLoaded", mount); else mount();
 })();
+
+/* mailto links: open the mail app in a new browsing context (works inside the site frame) and copy the address as a fallback */
+document.addEventListener("click", function(e){
+  var a = e.target.closest && e.target.closest('a[href^="mailto:"]'); if(!a) return;
+  e.preventDefault();
+  var href = a.getAttribute("href"), addr = href.replace(/^mailto:/,"").split("?")[0];
+  try{ var w = window.open(href, "_blank"); if(w) setTimeout(function(){ try{ if(w.location.href === "about:blank") w.close(); }catch(_){} }, 1500); }catch(_){}
+  try{ navigator.clipboard && navigator.clipboard.writeText(addr).catch(function(){}); }catch(_){}
+  if(window.toast) toast("Đã sao chép email " + addr);
+}, true);

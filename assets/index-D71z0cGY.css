@@ -275,3 +275,10 @@ section:has(+ .ree-rel) span.size-10.bottom-5{bottom:150px!important}
 .pg-news .nf2-row .nf2-meta .chip{height:20px;padding:0 8px;font-size:9.5px}
 @media (max-width:960px){.pg-news .nf2{grid-template-columns:1fr}}
 @media (max-width:520px){.pg-news .nf2-row{grid-template-columns:96px minmax(0,1fr);gap:12px}.pg-news .nf2-row h4{font-size:14.5px}}
+
+/* news page: no section title above the featured block; "Xem tất cả" moves into the list header */
+.pg-news .news-featured .sec-head{position:absolute!important;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap;margin:0!important;padding:0!important}
+.pg-news .news-featured .wrap{position:relative}
+.pg-news .nf2-k2{display:flex;align-items:center;justify-content:space-between;gap:12px}
+.pg-news .nf2-all{display:inline-flex;align-items:center;gap:6px;border:0;background:none;padding:0;cursor:pointer;font:inherit;font-size:11.5px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--navy,#14306B)}
+.pg-news .nf2-all:hover{color:var(--brand-red,#C8102E)}

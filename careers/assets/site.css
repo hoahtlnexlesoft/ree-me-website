@@ -1165,7 +1165,7 @@ html body .ab-x:hover,html body .rx .dock-x:hover{color:#fff!important}
   html body .alert-band.dk h3,html body .rx .dock-tx b,html body .cd-t{font-size:13.5px!important}
 }
 
-.loc-pill{box-shadow:inset 0 0 0 1px rgba(11,31,58,.1)}
+.loc-pill,.ms-pill{box-shadow:none!important;border:0!important}
 
 /* ===== One accent for interactive controls on the jobs list: site navy #1D4386 ===== */
 html body #goBtn{background:#1D4386!important;background-image:none!important;border-color:#1D4386!important;color:#fff!important;box-shadow:0 12px 24px -12px rgba(29,67,134,.45)!important}

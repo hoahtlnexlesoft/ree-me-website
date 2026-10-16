@@ -293,6 +293,11 @@
   #list .jg + .jg{margin-top:22px!important}
   #list .jg-h{margin:0!important}
   #list .jg > .rows,#list .jg > .job-grid{margin-top:20px!important;margin-bottom:0!important;padding-top:0!important}
+
+  /* bottom bar: floating while scrolling, full-width band at the end of the page (same as careers index / job detail) */
+  html body .alert-band.dk{transition:width .35s ease,border-radius .35s ease,padding .35s ease,bottom .35s ease}
+  html body .alert-band.dk.ab-rest{bottom:0!important;width:100vw!important;max-width:none!important;margin-left:calc(50% - 50vw)!important;margin-right:calc(50% - 50vw)!important;border-radius:0!important;border-left:0!important;border-right:0!important;border-bottom:0!important;box-shadow:none!important;background:rgba(22,26,40,.92)!important;padding:20px max(var(--gut),calc(50vw - 720px + var(--gut)))!important}
+  html body .alert-band.dk.ab-rest .ab-x{display:none}
 </style>
 <script>window.PAGE="jobs"</script>
 </head>
@@ -350,6 +355,7 @@
       </div>
       <button type="button" class="ab-x" id="abX" aria-label="Ẩn thanh này"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M6 6l12 12M18 6 6 18"/></svg></button>
     </div>
+    <div id="abEnd" style="height:1px;margin-top:-1px"></div>
   </section>
 </main>
 
@@ -548,6 +554,11 @@
   document.addEventListener("keydown", e => { if($("#qv").hidden) return; if(e.key === "Escape") qvClose(); if(e.key === "ArrowDown" || e.key === "ArrowRight"){ e.preventDefault(); qvShow(Math.min(qvIdx + 1, qvList.length - 1)); } if(e.key === "ArrowUp" || e.key === "ArrowLeft"){ e.preventDefault(); qvShow(Math.max(qvIdx - 1, 0)); } });
   render();
 })();
+</script>
+<script>
+(function(){var d=document.getElementById("alertBand"),e=document.getElementById("abEnd");if(!d||!e)return;
+function f(){var de=document.documentElement;d.classList.toggle("ab-rest",e.getBoundingClientRect().top<=innerHeight-20||scrollY+innerHeight>=de.scrollHeight-4)}
+addEventListener("scroll",f,{passive:true});addEventListener("resize",f);new MutationObserver(f).observe(document.getElementById("list")||document.body,{childList:true});f();})();
 </script>
 </body>
 </html>

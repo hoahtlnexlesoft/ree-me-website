@@ -1212,6 +1212,8 @@ html,body{overflow-x:clip}
 
 /* dock: floating while scrolling, full-width band once it reaches the end of the page (same as careers index) */
 html body .rx .dock.dk-rest .dock-x{display:none}
+
+#apply-card{scroll-margin-top:128px}
 </style>
 <script>window.PAGE="job"</script>
 </head>
@@ -1498,7 +1500,7 @@ html body .rx .dock.dk-rest .dock-x{display:none}
       (others.length && positions.length < 3 ? '<label class="pos-add"><span><svg width="9" height="9"><use href="#i-plus"/></svg>Thêm vị trí</span><select id="af-add" aria-label="Thêm vị trí ứng tuyển"><option value="">Chọn vị trí…</option>' + others.map(j => '<option value="' + esc(j.id) + '">' + esc(j.title) + ' — ' + esc(j.loc) + '</option>').join('') + '</select></label>' : '');
   }
   afPos.addEventListener('click', e => { const b = e.target.closest('[data-rm]'); if(b){ positions = positions.filter(c => c !== b.dataset.rm); renderPositions(); } });
-  afPos.addEventListener('change', e => { if(e.target.id === 'af-add' && e.target.value){ positions.push(e.target.value); renderPositions(); } });
+  afPos.addEventListener('change', e => { if(e.target.id === 'af-add' && e.target.value){ positions.push(e.target.value); afPos.classList.remove('invalid'); renderPositions(); } });
 
   const drop = $('#af-drop'), cv = $('#af-cv'), fileLabel = $('#af-file'); let cvFile = null;
   const errEl = $('#af-err');
@@ -1521,6 +1523,7 @@ html body .rx .dock.dk-rest .dock-x{display:none}
     form.querySelectorAll('[required]').forEach(el => { if(!el.value.trim()){ el.classList.add('invalid'); bad.push(el); } });
     const email = $('#af-email'); if(email.value.trim() && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.value.trim())){ email.classList.add('invalid'); bad.push(email); }
     const phone = $('#af-phone'); if(phone.value.trim() && phone.value.replace(/\D/g,'').length < 9){ phone.classList.add('invalid'); bad.push(phone); }
+    if(!positions.length){ afPos.classList.add('invalid'); bad.push(afPos); }
     if(!regions.length){ afRegions.classList.add('invalid'); bad.push(afRegions); }
     if(!cvFile){ drop.classList.add('invalid'); bad.push(drop); }
     if(bad.length){ showErr('Vui lòng kiểm tra ' + bad.length + ' mục được tô đỏ (bắt buộc hoặc chưa đúng định dạng).');
@@ -1553,7 +1556,9 @@ html body .rx .dock.dk-rest .dock-x{display:none}
   addEventListener("hashchange", () => { dock.hidden = false; setTimeout(syncDock, 30); });
   addEventListener("hashchange", route);
   route(); syncDock();
-  try{ if(sessionStorage.getItem('ree_apply')){ sessionStorage.removeItem('ree_apply'); setTimeout(() => { $('#apply-card').scrollIntoView({block:'start'}); }, 300); } }catch(e){}
+  try{ const ap = sessionStorage.getItem('ree_apply'); if(ap){ sessionStorage.removeItem('ree_apply');
+    if(ap === 'any'){ positions = []; regions = []; renderPositions(); renderRegions(); } /* general CV: candidate picks the position(s) */
+    setTimeout(() => { $('#apply-card').scrollIntoView({block:'start'}); }, 300); } }catch(e){}
 })();
 </script>
 <script>

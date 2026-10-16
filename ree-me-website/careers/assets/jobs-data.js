@@ -20,12 +20,12 @@ window.WORK_ENV = "Làm việc tại trụ sở e.town 5 chuẩn xanh quốc t�
 /* Location tags, same order and colours as the recruiting site */
 window.LOC_TAGS = [
   { k:"TP.HCM", c:"#DDF46A", t:"#1C1C19" },
-  { k:"Hà Nội", c:"linear-gradient(120deg,#8EDBF7,#F6D6D1)", t:"#1C1C19" },
+  { k:"Hà Nội", c:"#8EDBF7", t:"#1C1C19" },
   { k:"Đà Nẵng", c:"#9C4027", t:"#FCF5D8" },
   { k:"Đồng Nai", c:"#B9D7DF", t:"#1C1C19" },
   { k:"Các tỉnh miền Bắc", c:"#FCF5D8", t:"#572E1E" },
   { k:"Phú Quốc", c:"#DF9533", t:"#1C1C19" },
-  { k:"Các dự án công ty thi công", c:"linear-gradient(120deg,#8EDBF7,#F6D6D1)", t:"#1C1C19" },
+  { k:"Các dự án công ty thi công", c:"#F6D6D1", t:"#1C1C19" },
   { k:"Quảng Trị", c:"#C88254", t:"#FCF5D8" }
 ];
 window.locPills = j => j.loc.split(" · ").map(k => { const o = LOC_TAGS.find(x => x.k === k) || { c:"#e5e7eb", t:"#111" }; return `<span class="loc-pill" style="background:${o.c};color:${o.t}">${k}</span>`; }).join("");

@@ -8,7 +8,7 @@
   body:has(.cd-bar) .fab,body:has(.cd-bar) .qc-pop{transform:translateY(-84px)}
   @media (max-width:600px){.cd-th{display:none}.cd-bar{gap:12px;padding:10px 16px}.cd-t{font-size:15px}.cd-btn{height:42px;padding:0 16px;font-size:14px}body:has(.cd-bar) .fab,body:has(.cd-bar) .qc-pop{transform:translateY(-70px)}}
   /* bar at rest (end of page): full-width band, tighter gap above */
-  html body .cd-bar.cd-rest{width:100%!important;border-radius:0!important;border-left:0!important;border-right:0!important;border-bottom:0!important;box-shadow:none!important;background:rgba(22,26,40,.92)!important;padding:20px max(var(--gut),calc(50vw - 720px + var(--gut)))!important}
+  html body .cd-bar.cd-rest{width:100%!important;border-radius:0!important;border-left:0!important;border-right:0!important;border-bottom:0!important;box-shadow:none!important;background:rgba(22,26,40,.92)!important;padding:18px max(var(--gut),calc(50vw - 720px + var(--gut)))!important}
   html body .sec-life{padding-bottom:56px!important}
   #cdEnd{height:1px;margin-top:-1px}
   /* hidden while the hero CTA is on screen */
@@ -291,7 +291,7 @@
 
 <script>
 (function(){var b=document.getElementById("cdBar"),e=document.getElementById("cdEnd");if(!b||!e)return;
-var h=document.querySelector(".hero .btn-accent")||document.querySelector(".btn-accent");function f(){var r=e.getBoundingClientRect();reeBarRest(b,b,"cd-rest",r.top<=innerHeight-20);b.classList.toggle("cd-hide",!!h&&h.getBoundingClientRect().bottom>0)}
+var h=document.querySelector(".hero .btn-accent")||document.querySelector(".btn-accent");function f(){var r=e.getBoundingClientRect();reeBarCheck(b,b,"cd-rest",e);b.classList.toggle("cd-hide",!!h&&h.getBoundingClientRect().bottom>0)}
 addEventListener("scroll",f,{passive:true});addEventListener("resize",f);f();})();
 </script>
 </body></html>

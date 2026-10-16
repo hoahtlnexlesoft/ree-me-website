@@ -20,7 +20,7 @@ window.WORK_ENV = "Làm việc tại trụ sở e.town 5 chuẩn xanh quốc t�
 /* Location tags, same order and colours as the recruiting site */
 window.LOC_TAGS = [
   { k:"TP.HCM", c:"#DDF46A", t:"#1C1C19" },
-  { k:"Hà Nội", c:"#8ABBD9", t:"#1C1C19" },
+  { k:"Hà Nội", c:"linear-gradient(120deg,#8EDBF7,#F6D6D1)", t:"#1C1C19" },
   { k:"Đà Nẵng", c:"#9C4027", t:"#FCF5D8" },
   { k:"Đồng Nai", c:"#B9D7DF", t:"#1C1C19" },
   { k:"Các tỉnh miền Bắc", c:"#FCF5D8", t:"#572E1E" },

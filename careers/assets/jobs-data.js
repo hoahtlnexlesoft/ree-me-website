@@ -47,12 +47,15 @@ window.jobDetailHTML = (j, action, opts) => {
   const esc = t => String(t).replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
   const ul = a => '<ul class="jx-ul">' + a.map(t => '<li>' + t + '</li>').join('') + '</ul>';  /* data may contain <b> */
   const row = (k, v) => v && (!only || only.includes(k)) ? '<div class="jx-k">' + k + '</div><div class="jx-v">' + v + '</div>' : '';
+  /* short pill fields shown as a 2-column block */
+  const facts = list => { const f = list.filter(([k, v]) => v && (!only || only.includes(k)));
+    return f.length ? '<div class="jx-facts">' + f.map(([k, v]) => '<div class="jx-f"><div class="jx-k">' + k + '</div><div class="jx-v">' + v + '</div></div>').join('') + '</div>' : ''; };
   return '<article class="jx">' + (opts && opts.noHead ? '' : '<header class="jx-h"><h1>' + esc(j.code) + ' - ' + esc(j.title) + '</h1>' + (action || '') + '</header>') + '<div class="jx-grid">' +
     row('Vị trí', esc(j.title)) + row('Mã vị trí', esc(j.code)) +
-    row('Địa điểm làm việc', '<span class="loc-pills">' + locPills(j) + '</span>') +
-    row('Mức lương', j.salary && fieldPill('salary', j.salary)) +
-    row('Yêu cầu về kinh nghiệm', j.exp && fieldPill('exp', j.exp)) +
-    row('Yêu cầu về tiếng Anh', j.english && fieldPill('english', j.english)) +
+    facts([['Địa điểm làm việc', '<span class="loc-pills">' + locPills(j) + '</span>'],
+      ['Mức lương', j.salary && fieldPill('salary', j.salary)],
+      ['Yêu cầu về kinh nghiệm', j.exp && fieldPill('exp', j.exp)],
+      ['Yêu cầu về tiếng Anh', j.english && fieldPill('english', j.english)]]) +
     row('Mô tả công việc', j.desc && ((j.descIntro ? '<p class="jx-p">' + j.descIntro + '</p>' : '') + ul(j.desc))) +
     row('Yêu cầu', j.req && ul(j.req)) +
     row('Phúc lợi', j.perks && ul(j.perks)) +

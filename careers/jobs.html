@@ -240,6 +240,10 @@
   .qv-ic{width:34px;height:34px;display:grid;place-items:center;border:0;border-radius:8px;background:none;color:#3A3F4B;cursor:pointer}
   .qv-ic:hover{background:#F2F4F8}.qv-ic:disabled{opacity:.3;cursor:default;background:none}
   .qv-ic svg{width:18px;height:18px}
+  .qv-ic.qv-txt{width:auto;display:inline-flex;align-items:center;gap:7px;padding:0 12px;border:1px solid #E3E6EC;border-radius:999px;font-size:12.5px;font-weight:600;line-height:1;color:#1D4386;background:#fff}
+  .qv-ic.qv-txt svg{width:15px;height:15px}
+  .qv-ic.qv-txt:hover{background:#F2F5FA;border-color:#C9D3E3}
+  .qv-ic.qv-txt.ok{color:#1E7A4C;border-color:#BFE3CF;background:#EFF9F3}
   .qv-body{flex:1;overflow:auto;overscroll-behavior:contain;padding:8px 8px 32px}
   .qv-body .jx{border:0;border-radius:0;padding:28px 36px}
   .qv-body .jx-h h1{font-size:30px}
@@ -329,12 +333,12 @@
   <div class="qv-bg" data-qv-close></div>
   <aside class="qv-panel" role="dialog" aria-modal="true" aria-label="Xem nhanh vị trí">
     <div class="qv-bar">
-      <button type="button" class="qv-ic" id="qvPrev" aria-label="Vị trí trước"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 15 6-6 6 6"/></svg></button>
-      <button type="button" class="qv-ic" id="qvNext" aria-label="Vị trí sau"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg></button>
+      <button type="button" class="qv-ic" id="qvPrev" aria-label="Vị trí trước" title="Vị trí trước"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 15 6-6 6 6"/></svg></button>
+      <button type="button" class="qv-ic" id="qvNext" aria-label="Vị trí sau" title="Vị trí sau"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg></button>
       <span class="qv-sp"></span>
-      <button type="button" class="qv-ic" id="qvCopy" aria-label="Sao chép liên kết"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 14a4 4 0 0 0 5.7 0l3-3a4 4 0 0 0-5.7-5.7l-1 1"/><path d="M14 10a4 4 0 0 0-5.7 0l-3 3a4 4 0 0 0 5.7 5.7l1-1"/></svg></button>
-      <a class="qv-ic" id="qvOpen" href="#" aria-label="Mở trang chi tiết"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 3h6v6M21 3l-8 8M9 21H3v-6M3 21l8-8"/></svg></a>
-      <button type="button" class="qv-ic" data-qv-close aria-label="Đóng"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M6 6l12 12M18 6 6 18"/></svg></button>
+      <button type="button" class="qv-ic qv-txt" id="qvCopy" title="Sao chép link vị trí"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="12" height="12" rx="2"/><path d="M5 15H4a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1h10a1 1 0 0 1 1 1v1"/></svg><span>Sao chép link</span></button>
+      <a class="qv-ic" id="qvOpen" href="#" aria-label="Mở trang chi tiết" title="Mở trang chi tiết"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 3h6v6M21 3l-8 8M9 21H3v-6M3 21l8-8"/></svg></a>
+      <button type="button" class="qv-ic" data-qv-close aria-label="Đóng" title="Đóng"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M6 6l12 12M18 6 6 18"/></svg></button>
     </div>
     <div class="qv-body" id="qvBody"></div>
     <div class="qv-toast" id="qvToast" hidden>Đã sao chép liên kết</div>
@@ -480,6 +484,8 @@
   }, true);
   $("#qvPrev").onclick = () => qvShow(qvIdx - 1); $("#qvNext").onclick = () => qvShow(qvIdx + 1);
   $("#qvCopy").onclick = () => { const u = new URL($("#qvOpen").getAttribute("href"), location.href).href; (navigator.clipboard ? navigator.clipboard.writeText(u) : Promise.reject()).catch(() => {}); const t = $("#qvToast"); t.hidden = false; clearTimeout(t._t); t._t = setTimeout(() => t.hidden = true, 1600); };
+  { const b=$("#qvCopy"), lab=b.querySelector("span"), ico=b.querySelector("svg").innerHTML;
+    b.addEventListener("click",()=>{ b.classList.add("ok"); lab.textContent="Đã sao chép"; b.querySelector("svg").innerHTML='<path d="M5 12.5l4.5 4.5L19 7.5"/>'; clearTimeout(b._r); b._r=setTimeout(()=>{ b.classList.remove("ok"); lab.textContent="Sao chép link"; b.querySelector("svg").innerHTML=ico; },1800); }); }
   document.addEventListener("keydown", e => { if($("#qv").hidden) return; if(e.key === "Escape") qvClose(); if(e.key === "ArrowDown" || e.key === "ArrowRight"){ e.preventDefault(); qvShow(Math.min(qvIdx + 1, qvList.length - 1)); } if(e.key === "ArrowUp" || e.key === "ArrowLeft"){ e.preventDefault(); qvShow(Math.max(qvIdx - 1, 0)); } });
   render();
 })();

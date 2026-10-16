@@ -1145,7 +1145,7 @@ html body .alert-band.dk,html body .rx .dock-in,html body .cd-bar{
 html body .alert-band.dk{bottom:20px!important;position:sticky!important;margin-top:56px!important}
 html body .cd-bar{bottom:20px!important;padding-right:20px!important}
 html body .rx .dock{bottom:20px!important;width:auto!important;margin-left:0!important;margin-right:0!important;padding:0 16px!important}
-html body .ab-th,html body .rx .dock-th,html body .cd-th{width:42px!important;height:42px!important;border-radius:50%!important;border:2px solid rgba(255,255,255,.85)!important;object-fit:cover}
+html body .ab-th,html body .rx .dock-th,html body .cd-th{width:42px!important;height:42px!important;border-radius:50%!important;border:2px solid rgba(255,255,255,.85)!important;object-fit:contain;background:#fff;padding:0 4px;box-sizing:border-box}
 html body .alert-band.dk h3,html body .rx .dock-tx b,html body .cd-t{font-size:14px!important;font-weight:600!important;line-height:1.3!important;letter-spacing:-.005em!important}
 html body .ab-sub,html body .rx .dock-sub{font-size:11.5px!important;margin-top:2px!important;color:rgba(255,255,255,.66)!important}
 html body .ab-act,html body .rx .dock-act{gap:8px!important}

@@ -306,3 +306,6 @@ section:has(+ .ree-rel) span.size-10.bottom-5{bottom:150px!important}
 .pg-news .nf2-feat h3{order:1;margin-top:18px!important}
 .pg-news .nf2-feat .nf2-meta{order:2;margin-top:10px!important}
 .pg-news .nf2-feat p{order:3}
+
+/* featured story: tag sits inline right after the title text */
+.pg-news .nf2-feat .nf2-meta.nf2-inl{display:inline-flex!important;vertical-align:middle;margin:0 0 0 6px!important;position:relative;top:-3px;gap:8px}

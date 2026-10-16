@@ -543,6 +543,9 @@
 .rx .af-submit{ height: 52px; font-size: 13px; }
 .rx .af-lock{ display: flex; justify-content: center; align-items: center; gap: 6px; font-size: 11px; line-height: 16px; color: var(--ink); }
 .rx .af-lock svg{ color: #059669; }
+.rx .af-lock{ align-items: flex-start; text-align: left; }
+.rx .af-lock svg{ flex: none; margin-top: 2px; }
+.rx .af-lock a{ color: var(--indigo-500, #2F6BE8); font-weight: 600; text-decoration: underline; text-underline-offset: 2px; }
 .rx .af-done{ display: flex; flex-direction: column; align-items: center; gap: 10px; text-align: center; padding: 24px 8px; }
 .rx .af-done .ok{ width: 56px; height: 56px; border-radius: 50%; background: #ecfdf5; color: #059669; display: grid; place-items: center; }
 .rx .af-done h4{ font-size: 18px; line-height: 26px; color: var(--navy-900); }
@@ -1344,7 +1347,7 @@ html.embed-form #rx .apply-card > .af,html.embed-form #rx .apply-card > .af-done
           </div></fieldset>
           <div class="af-foot"><p class="af-err" id="af-err" hidden></p>
           <button class="btn-grad af-submit" type="submit">Gửi hồ sơ ứng tuyển ngay <svg width="14" height="14"><use href="#i-arrow-r"/></svg></button>
-          <p class="af-lock"><svg width="12" height="12"><use href="#i-lock"/></svg>Bảo mật thông tin ứng viên theo Quy chuẩn REE Corporation</p>
+          <p class="af-lock"><svg width="12" height="12"><use href="#i-lock"/></svg><span>Bằng việc nhấn nút ứng tuyển, bạn đã chấp thuận việc xử lý dữ liệu cá nhân trong tuyển dụng. Xem chi tiết <a href="https://www.reecorp.com/bao-mat-du-lieu-ca-nhan/" target="_blank" rel="noopener">tại đây</a>.</span></p>
         </div>
         </form>
         <div class="af-done" id="af-done" hidden>

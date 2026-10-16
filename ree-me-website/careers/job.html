@@ -1207,9 +1207,13 @@ html,body{overflow-x:clip}
   .rx .dock-btn.light[aria-pressed="true"] .dock-ic{background:linear-gradient(135deg,#8EDBF7,#F6D6D1)!important;color:#1C1C19!important}
   .rx .dock-btn.light[aria-pressed="true"] .dock-ic svg{fill:currentColor}
 
-/* apply form side panel: soft, muted light tone (subtle, not a bright multi-colour gradient) */
-#rx .af-head{background:radial-gradient(90% 45% at 0% 0%,#CADDEB 0%,rgba(202,221,235,0) 72%),radial-gradient(80% 40% at 100% 28%,#D9D3EA 0%,rgba(217,211,234,0) 72%),radial-gradient(90% 40% at 0% 58%,#D3E3CC 0%,rgba(211,227,204,0) 72%),radial-gradient(85% 38% at 100% 78%,#EAD8DC 0%,rgba(234,216,220,0) 72%),radial-gradient(95% 40% at 20% 100%,#EADFC6 0%,rgba(234,223,198,0) 72%),#E3E7E6!important;color:#1F2D3A}
-#rx .af-tag{background:rgba(255,255,255,.75)!important;color:#2C4D5E!important;border:1px solid rgba(44,77,94,.12)!important}
+/* apply form: photo side panel (text is real HTML on top), form as a white card floating on a soft backdrop */
+#rx .apply-card{grid-template-columns:380px minmax(0,1fr)!important;background:linear-gradient(180deg,#F4F5F1 0%,#EEF1F4 100%)!important}
+#rx .af-head{background:url(assets/img/apply-bg.jpg?v=1) 42% 100%/cover no-repeat,#F6F6F1!important;color:#1F2D3A}
+#rx .af-head > div{position:static!important}
+#rx .af-tag{background:rgba(255,255,255,.72)!important;color:#2C4D5E!important;border:1px solid rgba(44,77,94,.1)!important;-webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px)}
+#rx .apply-card > .af,#rx .apply-card > .af-done{margin:18px 18px 18px 0;background:#fff;border-radius:20px;box-shadow:0 20px 50px -30px rgba(10,26,85,.35),0 0 0 1px rgba(10,26,85,.05)}
+@media (max-width:900px){#rx .apply-card{grid-template-columns:1fr!important}#rx .af-head{min-height:260px;background-position:50% 30%!important}#rx .apply-card > .af,#rx .apply-card > .af-done{margin:0}}
 
 /* dock: floating while scrolling, full-width band once it reaches the end of the page (same as careers index) */
 html body .rx .dock.dk-rest .dock-x{display:none}

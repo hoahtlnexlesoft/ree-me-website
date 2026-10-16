@@ -493,7 +493,9 @@
   /* ---- quick view (click a card / row) ---- */
   let qvList = [], qvIdx = -1;
   /* inside the site frame, raise the frame above the site header while the panel is open */
-  const qvLift = on => { try{ const f = window.frameElement; if(f) f.style.zIndex = on ? "2147483000" : "1"; }catch(_){} };
+  /* keep the site header visible: drawer starts right below it */
+  const qvTop = () => { let t = 0; try{ const f = window.frameElement, h = f && f.ownerDocument.querySelector("header"); if(h){ const r = h.getBoundingClientRect(), fr = f.getBoundingClientRect(); t = Math.max(0, Math.round(r.bottom - fr.top)); } }catch(_){} $("#qv").style.top = t + "px"; };
+  const qvLift = on => { if(on){ qvTop(); addEventListener("resize", qvTop); } else removeEventListener("resize", qvTop); };
   const qvShow = i => { qvIdx = i; const job = qvList[i]; if(!job) return;
     $("#qvBody").innerHTML = jobDetailHTML(job, `<a class="jx-btn" href="${jobURL(job)}" data-qv-apply>Ứng tuyển ngay${JX_EXT}</a>`);
     $("#qvBody").scrollTop = 0; $("#qvOpen").href = jobURL(job);

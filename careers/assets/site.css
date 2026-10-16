@@ -1180,13 +1180,3 @@ html body .jxc-save[aria-pressed="true"] svg{color:#1C1C19!important}
 /* careers index bar title: larger */
 html body .cd-bar .cd-t{font-size:20px!important;font-weight:600!important;letter-spacing:-.01em!important}
 @media (max-width:600px){html body .cd-bar .cd-t{font-size:18px!important}}
-
-/* job detail facts: 2 columns, label and tags on one line */
-.jx-facts{grid-column:1/-1;display:grid;grid-template-columns:max-content auto max-content auto;align-items:center;gap:14px 16px}
-.jx-f{display:contents}
-.jx-f .jx-k{font-size:14px;color:#5B6170;font-weight:500;white-space:nowrap}
-.jx-f .jx-v{margin:0!important;min-width:0}
-.jx-f .loc-pills{margin:0;gap:6px;flex-wrap:wrap}
-.jx-facts .loc-pill{font-size:12px!important;font-weight:600!important;line-height:18px!important;padding:3px 10px!important;border-radius:999px!important}
-.jx-f:nth-child(even) .jx-k{padding-left:24px}
-@media (max-width:640px){.jx-facts{grid-template-columns:max-content minmax(0,1fr);gap:12px 14px}.jx-f .loc-pills{flex-wrap:wrap}.jx-f:nth-child(even) .jx-k{padding-left:0}}

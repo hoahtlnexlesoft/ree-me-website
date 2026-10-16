@@ -352,7 +352,7 @@
         <a class="ab-sub" href="mailto:ree@reeme.com.vn">Gửi CV qua email ree@reeme.com.vn</a></div>
       <div class="ab-act">
         <span class="ab-btn light ab-static" aria-label="Hotline 1900 3339"><span class="ab-bic" id="abPhone"></span><span class="ab-lb">Hotline 1900 3339</span></span>
-        <a class="ab-btn pri" href="mailto:ree@reeme.com.vn"><span id="abMail"></span>Gửi CV ngay</a>
+        <a class="ab-btn pri" id="abApply" href="job.html"><span id="abMail"></span>Gửi CV ngay</a>
       </div>
       <button type="button" class="ab-x" id="abX" aria-label="Ẩn thanh này"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M6 6l12 12M18 6 6 18"/></svg></button>
     </div>
@@ -392,6 +392,10 @@
 
   $("#resetBtn").innerHTML = ic("reset"); $("#goBtn").innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>';
   $("#icLoc").innerHTML = ic("pin"); $("#icSal").innerHTML = ic("money"); $("#icExp").innerHTML = ic("brief"); $("#icEn").innerHTML = ic("globe"); $("#vList").innerHTML = ic("list"); $("#vGrid").innerHTML = ic("grid");
+  /* "Gửi CV ngay": open the online application form (no position pre-selected) */
+  $("#abApply").addEventListener("click", e => { e.preventDefault(); const j = JOBS[0], u = jobURL(j), slug = u.split("#")[1];
+    try{ sessionStorage.setItem("ree_apply", "any"); }catch(_){}
+    try{ if(window.frameElement && slug){ parent.location.hash = "#/tuyen-dung/" + slug; return; } }catch(_){} location.href = u; });
   $("#abPhone").innerHTML = ic("phone"); $("#abMail").innerHTML = ic("mail");
   $("#abX")?.addEventListener("click", () => { $("#alertBand").hidden = true; });
 
@@ -545,7 +549,7 @@
     if(e.target.closest("[data-qv-apply]")){ try{ sessionStorage.setItem("ree_apply", "1"); }catch(_){} return; }
     if(e.metaKey || e.ctrlKey || e.shiftKey || e.button) return;
     const card = e.target.closest("#list [data-jid]"); if(!card || e.target.closest("[data-save]")) return;
-    if(e.target.closest(".arr")){ const j = JOBS.find(o => o.id === card.dataset.jid); if(j){ e.preventDefault(); const u = jobURL(j), slug = u.split("#")[1]; try{ if(window.frameElement && slug){ parent.location.hash = "#/tuyen-dung/" + slug; return; } }catch(_){} location.href = u; return; } }
+    if(e.target.closest(".arr")){ const j = JOBS.find(o => o.id === card.dataset.jid); if(j){ e.preventDefault(); try{ sessionStorage.setItem("ree_apply", "1"); }catch(_){} const u = jobURL(j), slug = u.split("#")[1]; try{ if(window.frameElement && slug){ parent.location.hash = "#/tuyen-dung/" + slug; return; } }catch(_){} location.href = u; return; } }
     e.preventDefault(); qvOpen(card.dataset.jid);
   }, true);
   $("#qvPrev").onclick = () => qvShow(qvIdx - 1); $("#qvNext").onclick = () => qvShow(qvIdx + 1);

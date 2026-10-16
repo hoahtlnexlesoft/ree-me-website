@@ -246,7 +246,8 @@
   .qv-ic.qv-txt.ok{color:#1E7A4C;border-color:#BFE3CF;background:#EFF9F3}
   /* desktop: vertical action rail outside the drawer (icon circle + label) */
   @media (min-width:900px){
-    .qv-bar{position:absolute;top:0;bottom:0;right:100%;width:104px;box-sizing:border-box;flex-direction:column;align-items:center;justify-content:flex-start;gap:18px;padding:28px 0;border:0;border-right:1px solid #ECECEC;background:#F8F8F8;box-shadow:-18px 0 40px -24px rgba(10,16,32,.35)}
+    .qv-panel{width:min(824px,100%);box-sizing:border-box;padding-right:104px}
+    .qv-bar{position:absolute;top:0;bottom:0;right:0;width:104px;box-sizing:border-box;flex-direction:column;align-items:center;justify-content:flex-start;gap:18px;padding:28px 0;border:0;border-left:1px solid #ECECEC;background:#F8F8F8}
     .qv-sp{display:none}
     .qv-bar .qv-ic,.qv-bar .qv-ic.qv-txt{width:auto;height:auto;display:flex;flex-direction:column;align-items:center;gap:7px;padding:0;border:0;border-radius:0;background:none!important;color:#1B2230;text-decoration:none}
     .qv-bar .qv-ic.qv-txt>span{display:none}

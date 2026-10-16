@@ -290,3 +290,10 @@ section:has(+ .ree-rel) span.size-10.bottom-5{bottom:150px!important}
 .pg-news .nf2-row h4{font-size:14.5px!important;line-height:1.42!important}
 .pg-news .nf2-meta time{font-size:11.5px!important}
 @media (max-width:520px){.pg-news .nf2-row h4{font-size:14px!important}}
+/* news featured list: no separators, even spacing between items */
+.pg-news .nf2-list li+li{border-top:0!important}
+.pg-news .nf2-list{gap:18px}
+.pg-news .nf2-row,.pg-news .nf2-list li:first-child .nf2-row{padding:0!important}
+/* news images: square corners */
+.pg-news .nf2 figure,.pg-news .nf2 figure img,.pg-news .ncard figure,.pg-news .ncard figure img{border-radius:0!important}
+.pg-news .ncard{border-radius:0!important}

@@ -428,6 +428,37 @@ if(document.readyState === "loading") document.addEventListener("DOMContentLoade
   addEventListener("scroll", close, {passive:true}); addEventListener("keydown", function(e){ if(e.key === "Escape") close(); });
 })();
 
+/* external links (target=_blank): open in a new tab from the outermost page we can reach, so the
+   new tab isn't swallowed by an embedding frame; if the browser still blocks it, show the link to copy */
+(function(){
+  var pop = null;
+  function close(){ if(pop){ pop.remove(); pop = null; } }
+  function host(){ var w = window; try{ while(w.parent && w.parent !== w && w.parent.document) w = w.parent; }catch(_){} return w; }
+  function show(a, url){
+    close();
+    pop = document.createElement("div"); pop.className = "mail-pop"; pop.setAttribute("role","dialog");
+    pop.innerHTML = '<div class="mp-k">Mở liên kết</div><div class="mp-a" style="word-break:break-all">' + url.replace(/</g,"&lt;") + '</div>' +
+      '<div class="mp-act"><button type="button" class="mp-copy">Sao chép</button></div>';
+    document.body.appendChild(pop);
+    var r = a.getBoundingClientRect(), w = pop.offsetWidth, h = pop.offsetHeight;
+    var x = Math.min(Math.max(12, r.left + r.width/2 - w/2), innerWidth - w - 12);
+    var y = r.top - h - 12; if(y < 12) y = r.bottom + 12;
+    pop.style.left = x + "px"; pop.style.top = y + "px";
+    pop.querySelector(".mp-copy").onclick = function(ev){ ev.stopPropagation(); try{ navigator.clipboard.writeText(url).catch(function(){}); }catch(_){} this.textContent = "Đã sao chép ✓"; };
+  }
+  document.addEventListener("click", function(e){
+    if(pop && !pop.contains(e.target)) close();
+    var a = e.target.closest && e.target.closest('a[target="_blank"][href^="http"]'); if(!a || (pop && pop.contains(a)) || e.defaultPrevented) return;
+    if(document.documentElement.style.cursor === "text") return; /* preview text-edit mode */
+    e.preventDefault();
+    var url = a.href, win = null;
+    try{ win = host().open(url, "_blank"); }catch(_){}
+    if(!win){ try{ win = window.open(url, "_blank"); }catch(_){} }
+    if(win){ try{ win.opener = null; }catch(_){} } else show(a, url);
+  });
+  addEventListener("scroll", close, {passive:true}); addEventListener("keydown", function(e){ if(e.key === "Escape") close(); });
+})();
+
 /* bottom bars (index / jobs / job detail): switch to the full-width "rest" state with an
    expand-from-centre reveal, and collapse back to the centre before returning to the floating bar */
 window.reeBarRest = function(host, anim, cls, on){

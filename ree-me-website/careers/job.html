@@ -1564,14 +1564,14 @@ html.embed-form body #rx .jd-wrap,html.embed-form body #rx .jd-grid,html.embed-f
     const on = store.get("ree_saved", []).includes(current.id); const b = $('#dockSave'); b.setAttribute('aria-pressed', on); b.dataset.save = current.id; b.querySelector('.dock-lb').textContent = on ? 'Đã lưu' : 'Lưu vị trí'; };
   try{ sessionStorage.removeItem('ree_dock_off'); }catch(e){}
   $('#dockX').addEventListener('click', () => { dock.hidden = true; });
-  dock.addEventListener('click', e => { if(e.target.closest('[data-to-form]')){ $('#apply-card').scrollIntoView({behavior:'smooth', block:'start'}); } if(e.target.closest('#dockSave')) setTimeout(syncDock, 30); });
+  dock.addEventListener('click', e => { if(e.target.closest('[data-to-form]')){ $('#apply-card').scrollIntoView({behavior:'smooth', block:'start'}); const n = $('#af-name'); if(n) setTimeout(() => n.focus({preventScroll:true}), 450); } if(e.target.closest('#dockSave')) setTimeout(syncDock, 30); });
   addEventListener("hashchange", () => { dock.hidden = false; setTimeout(syncDock, 30); });
   addEventListener("hashchange", route);
   route(); syncDock();
   if(document.documentElement.classList.contains('embed-form')){ positions = []; regions = []; renderPositions(); renderRegions(); }
   try{ const ap = sessionStorage.getItem('ree_apply'); if(ap){ sessionStorage.removeItem('ree_apply');
     if(ap === 'any'){ positions = []; regions = []; renderPositions(); renderRegions(); } /* general CV: candidate picks the position(s) */
-    setTimeout(() => { $('#apply-card').scrollIntoView({block:'start'}); }, 300); } }catch(e){}
+    setTimeout(() => { $('#apply-card').scrollIntoView({block:'start'}); const n = $('#af-name'); if(n) n.focus({preventScroll:true}); }, 300); } }catch(e){}
 })();
 </script>
 <script>

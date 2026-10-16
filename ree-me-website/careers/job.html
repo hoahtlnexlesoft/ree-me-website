@@ -1211,9 +1211,11 @@ html,body{overflow-x:clip}
 #rx .af-tag{background:rgba(255,255,255,.75)!important;color:#2C4D5E!important;border:1px solid rgba(44,77,94,.12)!important}
 
 /* dock: floating while scrolling, full-width band once it reaches the end of the page (same as careers index) */
-html body .rx .dock.dk-rest{bottom:0!important;padding:0!important;margin-left:calc(50% - 50vw)!important;margin-right:calc(50% - 50vw)!important;width:100vw!important}
-html body .rx .dock.dk-rest .dock-in{width:100%!important;border-radius:0!important;border-left:0!important;border-right:0!important;border-bottom:0!important;box-shadow:none!important;background:rgba(22,26,40,.92)!important;padding:18px max(var(--gut),calc(50vw - 720px + var(--gut)))!important}
+html body .rx .dock.dk-rest{padding:0!important;margin-left:calc(50% - 50vw)!important;margin-right:calc(50% - 50vw)!important;width:100vw!important}
+html body .rx .dock.dk-rest .dock-in{width:100%!important;border-radius:0!important;border-left:0!important;border-right:0!important;border-bottom:0!important;box-shadow:none!important;background:#1B2030!important;padding:18px max(var(--gut),calc(50vw - 720px + var(--gut)))!important}
 html body .rx .dock.dk-rest .dock-x{display:none}
+/* 20px end spacer = sticky offset: the dock settles naturally at the very end (no jump); filled when full width */
+.rx .dock.dk-rest + #dockEnd{background:#1B2030;width:100vw;margin-left:calc(50% - 50vw)}
 </style>
 <script>window.PAGE="job"</script>
 </head>
@@ -1307,7 +1309,7 @@ html body .rx .dock.dk-rest .dock-x{display:none}
       <button type="button" class="dock-x" id="dockX" aria-label="Ẩn thanh ứng tuyển"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M6 6l12 12M18 6 6 18"/></svg></button>
     </div>
   </section>
-  <div id="dockEnd" style="height:1px;margin-top:-1px"></div>
+  <div id="dockEnd" style="height:20px"></div>
   </div>
   <div class="rx"><div class="toast" id="toast" role="status" aria-live="polite"></div></div>
 </main>

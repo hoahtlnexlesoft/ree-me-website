@@ -1177,3 +1177,6 @@ html body .jrow .jsave[aria-pressed="true"],html body .jrow:hover .arr,html body
 /* saved state: Aurora gradient */
 html body .jrow .jsave[aria-pressed="true"],html body .jxc-save[aria-pressed="true"]{background:linear-gradient(135deg,#8EDBF7,#F6D6D1)!important;border-color:transparent!important;color:#1C1C19!important}
 html body .jxc-save[aria-pressed="true"] svg{color:#1C1C19!important}
+/* careers index bar title: larger */
+html body .cd-bar .cd-t{font-size:18px!important;font-weight:600!important;letter-spacing:-.01em!important}
+@media (max-width:600px){html body .cd-bar .cd-t{font-size:16px!important}}

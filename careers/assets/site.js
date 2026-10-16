@@ -396,16 +396,37 @@ document.addEventListener("submit", e => {
 if(document.readyState === "loading") document.addEventListener("DOMContentLoaded", mount); else mount();
 })();
 
-/* mailto links: open the mail app in a new browsing context (works inside the site frame) and copy the address as a fallback */
-document.addEventListener("click", function(e){
-  var a = e.target.closest && e.target.closest('a[href^="mailto:"]'); if(!a) return;
-  e.preventDefault();
-  try{ a.blur(); }catch(_){}
-  var href = a.getAttribute("href"), addr = href.replace(/^mailto:/,"").split("?")[0];
-  try{ var w = window.open(href, "_blank"); if(w) setTimeout(function(){ try{ if(w.location.href === "about:blank") w.close(); }catch(_){} }, 1500); }catch(_){}
-  try{ navigator.clipboard && navigator.clipboard.writeText(addr).catch(function(){}); }catch(_){}
-  if(window.toast) toast("Đã sao chép email " + addr);
-}, true);
+/* mailto links: never open a blank tab. Try the mail app through a hidden frame, copy the address,
+   and show a small card next to the link with the address + copy / open-mail actions */
+(function(){
+  var pop = null;
+  function close(){ if(pop){ pop.remove(); pop = null; } }
+  function show(a, addr, href){
+    close();
+    pop = document.createElement("div"); pop.className = "mail-pop"; pop.setAttribute("role","dialog");
+    pop.innerHTML = '<div class="mp-k">Gửi CV qua email</div><div class="mp-a">' + addr + '</div>' +
+      '<div class="mp-s">Đã sao chép địa chỉ email</div>' +
+      '<div class="mp-act"><button type="button" class="mp-copy">Sao chép</button><a class="mp-open" href="' + href + '" target="_blank" rel="noopener">Mở ứng dụng Email</a></div>';
+    document.body.appendChild(pop);
+    var r = a.getBoundingClientRect(), w = pop.offsetWidth, h = pop.offsetHeight;
+    var x = Math.min(Math.max(12, r.left + r.width/2 - w/2), innerWidth - w - 12);
+    var y = r.top - h - 12; if(y < 12) y = r.bottom + 12;
+    pop.style.left = x + "px"; pop.style.top = y + "px";
+    pop.querySelector(".mp-copy").onclick = function(ev){ ev.stopPropagation(); try{ navigator.clipboard.writeText(addr).catch(function(){}); }catch(_){} this.textContent = "Đã sao chép ✓"; };
+    pop.querySelector(".mp-open").onclick = function(ev){ ev.stopPropagation(); ev.preventDefault(); openMail(href); };
+  }
+  function openMail(href){ try{ var f = document.createElement("iframe"); f.style.display = "none"; f.src = href; document.body.appendChild(f); setTimeout(function(){ f.remove(); }, 2000); }catch(_){} }
+  document.addEventListener("click", function(e){
+    if(pop && !pop.contains(e.target)) close();
+    var a = e.target.closest && e.target.closest('a[href^="mailto:"]'); if(!a || (pop && pop.contains(a))) return;
+    e.preventDefault(); e.stopPropagation();
+    try{ a.blur(); }catch(_){}
+    var href = a.getAttribute("href"), addr = href.replace(/^mailto:/,"").split("?")[0];
+    try{ navigator.clipboard && navigator.clipboard.writeText(addr).catch(function(){}); }catch(_){}
+    openMail(href); show(a, addr, href);
+  }, true);
+  addEventListener("scroll", close, {passive:true}); addEventListener("keydown", function(e){ if(e.key === "Escape") close(); });
+})();
 
 /* bottom bars (index / jobs / job detail): switch to the full-width "rest" state with an
    expand-from-centre reveal, and collapse back to the centre before returning to the floating bar */

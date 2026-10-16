@@ -493,9 +493,22 @@
   /* ---- quick view (click a card / row) ---- */
   let qvList = [], qvIdx = -1;
   /* inside the site frame, raise the frame above the site header while the panel is open */
-  /* keep the site header visible: drawer starts right below it */
-  const qvTop = () => { let t = 0; try{ const f = window.frameElement, h = f && f.ownerDocument.querySelector("header"); if(h){ const r = h.getBoundingClientRect(), fr = f.getBoundingClientRect(); t = Math.max(0, Math.round(r.bottom - fr.top)); } }catch(_){} $("#qv").style.top = t + "px"; };
-  const qvLift = on => { if(on){ qvTop(); addEventListener("resize", qvTop); } else removeEventListener("resize", qvTop); };
+  /* modal on top of everything, but the site header stays visible (dimmed) underneath:
+     lift the iframe above the header, make it transparent and clip page content out of the header area */
+  const qvLift = on => { try{
+    const f = window.frameElement; if(!f) return;
+    const h = f.ownerDocument.querySelector("header"), de = document.documentElement, kids = [...document.body.children].filter(e => e.id !== "qv" && e.tagName !== "SCRIPT");
+    if(on){
+      const H = h ? Math.max(0, Math.round(h.getBoundingClientRect().bottom - f.getBoundingClientRect().top)) : 0;
+      f.style.zIndex = "2147483000"; f.style.background = "transparent";
+      de.style.background = document.body.style.background = "transparent";
+      kids.forEach(e => { const t = H - e.getBoundingClientRect().top; e.style.clipPath = t > 0 ? `inset(${t}px 0 0 0)` : ""; });
+    } else {
+      f.style.zIndex = "1"; f.style.background = "#fff";
+      de.style.background = document.body.style.background = "";
+      kids.forEach(e => e.style.clipPath = "");
+    }
+  }catch(_){} };
   const qvShow = i => { qvIdx = i; const job = qvList[i]; if(!job) return;
     $("#qvBody").innerHTML = jobDetailHTML(job, `<a class="jx-btn" href="${jobURL(job)}" data-qv-apply>Ứng tuyển ngay${JX_EXT}</a>`);
     $("#qvBody").scrollTop = 0; $("#qvOpen").href = jobURL(job);

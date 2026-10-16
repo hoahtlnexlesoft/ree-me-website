@@ -15,6 +15,11 @@
   /* hidden while the hero CTA is on screen */
   html body .cd-bar{transition:width .35s ease,border-radius .35s ease,padding .35s ease,opacity .3s ease,transform .3s ease}
   html body .cd-bar.cd-hide{opacity:0;transform:translateY(24px);pointer-events:none}
+  /* activity modals: card photo as header */
+  .modal-hero.mh-photo{background:#1B325C}
+  .modal-hero.mh-photo img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+  .modal-hero.mh-photo::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(10,16,32,0) 35%,rgba(10,16,32,.72) 100%)}
+  .modal-hero.mh-photo h3{z-index:1;text-shadow:0 2px 12px rgba(0,0,0,.35)}
 </style></head><body>
 <title>REE M&amp;E Careers</title>
 <link rel="stylesheet" href="assets/fonts.css">
@@ -274,13 +279,13 @@
   }
 
   /* ---- detail modals ---- */
-  const detail = (title, bg, seed, pk, text, items) => `${posterHead(seed, pk, bg, title)}<div class="modal-body">${text?`<p style="font-size:15px;color:var(--fg)">${text}</p>`:""}
+  const detail = (title, bg, seed, pk, text, items, img) => `${img ? `<div class="modal-hero mh-photo"><img src="${img}" alt=""><h3>${title}</h3></div>` : posterHead(seed, pk, bg, title)}<div class="modal-body">${text?`<p style="font-size:15px;color:var(--fg)">${text}</p>`:""}
     <ul>${items.map(i=>`<li>${i}</li>`).join("")}</ul>
     <div class="modal-actions"><a class="btn btn-accent" href="jobs.html">Xem vị trí đang tuyển ${ic("arrow")}</a><button class="btn btn-ghost" data-close>Đóng</button></div></div>`;
   document.addEventListener("click", e => {
     const p = e.target.closest("[data-perk]"); if(p){ const d = PERKS.find(x=>x.k===p.dataset.perk); openModal(detail(d.title, d.bg, "perk-"+d.k, d.pk, d.text, d.items)); return; }
     const v = e.target.closest("[data-value]"); if(v){ const d = VALUES[v.dataset.value]; openModal(detail(d.label, d.bg, "val-"+v.dataset.value, d.pk, d.text, d.items)); return; }
-    const a = e.target.closest("[data-act]"); if(a){ const i = ACTIVITIES.findIndex(x=>x.id===a.dataset.act), d = ACTIVITIES[i]; openModal(detail(d.title, PBG[i%PBG.length], d.id, i, d.text, d.detail)); return; }
+    const a = e.target.closest("[data-act]"); if(a){ const i = ACTIVITIES.findIndex(x=>x.id===a.dataset.act), d = ACTIVITIES[i]; openModal(detail(d.title, PBG[i%PBG.length], d.id, i, d.text, d.detail, d.img)); return; }
   });
 })();
 </script>

@@ -493,21 +493,33 @@
   /* ---- quick view (click a card / row) ---- */
   let qvList = [], qvIdx = -1;
   /* inside the site frame, raise the frame above the site header while the panel is open */
-  /* modal on top of everything, but the site header stays visible (dimmed) underneath:
-     lift the iframe above the header, make it transparent and clip page content out of the header area */
+  /* modal on top of everything (iframe lifted above the site header); a static copy of the
+     site header is drawn inside this page under the dimmed overlay so it still looks the same */
+  let qvHdr = null;
+  const qvHeaderCopy = on => {
+    if(!on){ if(qvHdr) qvHdr.hidden = true; return; }
+    const f = window.frameElement, pd = f && f.ownerDocument, h = pd && pd.querySelector("header"); if(!h) return;
+    if(!qvHdr){
+      qvHdr = document.createElement("div"); qvHdr.id = "qvHdr";
+      qvHdr.style.cssText = "position:fixed;inset:0 0 auto 0;z-index:190;pointer-events:none";
+      const sr = qvHdr.attachShadow({mode:"open"});
+      pd.querySelectorAll('link[rel="stylesheet"]').forEach(l => { const n = document.createElement("link"); n.rel = "stylesheet"; n.href = l.href; sr.appendChild(n); });
+      let vars = ""; try{ [...pd.styleSheets].forEach(ss => { try{ [...ss.cssRules].forEach(r => { if(r.selectorText === ":root") vars += r.cssText.replace(/^:root/, ":host") + "\n"; }); }catch(_){} }); }catch(_){}
+      const st = document.createElement("style"); st.textContent = vars + ":host{font-family:var(--font-sans);line-height:1.5;-webkit-font-smoothing:antialiased}"; sr.appendChild(st);
+      const box = document.createElement("div"); box.className = "hc"; sr.appendChild(box);
+      document.body.appendChild(qvHdr);
+    }
+    const c = h.cloneNode(true);
+    c.querySelectorAll("img").forEach((im, k) => { const o = h.querySelectorAll("img")[k]; if(o) im.src = o.currentSrc || o.src; });
+    c.querySelectorAll("aside, button.fixed").forEach(e => e.remove());
+    c.style.top = Math.round(h.getBoundingClientRect().top - f.getBoundingClientRect().top) + "px";
+    const box = qvHdr.shadowRoot.querySelector(".hc"); box.replaceChildren(c);
+    qvHdr.hidden = false;
+  };
   const qvLift = on => { try{
     const f = window.frameElement; if(!f) return;
-    const h = f.ownerDocument.querySelector("header"), de = document.documentElement, kids = [...document.body.children].filter(e => e.id !== "qv" && e.tagName !== "SCRIPT");
-    if(on){
-      const H = h ? Math.max(0, Math.round(h.getBoundingClientRect().bottom - f.getBoundingClientRect().top)) : 0;
-      f.style.zIndex = "2147483000"; f.style.background = "transparent";
-      de.style.background = document.body.style.background = "transparent";
-      kids.forEach(e => { const t = H - e.getBoundingClientRect().top; e.style.clipPath = t > 0 ? `inset(${t}px 0 0 0)` : ""; });
-    } else {
-      f.style.zIndex = "1"; f.style.background = "#fff";
-      de.style.background = document.body.style.background = "";
-      kids.forEach(e => e.style.clipPath = "");
-    }
+    if(on){ qvHeaderCopy(true); f.style.zIndex = "2147483000"; }
+    else { f.style.zIndex = "1"; qvHeaderCopy(false); }
   }catch(_){} };
   const qvShow = i => { qvIdx = i; const job = qvList[i]; if(!job) return;
     $("#qvBody").innerHTML = jobDetailHTML(job, `<a class="jx-btn" href="${jobURL(job)}" data-qv-apply>Ứng tuyển ngay${JX_EXT}</a>`);

@@ -545,7 +545,7 @@
     if(e.target.closest("[data-qv-apply]")){ try{ sessionStorage.setItem("ree_apply", "1"); }catch(_){} return; }
     if(e.metaKey || e.ctrlKey || e.shiftKey || e.button) return;
     const card = e.target.closest("#list [data-jid]"); if(!card || e.target.closest("[data-save]")) return;
-    if(e.target.closest(".arr")){ const j = JOBS.find(o => o.id === card.dataset.jid); if(j){ e.preventDefault(); try{ sessionStorage.setItem("ree_apply", "1"); }catch(_){} location.href = jobURL(j); return; } }
+    if(e.target.closest(".arr")){ const j = JOBS.find(o => o.id === card.dataset.jid); if(j){ e.preventDefault(); const u = jobURL(j), slug = u.split("#")[1]; try{ if(window.frameElement && slug){ parent.location.hash = "#/tuyen-dung/" + slug; return; } }catch(_){} location.href = u; return; } }
     e.preventDefault(); qvOpen(card.dataset.jid);
   }, true);
   $("#qvPrev").onclick = () => qvShow(qvIdx - 1); $("#qvNext").onclick = () => qvShow(qvIdx + 1);

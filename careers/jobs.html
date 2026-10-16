@@ -258,6 +258,12 @@
   @media (max-width:1080px){.jrow .jsave{top:12px!important;transform:none!important;right:62px!important}}
   @media (max-width:560px){.jrow .jsave{right:58px!important;width:32px!important;height:32px!important}.jrow .arr{width:32px!important;height:32px!important}}
   .loc-pill,.ms-pill,.pz-pills .loc-pill{box-shadow:none!important;border:0!important}
+  /* group header: equal space above and below */
+  #list.jgroups{display:flex;flex-direction:column;gap:0!important}
+  #list .jg{margin:0!important;padding:0!important}
+  #list .jg + .jg{margin-top:22px!important}
+  #list .jg-h{margin:0!important}
+  #list .jg > .rows,#list .jg > .job-grid{margin-top:20px!important;margin-bottom:0!important;padding-top:0!important}
 </style>
 <script>window.PAGE="jobs"</script>
 </head>

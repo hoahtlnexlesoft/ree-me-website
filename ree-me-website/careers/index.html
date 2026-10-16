@@ -80,7 +80,6 @@
             <text textLength="274" lengthAdjust="spacing" style="font-size:8.6px;letter-spacing:.04em"><textPath href="#ringPath" startOffset="0">CON NGƯỜI LÀ TRỌNG TÂM CỦA MỌI CÔNG TRÌNH ·</textPath></text></svg>
           <span class="core-play" id="corePlay"></span>
         </div>
-        <div class="core-award"><span class="ca-ic"></span><div><small>Cam kết nhân sự</small>Top 100 Nơi làm việc tốt nhất Việt Nam ngành Kỹ thuật</div></div>
       </div>
       <div class="core-copy">
         <h2>Con người là <span class="grad">trọng tâm của mọi công trình.</span></h2>
@@ -241,7 +240,6 @@
   $("#coreAcc").addEventListener("click", e => { const q = e.target.closest(".ca-q"); if(!q) return;
     document.querySelectorAll(".ca-item").forEach(it => { const on = it.contains(q) && !it.classList.contains("open"); it.classList.toggle("open", on); it.querySelector(".ca-q").setAttribute("aria-expanded", on); }); });
   $("#corePlay").innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="8" r="3.2"/><path d="M3.5 19c.6-3.2 2.8-5 5.5-5s4.9 1.8 5.5 5"/><circle cx="17" cy="9" r="2.4"/><path d="M15.5 14.3c.5-.2 1-.3 1.5-.3 2 0 3.6 1.4 4 4"/></svg>';
-  document.querySelector(".ca-ic").innerHTML = ic("star");
 
   const storiesHTML = i => { const s = STORIES[i];
     return `<div class="modal-body"><span class="eyebrow">Câu chuyện người REE</span>

@@ -1118,7 +1118,7 @@ html.embed main:has(#rx[hidden]) .jb-sec{display:block!important;padding:calc(va
 
 /* location pills (same colours as the recruiting site) */
 .loc-pills{display:flex;flex-wrap:wrap;gap:4px;margin-top:2px}
-.loc-pill{display:inline-block;padding:2px 9px;border-radius:999px;font-size:12px;font-weight:600;line-height:18px;white-space:nowrap}
+.loc-pill{display:inline-block;padding:2px 8px;border-radius:999px;font-size:11px;font-weight:600;line-height:17px;white-space:nowrap}
 
 /* job detail record (job page + quick view) */
 .jx{background:#fff;border:1px solid #E6E8EE;border-radius:14px;padding:28px 32px 32px;color:#1A1D24}

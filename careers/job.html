@@ -1548,21 +1548,4 @@ html,body{overflow-x:clip}
   try{ if(sessionStorage.getItem('ree_apply')){ sessionStorage.removeItem('ree_apply'); setTimeout(() => { $('#apply-card').scrollIntoView({block:'start'}); }, 300); } }catch(e){}
 })();
 </script>
-<script>
-/* job detail: light header in the parent site (no blue band) */
-(function(){try{var P=window.parent;if(!P||P===window)return;var d=P.document,id="ree-light-hdr-css";
-if(!d.getElementById(id)){var st=d.createElement("style");st.id=id;st.textContent=
-"html.ree-light-hdr header>div[aria-hidden].bg-navy-light{display:none!important}"+
-"html.ree-light-hdr header [data-main-bar]>div[aria-hidden]{opacity:0!important}"+
-"html.ree-light-hdr header>div:not([aria-hidden]):not(:has(aside)),html.ree-light-hdr header [data-main-bar]{transition:background-color .3s}"+
-"html.ree-light-hdr header .bg-navy-light\\/85{background:rgba(255,255,255,.95)!important;border-color:rgba(27,50,92,.08)!important;-webkit-backdrop-filter:blur(14px);backdrop-filter:blur(14px)}"+
-"html.ree-light-hdr header [data-main-bar]{background:rgba(255,255,255,.95);-webkit-backdrop-filter:blur(14px);backdrop-filter:blur(14px);box-shadow:0 1px 0 rgba(27,50,92,.06)}"+
-"html.ree-light-hdr header :is(.bg-navy-light\\/85,[data-main-bar]) :not(.bg-brand-red):not(.bg-brand-red *){color:#1B325C!important;text-shadow:none!important}"+
-"html.ree-light-hdr header .bg-navy-light\\/85 a.rounded-full:not(.bg-brand-red){border-color:rgba(27,50,92,.3)!important}";
-d.head.appendChild(st)}
-var h=d.documentElement;h.classList.add("ree-light-hdr");
-addEventListener("pagehide",function(){h.classList.remove("ree-light-hdr")});
-var iv=setInterval(function(){try{if(!window.frameElement||!d.contains(window.frameElement)){h.classList.remove("ree-light-hdr");clearInterval(iv)}}catch(e){clearInterval(iv)}},500);
-}catch(e){}})();
-</script>
 </html>

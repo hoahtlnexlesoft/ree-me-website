@@ -295,8 +295,10 @@
   #list .jg > .rows,#list .jg > .job-grid{margin-top:20px!important;margin-bottom:0!important;padding-top:0!important}
 
   /* bottom bar: floating while scrolling, full-width band at the end of the page (same as careers index / job detail) */
-  html body .alert-band.dk.ab-rest{bottom:0!important;width:100vw!important;max-width:none!important;margin-left:calc(50% - 50vw)!important;margin-right:calc(50% - 50vw)!important;border-radius:0!important;border-left:0!important;border-right:0!important;border-bottom:0!important;box-shadow:none!important;background:rgba(22,26,40,.92)!important;padding:18px max(var(--gut),calc(50vw - 720px + var(--gut)))!important}
+  html body .alert-band.dk.ab-rest{width:100vw!important;max-width:none!important;margin-left:calc(50% - 50vw)!important;margin-right:calc(50% - 50vw)!important;border-radius:0!important;border-left:0!important;border-right:0!important;border-bottom:0!important;box-shadow:none!important;background:#1B2030!important;padding:18px max(var(--gut),calc(50vw - 720px + var(--gut)))!important}
   html body .alert-band.dk.ab-rest .ab-x{display:none}
+  /* 20px end spacer = sticky offset: the bar settles naturally at the very end (no jump); filled when the band is full width */
+  #abEnd{transition:background .2s}.alert-band.dk.ab-rest + #abEnd{background:#1B2030;width:100vw;margin-left:calc(50% - 50vw)}
 </style>
 <script>window.PAGE="jobs"</script>
 </head>
@@ -354,7 +356,7 @@
       </div>
       <button type="button" class="ab-x" id="abX" aria-label="Ẩn thanh này"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M6 6l12 12M18 6 6 18"/></svg></button>
     </div>
-    <div id="abEnd" style="height:1px;margin-top:-1px"></div>
+    <div id="abEnd" style="height:20px"></div>
   </section>
 </main>
 

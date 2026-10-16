@@ -1209,6 +1209,13 @@ html,body{overflow-x:clip}
 /* apply form side panel: soft, muted light tone (subtle, not a bright multi-colour gradient) */
 #rx .af-head{background:radial-gradient(90% 45% at 0% 0%,#CADDEB 0%,rgba(202,221,235,0) 72%),radial-gradient(80% 40% at 100% 28%,#D9D3EA 0%,rgba(217,211,234,0) 72%),radial-gradient(90% 40% at 0% 58%,#D3E3CC 0%,rgba(211,227,204,0) 72%),radial-gradient(85% 38% at 100% 78%,#EAD8DC 0%,rgba(234,216,220,0) 72%),radial-gradient(95% 40% at 20% 100%,#EADFC6 0%,rgba(234,223,198,0) 72%),#E3E7E6!important;color:#1F2D3A}
 #rx .af-tag{background:rgba(255,255,255,.75)!important;color:#2C4D5E!important;border:1px solid rgba(44,77,94,.12)!important}
+
+/* dock: floating while scrolling, full-width band once it reaches the end of the page (same as careers index) */
+html body .rx .dock{transition:padding .35s ease}
+html body .rx .dock-in{transition:width .35s ease,border-radius .35s ease,padding .35s ease}
+html body .rx .dock.dk-rest{bottom:0!important;padding:0!important;margin-left:calc(50% - 50vw)!important;margin-right:calc(50% - 50vw)!important;width:100vw!important}
+html body .rx .dock.dk-rest .dock-in{width:100%!important;border-radius:0!important;border-left:0!important;border-right:0!important;border-bottom:0!important;box-shadow:none!important;background:rgba(22,26,40,.92)!important;padding:20px max(var(--gut),calc(50vw - 720px + var(--gut)))!important}
+html body .rx .dock.dk-rest .dock-x{display:none}
 </style>
 <script>window.PAGE="job"</script>
 </head>
@@ -1302,6 +1309,7 @@ html,body{overflow-x:clip}
       <button type="button" class="dock-x" id="dockX" aria-label="Ẩn thanh ứng tuyển"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M6 6l12 12M18 6 6 18"/></svg></button>
     </div>
   </section>
+  <div id="dockEnd" style="height:1px;margin-top:-1px"></div>
   </div>
   <div class="rx"><div class="toast" id="toast" role="status" aria-live="polite"></div></div>
 </main>
@@ -1551,5 +1559,10 @@ html,body{overflow-x:clip}
   route(); syncDock();
   try{ if(sessionStorage.getItem('ree_apply')){ sessionStorage.removeItem('ree_apply'); setTimeout(() => { $('#apply-card').scrollIntoView({block:'start'}); }, 300); } }catch(e){}
 })();
+</script>
+<script>
+(function(){var d=document.getElementById("dock"),e=document.getElementById("dockEnd");if(!d||!e)return;
+function f(){var de=document.documentElement;d.classList.toggle("dk-rest",e.getBoundingClientRect().top<=innerHeight-20||scrollY+innerHeight>=de.scrollHeight-4)}
+addEventListener("scroll",f,{passive:true});addEventListener("resize",f);f();})();
 </script>
 </html>

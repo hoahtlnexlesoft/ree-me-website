@@ -1210,7 +1210,7 @@ html,body{overflow-x:clip}
 /* apply form: photo side panel (text is real HTML on top), form as a white card floating on a soft backdrop */
 #rx .apply-card{grid-template-columns:400px minmax(0,1fr)!important;background:linear-gradient(180deg,#F4F5F1 0%,#EEF1F4 100%)!important}
 #rx .apply-card{overflow:clip!important}
-#rx .apply-card > .af-head{position:sticky!important;top:calc(var(--hdr-h,92px) + 24px);align-self:start!important;height:min(780px,calc(100vh - var(--hdr-h,92px) - 48px));min-height:520px;margin:18px;border-radius:20px;overflow:hidden;box-sizing:border-box;
+#rx .apply-card > .af-head{position:relative!important;top:auto;align-self:start!important;height:760px;min-height:0;margin:18px;border-radius:20px;overflow:hidden;box-sizing:border-box;
   background:linear-gradient(180deg,rgba(248,249,250,.96) 0%,rgba(248,249,250,.88) 26%,rgba(248,249,250,0) 48%),url(assets/img/apply-team.jpg?v=2) 50% 100%/112% auto no-repeat,#F3F4F3!important;color:#1F2D3A;box-shadow:0 20px 50px -30px rgba(10,26,85,.35),0 0 0 1px rgba(10,26,85,.05)}
 #rx .af-head > div{position:static!important}
 #rx .af-tag{background:rgba(255,255,255,.72)!important;color:#2C4D5E!important;border:1px solid rgba(44,77,94,.1)!important;-webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px)}

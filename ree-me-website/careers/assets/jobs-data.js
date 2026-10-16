@@ -19,14 +19,14 @@ window.WORK_ENV = "Làm việc tại trụ sở e.town 5 chuẩn xanh quốc t�
 
 /* Location tags, same order and colours as the recruiting site */
 window.LOC_TAGS = [
-  { k:"TP.HCM", c:"#CED4D8", t:"#24333B" },
-  { k:"Hà Nội", c:"#DAE8E0", t:"#40614E" },
-  { k:"Đà Nẵng", c:"#EADED4", t:"#674A33" },
-  { k:"Đồng Nai", c:"#DEDAE6", t:"#4B415E" },
-  { k:"Các tỉnh miền Bắc", c:"#F0E6D0", t:"#745D29" },
-  { k:"Phú Quốc", c:"#D3E1E2", t:"#2F5152" },
-  { k:"Các dự án công ty thi công", c:"#EDDCE0", t:"#6E464F" },
-  { k:"Quảng Trị", c:"#E6E0D9", t:"#5C4F3D" }
+  { k:"TP.HCM", c:"#CFE7F4", t:"#2C4D5E" },
+  { k:"Hà Nội", c:"#D0F3DF", t:"#2D5C41" },
+  { k:"Đà Nẵng", c:"#F7E0CD", t:"#644225" },
+  { k:"Đồng Nai", c:"#DDD1F3", t:"#3F2F5B" },
+  { k:"Các tỉnh miền Bắc", c:"#F7EACD", t:"#675222" },
+  { k:"Phú Quốc", c:"#CEF4F5", t:"#2A5E60" },
+  { k:"Các dự án công ty thi công", c:"#F6CDD6", t:"#632734" },
+  { k:"Quảng Trị", c:"#F3E4D1", t:"#5B482E" }
 ];
 window.locPills = j => j.loc.split(" · ").map(k => { const o = LOC_TAGS.find(x => x.k === k) || { c:"#e5e7eb", t:"#111" }; return `<span class="loc-pill" style="background:${o.c};color:${o.t}">${k}</span>`; }).join("");
 

@@ -256,8 +256,17 @@
     .qv-bar .qv-ic::after{content:attr(data-l);font-size:12px;font-weight:700;line-height:1;color:#6B6B6B;white-space:nowrap}
     .qv-bar .qv-ic:disabled{opacity:.45}
     .qv-bar [data-qv-close]{order:-1;margin-bottom:6px}
-    .qv-bar #qvOpen svg{background:#1D4386;color:#fff}
     .qv-bar .qv-ic.qv-txt.ok svg{background:#1E7A4C;color:#fff}
+  }
+  /* print only the quick-view job content */
+  @media print{
+    html:has(body.qv-printing),body.qv-printing{background:#fff!important}
+    body.qv-printing>*:not(#qv){display:none!important}
+    body.qv-printing #qv{position:static!important}
+    body.qv-printing .qv-bg,body.qv-printing .qv-bar,body.qv-printing .qv-toast,body.qv-printing .jx-btn{display:none!important}
+    body.qv-printing .qv-panel{position:static!important;transform:none!important;width:auto!important;padding:0!important;box-shadow:none!important;display:block!important}
+    body.qv-printing .qv-body{overflow:visible!important;padding:0!important}
+    body.qv-printing .loc-pill{-webkit-print-color-adjust:exact;print-color-adjust:exact}
   }
   .qv-body{flex:1;overflow:auto;overscroll-behavior:contain;padding:8px 8px 32px}
   .qv-body .jx{border:0;border-radius:0;padding:28px 36px}
@@ -353,7 +362,8 @@
       <button type="button" class="qv-ic" id="qvNext" data-l="Sau" aria-label="Vị trí sau" title="Vị trí sau"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg></button>
       <span class="qv-sp"></span>
       <button type="button" class="qv-ic qv-txt" id="qvCopy" data-l="Sao chép link" title="Sao chép link vị trí"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="12" height="12" rx="2"/><path d="M5 15H4a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1h10a1 1 0 0 1 1 1v1"/></svg><span>Sao chép link</span></button>
-      <a class="qv-ic" id="qvOpen" href="#" data-l="Xem chi tiết" aria-label="Mở trang chi tiết" title="Mở trang chi tiết"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 3h6v6M21 3l-8 8M9 21H3v-6M3 21l8-8"/></svg></a>
+      <button type="button" class="qv-ic" id="qvPrint" data-l="In ấn" aria-label="In vị trí" title="In vị trí"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9V3h12v6"/><rect x="3" y="9" width="18" height="8" rx="2"/><path d="M6 14h12v7H6z"/></svg></button>
+      <a class="qv-ic" id="qvOpen" hidden style="display:none!important" href="#" data-l="Xem chi tiết" aria-label="Mở trang chi tiết" title="Mở trang chi tiết"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 3h6v6M21 3l-8 8M9 21H3v-6M3 21l8-8"/></svg></a>
       <button type="button" class="qv-ic" data-qv-close data-l="Đóng" aria-label="Đóng" title="Đóng"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M6 6l12 12M18 6 6 18"/></svg></button>
     </div>
     <div class="qv-body" id="qvBody"></div>
@@ -499,6 +509,7 @@
     e.preventDefault(); qvOpen(card.dataset.jid);
   }, true);
   $("#qvPrev").onclick = () => qvShow(qvIdx - 1); $("#qvNext").onclick = () => qvShow(qvIdx + 1);
+  $("#qvPrint").onclick = () => { document.body.classList.add("qv-printing"); const done = () => { document.body.classList.remove("qv-printing"); removeEventListener("afterprint", done); }; addEventListener("afterprint", done); window.print(); setTimeout(done, 1500); };
   $("#qvCopy").onclick = () => { const u = new URL($("#qvOpen").getAttribute("href"), location.href).href; (navigator.clipboard ? navigator.clipboard.writeText(u) : Promise.reject()).catch(() => {}); const t = $("#qvToast"); t.hidden = false; clearTimeout(t._t); t._t = setTimeout(() => t.hidden = true, 1600); };
   { const b=$("#qvCopy"), lab=b.querySelector("span"), ico=b.querySelector("svg").innerHTML;
     b.addEventListener("click",()=>{ b.classList.add("ok"); lab.textContent="Đã sao chép"; b.dataset.l="Đã sao chép"; b.querySelector("svg").innerHTML='<path d="M5 12.5l4.5 4.5L19 7.5"/>'; clearTimeout(b._r); b._r=setTimeout(()=>{ b.classList.remove("ok"); lab.textContent="Sao chép link"; b.dataset.l="Sao chép link"; b.querySelector("svg").innerHTML=ico; },1800); }); }

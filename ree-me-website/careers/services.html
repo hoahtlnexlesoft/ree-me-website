@@ -326,11 +326,11 @@
   @media (max-width:1000px){
     .mx{min-height:0;padding:40px 0 48px;flex-direction:column;align-items:stretch}
     .mx-nums{order:-1}
-    .mx-in{grid-template-columns:1fr;padding-right:clamp(16px,4vw,40px)}
+    .mx-in{grid-template-columns:1fr;padding-right:var(--gut)}
     .mx-media{order:-1}
     .mx-arrows{position:absolute;top:12px;right:12px;margin:0;z-index:2;gap:10px}
     .mx-arr{width:40px;height:40px;background:rgba(5,20,60,.35);backdrop-filter:blur(4px)}
-    .mx-nums{position:static;transform:none;flex-direction:row;gap:22px;overflow-x:auto;scrollbar-width:none;padding:0 clamp(16px,4vw,40px) 24px;justify-content:flex-start}
+    .mx-nums{position:static;transform:none;flex-direction:row;gap:22px;overflow-x:auto;scrollbar-width:none;padding:0 var(--gut) 24px;justify-content:flex-start}
     .mx-nums::-webkit-scrollbar{display:none}
     .mx-nums button em{display:none}
     .mx-nums button.on{font-size:26px}
@@ -453,7 +453,7 @@
   .mx-nums button em{right:calc(100% + 40px)}
   @media (max-width:1000px){
     .mx-arr{width:40px;height:40px;background:rgba(5,20,60,.35)}
-    .mx-nums{padding-left:clamp(16px,4vw,40px);gap:20px}
+    .mx-nums{padding-left:var(--gut);gap:20px}
     .mx-nums::before{display:none}
     .mx-nums button{gap:8px}
     .mx-nums button::before{position:static;transform:none;margin:0;flex:none}

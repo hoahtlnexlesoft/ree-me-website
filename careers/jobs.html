@@ -516,7 +516,9 @@
     c.querySelectorAll("img").forEach((im, k) => { const o = h.querySelectorAll("img")[k]; if(o) im.src = o.currentSrc || o.src; });
     c.querySelectorAll("aside, button.fixed").forEach(e => e.remove());
     c.style.top = Math.round(h.getBoundingClientRect().top - f.getBoundingClientRect().top) + "px";
-    const box = qvHdr.shadowRoot.querySelector(".hc"); box.replaceChildren(c);
+    const bs = pd.defaultView.getComputedStyle(h.parentElement || pd.body), box = qvHdr.shadowRoot.querySelector(".hc"); /* inherit exactly what the real header inherits */
+    ["font-family","font-size","line-height","font-weight","letter-spacing","color","-webkit-font-smoothing","text-rendering"].forEach(k => box.style.setProperty(k, bs.getPropertyValue(k)));
+    box.replaceChildren(c);
     qvHdr.hidden = false;
   };
   const qvLift = on => { try{

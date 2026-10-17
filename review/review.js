@@ -102,7 +102,7 @@
   /* ---------- state ---------- */
   var S = { tedit: null, teditText: '', hidden: lsGet(HIDE_KEY, '') === '1', q: '', pmenu: null, expanded: {}, pop: null, popMenu: false, popEmoji: false, popReply: '', editWhere: 'panel', menu: null, editing: null, editText: '', threads: [], name: lsGet(NAME_KEY, ''), mode: false, open: false, draft: null, draftText: '', draftImages: [], nameInput: '',
             active: null, flash: null, filter: 'all', replyFor: null, replyText: '', copied: false, copiedId: null, lightbox: null };
-  var pending = 0, writes = 0, lastSend = '';
+  var pending = 0, writes = 0, lastSend = '', lastPull = 0;
 
   function nfcT(t) { var o = Object.assign({}, t); if (o.text) o.text = String(o.text).normalize('NFC'); if (o.author) o.author = String(o.author).normalize('NFC'); if (o.replies) o.replies = o.replies.map(function (r) { return Object.assign({}, r, { text: String(r.text || '').normalize('NFC'), author: String(r.author || '').normalize('NFC') }); }); return o; }
   function save(next) {
@@ -118,15 +118,25 @@
   }
   function saveAll(next) { save(next); }
   function pull() {
-    if (!REMOTE || pending > 0 || document.hidden) return;
-    var w = writes;
+    if (!REMOTE || pending > 0 || (document.hidden && Date.now() - lastPull < 30000)) return;
+    lastPull = Date.now(); var w = writes;
     remoteLoad().then(function (rows) {
+      if (!LOADED) { LOADED = true; if (JSON.stringify(rows) === JSON.stringify(S.threads)) renderAll(); }
       if (pending === 0 && writes === w && JSON.stringify(rows) !== JSON.stringify(S.threads)) { S.threads = rows; renderAll(); }
     }).catch(function () {});
   }
 
   /* ---------- styles ---------- */
   var css = '' +
+  '.rv-seg button{white-space:nowrap}@media (max-width:440px){.rv .rv-seg button{padding:0 9px;gap:5px;font-size:12px}.rv .rv-seg button.rv-bell{padding:0 8px}.rv .rv-pill{left:calc(50% - 36px)}}' +
+  '.rv-seg button.rv-bell{position:relative;padding:0 12px}.rv-bell b{position:absolute;top:2px;right:2px;min-width:17px;height:17px;padding:0 4px;border-radius:999px;background:#e5484d;color:#fff;font-size:10.5px;font-weight:700;line-height:17px;text-align:center;box-shadow:0 0 0 2px #223246}' +
+  '.rv-inbox{position:fixed;left:50%;bottom:74px;transform:translateX(-50%);z-index:2147482700;width:min(360px,calc(100vw - 24px));max-height:min(420px,60vh);overflow:auto;padding:6px;border-radius:14px;background:#fff;box-shadow:0 18px 40px -10px rgba(15,23,42,.35),0 0 0 1px rgba(15,23,42,.06)}' +
+  '.rv-inbox h3{margin:0;padding:8px 10px 6px;font-size:13px;font-weight:700;color:#0f172a;display:flex;align-items:center;justify-content:space-between}.rv-inbox h3 button{font-size:12px;font-weight:600;color:#306eed}' +
+  '.rv-inbox .rv-ni{width:100%;display:flex;gap:10px;align-items:flex-start;padding:9px 10px;border-radius:10px;text-align:left;color:#0f172a}.rv-inbox .rv-ni:hover{background:#f1f5f9}.rv-inbox .rv-ni.seen{opacity:.6}' +
+  '.rv-ni .rv-av{flex:none}.rv-ni-b{min-width:0;flex:1;font-size:13px;line-height:1.4}.rv-ni-b small{display:block;color:#64748b;font-size:11.5px;margin-top:2px}.rv-ni-t{display:block;color:#334155;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.rv-ni i{flex:none;width:8px;height:8px;margin-top:6px;border-radius:50%;background:#306eed}' +
+  '.rv-inbox p{margin:0;padding:18px 10px;text-align:center;font-size:13px;color:#64748b}' +
+  '.rv-new{display:inline-block;margin:4px 0 0 40px;padding:2px 8px;border-radius:999px;background:#e5484d;color:#fff;font-size:11px;font-weight:700}' +
+  '.rv-toast.rv-nt{cursor:pointer;display:flex;align-items:center;gap:8px;max-width:min(440px,calc(100vw - 24px));border-radius:14px;padding:10px 14px;line-height:1.35;box-shadow:0 14px 30px -10px rgba(0,0,0,.5)}.rv-nt svg{width:16px;height:16px;flex:none;color:#fbbf24}.rv-nt span{overflow:hidden;text-overflow:ellipsis;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical}' +
   '.rv,.rv *{box-sizing:border-box;font-family:"Plus Jakarta Sans",-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,"Noto Sans",sans-serif;-webkit-font-smoothing:antialiased;font-feature-settings:normal;text-transform:none;letter-spacing:normal}' +
   ':where(.rv) button{font:inherit;cursor:pointer;border:0;background:none;color:inherit;margin:0;padding:0;line-height:1}' +
   '.rv-layer{position:fixed;inset:0;pointer-events:none;z-index:2147482000}' +
@@ -264,6 +274,7 @@
     '.rv-popwrap .rv-pop{width:272px}.rv-draft{width:256px}.rv-pin{width:24px;height:24px;font-size:10.5px}}';
 
   var ICON = {
+    bell: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 8a6 6 0 1 1 12 0c0 7 3 9 3 9H3s3-2 3-9"/><path d="M10.3 21a1.94 1.94 0 0 0 3.4 0"/></svg>',
     pointer: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4l7 16 2.3-6.7L20 11 4 4z"/></svg>',
     chat: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 5h16v11H9l-5 4V5z"/><path d="M8 9.5h8M8 12.5h5"/></svg>',
     copy: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="8" y="8" width="13" height="13" rx="2"/><path d="M16 8V5a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h3"/></svg>',
@@ -472,14 +483,14 @@
   function renderUi() {
     document.documentElement.classList.toggle('rv-off', !!S.hidden);
     if (S.hidden) {
-      var n0 = S.threads.filter(function (t) { return !t.resolved; }).length;
+      var n0 = unread().length || S.threads.filter(function (t) { return !t.resolved; }).length;
       ui.innerHTML = '<button class="rv-show" id="rvShow" title="Open comments" aria-label="Open comments">' + ICON.chat + (n0 ? '<span>' + n0 + '</span>' : '') + '</button>';
       return;
     }
     var open = S.threads.filter(function (t) { return !t.resolved; }).length;
     var shown = S.threads.filter(function (t) { return S.filter === 'all' ? true : S.filter === 'open' ? !t.resolved : t.resolved; });
     var h = '<div class="rv-pill">' + (S.mode === 'edit' ? '<span class="rv-hint">Click any text and type · Enter to save · Esc to cancel</span>' : S.mode ? '<span class="rv-hint">Click anything to comment · Esc to cancel</span>' : '') +
-      '<div class="rv-seg"><button id="rvBrowse" class="' + (!S.mode ? 'on' : '') + '">' + ICON.pointer + 'Browse</button><button id="rvComment" class="' + (S.mode === true ? 'on' : '') + '">' + ICON.chat + 'Comment</button><button id="rvEditMode" class="' + (S.mode === 'edit' ? 'on' : '') + '">' + ICON.pencil + 'Edit text</button></div></div>';
+      '<div class="rv-seg"><button id="rvBrowse" class="' + (!S.mode ? 'on' : '') + '">' + ICON.pointer + 'Browse</button><button id="rvComment" class="' + (S.mode === true ? 'on' : '') + '">' + ICON.chat + 'Comment</button><button id="rvEditMode" class="' + (S.mode === 'edit' ? 'on' : '') + '">' + ICON.pencil + 'Edit text</button>' + bellBtn() + '</div></div>' + inboxHtml();
     if (!S.open) {
       h += '<aside class="rv-rail"><button class="rv-side" id="rvTab" title="Open comments" aria-label="Open comments">' + ICON.side + '</button><button class="rv-side" id="rvHide" title="Hide comments (full view)" aria-label="Hide comments">' + ICON.eyeoff + '</button><div class="rv-rail-list">' +
         S.threads.map(function (t, i) { var col = t.resolved ? '#9CA3AF' : colorFor(t.author); return '<button class="rv-dot' + (S.active === t.id ? ' on' : '') + (t.resolved ? ' done' : '') + '" data-rail="' + t.id + '" style="background:' + col + ';color:' + col + '" title="#' + (i + 1) + ' ' + esc(t.author) + ': ' + esc(t.text.slice(0, 80)) + '"><span style="color:#fff">' + esc((t.author.trim()[0] || '?')) + '</span></button>'; }).join('') +
@@ -510,6 +521,7 @@
             '<span class="rv-row2-t' + (ex ? ' ex' : '') + '">' + esc(t.text || (t.images && t.images.length ? '[image]' : '')) + '</span></span></button>' +
             (long ? '<button class="rv-sm" data-expand="' + t.id + '">' + (ex ? 'Show less' : 'Show more') + '</button>' : '') +
             (nr ? '<button class="rv-nr" data-goto="' + t.id + '">' + nr + ' ' + (nr > 1 ? 'replies' : 'reply') + '</button>' : '') +
+            (unreadIn(t.id) ? '<button class="rv-new" data-goto="' + t.id + '">' + unreadIn(t.id) + ' new</button>' : '') +
             '<span class="rv-row2-acts"><button class="rv-ib sm" data-resolve="' + t.id + '" title="' + (t.resolved ? 'Reopen' : 'Resolve') + '" aria-label="' + (t.resolved ? 'Reopen' : 'Resolve') + '">' + (t.resolved ? ICON.undo : ICON.checkc) + '</button>' +
             '<button class="rv-ib sm' + (S.menu === t.id ? ' on' : '') + '" data-more="' + t.id + '" aria-label="More actions">' + ICON.dots + '</button></span>' +
             (S.menu === t.id ? '<div class="rv-menu" role="menu">' + (mine(t) && t.kind !== 'edit' ? '<button role="menuitem" data-popedit="' + t.id + '">' + ICON.pencil + 'Edit</button>' : '') + '<button role="menuitem" data-copyc="' + t.id + '">' + ICON.copy + 'Copy comment</button><button role="menuitem" class="danger" data-del="' + t.id + '">' + ICON.trash + 'Delete thread</button></div>' : '') +
@@ -525,7 +537,7 @@
     ui.querySelectorAll('.rv-sm').forEach(function (bt) { var row = bt.parentNode, tx = row.querySelector('.rv-row2-t'); if (tx && !tx.classList.contains('ex') && tx.scrollHeight <= tx.clientHeight + 2) bt.remove(); });
     if (keepReply) { var ri = ui.querySelector('#' + keepId); if (ri) { ri.focus(); try { ri.setSelectionRange(keepReply[0], keepReply[0]); } catch (e) {} } }
   }
-  function renderAll() { applyEdits(); computeAuthors(); renderUi(); renderPins(); renderPop(); shiftFloaters(); }
+  function renderAll() { applyEdits(); computeAuthors(); checkInbox(); renderUi(); renderPins(); renderPop(); shiftFloaters(); }
 
   /* ---------- comment mode across documents ---------- */
   var hoverEl = null, bound = [];
@@ -570,6 +582,7 @@
     if (last[0] === sig && Date.now() - Number(last[1]) < 1500) return; lastSend = sig + '@@' + Date.now();
     var d = S.draft, t = { id: uid(), page: d.page, selector: d.selector, rx: d.rx, ry: d.ry, ax: d.ax, ay: d.ay, author: n, text: S.draftText.trim(), at: Date.now(), resolved: false, replies: [] };
     if (S.draftImages.length) t.images = S.draftImages.slice();
+    askNotify();
     S.draft = null; S.draftImages = []; S.draftText = ''; S.active = t.id; S.pop = t.id; S.popMenu = S.popEmoji = false;
     save(S.threads.concat([t]));
     captureShot(t);
@@ -586,7 +599,7 @@
   }
   function goTo(id) {
     var t = S.threads.filter(function (x) { return x.id === id; })[0]; if (!t) return;
-    S.active = id;
+    S.active = id; markSeen(id);
     if (ctx().key === t.page) return focusThread(id);
     if (t.page.indexOf('site:') === 0) { location.hash = '#' + t.page.slice(5); }
     else {
@@ -630,13 +643,13 @@
     var text = S.replyText.trim(); if (!text || !S.name) return;
     var sig = id + '|' + authorKey(S.name) + '|' + text, now = Date.now(), last = lastSend.split('@@');
     if (last[0] === sig && now - Number(last[1]) < 1500) return; lastSend = sig + '@@' + now;
-    S.replyText = ''; S.replyFor = null;
+    S.replyText = ''; S.replyFor = null; askNotify();
     save(S.threads.map(function (t) { return t.id === id ? Object.assign({}, t, { replies: (t.replies || []).concat([{ id: uid(), author: S.name, text: text, at: now }]) }) : t; }));
   }
 
   /* ---------- events on our own UI ---------- */
   root.addEventListener('click', function (e) {
-    if ((S.menu || S.pmenu) && !e.target.closest('.rv-menu,[data-more],[data-pmenu]')) { S.menu = null; S.pmenu = null; renderUi(); }
+    if ((S.menu || S.pmenu) && !e.target.closest('.rv-menu,.rv-inbox,[data-more],[data-pmenu]')) { S.menu = null; S.pmenu = null; renderUi(); }
     var a0, b = e.target.closest('button,[data-lb],#rvLb'); if (!b) return;
     if (b.id === 'rvLb') { S.lightbox = null; return renderUi(); }
     if (b.hasAttribute('data-lb')) { e.stopPropagation(); S.lightbox = b.getAttribute('src'); return renderUi(); }
@@ -654,9 +667,11 @@
     if (b.id === 'rvSend') return submitDraft();
     if (b.id === 'rvImg') return fileIn.click();
     if (b.id === 'rvCopyAll') return copyText(exportAll(), function () { S.copied = true; renderUi(); setTimeout(function () { S.copied = false; renderUi(); }, 1800); });
+    if (b.id === 'rvReadAll') { markSeen(); S.pmenu = null; return renderAll(); }
+    if ((a0 = b.getAttribute('data-inbox'))) { S.pmenu = null; S.open = true; goTo(a0); return shiftFloaters(); }
     var a;
     if ((a = b.getAttribute('data-rmimg')) != null) { S.draftImages.splice(+a, 1); return renderPins(); }
-    if ((a = b.getAttribute('data-pin'))) { S.active = a; S.pop = S.pop === a ? null : a; S.popMenu = S.popEmoji = false; S.popReply = ''; return renderAll(); }
+    if ((a = b.getAttribute('data-pin'))) { markSeen(a); S.active = a; S.pop = S.pop === a ? null : a; S.popMenu = S.popEmoji = false; S.popReply = ''; return renderAll(); }
     if ((a = b.getAttribute('data-filter'))) { S.filter = a; S.pmenu = null; return renderUi(); }
     if ((a = b.getAttribute('data-pmenu'))) { S.pmenu = S.pmenu === a ? null : a; S.menu = null; return renderUi(); }
     if ((a = b.getAttribute('data-expand'))) { S.expanded[a] = !S.expanded[a]; return renderUi(); }
@@ -922,6 +937,73 @@
     var add = function () { document.body.appendChild(bar); };
     if (document.body) add(); else document.addEventListener('DOMContentLoaded', add);
   })();
+
+
+  /* ---------- reply notifications ----------
+   * You are notified when someone else replies in a thread you started or replied to,
+   * or mentions you with @YourName. Read state is kept per browser (localStorage). */
+  var LOADED = !REMOTE, SEEN_KEY = 'ree-review-seen', SEEN = {}, SEEN_INIT = false, NOTIFIED = {}, BASE_TITLE = document.title;
+  try { var sv = JSON.parse(lsGet(SEEN_KEY, 'null')); if (sv && sv.ids) { sv.ids.forEach(function (i) { SEEN[i] = 1; }); SEEN_INIT = sv.n === authorKey(S.name) && !!S.name; } } catch (e) {}
+  function storeSeen() { var ids = Object.keys(SEEN); if (ids.length > 3000) ids = ids.slice(-3000); lsSet(SEEN_KEY, JSON.stringify({ n: authorKey(S.name), ids: ids })); }
+  function inbox() {
+    if (!S.name) return [];
+    var me = authorKey(S.name), out = [];
+    S.threads.forEach(function (t) {
+      var inThread = authorKey(t.author) === me;
+      (t.replies || []).forEach(function (r) {
+        var who = authorKey(r.author);
+        if (who === me) { inThread = true; return; }
+        var mention = String(r.text || '').normalize('NFC').toLowerCase().indexOf('@' + me) >= 0;
+        if ((inThread || mention) && r.id) out.push({ t: t, r: r, mention: mention && !inThread });
+      });
+    });
+    return out.sort(function (a, b) { return (b.r.at || 0) - (a.r.at || 0); });
+  }
+  function unread() { return inbox().filter(function (x) { return !SEEN[x.r.id]; }); }
+  function unreadIn(id) { return unread().filter(function (x) { return x.t.id === id; }).length; }
+  function markSeen(id) {
+    var ch = false; inbox().forEach(function (x) { if ((!id || x.t.id === id) && !SEEN[x.r.id]) { SEEN[x.r.id] = 1; ch = true; } });
+    if (ch) storeSeen();
+  }
+  function askNotify() { try { if (window.Notification && Notification.permission === 'default') Notification.requestPermission(); } catch (e) {} }
+  function notifyToast(x) {
+    var n = document.createElement('div'); n.className = 'rv-toast rv-nt'; n.setAttribute('role', 'status');
+    n.innerHTML = ICON.bell + '<span><b>' + esc(x.r.author) + '</b> ' + (x.mention ? 'mentioned you' : 'replied') + ': ' + esc(String(x.r.text || '').slice(0, 140)) + '</span>';
+    n.addEventListener('click', function () { n.remove(); S.open = true; goTo(x.t.id); shiftFloaters(); });
+    root.querySelectorAll('.rv-nt').forEach(function (o) { o.remove(); });
+    root.appendChild(n); setTimeout(function () { n.remove(); }, 8000);
+  }
+  function notifyBrowser(x) {
+    try {
+      if (!window.Notification || Notification.permission !== 'granted' || !document.hidden) return;
+      var nn = new Notification(x.r.author + (x.mention ? ' mentioned you' : ' replied to your comment'), { body: String(x.r.text || '').slice(0, 180), tag: 'ree-' + x.r.id });
+      nn.onclick = function () { window.focus(); S.open = true; goTo(x.t.id); shiftFloaters(); nn.close(); };
+    } catch (e) {}
+  }
+  function checkInbox() {
+    if (!S.name || !LOADED) return;
+    if (!SEEN_INIT) { inbox().forEach(function (x) { SEEN[x.r.id] = 1; }); SEEN_INIT = true; storeSeen(); }
+    var un = unread(), fresh = un.filter(function (x) { return !NOTIFIED[x.r.id]; });
+    un.forEach(function (x) { NOTIFIED[x.r.id] = 1; });
+    if (fresh.length && S.threads.length) { notifyToast(fresh[0]); fresh.slice(0, 3).forEach(notifyBrowser); }
+    document.title = (un.length ? '(' + un.length + ') ' : '') + BASE_TITLE.replace(/^\(\d+\) /, '');
+  }
+  function bellBtn() {
+    if (!S.name) return '';
+    var n = unread().length;
+    return '<button class="rv-bell' + (S.pmenu === 'inbox' ? ' on' : '') + '" data-pmenu="inbox" title="Notifications" aria-label="Notifications' + (n ? ' (' + n + ' unread)' : '') + '">' + ICON.bell + (n ? '<b>' + (n > 9 ? '9+' : n) + '</b>' : '') + '</button>';
+  }
+  function inboxHtml() {
+    if (S.pmenu !== 'inbox' || !S.name) return '';
+    root.querySelectorAll('.rv-nt').forEach(function (o) { o.remove(); });
+    var list = inbox().slice(0, 30), n = unread().length;
+    return '<div class="rv-inbox" role="dialog" aria-label="Notifications"><h3>Notifications' + (n ? '<button id="rvReadAll">Mark all as read</button>' : '') + '</h3>' +
+      (list.length ? list.map(function (x) {
+        var col = colorFor(x.r.author), seen = !!SEEN[x.r.id];
+        return '<button class="rv-ni' + (seen ? ' seen' : '') + '" data-inbox="' + x.t.id + '"><span class="rv-av" style="background:' + col + '">' + esc((String(x.r.author).trim()[0] || '?')) + '</span>' +
+          '<span class="rv-ni-b"><b>' + esc(x.r.author) + '</b> ' + (x.mention ? 'mentioned you' : 'replied') + '<span class="rv-ni-t">' + esc(x.r.text) + '</span><small>' + esc(labelFor(x.t.page)) + ' · ' + ago(x.r.at || x.t.at) + '</small></span>' + (seen ? '' : '<i></i>') + '</button>';
+      }).join('') : '<p>No replies to your comments yet.</p>') + '</div>';
+  }
 
   /* ---------- start ---------- */
   if (!REMOTE) { try { S.threads = JSON.parse(lsGet(KEY, '[]')) || []; } catch (e) { S.threads = []; } }

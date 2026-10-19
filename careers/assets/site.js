@@ -253,7 +253,17 @@ window.openModal = function(html, {wide=false, cls=""}={}){
 window.closeModal = function(){ const m = $(".modal"); if(!m) return; m.remove(); document.body.style.overflow = ""; lastFocus?.focus?.({preventScroll:true}); };
 document.addEventListener("keydown", e => { if(e.key === "Escape") closeModal(); });
 window.toast = function(msg){ $(".toast")?.remove(); const t = document.createElement("div"); t.className="toast"; t.setAttribute("role","status"); t.textContent = msg; document.body.appendChild(t); setTimeout(()=>t.remove(), 2600); };
-window.posterHead = (seed, kind, bg, title) => `<div class="modal-hero" style="background:${bg}">${posterSVG(seed, kind)}<h3>${title}</h3></div>`;
+/* modal header: deep tonal gradient of the section colour, soft light bloom, fine grid and concentric rings,
+   a small eyebrow + sentence-case title, and a frosted icon badge */
+const MH_ICO = { "perk-reenergize":"gym", "perk-health":"heart", "perk-learn":"cap", "perk-team":"users",
+  "val-hse":"shield", "val-e360":"users", "val-voice":"chat", "val-space":"globe", "alert":"bell" };
+window.posterHead = (seed, kind, bg, title) => {
+  const eb = /^val-/.test(seed) ? "Giá trị cốt lõi" : /^perk-/.test(seed) ? "Phúc lợi & đãi ngộ" : "Cơ hội nghề nghiệp";
+  const ico = MH_ICO[seed];
+  return `<div class="modal-hero mh-lux" style="--mh:${bg}"><span class="mh-grid" aria-hidden="true"></span><span class="mh-rings" aria-hidden="true"><i></i><i></i><i></i></span>`
+    + `<div class="mh-tx"><span class="mh-eb">${eb}</span><h3>${title}</h3></div>`
+    + (ico ? `<span class="mh-ico" aria-hidden="true">${ic(ico)}</span>` : "") + `</div>`;
+};
 
 /* ---------- shared modal content ---------- */
 const MODALS = {

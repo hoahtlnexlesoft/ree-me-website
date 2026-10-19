@@ -1228,3 +1228,33 @@ html body .alert-band.dk.ab-rest,html body .rx .dock.dk-rest .dock-in{padding-to
 .why-f .why-orbit{width:52%;right:-2%}
 @media (max-width:1100px){.why-f .why-txt{max-width:52%}.why-f .why-orbit{width:46%;right:-6%}}
 @media (max-width:640px){.why-f .why-txt{max-width:100%}.why-f .why-orbit{display:none}}
+
+/* mh-lux: refined modal header (perks, core values, job alerts) */
+.modal-hero.mh-lux{aspect-ratio:auto;min-height:212px;display:flex;align-items:flex-end;justify-content:space-between;gap:24px;
+  padding:34px clamp(24px,4vw,40px) 30px;isolation:isolate;
+  background:
+    radial-gradient(90% 120% at 100% 0%,color-mix(in oklab,var(--mh) 60%,#fff 22%) 0%,transparent 60%),
+    radial-gradient(70% 90% at 0% 100%,color-mix(in oklab,var(--mh) 70%,#000 30%) 0%,transparent 70%),
+    linear-gradient(155deg,color-mix(in oklab,var(--mh) 88%,#fff 12%) 0%,var(--mh) 48%,color-mix(in oklab,var(--mh) 78%,#000 22%) 100%)}
+.modal-hero.mh-lux::after{content:"";position:absolute;inset:0;z-index:-1;pointer-events:none;
+  background:linear-gradient(180deg,rgba(255,255,255,.10),rgba(255,255,255,0) 38%);mix-blend-mode:soft-light}
+.mh-lux .mh-grid{position:absolute;inset:0;z-index:-1;pointer-events:none;opacity:.55;
+  background-image:linear-gradient(rgba(255,255,255,.07) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.07) 1px,transparent 1px);
+  background-size:32px 32px;-webkit-mask-image:radial-gradient(120% 90% at 85% 10%,#000 0%,transparent 70%);mask-image:radial-gradient(120% 90% at 85% 10%,#000 0%,transparent 70%)}
+.mh-lux .mh-rings{position:absolute;right:-110px;bottom:-170px;width:420px;height:420px;z-index:-1;pointer-events:none}
+.mh-lux .mh-rings i{position:absolute;border-radius:50%;border:1px solid rgba(255,255,255,.16)}
+.mh-lux .mh-rings i:nth-child(1){inset:0}
+.mh-lux .mh-rings i:nth-child(2){inset:60px;border-color:rgba(255,255,255,.12)}
+.mh-lux .mh-rings i:nth-child(3){inset:120px;border-color:rgba(255,255,255,.09)}
+.mh-lux .mh-tx{position:relative;display:grid;gap:12px;min-width:0}
+.mh-lux .mh-eb{display:inline-flex;align-items:center;gap:10px;font-size:11px;font-weight:600;letter-spacing:.24em;text-transform:uppercase;color:rgba(255,255,255,.78)}
+.mh-lux .mh-eb::before{content:"";width:26px;height:1.5px;border-radius:2px;background:linear-gradient(90deg,rgba(255,255,255,.95),rgba(255,255,255,.35))}
+.modal-hero.mh-lux h3{margin:0;font-size:clamp(1.6rem,1.15rem + 1.25vw,2.2rem);font-weight:700;line-height:1.12;letter-spacing:-.022em;text-transform:none;color:#fff;
+  text-shadow:0 1px 18px rgba(0,0,0,.18);text-wrap:balance}
+.mh-lux .mh-ico{position:relative;flex:none;width:60px;height:60px;border-radius:18px;display:grid;place-items:center;color:#fff;
+  background:linear-gradient(160deg,rgba(255,255,255,.24),rgba(255,255,255,.08));border:1px solid rgba(255,255,255,.28);
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.35),0 18px 34px -18px rgba(0,0,0,.55);-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px)}
+.mh-lux .mh-ico svg{width:26px;height:26px;stroke-width:1.6}
+:is(.modal,.modal-card,[role=dialog]):has(.mh-lux) .modal-close{width:40px;height:40px;border-radius:12px!important;background:rgba(255,255,255,.14)!important;border:1px solid rgba(255,255,255,.26)!important;color:#fff!important;-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px);box-shadow:inset 0 1px 0 rgba(255,255,255,.3);transition:background .2s}
+:is(.modal,.modal-card,[role=dialog]):has(.mh-lux) .modal-close:hover{background:rgba(255,255,255,.24)!important}
+@media (max-width:600px){.modal-hero.mh-lux{min-height:176px;padding:28px 20px 22px}.mh-lux .mh-ico{width:48px;height:48px;border-radius:14px}.mh-lux .mh-ico svg{width:22px;height:22px}}

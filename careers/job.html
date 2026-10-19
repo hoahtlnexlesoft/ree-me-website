@@ -1163,6 +1163,18 @@ html,body{overflow-x:clip}
 .tp-ul li::before{content:"";position:absolute;left:0;top:.62em;width:7px;height:7px;background:currentColor;border-radius:1px}
 @media (max-width:1080px){.tp-band{grid-template-columns:1fr;padding:0;gap:16px}.tp{padding:32px 26px}}
 @media (max-width:560px){.tp-band{padding:0}.tp{border-radius:24px;padding:26px 20px 30px}.tp-b{font-size:12.5px}}
+/* tp-pastel: the three panels take the tag palette (blue / lavender / sand) */
+.tp.a,.tp.b,.tp.c{position:relative;overflow:hidden;text-shadow:none;box-shadow:inset 0 0 0 1px rgba(255,255,255,.55),0 18px 40px -30px rgba(20,33,61,.35)}
+.tp.a{--tc:#2C4D5E;background:linear-gradient(160deg,#DDEEF8 0%,#CFE7F4 55%,#C3DDEE 100%);color:#2C4D5E}
+.tp.b{--tc:#3F2F5B;background:linear-gradient(160deg,#E8DFF8 0%,#DDD1F3 55%,#D1C3EC 100%);color:#3F2F5B}
+.tp.c{--tc:#6B5A2E;background:linear-gradient(160deg,#F7F2E8 0%,#F1EBDD 55%,#E9E0CC 100%);color:#5A4A22}
+.tp.a .tp-b,.tp.b .tp-b,.tp.c .tp-b{color:color-mix(in oklab,var(--tc) 88%,#000);max-width:none}
+.tp.a .tp-b b,.tp.b .tp-b b,.tp.c .tp-b b{color:var(--tc)}
+.rx .tp.a h2,.rx .tp.b h2,.rx .tp.c h2{color:var(--tc)}
+.tp.a .tp-ul li::before,.tp.b .tp-ul li::before,.tp.c .tp-ul li::before{background:var(--tc);opacity:.75;border-radius:2px}
+.tp.a::after,.tp.b::after,.tp.c::after{content:"";position:absolute;right:-70px;top:-70px;width:220px;height:220px;border-radius:50%;pointer-events:none;
+  background:radial-gradient(circle,rgba(255,255,255,.55) 0%,rgba(255,255,255,0) 70%)}
+
 
 /* ===== Apply form — refined (brand navy / red) ===== */
 #rx .apply-card{position:relative;overflow:hidden;display:grid;grid-template-columns:340px minmax(0,1fr);gap:0;padding:0!important;border:1px solid #E6EAF3!important;border-radius:28px!important;background:#fff!important;box-shadow:0 40px 80px -48px rgba(10,26,85,.35)!important}

@@ -410,4 +410,4 @@ a.ree-eco-card:focus-visible{outline:2px solid #1B347D;outline-offset:3px}
 
 /* root-font: one sans family everywhere (preview wrapper overrides body font) */:where(#root){font-family:var(--font-sans)}
 
-/* era-wide: timeline photos 1.5x wider */.ree-era-img{max-width:480px;aspect-ratio:4/3}@media (min-width:1024px){.ree-era-grid{grid-template-columns:minmax(0,1fr) 500px}.ree-era-grid .ree-era-img{margin-left:0;margin-right:auto}}
+/* era-wide: timeline photos 1.5x wider */.ree-era-img{max-width:480px;aspect-ratio:4/3}@media (min-width:1024px){.ree-era-grid{grid-template-columns:minmax(0,1fr) 500px}.ree-era-grid .ree-era-img{margin-left:auto;margin-right:calc(20px - max(0px,(100vw - 2*var(--ree-gut,90px) - 1080px)/2))}}

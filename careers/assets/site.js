@@ -356,6 +356,7 @@ function mount(){
 /* ---------- global delegation ---------- */
 document.addEventListener("click", e => {
   const op = e.target.closest("[data-open]");
+  if(op && op.dataset.open === "chat" && window.parent !== window){ e.preventDefault(); try{ window.parent.postMessage({reeCareers:1, t:"contact"}, "*"); return; }catch(_){} }
   if(op && MODALS[op.dataset.open]){ e.preventDefault(); openModal(MODALS[op.dataset.open](), {cls: op.dataset.open === "chat" ? "split" : ""}); return; }
 
   const sv = e.target.closest("[data-save]");

@@ -100,7 +100,7 @@
   }
 
   /* ---------- state ---------- */
-  var S = { tedit: null, teditText: '', hidden: lsGet(HIDE_KEY, '') === '1', q: '', pmenu: null, expanded: {}, pop: null, popMenu: false, popEmoji: false, popReply: '', editWhere: 'panel', menu: null, editing: null, editText: '', threads: [], name: lsGet(NAME_KEY, ''), mode: false, open: false, draft: null, draftText: '', draftImages: [], nameInput: '',
+  var S = { tedit: null, teditText: '', hidden: lsGet(HIDE_KEY, '') === '1', q: '', pmenu: null, expanded: {}, fold: (function () { try { return JSON.parse(lsGet('rv_fold', '{}')) || {}; } catch (e) { return {}; } })(), pop: null, popMenu: false, popEmoji: false, popReply: '', editWhere: 'panel', menu: null, editing: null, editText: '', threads: [], name: lsGet(NAME_KEY, ''), mode: false, open: false, draft: null, draftText: '', draftImages: [], nameInput: '',
             active: null, flash: null, filter: 'all', replyFor: null, replyText: '', copied: false, copiedId: null, lightbox: null };
   var pending = 0, writes = 0, lastSend = '', lastPull = 0;
 
@@ -202,7 +202,10 @@
   '.rv-search svg{width:16px;height:16px;flex:none}.rv-search input{flex:1;min-width:0;border:0;outline:0;background:transparent;font-size:13.5px;color:#0f172a}' +
   '.rv-ib{width:30px;height:30px;border-radius:8px;display:grid;place-items:center;color:#334155;flex:none}.rv-ib:hover,.rv-ib.on{background:#e5e7eb;color:#0f172a}.rv-ib svg{width:17px;height:17px}.rv-ib.sm{width:26px;height:26px}.rv-ib.sm svg{width:15px;height:15px}' +
   '.rv-pm{top:42px;right:12px;min-width:190px}.rv-pm .rv-sp{display:inline-block;width:16px}' +
-  '.rv-gh{display:flex;align-items:center;gap:10px;padding:12px 16px 4px;font-size:12px;font-weight:700;color:#475569}.rv-gh::after{content:"";flex:1;height:1px;background:#e2e5ea}' +
+  '.rv-gh{display:flex;align-items:center;gap:8px;width:100%;border:0;background:none;font-family:inherit;text-align:left;cursor:pointer;padding:12px 16px 4px;font-size:12px;font-weight:700;color:#475569;transition:color .15s}.rv-gh:hover{color:#0f172a}.rv-gh:focus-visible{outline:2px solid #4f46e5;outline-offset:-2px;border-radius:6px}' +
+  '.rv-gchev{display:grid;place-items:center;width:18px;height:18px;border-radius:5px;flex:none;color:#64748b;transition:transform .2s,background .15s}.rv-gchev svg{width:11px;height:11px;transform:rotate(-90deg)}.rv-gh:hover .rv-gchev{background:#eef0f4;color:#0f172a}.rv-gh.fd .rv-gchev{transform:rotate(-90deg)}.rv-gh.fd{padding-bottom:10px}.rv-gh .rv-gc{margin-left:0}' +
+  '.rv-pm #rvFoldAll svg{transform:rotate(90deg)}.rv-pm #rvUnfoldAll svg{transform:rotate(-90deg)}' +
+  '.rv-gh::after{content:"";flex:1;height:1px;background:#e2e5ea}' +
   '.rv-row2{margin:1px 8px;border-radius:10px}.rv-row2-main{gap:10px;padding:9px 12px 6px 10px}.rv-row2-m{padding-right:52px}.rv-row2-main .rv-av{width:22px;height:22px;font-size:10.5px}' +
   '.rv-row2-m{gap:5px;padding-top:1px;line-height:1.5}.rv-row2-m b{font-size:13px;max-width:130px}.rv-row2-m .rv-ago{font-size:12px;color:#64748b}' +
   '.rv-unread{width:6px;height:6px;border-radius:50%;background:#e5484d;flex:none;align-self:center;margin-left:2px}' +
@@ -511,12 +514,14 @@
         '<button class="rv-ib' + (S.filter !== 'all' || S.pmenu === 'filter' ? ' on' : '') + '" data-pmenu="filter" aria-label="Filter" title="Filter">' + ICON.filter + '</button>' +
         '<button class="rv-ib' + (S.pmenu === 'more' ? ' on' : '') + '" data-pmenu="more" aria-label="More" title="More">' + ICON.dots + '</button>' +
         (S.pmenu === 'filter' ? '<div class="rv-menu rv-pm" style="right:52px">' + [['all', 'All comments'], ['open', 'Open'], ['resolved', 'Resolved']].map(function (f) { return '<button data-filter="' + f[0] + '">' + (S.filter === f[0] ? ICON.check : '<i class="rv-sp"></i>') + f[1] + '</button>'; }).join('') + '</div>' : '') +
-        (S.pmenu === 'more' ? '<div class="rv-menu rv-pm"><button id="rvCopyAll">' + ICON.copy + (S.copied ? 'Copied' : 'Copy all comments') + '</button><button id="rvClose">' + ICON.side + 'Hide panel</button><button id="rvHide">' + ICON.eyeoff + 'Hide comments (full view)</button></div>' : '') +
+        (S.pmenu === 'more' ? '<div class="rv-menu rv-pm"><button id="rvCopyAll">' + ICON.copy + (S.copied ? 'Copied' : 'Copy all comments') + '</button><button id="rvFoldAll">' + ICON.chev + 'Collapse all sections</button><button id="rvUnfoldAll">' + ICON.chev + 'Expand all sections</button><button id="rvClose">' + ICON.side + 'Hide panel</button><button id="rvHide">' + ICON.eyeoff + 'Hide comments (full view)</button></div>' : '') +
         '</div><div class="rv-list">';
       if (!list.length) h += '<p class="rv-empty">' + (q ? 'No comments match your search.' : S.filter === 'resolved' ? 'Nothing resolved yet.' : 'No comments yet. Switch to “Comment” and click anything on the page.') + '</p>';
       groups.forEach(function (g) {
         g.items.sort(function (a, b) { return (NUM[a.id] || 0) - (NUM[b.id] || 0); });
-        h += '<div class="rv-gh"><span>' + esc(g.name) + '</span><em class="rv-gc">' + g.items.length + '</em></div>';
+        var fd = !q && !!S.fold[g.name];
+        h += '<button type="button" class="rv-gh' + (fd ? ' fd' : '') + '" data-fold="' + esc(g.name) + '" aria-expanded="' + !fd + '" title="' + (fd ? 'Mở rộng' : 'Thu gọn') + '"><i class="rv-gchev">' + ICON.chev + '</i><span>' + esc(g.name) + '</span><em class="rv-gc">' + g.items.length + '</em></button>';
+        if (fd) return;
         g.items.forEach(function (t) {
           var on = S.active === t.id, col = colorFor(t.author), nr = (t.replies || []).length, long = (t.text || '').length > 40, ex = S.expanded && S.expanded[t.id];
           h += '<div class="rv-row2' + (on ? ' on' : '') + (t.resolved ? ' done' : '') + (S.menu === t.id ? ' menu' : '') + '">' +
@@ -687,6 +692,8 @@
     if ((a = b.getAttribute('data-pin'))) { markSeen(a); S.active = a; S.pop = S.pop === a ? null : a; S.popMenu = S.popEmoji = false; S.popReply = ''; return renderAll(); }
     if ((a = b.getAttribute('data-filter'))) { S.filter = a; S.pmenu = null; return renderUi(); }
     if ((a = b.getAttribute('data-pmenu'))) { S.pmenu = S.pmenu === a ? null : a; S.menu = null; return renderUi(); }
+    if ((a = b.getAttribute('data-fold')) != null) { if (S.fold[a]) delete S.fold[a]; else S.fold[a] = 1; lsSet('rv_fold', JSON.stringify(S.fold)); return renderUi(); }
+    if (b.id === 'rvFoldAll' || b.id === 'rvUnfoldAll') { var fa = b.id === 'rvFoldAll'; S.fold = {}; if (fa) S.threads.forEach(function (t) { S.fold[labelFor(t.page)] = 1; }); lsSet('rv_fold', JSON.stringify(S.fold)); S.pmenu = null; return renderUi(); }
     if ((a = b.getAttribute('data-expand'))) { S.expanded[a] = !S.expanded[a]; return renderUi(); }
     if ((a = b.getAttribute('data-goto'))) return goTo(a);
     if ((a = b.getAttribute('data-copy1'))) { var t1 = S.threads.filter(function (x) { return x.id === a; })[0]; return t1 && copyText(t1.text, function () { S.copiedId = a; renderUi(); setTimeout(function () { if (S.copiedId === a) { S.copiedId = null; renderUi(); } }, 1600); }); }

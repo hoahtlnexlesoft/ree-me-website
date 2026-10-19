@@ -349,3 +349,6 @@ section:has(+ .ree-rel) span.size-10.bottom-5{bottom:150px!important}
 img.h-10[src*="ree-me-logo"]{margin-left:-4px}
 @media (min-width:640px){img.h-10[src*="ree-me-logo"]{margin-left:-5px}}
 @media (min-width:768px){img.h-10[src*="ree-me-logo"]{margin-left:-6px}}
+
+/* no-side-pan: slide-in reveals start past the right edge; never let the page pan sideways */
+html,body{overflow-x:clip;overscroll-behavior-x:none}

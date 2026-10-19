@@ -1300,3 +1300,6 @@ html body .alert-band.dk.ab-rest,html body .rx .dock.dk-rest .dock-in{padding-to
 @media (prefers-reduced-motion:reduce){.mb-lux .mb-list li,.mh-lux .mh-photo-l img{animation:none}}
 
 .why-f .why-orbit .b3{top:71%}
+
+/* no-side-pan: slide-in reveals start past the right edge; never let the page pan sideways */
+html,body{overflow-x:clip;overscroll-behavior-x:none}

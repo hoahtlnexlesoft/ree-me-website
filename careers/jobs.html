@@ -118,7 +118,7 @@
   html body main .alert-band.dk.ab-rest + #abEnd{margin-top:-20px;visibility:hidden}
   /* alert band: sticky full-width bar */
   .list-sec{padding-bottom:0!important}
-  .alert-band{position:sticky!important;bottom:0;z-index:20;width:100vw;margin-left:calc(50% - 50vw);margin-top:72px;border-radius:0!important;padding:14px max(var(--gut),calc((100vw - var(--wrap))/2 + var(--gut)));box-shadow:0 -12px 30px -16px rgba(5,25,70,.45);border-bottom:1px solid rgba(255,255,255,.12)}
+  .alert-band{position:sticky!important;bottom:0;z-index:20;width:100vw;margin-left:calc(50% - 50vw);margin-top:72px;border-radius:0!important;padding:14px max(var(--gut),var(--gut));box-shadow:0 -12px 30px -16px rgba(5,25,70,.45);border-bottom:1px solid rgba(255,255,255,.12)}
   .alert-band h3{font-size:clamp(1.05rem,.95rem + .5vw,1.35rem)}
   .alert-band::before{opacity:.6}
   body:has(.alert-band) .fab,body:has(.alert-band) .qc-pop{transform:translateY(-84px)}
@@ -158,7 +158,7 @@
   @media (min-width:1001px){.jrow{grid-template-columns:76px minmax(0,1.6fr) repeat(3,minmax(0,.62fr)) 48px!important}
     .jico svg{width:20px!important;height:20px!important;padding:13px!important;box-shadow:0 0 0 6px color-mix(in srgb,var(--c) 7%,transparent)!important}}
   /* "Chưa thấy vị trí phù hợp?" — same style as the job page apply dock */
-  .alert-band.dk{display:flex;flex-wrap:nowrap;align-items:center;gap:18px;justify-content:flex-start;background:rgba(34,34,38,.8)!important;color:#fff;padding:14px max(64px,calc(50vw - 720px + var(--gut) + 40px)) 14px max(var(--gut),calc(50vw - 720px + var(--gut)))!important;border-bottom:0!important;box-shadow:0 -10px 30px -18px rgba(0,0,0,.45)!important;animation:abIn .4s cubic-bezier(.2,.8,.2,1) both}
+  .alert-band.dk{display:flex;flex-wrap:nowrap;align-items:center;gap:18px;justify-content:flex-start;background:rgba(34,34,38,.8)!important;color:#fff;padding:14px max(64px,calc(var(--gut) + 40px)) 14px max(var(--gut),var(--gut))!important;border-bottom:0!important;box-shadow:0 -10px 30px -18px rgba(0,0,0,.45)!important;animation:abIn .4s cubic-bezier(.2,.8,.2,1) both}
   .alert-band.dk::before,.alert-band.dk::after{display:none!important}
   @keyframes abIn{from{transform:translateY(16px);opacity:0}}
   .ab-th{flex:none;width:92px;height:72px;border-radius:6px;object-fit:cover;border:2px solid rgba(255,255,255,.85)}

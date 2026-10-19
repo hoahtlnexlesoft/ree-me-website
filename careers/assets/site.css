@@ -11,7 +11,7 @@
   --shadow-lg:0 30px 70px -30px rgba(4,11,38,.55);
   --f-display:"Plus Jakarta Sans","Be Vietnam Pro","Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;
   --f-body:"Plus Jakarta Sans","Be Vietnam Pro","Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;
-  --r:4px; --r-lg:6px; --wrap:1440px; --gut:24px;
+  --r:4px; --r-lg:6px; --wrap:none; --gut:16px;
   --t-xs:.75rem; --t-sm:.875rem; --t-md:1rem; --t-lg:1.125rem; --t-xl:1.375rem;
   --t-h2:clamp(1.55rem,1.05rem + 1.5vw,2.3rem); --t-h1:clamp(2.6rem,1.4rem + 5vw,6.4rem);
 }
@@ -41,8 +41,8 @@ button{font:inherit;color:inherit;cursor:pointer}
 :focus-visible{outline:2px solid var(--accent);outline-offset:3px}
 .wrap{max-width:var(--wrap);margin-inline:auto;padding-inline:var(--gut)}
 /* gutters match the site header (px-6 / md:px-16 / lg:px-24, max 1440) so content lines up with the logo */
-@media (min-width:768px){:root{--gut:64px}}
-@media (min-width:1024px){:root{--gut:96px}}
+@media (min-width:640px){:root{--gut:24px}}
+@media (min-width:1024px){:root{--gut:32px}}
 .sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
 .num{font-variant-numeric:tabular-nums}
 
@@ -1192,7 +1192,7 @@ html body .alert-band.dk,html body .cd-bar,html body .rx .dock-in,#abEnd,#dockEn
 html body .rx .dock-in{flex-shrink:0}
 html body .alert-band.dk.ab-rest,html body .cd-bar.cd-rest,html body .rx .dock.dk-rest .dock-in{
   width:100vw!important;border-radius:0!important;border-color:transparent!important;box-shadow:none!important;
-  padding:18px max(var(--gut),calc(50vw - 720px + var(--gut)))!important}
+  padding:18px max(var(--gut),var(--gut))!important}
 html body .alert-band.dk.ab-rest,html body .cd-bar.cd-rest{margin-left:calc((100% - 100vw)/2)!important}
 html body .alert-band.dk.ab-rest .ab-x,html body .rx .dock.dk-rest .dock-x{opacity:0;pointer-events:none}
 html body .alert-band.dk .ab-x,html body .rx .dock-x{transition:opacity .3s}

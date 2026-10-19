@@ -381,3 +381,13 @@ div.fixed.bottom-5:has(> .card-corner) > .ree-totop{opacity:0;pointer-events:non
 @keyframes reeCueRing{0%{box-shadow:0 0 0 0 rgba(255,255,255,.45)}70%,100%{box-shadow:0 0 0 14px rgba(255,255,255,0)}}
 @media (max-width:640px){.ree-scroll-pill{font-size:11px;letter-spacing:.16em;padding:7px 16px 7px 8px;gap:10px}.ree-scroll-mouse{width:18px;height:27px}}
 @media (prefers-reduced-motion:reduce){.ree-scroll-pill::after,.ree-scroll-mouse i,.ree-scroll-chev i{animation:none}.ree-scroll-chev i{opacity:.8}}
+
+/* cue-compact: no frame — just the mouse, the label and the arrows */
+.ree-scroll{gap:6px!important}
+.ree-scroll-pill{gap:10px!important;padding:0!important;background:none!important;border:0!important;-webkit-backdrop-filter:none!important;backdrop-filter:none!important;box-shadow:none!important;font-size:11px!important;letter-spacing:.24em!important;text-shadow:0 1px 10px rgba(0,0,0,.45)}
+.ree-scroll-pill::after{display:none!important}
+.ree-scroll:hover .ree-scroll-pill,.ree-scroll:focus-visible .ree-scroll-pill{background:none!important;transform:translateY(-2px)}
+.ree-scroll-mouse{width:18px!important;height:27px!important;border-width:1.5px!important;border-radius:10px!important;box-shadow:0 2px 10px rgba(0,0,0,.25)}
+.ree-scroll-mouse i{top:5px!important;width:3px!important;height:6px!important;margin-left:-1.5px!important}
+.ree-scroll-chev i{width:9px!important;height:9px!important;border-width:0 1.5px 1.5px 0!important}
+@media (max-width:640px){.ree-scroll-pill{font-size:10px!important;letter-spacing:.2em!important}.ree-scroll-mouse{width:16px!important;height:24px!important}}

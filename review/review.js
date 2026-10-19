@@ -184,6 +184,8 @@
   '.rv-menu button{width:100%;height:36px;padding:0 10px;border-radius:8px;display:flex;align-items:center;gap:10px;font-size:14px;font-weight:500;color:#0f172a;text-align:left}.rv-menu button:hover{background:#f1f5f9}' +
   '.rv-menu button svg{width:16px;height:16px;flex:none}.rv-menu button.danger{color:#be123c}.rv-menu button.danger:hover{background:#fff1f2}' +
   '.rv-edit{margin:8px 0 0 40px}.rv-edit textarea{min-height:64px}' +
+  '.rv-row2-m span.rv-no{flex:none;font-size:11.5px;font-weight:700;color:#334155;background:#e2e8f0;border-radius:6px;padding:0 6px;line-height:19px;font-variant-numeric:tabular-nums}' +
+  '.rv-gh .rv-gc{font-style:normal;margin-left:8px;font-size:11px;font-weight:700;color:#64748b;background:#e5e7eb;border-radius:999px;padding:1px 7px}' +
   '.rv-row2{position:relative;margin:2px 8px;border-radius:12px}.rv-row2:hover,.rv-row2.on,.rv-row2.menu{background:#e9eaec}.rv-row2.done .rv-row2-main{opacity:.55}' +
   '.rv-row2-main{display:flex;gap:12px;width:100%;padding:14px 44px 14px 12px;text-align:left;align-items:flex-start}.rv-row2-main .rv-av{width:24px;height:24px;font-size:11px;margin-top:1px}' +
   '.rv-row2-b{min-width:0;flex:1}.rv-row2-m{display:flex;align-items:baseline;gap:6px;white-space:nowrap;overflow:hidden;line-height:1.6;padding-top:2px}.rv-row2-m b{font-size:14px;font-weight:700;color:#0f172a;overflow:hidden;text-overflow:ellipsis}.rv-row2-m span{font-size:13px;color:#64748b;flex:none}' +
@@ -453,7 +455,7 @@
       if (t.page !== c.key) return;
       var p = pos(t, c); if (p.x < -40 || p.y < -10 || p.x > vw + 40 || p.y > vh + 40) return;
       var bg = t.resolved ? '#9CA3AF' : colorFor(t.author);
-      html += '<button class="rv-pin' + (S.active === t.id ? ' on' : '') + (S.flash === t.id ? ' flash' : '') + '" data-pin="' + t.id + '" style="left:' + p.x + 'px;top:' + p.y + 'px;background:' + bg + ';color:' + bg + '" aria-label="Comment ' + (i + 1) + '"><span style="color:#fff">' + (t.resolved ? ICON.check.replace('<svg', '<svg width="14" height="14"') : (i + 1)) + '</span></button>';
+      html += '<button class="rv-pin' + (S.active === t.id ? ' on' : '') + (S.flash === t.id ? ' flash' : '') + '" data-pin="' + t.id + '" style="left:' + p.x + 'px;top:' + p.y + 'px;background:' + bg + ';color:' + bg + '" aria-label="Comment ' + NUM[t.id] + '"><span style="color:#fff">' + (t.resolved ? ICON.check.replace('<svg', '<svg width="14" height="14"') : NUM[t.id]) + '</span></button>';
     });
     if (S.draft) {
       var d = S.draft, dp = pos(d, c), left = Math.min(Math.max(12, dp.x - 20), Math.max(12, vw - 312)), top = Math.min(dp.y + 12, vh - 230);
@@ -493,7 +495,7 @@
       '<div class="rv-seg"><button id="rvBrowse" class="' + (!S.mode ? 'on' : '') + '">' + ICON.pointer + 'Browse</button><button id="rvComment" class="' + (S.mode === true ? 'on' : '') + '">' + ICON.chat + 'Comment</button><button id="rvEditMode" class="' + (S.mode === 'edit' ? 'on' : '') + '">' + ICON.pencil + 'Edit text</button>' + bellBtn() + '</div></div>' + inboxHtml();
     if (!S.open) {
       h += '<aside class="rv-rail"><button class="rv-side" id="rvTab" title="Open comments" aria-label="Open comments">' + ICON.side + '</button><button class="rv-side" id="rvHide" title="Hide comments (full view)" aria-label="Hide comments">' + ICON.eyeoff + '</button><div class="rv-rail-list">' +
-        S.threads.map(function (t, i) { var col = t.resolved ? '#9CA3AF' : colorFor(t.author); return '<button class="rv-dot' + (S.active === t.id ? ' on' : '') + (t.resolved ? ' done' : '') + '" data-rail="' + t.id + '" style="background:' + col + ';color:' + col + '" title="#' + (i + 1) + ' ' + esc(t.author) + ': ' + esc(t.text.slice(0, 80)) + '"><span style="color:#fff">' + esc((t.author.trim()[0] || '?')) + '</span></button>'; }).join('') +
+        S.threads.map(function (t, i) { var col = t.resolved ? '#9CA3AF' : colorFor(t.author); return '<button class="rv-dot' + (S.active === t.id ? ' on' : '') + (t.resolved ? ' done' : '') + '" data-rail="' + t.id + '" style="background:' + col + ';color:' + col + '" title="#' + NUM[t.id] + ' · ' + esc(labelFor(t.page)) + ' · ' + esc(t.author) + ': ' + esc(t.text.slice(0, 80)) + '"><span style="color:#fff">' + esc((t.author.trim()[0] || '?')) + '</span></button>'; }).join('') +
         '</div></aside>';
     }
     if (S.open) {
@@ -512,12 +514,13 @@
         '</div><div class="rv-list">';
       if (!list.length) h += '<p class="rv-empty">' + (q ? 'No comments match your search.' : S.filter === 'resolved' ? 'Nothing resolved yet.' : 'No comments yet. Switch to “Comment” and click anything on the page.') + '</p>';
       groups.forEach(function (g) {
-        h += '<div class="rv-gh"><span>' + esc(g.name) + '</span></div>';
+        g.items.sort(function (a, b) { return (NUM[a.id] || 0) - (NUM[b.id] || 0); });
+        h += '<div class="rv-gh"><span>' + esc(g.name) + '</span><em class="rv-gc">' + g.items.length + '</em></div>';
         g.items.forEach(function (t) {
           var on = S.active === t.id, col = colorFor(t.author), nr = (t.replies || []).length, long = (t.text || '').length > 40, ex = S.expanded && S.expanded[t.id];
           h += '<div class="rv-row2' + (on ? ' on' : '') + (t.resolved ? ' done' : '') + (S.menu === t.id ? ' menu' : '') + '">' +
             '<button class="rv-row2-main" data-goto="' + t.id + '"><span class="rv-av" style="background:' + col + '">' + esc((t.author.trim()[0] || '?')) + '</span>' +
-            '<span class="rv-row2-b"><span class="rv-row2-m"><b>' + esc(t.author) + '</b><span class="rv-ago">· ' + ago(t.at) + '</span>' + (t.resolved ? '' : '<i class="rv-unread" title="Open"></i>') + '</span>' +
+            '<span class="rv-row2-b"><span class="rv-row2-m"><span class="rv-no">#' + NUM[t.id] + '</span><b>' + esc(t.author) + '</b><span class="rv-ago">· ' + ago(t.at) + '</span>' + (t.resolved ? '' : '<i class="rv-unread" title="Open"></i>') + '</span>' +
             '<span class="rv-row2-t' + (ex ? ' ex' : '') + '">' + esc(t.text || (t.images && t.images.length ? '[image]' : '')) + '</span></span></button>' +
             (long ? '<button class="rv-sm" data-expand="' + t.id + '">' + (ex ? 'Show less' : 'Show more') + '</button>' : '') +
             (nr ? '<button class="rv-nr" data-goto="' + t.id + '">' + nr + ' ' + (nr > 1 ? 'replies' : 'reply') + '</button>' : '') +
@@ -537,7 +540,10 @@
     ui.querySelectorAll('.rv-sm').forEach(function (bt) { var row = bt.parentNode, tx = row.querySelector('.rv-row2-t'); if (tx && !tx.classList.contains('ex') && tx.scrollHeight <= tx.clientHeight + 2) bt.remove(); });
     if (keepReply) { var ri = ui.querySelector('#' + keepId); if (ri) { ri.focus(); try { ri.setSelectionRange(keepReply[0], keepReply[0]); } catch (e) {} } }
   }
-  function renderAll() { applyEdits(); computeAuthors(); checkInbox(); renderUi(); renderPins(); renderPop(); shiftFloaters(); }
+  /* per-page comment numbers: 1, 2, 3… within each page, in the order they were posted */
+  var NUM = {};
+  function computeNums() { NUM = {}; var c = {}; S.threads.slice().sort(function (a, b) { return (a.at || 0) - (b.at || 0); }).forEach(function (t) { c[t.page] = (c[t.page] || 0) + 1; NUM[t.id] = c[t.page]; }); }
+  function renderAll() { computeNums(); applyEdits(); computeAuthors(); checkInbox(); renderUi(); renderPins(); renderPop(); shiftFloaters(); }
 
   /* ---------- comment mode across documents ---------- */
   var hoverEl = null, bound = [];
@@ -622,8 +628,9 @@
   }
   function fallbackCopy(text) { var ta = document.createElement('textarea'); ta.value = text; ta.style.position = 'fixed'; ta.style.opacity = '0'; document.body.appendChild(ta); ta.select(); try { document.execCommand('copy'); } catch (e) {} ta.remove(); }
   function exportAll() {
-    return S.threads.map(function (t, i) {
-      return '#' + (i + 1) + ' [' + (t.resolved ? 'resolved' : 'open') + '] page: ' + labelFor(t.page) + ' (' + t.page + ') | element: ' + t.selector + '\n  ' + t.author + ': ' + t.text +
+    computeNums();
+    return S.threads.slice().sort(function (a, b) { return a.page < b.page ? -1 : a.page > b.page ? 1 : (NUM[a.id] || 0) - (NUM[b.id] || 0); }).map(function (t) {
+      return labelFor(t.page) + ' #' + NUM[t.id] + ' [' + (t.resolved ? 'resolved' : 'open') + '] page: ' + labelFor(t.page) + ' (' + t.page + ') | element: ' + t.selector + '\n  ' + t.author + ': ' + t.text +
         (t.images && t.images.length ? '\n  (' + t.images.length + ' image(s) attached — see the comments panel)' : '') +
         (t.replies || []).map(function (r) { return '\n    ↳ ' + r.author + ': ' + r.text; }).join('');
     }).join('\n\n');
@@ -787,7 +794,7 @@
     var editing = S.editing === t.id && S.editWhere === 'pop';
     var row = function (name, at, text, extra) { return '<div class="rv-pop-c">' + avatar(name, 26) + '<div class="rv-pop-cb"><div class="rv-pop-meta"><b>' + esc(name) + '</b><span>' + ago(at) + '</span></div>' + (text != null ? '<p>' + esc(text) + '</p>' : '') + (extra || '') + '</div></div>'; };
     var h = '<div class="rv-pop" role="dialog" aria-label="Comment">' +
-      '<div class="rv-pop-h"><b>Comment</b><span class="rv-pop-tools">' +
+      '<div class="rv-pop-h"><b>Comment #' + NUM[t.id] + '</b><span class="rv-pop-tools">' +
         (mine(t) && t.kind !== 'edit' && !t.resolved ? '<button data-popedit="' + t.id + '" aria-label="Edit" title="Edit">' + ICON.pencil + '</button>' : '') +
         '<button data-copyc="' + t.id + '" aria-label="Copy comment" title="Copy comment">' + ICON.copy + '</button>' +
         '<button data-resolve="' + t.id + '" class="' + (t.resolved ? 'ok' : '') + '" aria-label="' + (t.resolved ? 'Reopen' : 'Resolve') + '" title="' + (t.resolved ? 'Reopen' : 'Resolve') + '">' + (t.resolved ? ICON.checkf : ICON.checkc) + '</button>' +

@@ -363,3 +363,21 @@ div.fixed.bottom-5:has(> .card-corner) > .ree-totop{opacity:0;pointer-events:non
 
 /* no-eyebrow-dash: section labels without the leading line */
 .rp-ruler:before{display:none!important}
+
+/* home hero scroll cue: clear, clickable "scroll to explore" so the hero isn't mistaken for a video-only page */
+.ree-scroll{position:absolute;left:50%;bottom:36px;z-index:20;transform:translateX(-50%);display:flex;flex-direction:column;align-items:center;gap:8px;background:none;border:0;padding:0;cursor:pointer;color:#fff}
+@media (max-width:640px){.ree-scroll{bottom:24px}}
+.ree-scroll-pill{position:relative;display:inline-flex;align-items:center;gap:12px;padding:9px 22px 9px 10px;border-radius:999px;background:rgba(255,255,255,.14);border:1px solid rgba(255,255,255,.45);-webkit-backdrop-filter:blur(12px);backdrop-filter:blur(12px);font-size:12.5px;font-weight:700;letter-spacing:.2em;text-transform:uppercase;white-space:nowrap;box-shadow:0 14px 34px -14px rgba(0,0,0,.55);transition:background .25s,transform .25s,border-color .25s}
+.ree-scroll-pill::after{content:"";position:absolute;inset:-1px;border-radius:inherit;box-shadow:0 0 0 0 rgba(255,255,255,.45);animation:reeCueRing 2.4s ease-out infinite;pointer-events:none}
+.ree-scroll:hover .ree-scroll-pill,.ree-scroll:focus-visible .ree-scroll-pill{background:rgba(255,255,255,.26);border-color:#fff;transform:translateY(-2px)}
+.ree-scroll:focus-visible{outline:none}
+.ree-scroll-mouse{position:relative;flex:none;width:22px;height:32px;border:2px solid #fff;border-radius:12px}
+.ree-scroll-mouse i{position:absolute;left:50%;top:6px;width:4px;height:7px;margin-left:-2px;border-radius:2px;background:#fff;animation:reeCueWheel 1.6s ease-in-out infinite}
+.ree-scroll-chev{display:flex;flex-direction:column;align-items:center}
+.ree-scroll-chev i{display:block;width:11px;height:11px;margin-top:-3px;border-right:2px solid #fff;border-bottom:2px solid #fff;transform:rotate(45deg);opacity:0;animation:reeCueChev 1.6s ease-in-out infinite}
+.ree-scroll-chev i+i{animation-delay:.2s}
+@keyframes reeCueWheel{0%{opacity:0;transform:translateY(0)}25%{opacity:1}100%{opacity:0;transform:translateY(11px)}}
+@keyframes reeCueChev{0%{opacity:0;transform:translateY(-5px) rotate(45deg)}50%{opacity:1}100%{opacity:0;transform:translateY(5px) rotate(45deg)}}
+@keyframes reeCueRing{0%{box-shadow:0 0 0 0 rgba(255,255,255,.45)}70%,100%{box-shadow:0 0 0 14px rgba(255,255,255,0)}}
+@media (max-width:640px){.ree-scroll-pill{font-size:11px;letter-spacing:.16em;padding:7px 16px 7px 8px;gap:10px}.ree-scroll-mouse{width:18px;height:27px}}
+@media (prefers-reduced-motion:reduce){.ree-scroll-pill::after,.ree-scroll-mouse i,.ree-scroll-chev i{animation:none}.ree-scroll-chev i{opacity:.8}}

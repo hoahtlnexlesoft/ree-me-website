@@ -1234,7 +1234,7 @@ html,body{overflow-x:clip}
 
 /* apply form: site photo (engineers) as the card background, title text on the left, translucent form card on the right */
 #rx .apply-card{overflow:clip!important;grid-template-columns:420px minmax(0,1fr)!important;
-  background:linear-gradient(180deg,#EEF3F9 0,#EEF3F9 190px,rgba(238,243,249,.55) 250px,rgba(238,243,249,0) 330px),linear-gradient(180deg,rgba(238,243,249,0) 0,rgba(238,243,249,0) 720px,rgba(238,243,249,.7) 820px,#EEF3F9 890px),linear-gradient(90deg,rgba(240,245,251,0) 0,rgba(240,245,251,0) 1080px,#F0F5FB 1303px),url(assets/img/apply-duo.jpg) 0 190px/auto 700px no-repeat,#EEF3F9!important}
+  background:linear-gradient(180deg,#EEF3F9 0,#EEF3F9 calc(100% - 700px),rgba(238,243,249,.55) calc(100% - 640px),rgba(238,243,249,0) calc(100% - 540px)),linear-gradient(90deg,rgba(240,245,251,0) 0,rgba(240,245,251,0) 1080px,#F0F5FB 1303px),url(assets/img/apply-duo.jpg) 0 100%/auto 700px no-repeat,#EEF3F9!important}
 #rx .apply-card > .af,#rx .apply-card > .af-done{background:rgba(255,255,255,.86)!important;-webkit-backdrop-filter:blur(16px) saturate(1.1);backdrop-filter:blur(16px) saturate(1.1)}
 #rx .apply-card > .af-head{position:relative!important;top:auto;align-self:start!important;height:auto;margin:0;border-radius:0;box-shadow:none;background:none!important;padding:36px 34px!important;color:#1F2D3A}
 #rx .af-head > div{position:static!important}

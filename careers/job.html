@@ -1207,7 +1207,11 @@ html,body{overflow-x:clip}
 #rx .af-submit:hover{filter:brightness(1.06);transform:translateY(-1px)}
 #rx .af-lock{justify-content:center!important;font-size:12.5px;color:#7C88A6}
 .af-agree{cursor:pointer}
-#rx .af-agree input[type=checkbox],.af-agree input[type=checkbox]{-webkit-appearance:auto!important;appearance:auto!important;flex:0 0 16px!important;width:16px!important;min-width:0!important;height:16px!important;min-height:0!important;margin:1px 0 0!important;padding:0!important;border:0!important;border-radius:3px!important;box-shadow:none!important;background:none!important;accent-color:#C84634;cursor:pointer}
+#rx .af-agree input[type=checkbox],.af-agree input[type=checkbox]{-webkit-appearance:none!important;appearance:none!important;flex:0 0 18px!important;width:18px!important;min-width:0!important;height:18px!important;min-height:0!important;margin:-1px 0 0!important;padding:0!important;border:1.5px solid #C5CCDB!important;border-radius:6px!important;background:#fff center/14px 14px no-repeat!important;box-shadow:0 1px 2px rgba(14,21,48,.08)!important;cursor:pointer;transition:background-color .18s ease,border-color .18s ease,box-shadow .18s ease}
+#rx .af-agree input[type=checkbox]:hover,.af-agree input[type=checkbox]:hover{border-color:#1E3A8A!important}
+#rx .af-agree input[type=checkbox]:checked,.af-agree input[type=checkbox]:checked{background-color:#1E3A8A!important;border-color:#1E3A8A!important;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath d='M4 8.4l2.6 2.5L12 5.4' fill='none' stroke='%23fff' stroke-width='1.9' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E")!important;box-shadow:0 4px 10px -4px rgba(30,58,138,.55)!important}
+#rx .af-agree input[type=checkbox]:focus-visible,.af-agree input[type=checkbox]:focus-visible{outline:none;box-shadow:0 0 0 3px rgba(30,58,138,.18)!important}
+.af-agree{gap:10px!important;align-items:flex-start!important}
 .af-submit:disabled{opacity:.45;cursor:not-allowed;filter:none!important;transform:none!important}
 @media (max-width:1000px){#rx .apply-card{grid-template-columns:1fr}#rx .af-head{grid-row:auto;padding:30px 24px}#rx .af-head > div{position:static}#rx .af-head h3{font-size:28px}#rx .apply-card > .af,#rx .apply-card > .af-done{grid-column:1;padding:28px 22px 30px}}
   .rx .dock-btn.light[aria-pressed="true"] .dock-ic{background:linear-gradient(135deg,#8EDBF7,#F6D6D1)!important;color:#1C1C19!important}

@@ -540,9 +540,11 @@
       h += '</div></aside>';
     }
     if (S.lightbox) h += '<div class="rv-lb" id="rvLb"><img src="' + S.lightbox + '" alt=""></div>';
-    var ae = document.activeElement, keepId = ae && (ae.id === 'rvReply' || ae.id === 'rvEdit') ? ae.id : null, keepReply = keepId ? [ae.selectionStart] : null, scroller = ui.querySelector('.rv-list'), st = scroller ? scroller.scrollTop : 0;
+    var ae = document.activeElement, keepId = ae && (ae.id === 'rvReply' || ae.id === 'rvEdit') ? ae.id : null, keepReply = keepId ? [ae.selectionStart] : null, SCR = ['.rv-list', '.rv-rail-list', '.rv-inbox'];
+    S.scrollMem = S.scrollMem || {}; SCR.forEach(function (q) { var el = ui.querySelector(q); if (el) S.scrollMem[q] = el.scrollTop; });
     ui.innerHTML = h;
-    var sc2 = ui.querySelector('.rv-list'); if (sc2) sc2.scrollTop = st;
+    SCR.forEach(function (q) { var el = ui.querySelector(q); if (el && S.scrollMem[q]) el.scrollTop = S.scrollMem[q]; });
+    if (S.reveal) { var rl = ui.querySelector('.rv-list'), rb = rl && rl.querySelector('.rv-row2-main[data-goto="' + S.reveal + '"]'); if (rb) { var row = rb.closest('.rv-row2'), lr = rl.getBoundingClientRect(), rr = row.getBoundingClientRect(); if (rr.top < lr.top + 8 || rr.bottom > lr.bottom - 8) rl.scrollTop += rr.top - lr.top - (lr.height - rr.height) / 2; S.scrollMem['.rv-list'] = rl.scrollTop; } if (rl) S.reveal = null; }
     ui.querySelectorAll('.rv-sm').forEach(function (bt) { var row = bt.parentNode, tx = row.querySelector('.rv-row2-t'); if (tx && !tx.classList.contains('ex') && tx.scrollHeight <= tx.clientHeight + 2) bt.remove(); });
     if (keepReply) { var ri = ui.querySelector('#' + keepId); if (ri) { ri.focus(); try { ri.setSelectionRange(keepReply[0], keepReply[0]); } catch (e) {} } }
   }
@@ -611,7 +613,7 @@
   }
   function goTo(id) {
     var t = S.threads.filter(function (x) { return x.id === id; })[0]; if (!t) return;
-    S.active = id; markSeen(id);
+    S.active = id; S.reveal = id; markSeen(id);
     if (ctx().key === t.page) return focusThread(id);
     if (t.page.indexOf('site:') === 0) { location.hash = '#' + t.page.slice(5); }
     else {
@@ -698,7 +700,7 @@
     if ((a = b.getAttribute('data-goto'))) return goTo(a);
     if ((a = b.getAttribute('data-copy1'))) { var t1 = S.threads.filter(function (x) { return x.id === a; })[0]; return t1 && copyText(t1.text, function () { S.copiedId = a; renderUi(); setTimeout(function () { if (S.copiedId === a) { S.copiedId = null; renderUi(); } }, 1600); }); }
     if ((a = b.getAttribute('data-replyfor'))) { S.replyFor = S.replyFor === a ? null : a; S.replyText = ''; renderUi(); var ri = root.querySelector('#rvReply'); if (ri) ri.focus(); return; }
-    if ((a = b.getAttribute('data-resolve'))) return save(S.threads.map(function (t) { return t.id === a ? Object.assign({}, t, { resolved: !t.resolved }) : t; }));
+    if ((a = b.getAttribute('data-resolve'))) { S.reveal = a; S.active = a; } if (a) return save(S.threads.map(function (t) { return t.id === a ? Object.assign({}, t, { resolved: !t.resolved }) : t; }));
     if ((a = b.getAttribute('data-del'))) { S.menu = null; if (S.pop === a) S.pop = null; return save(S.threads.filter(function (t) { return t.id !== a; })); }
     if ((a = b.getAttribute('data-popedit')) && !pop.contains(b)) { var tp = findT(a); S.menu = null; if (!tp || tp.kind === 'edit') return renderUi(); S.active = a; S.editing = a; S.editWhere = 'pop'; S.editText = tp.text; goTo(a); setTimeout(function () { S.editing = a; S.editWhere = 'pop'; renderPop(); var ed = pop.querySelector('#rvPopEdit'); if (ed) ed.focus(); }, 900); return; }
     if ((a = b.getAttribute('data-copyc'))) { var tc = findT(a); S.menu = null; renderUi(); return tc && copyText(tc.text, function () { toast('Copied'); }); }

@@ -335,3 +335,5 @@ section:has(+ .ree-rel) span.size-10.bottom-5{bottom:150px!important}
 .pg-news .nf3-row .nf3-meta{margin-top:14px;font-size:13px}
 @media (max-width:960px){.pg-news .nf3{grid-template-columns:1fr}}
 @media (max-width:520px){.pg-news .nf3-top{grid-template-columns:120px minmax(0,1fr);gap:14px}.pg-news .nf3-row h4{font-size:15px}}
+
+.ree-fmeta:empty{display:none}

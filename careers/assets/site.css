@@ -1324,3 +1324,7 @@ button.why-card:hover .why-go,button.why-card:focus-visible .why-go{color:#C8463
 
 /* lc1-nolink: the ↗ badge marks the card as clickable; no underlined "link" title */
 .lc-1 .life-txt h3{text-decoration:none!important}
+/* life-heads: uniform heading rendering */
+.life-card::after{background:linear-gradient(180deg,rgba(4,10,30,0) 35%,rgba(4,10,30,.38) 62%,rgba(4,10,30,.78) 100%)!important}
+.life-txt h3{font-weight:600!important;font-size:clamp(1.1rem,.95rem + .45vw,1.4rem)!important;letter-spacing:-.02em!important;line-height:1.25;text-transform:none!important;font-synthesis:none;-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;text-shadow:0 1px 2px rgba(0,0,0,.35),0 2px 14px rgba(0,0,0,.3)!important}
+.life-txt p{-webkit-font-smoothing:antialiased;text-shadow:0 1px 2px rgba(0,0,0,.3)}

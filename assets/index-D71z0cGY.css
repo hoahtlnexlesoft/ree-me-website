@@ -338,9 +338,9 @@ section:has(+ .ree-rel) span.size-10.bottom-5{bottom:150px!important}
 
 .ree-fmeta:empty{display:none}
 
-/* full-bleed sections; content aligned to a centred 1200px column (newtecons.vn) */
-/* side gutters match newtecons.vn: Bootstrap container 540/720/960/1200 + 15px */
-:root{--ree-gut:15px}@media (min-width:576px){:root{--ree-gut:calc((100vw - 540px)/2 + 15px)}}@media (min-width:768px){:root{--ree-gut:calc((100vw - 720px)/2 + 15px)}}@media (min-width:992px){:root{--ree-gut:calc((100vw - 960px)/2 + 15px)}}@media (min-width:1200px){:root{--ree-gut:calc((100vw - 1200px)/2 + 15px)}}
+/* full-width layout; side gutters as newtecons.vn */
+/* side gutters match newtecons.vn header: full width, 90px · ≤1024 40px · ≤575 15px */
+:root{--ree-gut:90px}@media (max-width:1024px){:root{--ree-gut:40px}}@media (max-width:575px){:root{--ree-gut:15px}}
 .ree-wrap{width:100%;max-width:none!important;margin-inline:auto;padding-inline:var(--ree-gut)!important}
 .ree-page,.pg-careers{--gutter:var(--ree-gut)!important;--content-max:100vw!important;--maxw:none!important}
 .ree-page .wrap,.pg-careers .wrap{max-width:none!important}

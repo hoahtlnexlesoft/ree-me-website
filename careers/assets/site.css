@@ -1304,5 +1304,5 @@ html body .alert-band.dk.ab-rest,html body .rx .dock.dk-rest .dock-in{padding-to
 /* no-side-pan: slide-in reveals start past the right edge; never let the page pan sideways */
 html,body{overflow-x:clip;overscroll-behavior-x:none}
 
-/* side gutters match newtecons.vn: Bootstrap container 540/720/960/1200 + 15px */
-:root{--gut:15px}@media (min-width:576px){:root{--gut:calc((100vw - 540px)/2 + 15px)}}@media (min-width:768px){:root{--gut:calc((100vw - 720px)/2 + 15px)}}@media (min-width:992px){:root{--gut:calc((100vw - 960px)/2 + 15px)}}@media (min-width:1200px){:root{--gut:calc((100vw - 1200px)/2 + 15px)}}
+/* side gutters match newtecons.vn header: full width, 90px · ≤1024 40px · ≤575 15px */
+:root{--gut:90px}@media (max-width:1024px){:root{--gut:40px}}@media (max-width:575px){:root{--gut:15px}}

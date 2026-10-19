@@ -46,6 +46,7 @@
   .sx-row{display:flex;align-items:center;gap:8px}
   .sx-f{display:flex;align-items:center;gap:12px;min-width:0;flex:1 1 0;height:58px;padding:0 16px;border-radius:14px;background:#F6F7FA;cursor:pointer;transition:box-shadow .2s,background .2s}
   .sx-f.grow{flex:1.6 1 0;cursor:text}
+.sx-t input[type=search]::-webkit-search-cancel-button{cursor:pointer}
   .sx-f:focus-within{background:#fff;box-shadow:0 0 0 2px #1E3A80 inset}
   .sx-ic{flex:none;width:22px;height:22px;color:#0E1530;display:grid;place-items:center;padding-right:12px;border-right:1px solid #DDE1EA;box-sizing:content-box}
   .sx-ic svg{width:20px;height:20px}
@@ -337,10 +338,12 @@
         <label class="sx-sort" hidden style="display:none"><span class="sr">Sắp xếp</span><select id="sort"><option value="hot">Tuyển gấp trước</option><option value="deadline">Hạn nộp gần nhất</option><option value="salary">Thu nhập cao nhất</option><option value="az">Tên A → Z</option></select></label>
       </div>
       <div class="sx-row">
+        <div class="sx-f grow" id="qMs"><span class="sx-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg></span><label class="sx-t"><small>Vị trí tuyển dụng</small><input id="qIn" type="search" placeholder="Nhập tên vị trí, ví dụ: Kỹ sư hệ điện" autocomplete="off" enterkeyhint="search"></label></div>
         <div class="sx-f ms" id="locMs"><span class="sx-ic" id="icLoc"></span><button type="button" class="sx-t ms-btn" id="locBtn" aria-haspopup="listbox" aria-expanded="false"><small>Địa điểm</small><span class="ms-val" id="locVal">Tất cả địa điểm</span></button><div class="ms-pop" id="locPop" hidden><input class="ms-q" id="locQ" placeholder="Tìm địa điểm…" autocomplete="off"><div class="ms-list" id="locList" role="listbox" aria-multiselectable="true"></div></div></div>
-        <div class="sx-f ms" id="salMs"><span class="sx-ic" id="icSal"></span><button type="button" class="sx-t ms-btn" id="salBtn" aria-haspopup="listbox" aria-expanded="false"><small>Mức lương</small><span class="ms-val" id="salVal">Tất cả mức lương</span></button><div class="ms-pop" id="salPop" hidden><input class="ms-q" id="salQ" placeholder="Tìm…" autocomplete="off"><div class="ms-list" id="salList" role="listbox" aria-multiselectable="true"></div></div></div>
-        <div class="sx-f ms" id="expMs"><span class="sx-ic" id="icExp"></span><button type="button" class="sx-t ms-btn" id="expBtn" aria-haspopup="listbox" aria-expanded="false"><small>Kinh nghiệm</small><span class="ms-val" id="expVal">Tất cả kinh nghiệm</span></button><div class="ms-pop" id="expPop" hidden><input class="ms-q" id="expQ" placeholder="Tìm…" autocomplete="off"><div class="ms-list" id="expList" role="listbox" aria-multiselectable="true"></div></div></div>
-        <div class="sx-f ms" id="enMs"><span class="sx-ic" id="icEn"></span><button type="button" class="sx-t ms-btn" id="enBtn" aria-haspopup="listbox" aria-expanded="false"><small>Tiếng Anh</small><span class="ms-val" id="enVal">Tất cả yêu cầu</span></button><div class="ms-pop" id="enPop" hidden><input class="ms-q" id="enQ" placeholder="Tìm…" autocomplete="off"><div class="ms-list" id="enList" role="listbox" aria-multiselectable="true"></div></div></div>
+        <div class="sx-f ms" id="unitMs"><span class="sx-ic" id="icUnit"></span><button type="button" class="sx-t ms-btn" id="unitBtn" aria-haspopup="listbox" aria-expanded="false"><small>Bộ phận / Dự án</small><span class="ms-val" id="unitVal">Tất cả bộ phận, dự án</span></button><div class="ms-pop" id="unitPop" hidden><input class="ms-q" id="unitQ" placeholder="Tìm bộ phận, dự án…" autocomplete="off"><div class="ms-list" id="unitList" role="listbox" aria-multiselectable="true"></div></div></div>
+        <div class="sx-f ms" id="salMs" hidden style="display:none"><span class="sx-ic" id="icSal"></span><button type="button" class="sx-t ms-btn" id="salBtn" aria-haspopup="listbox" aria-expanded="false"><small>Mức lương</small><span class="ms-val" id="salVal">Tất cả mức lương</span></button><div class="ms-pop" id="salPop" hidden><input class="ms-q" id="salQ" placeholder="Tìm…" autocomplete="off"><div class="ms-list" id="salList" role="listbox" aria-multiselectable="true"></div></div></div>
+        <div class="sx-f ms" id="expMs" hidden style="display:none"><span class="sx-ic" id="icExp"></span><button type="button" class="sx-t ms-btn" id="expBtn" aria-haspopup="listbox" aria-expanded="false"><small>Kinh nghiệm</small><span class="ms-val" id="expVal">Tất cả kinh nghiệm</span></button><div class="ms-pop" id="expPop" hidden><input class="ms-q" id="expQ" placeholder="Tìm…" autocomplete="off"><div class="ms-list" id="expList" role="listbox" aria-multiselectable="true"></div></div></div>
+        <div class="sx-f ms" id="enMs" hidden style="display:none"><span class="sx-ic" id="icEn"></span><button type="button" class="sx-t ms-btn" id="enBtn" aria-haspopup="listbox" aria-expanded="false"><small>Tiếng Anh</small><span class="ms-val" id="enVal">Tất cả yêu cầu</span></button><div class="ms-pop" id="enPop" hidden><input class="ms-q" id="enQ" placeholder="Tìm…" autocomplete="off"><div class="ms-list" id="enList" role="listbox" aria-multiselectable="true"></div></div></div>
         <button type="button" class="sx-reset" id="resetBtn" aria-label="Xóa bộ lọc"></button>
         <button type="submit" class="sx-go" id="goBtn" aria-label="Tìm việc"></button>
       </div>
@@ -415,7 +418,7 @@
   const st = { q:"", loc:"", dept:"", lv:"", sys:"", sal:"", exp:"", en:"", sort:"hot", page:1, view: store.get("ree_view","list") };
 
   $("#resetBtn").innerHTML = ic("reset"); $("#goBtn").innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>';
-  $("#icLoc").innerHTML = ic("pin"); $("#icSal").innerHTML = ic("money"); $("#icExp").innerHTML = ic("brief"); $("#icEn").innerHTML = ic("globe"); $("#vList").innerHTML = ic("list"); $("#vGrid").innerHTML = ic("grid");
+  $("#icLoc").innerHTML = ic("pin"); $("#icUnit").innerHTML = ic("layers"); $("#icSal").innerHTML = ic("money"); $("#icExp").innerHTML = ic("brief"); $("#icEn").innerHTML = ic("globe"); $("#vList").innerHTML = ic("list"); $("#vGrid").innerHTML = ic("grid");
   /* "Gửi CV ngay": open the online application form in a modal (no position pre-selected) */
   const cvmOpen = () => { const m = $("#cvm"), f = $("#cvmFrame"); if(f.getAttribute("src") === "about:blank") f.src = "job.html?form=1";
     m.hidden = false; document.documentElement.style.overflow = "hidden"; qvLift(true); requestAnimationFrame(() => m.classList.add("on")); };
@@ -434,9 +437,10 @@
   const TAGS = {
     sal: { field:"salary", all:"Tất cả mức lương", many:"mức lương", tags:FIELD_TAGS.salary },
     exp: { field:"exp", all:"Tất cả kinh nghiệm", many:"mức kinh nghiệm", tags:FIELD_TAGS.exp },
-    en: { field:"english", all:"Tất cả yêu cầu", many:"yêu cầu", tags:FIELD_TAGS.english }
+    en: { field:"english", all:"Tất cả yêu cầu", many:"yêu cầu", tags:FIELD_TAGS.english },
+    unit: { field:"unit", all:"Tất cả bộ phận, dự án", many:"bộ phận, dự án", tags:[] }
   };
-  Object.values(TAGS).forEach(g => { const have = uniq(JOBS.map(j => j[g.field])); g.tags = g.tags.filter(t => have.includes(t.k)).concat(have.filter(v => !g.tags.some(t => t.k === v)).map(v => ({ k:v, c:"#E5E7EB", t:"#111" }))); });
+  Object.values(TAGS).forEach(g => { const have = uniq(JOBS.map(j => j[g.field]).filter(Boolean)).sort((a,b) => g.field !== "unit" ? 0 : (/^Phòng/.test(b) - /^Phòng/.test(a)) || a.localeCompare(b,"vi")); g.tags = g.tags.filter(t => have.includes(t.k)).concat(have.filter(v => !g.tags.some(t => t.k === v)).map(v => g.field === "unit" ? (/^Phòng/.test(v) ? { k:v, c:"#E3EAF8", t:"#1E3A80" } : { k:v, c:"#F3E8D6", t:"#6B4A1F" }) : { k:v, c:"#E5E7EB", t:"#111" })); });
   const closeAllMs = () => document.querySelectorAll(".ms-pop").forEach(p => { p.hidden = true; p.parentNode.querySelector(".ms-btn").setAttribute("aria-expanded", false); });
   Object.entries(TAGS).forEach(([id, g]) => {
     st[id] = [];
@@ -467,7 +471,8 @@
   const norm = s => s.normalize("NFD").replace(/[̀-ͯ]/g,"").replace(/đ/g,"d").replace(/Đ/g,"D").toLowerCase();
   const salaryTop = j => Math.max(...(j.salary.match(/\d+/g) || [0]).map(Number));
   const match = (j, skip) => {
-    if(st.q){ const hay = norm([j.title,j.en,j.code,j.summary,j.systems.join(" "),DEPTS[j.dept].name].join(" ")); if(!norm(st.q).split(/\s+/).every(w => hay.includes(w))) return false; }
+    if(st.unit && st.unit.length && !st.unit.includes(j.unit)) return false;
+    if(st.q){ const hay = norm(j.title); if(!norm(st.q).split(/\s+/).every(w => hay.includes(w))) return false; }
     if(st.locs && st.locs.length && !st.locs.some(k => j.loc.split(" · ").includes(k))) return false;
     if(st.loc && !j.loc.includes(st.loc)) return false;
     if(skip !== "dept" && st.dept && j.dept !== st.dept) return false;
@@ -484,6 +489,7 @@
   const jxCard = j => `<article class="jx-card" data-jid="${j.id}">
       <header class="jxc-h"><div class="jxc-tt"><h3><a href="${jobURL(j)}">${j.title}</a></h3><span class="jxc-code">${j.code}</span></div>
         <button class="jxc-save" data-save="${j.id}" aria-pressed="${store.get("ree_saved", []).includes(j.id)}" aria-label="Lưu việc làm">${ic("bookmark")}</button></header>
+      ${j.unit ? `<button type="button" class="unit-chip" data-unitf="${j.unit}" title="Xem các vị trí của ${j.unit}">${ic("layers")}${j.unit}</button>` : ""}
       <div class="jxc-tags">${locPills(j)}${j.exp ? fieldPill("exp", j.exp) : ""}${j.english ? fieldPill("english", j.english) : ""}</div>
       ${(() => { const t = (j.descIntro || (j.desc || []).join(" · ")).replace(/<[^>]+>/g, "").trim(); return t ? `<p class="jxc-desc">${t}</p>` : ""; })()}
       <footer class="jxc-f"><span>Mức lương: <b>${j.salary}</b></span>${j.workTime ? `<span class="jxc-wt">${j.workTime}</span>` : ""}</footer>
@@ -507,17 +513,23 @@
         <div class="${st.view === "list" ? "rows" : "job-grid"}"${open ? "" : " hidden"}>${a.map(j => hl(st.view === "list" ? jobRow(j).replace("<article class=\"jrow", `<article data-jid="${j.id}" class="jrow`) : jxCard(j))).join("")}</div></section>`; }).join("");
     $("#empty").hidden = res.length > 0; list.hidden = !res.length;
     const lbl = id => { const o = $(id).selectedOptions[0]; return o && o.value ? o.textContent : ""; };
-    const active = [st.locs.join(", "), st.sal.join(", "), st.exp.join(", "), st.en.length && "Tiếng Anh: " + st.en.join(", ")].filter(Boolean);
+    const active = [st.q && "“" + st.q + "”", st.locs.join(", "), (st.unit || []).join(", "), st.sal.join(", "), st.exp.join(", "), st.en.length && "Tiếng Anh: " + st.en.join(", ")].filter(Boolean);
     $("#resultText").innerHTML = `<b class="num">${res.length}</b> vị trí${active.length ? " · " + active.join(" · ") : " đang mở"}`;
     $("#pager").innerHTML = "";
   }
 
   const read = () => { st.page = 1; };
+  window.__reeJobsPage = 1;
+  try{ const u = sessionStorage.getItem("ree_unit"); if(u){ st.unit = [u]; TAGS.unit.setVal(); sessionStorage.removeItem("ree_unit"); } }catch(_){}
+  $("#qIn").value = st.q || "";
+  $("#qIn").addEventListener("input", e => { st.q = e.target.value.trim(); st.page = 1; render(); });
+  const unitShow = u => { st.unit = [u]; st.page = 1; TAGS.unit.setVal(); render(); scrollTo({top: $(".toolbar").getBoundingClientRect().top + scrollY - 90, behavior:"smooth"}); };
+  document.addEventListener("click", e => { const u = e.target.closest("[data-unitf]"); if(u){ e.preventDefault(); unitShow(u.dataset.unitf); } });
   $("#filterForm").addEventListener("submit", e => { e.preventDefault(); read(); render(); scrollTo({top: $(".toolbar").getBoundingClientRect().top + scrollY - 90, behavior:"smooth"}); });
   $("#sort").addEventListener("change", e => { st.sort = e.target.value; render(); });
   const setView = v => { st.view = v; store.set("ree_view", v); render(); };
   $("#vList").onclick = () => setView("list"); $("#vGrid").onclick = () => setView("grid");
-  const reset = () => { Object.assign(st, { q:"", loc:"", locs:[], dept:"", lv:"", sys:"", sal:[], exp:[], en:[], page:1 }); setLocVal(); Object.values(TAGS).forEach(g => g.setVal()); render(); };
+  const reset = () => { $("#qIn").value = ""; Object.assign(st, { unit:[], q:"", loc:"", locs:[], dept:"", lv:"", sys:"", sal:[], exp:[], en:[], page:1 }); setLocVal(); Object.values(TAGS).forEach(g => g.setVal()); render(); };
   $("#resetBtn").onclick = reset; $("#emptyReset").onclick = reset;
   document.addEventListener("click", e => {
     const c = e.target.closest("[data-dept]"); if(c){ st.dept = c.dataset.dept; st.page = 1; render(); return; }
@@ -575,7 +587,7 @@
     if(e.target.closest("[data-qv-close]")){ qvClose(); return; }
     if(e.target.closest("[data-qv-apply]")){ try{ sessionStorage.setItem("ree_apply", "1"); }catch(_){} return; }
     if(e.metaKey || e.ctrlKey || e.shiftKey || e.button) return;
-    const card = e.target.closest("#list [data-jid]"); if(!card || e.target.closest("[data-save]")) return;
+    const card = e.target.closest("#list [data-jid]"); if(!card || e.target.closest("[data-save],[data-unitf]")) return;
     if(e.target.closest(".arr")){ const j = JOBS.find(o => o.id === card.dataset.jid); if(j){ e.preventDefault(); try{ sessionStorage.removeItem("ree_apply"); }catch(_){} const u = jobURL(j), slug = u.split("#")[1]; try{ if(window.frameElement && slug){ parent.location.hash = "#/tuyen-dung/" + slug; return; } }catch(_){} location.href = u; return; } }
     e.preventDefault(); qvOpen(card.dataset.jid);
   }, true);
@@ -592,6 +604,41 @@
 (function(){var d=document.getElementById("alertBand"),e=document.getElementById("abEnd");if(!d||!e)return;
 function f(){reeBarCheck(d,d,"ab-rest",e)}
 addEventListener("scroll",f,{passive:true});addEventListener("resize",f);new MutationObserver(f).observe(document.getElementById("list")||document.body,{childList:true});f();})();
+</script>
+
+<style id="fx-jobs">
+  /* staggered entrance: title rises word by word, search bar and groups fade up, job rows/cards follow one after another */
+  .fxw{display:inline-block;overflow:hidden;vertical-align:top;padding:0 .03em .12em;margin:0 -.03em -.12em}
+  .fxw>span{display:inline-block;transform:translateY(112%)}
+  .fx-on .fxw>span{animation:fxjW 1s cubic-bezier(.2,.8,.2,1) both;animation-delay:calc(var(--d,0ms) + var(--i,0) * 70ms)}
+  @keyframes fxjW{from{transform:translateY(112%)}to{transform:none}}
+  .fxj{opacity:0;transform:translateY(30px)}
+  .fxj.fxj-go{animation:fxjU .85s cubic-bezier(.2,.8,.2,1) both;animation-delay:var(--fxd,0ms)}
+  @keyframes fxjU{from{opacity:0;transform:translateY(30px)}to{opacity:1;transform:none}}
+  @media (prefers-reduced-motion:reduce){.fxw>span,.fxj{transform:none!important;opacity:1!important;animation:none!important}}
+</style>
+<script>
+(() => {
+  if (matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+  const $ = q => document.querySelector(q);
+  // hero title: each word rises out of a mask
+  const h1 = $(".jl-hero h1");
+  if (h1 && !h1.dataset.fxw) { h1.dataset.fxw = 1; let i = 0;
+    h1.innerHTML = h1.textContent.trim().split(/\s+/).map(w => `<span class="fxw"><span style="--i:${i++}">${w}</span></span>`).join(" ");
+    h1.style.setProperty("--d", "120ms"); requestAnimationFrame(() => h1.classList.add("fx-on")); }
+  // everything else: reveal when scrolled into view, in reading order, each only the first time it appears
+  const seen = new Set(); let queue = [], raf = 0;
+  const done = el => { el.classList.remove("fxj", "fxj-go"); el.style.removeProperty("--fxd"); };
+  const flush = () => { raf = 0; const els = queue.splice(0).sort((a, b) => { const ra = a.getBoundingClientRect(), rb = b.getBoundingClientRect(); return (ra.top - rb.top) || (ra.left - rb.left); });
+    els.forEach((el, k) => { el.style.setProperty("--fxd", Math.min(k, 9) * 90 + "ms"); el.classList.add("fxj-go");
+      el.addEventListener("animationend", function e(ev){ if (ev.target !== el) return; el.removeEventListener("animationend", e); done(el); }); setTimeout(() => done(el), 2400); }); };
+  const io = new IntersectionObserver(es => { es.forEach(e => { if (e.isIntersecting) { io.unobserve(e.target); queue.push(e.target); } }); if (queue.length && !raf) raf = requestAnimationFrame(flush); }, { threshold: .1, rootMargin: "0px 0px -5% 0px" });
+  const mark = (el, key) => { if (!el || seen.has(key)) return; seen.add(key); el.classList.add("fxj"); io.observe(el); };
+  mark($(".jl-topbar"), "top"); mark($("#filterForm"), "form"); mark($(".toolbar"), "toolbar");
+  const scan = () => { document.querySelectorAll("#list .jg").forEach(g => { const h = g.querySelector("[data-grp]"); if (h) mark(h, "g:" + h.dataset.grp); });
+    document.querySelectorAll("#list [data-jid]").forEach(el => mark(el, (el.classList.contains("jx-card") ? "c:" : "r:") + el.closest(".jg")?.querySelector("[data-grp]")?.dataset.grp + ":" + el.dataset.jid)); };
+  scan(); new MutationObserver(scan).observe($("#list"), { childList: true });
+})();
 </script>
 </body>
 </html>

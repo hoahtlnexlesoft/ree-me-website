@@ -117,7 +117,7 @@ window.jobRow = function(j, i){
   return `<article class="jrow${feat?" feat":""}">
     ${feat ? `<span class="jflag">${ic("flame")}Tuyển gấp</span>` : ""}
     <span class="jico" style="--c:${c};--bg:${bg}">${ic(k)}</span>
-    <div class="jmain"><span class="code">${j.code}</span><h3><a href="${jobURL(j)}">${sentence(j.title)}</a></h3><div class="tags">${chips}</div></div>
+    <div class="jmain"><span class="code">${j.code}</span><h3><a href="${jobURL(j)}">${sentence(j.title)}</a></h3>${j.unit ? `<button type="button" class="unit-chip" data-unitf="${j.unit}" title="Xem các vị trí của ${j.unit}">${ic("layers")}${j.unit}</button>` : ""}<div class="tags">${chips}</div></div>
     <div class="jcell">${ic("pin")}<div><small>Địa điểm</small><span class="loc-pills">${window.locPills ? locPills(j) : j.loc}</span></div></div>
     <div class="jcell">${ic("money")}<div><small>Mức lương</small>${j.salary}</div></div>
     ${j.english !== undefined ? `<div class="jcell">${ic("brief")}<div><small>Kinh nghiệm</small>${j.exp}</div></div><div class="jcell">${ic("globe")}<div><small>Tiếng Anh</small>${j.english}</div></div>` : `<div class="jcell">${ic("cal")}<div><small>Hạn nộp</small><span class="num">${fmtDate(j.deadline)}</span></div></div>`}
@@ -355,6 +355,8 @@ function mount(){
 
 /* ---------- global delegation ---------- */
 document.addEventListener("click", e => {
+  const uf = e.target.closest("[data-unitf]");
+  if(uf && !window.__reeJobsPage){ e.preventDefault(); try{ sessionStorage.setItem("ree_unit", uf.dataset.unitf); }catch(_){} location.href = "jobs.html"; return; }
   const op = e.target.closest("[data-open]");
   if(op && op.dataset.open === "chat" && window.parent !== window){ e.preventDefault(); try{ window.parent.postMessage({reeCareers:1, t:"contact"}, "*"); return; }catch(_){} }
   if(op && MODALS[op.dataset.open]){ e.preventDefault(); openModal(MODALS[op.dataset.open](), {cls: op.dataset.open === "chat" ? "split" : ""}); return; }
@@ -449,7 +451,9 @@ if(document.readyState === "loading") document.addEventListener("DOMContentLoade
   }
   document.addEventListener("click", function(e){
     if(pop && !pop.contains(e.target)) close();
-    var a = e.target.closest && e.target.closest('a[target="_blank"][href^="http"]'); if(!a || (pop && pop.contains(a)) || e.defaultPrevented) return;
+    var path = e.composedPath ? e.composedPath() : [e.target], a = null; /* composedPath: links inside the quick-view (shadow DOM) too */
+    for(var i = 0; i < path.length && !a; i++){ var n = path[i]; if(n && n.matches && n.matches('a[target="_blank"][href^="http"]')) a = n; }
+    if(!a || (pop && pop.contains(a)) || e.defaultPrevented) return;
     if(document.documentElement.style.cursor === "text") return; /* preview text-edit mode */
     e.preventDefault();
     var url = a.href, win = null;

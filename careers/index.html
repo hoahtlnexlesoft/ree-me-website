@@ -291,4 +291,54 @@
 var h=document.querySelector(".hero .btn-accent")||document.querySelector(".btn-accent");function f(){var r=e.getBoundingClientRect();reeBarCheck(b,b,"cd-rest",e);b.classList.toggle("cd-hide",!!h&&h.getBoundingClientRect().bottom>0)}
 addEventListener("scroll",f,{passive:true});addEventListener("resize",f);f();})();
 </script>
+
+<style id="fx-why">
+  /* "Môi trường làm việc & đãi ngộ": heading rises word by word, intro follows, then the cards rise one after another (photos ease in, card copy settles last) */
+  #moi-truong .fxw{display:inline-block;overflow:hidden;vertical-align:top;padding:0 .04em .12em;margin:0 -.04em -.12em}
+  #moi-truong .fxw>span{display:inline-block;transform:translateY(115%)}
+  #moi-truong.fxy-on .fxw>span{animation:fxyW 1s cubic-bezier(.2,.8,.2,1) both;animation-delay:calc(160ms + var(--i,0) * 75ms)}
+  @keyframes fxyW{from{transform:translateY(115%)}to{transform:none}}
+  #moi-truong .fxy{opacity:0;transform:translateY(26px)}
+  #moi-truong.fxy-on .fxy{animation:fxyU .9s cubic-bezier(.2,.8,.2,1) both;animation-delay:var(--d,0ms)}
+  @keyframes fxyU{from{opacity:0;transform:translateY(26px)}to{opacity:1;transform:none}}
+  #moi-truong .fxy-card{opacity:0;transform:translateY(44px) scale(.97)}
+  #moi-truong .fxy-card.fxy-go{animation:fxyC 1.05s cubic-bezier(.2,.8,.2,1) both;animation-delay:var(--d,0ms)}
+  #moi-truong .fxy-card.fxy-go > img{animation:fxyI 1.6s cubic-bezier(.2,.8,.2,1) both;animation-delay:var(--d,0ms)}
+  #moi-truong .fxy-card.fxy-go .why-txt{animation:fxyU .9s cubic-bezier(.2,.8,.2,1) both;animation-delay:calc(var(--d,0ms) + 260ms)}
+  @keyframes fxyC{from{opacity:0;transform:translateY(44px) scale(.97)}to{opacity:1;transform:none}}
+  @keyframes fxyI{from{transform:scale(1.14)}to{transform:none}}
+  @media (prefers-reduced-motion:reduce){#moi-truong .fxw>span,#moi-truong .fxy,#moi-truong .fxy-card{transform:none!important;opacity:1!important;animation:none!important}}
+</style>
+<script>
+(() => {
+  const sec = document.getElementById("moi-truong");
+  if (!sec || matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+  // heading: wrap every word (text nodes only, <br>/<em> kept) in a mask
+  const h = sec.querySelector(".h-sec"); let i = 0;
+  const walk = n => [...n.childNodes].forEach(c => {
+    if (c.nodeType === 3) { if (!c.textContent.trim()) return; const fr = document.createDocumentFragment();
+      c.textContent.split(/(\s+)/).forEach(p => { if (!p) return; if (!p.trim()) { fr.append(p); return; }
+        const o = document.createElement("span"), w = document.createElement("span"); o.className = "fxw"; w.textContent = p; w.style.setProperty("--i", i++); o.append(w); fr.append(o); });
+      c.replaceWith(fr); }
+    else if (c.nodeType === 1 && c.tagName !== "BR") walk(c); });
+  if (h) walk(h);
+  const t = 160 + i * 75;
+  const up = (el, d) => { if (el) { el.classList.add("fxy"); el.style.setProperty("--d", d + "ms"); } };
+  up(sec.querySelector(".eyebrow"), 0); up(sec.querySelector(".sec-head .lead"), t + 120);
+  // header plays once when the section comes into view
+  const ioH = new IntersectionObserver(es => { if (es.some(e => e.isIntersecting)) { sec.classList.add("fxy-on"); ioH.disconnect(); } }, { threshold: .2 });
+  ioH.observe(sec.querySelector(".sec-head") || sec);
+  // cards: reveal in reading order as they scroll in; staggered within each batch
+  let q = [], raf = 0, first = true;
+  const flush = () => { raf = 0; const els = q.splice(0).sort((a, b) => { const A = a.getBoundingClientRect(), B = b.getBoundingClientRect(); return (A.top - B.top) || (A.left - B.left); });
+    const base = first ? t + 260 : 0; first = false;
+    els.forEach((el, k) => { el.style.setProperty("--d", base + k * 130 + "ms"); el.classList.add("fxy-go");
+      const done = () => { el.classList.remove("fxy-card", "fxy-go"); el.style.removeProperty("--d"); };
+      el.addEventListener("animationend", function e(ev){ if (ev.target !== el) return; el.removeEventListener("animationend", e); done(); });
+      setTimeout(done, base + k * 130 + 1800); }); };
+  const io = new IntersectionObserver(es => { es.forEach(e => { if (e.isIntersecting) { io.unobserve(e.target); q.push(e.target); } }); if (q.length && !raf) raf = requestAnimationFrame(flush); }, { threshold: .15 });
+  const mark = () => sec.querySelectorAll("#why .why-card:not([data-fxy])").forEach(c => { c.dataset.fxy = 1; c.classList.add("fxy-card"); io.observe(c); });
+  mark(); new MutationObserver(mark).observe(document.getElementById("why"), { childList: true });
+})();
+</script>
 </body></html>

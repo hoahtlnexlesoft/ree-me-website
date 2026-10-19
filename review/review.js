@@ -218,6 +218,7 @@
   '.rv-pop-body{flex:1;min-height:0;overflow-y:auto;padding:4px 18px 6px}' +
   '.rv-pop-shot{display:block;width:100%;aspect-ratio:2/1;object-fit:cover;border-radius:12px;margin:2px 0 14px;outline:1px solid rgba(15,23,42,.08);cursor:zoom-in}' +
   '.rv-pop-c{display:flex;gap:10px;margin-bottom:12px}.rv-pop-c .rv-av{font-size:12px}.rv-pop-cb{min-width:0;flex:1}' +
+  '.rv-rep-ed{margin-left:auto;width:24px;height:24px;border-radius:7px;display:grid;place-items:center;color:#94a3b8;opacity:0;transition:opacity .15s,background .15s}.rv-pop-c:hover .rv-rep-ed,.rv-rep-ed:focus-visible{opacity:1}.rv-rep-ed:hover{background:#eef1f6;color:#0f172a}.rv-rep-ed svg{width:14px;height:14px}@media (hover:none){.rv-rep-ed{opacity:1}}' +
   '.rv-pop-meta{display:flex;align-items:baseline;gap:8px}.rv-pop-meta b{font-size:14px;font-weight:700}.rv-pop-meta span{font-size:12px;color:#94a3b8}' +
   '.rv-pop-cb p{margin:3px 0 0;font-size:14px;line-height:1.45;color:#1e293b;white-space:pre-wrap;word-break:break-word}' +
   '.rv-pop-f{flex:none;display:flex;gap:10px;align-items:flex-start;padding:8px 14px 14px 18px}' +
@@ -527,7 +528,7 @@
             (unreadIn(t.id) ? '<button class="rv-new" data-goto="' + t.id + '">' + unreadIn(t.id) + ' new</button>' : '') +
             '<span class="rv-row2-acts"><button class="rv-ib sm" data-resolve="' + t.id + '" title="' + (t.resolved ? 'Reopen' : 'Resolve') + '" aria-label="' + (t.resolved ? 'Reopen' : 'Resolve') + '">' + (t.resolved ? ICON.undo : ICON.checkc) + '</button>' +
             '<button class="rv-ib sm' + (S.menu === t.id ? ' on' : '') + '" data-more="' + t.id + '" aria-label="More actions">' + ICON.dots + '</button></span>' +
-            (S.menu === t.id ? '<div class="rv-menu" role="menu">' + (mine(t) && t.kind !== 'edit' ? '<button role="menuitem" data-popedit="' + t.id + '">' + ICON.pencil + 'Edit</button>' : '') + '<button role="menuitem" data-copyc="' + t.id + '">' + ICON.copy + 'Copy comment</button><button role="menuitem" class="danger" data-del="' + t.id + '">' + ICON.trash + 'Delete thread</button></div>' : '') +
+            (S.menu === t.id ? '<div class="rv-menu" role="menu">' + (t.kind !== 'edit' ? '<button role="menuitem" data-popedit="' + t.id + '">' + ICON.pencil + 'Edit</button>' : '') + '<button role="menuitem" data-copyc="' + t.id + '">' + ICON.copy + 'Copy comment</button><button role="menuitem" class="danger" data-del="' + t.id + '">' + ICON.trash + 'Delete thread</button></div>' : '') +
             '</div>';
         });
       });
@@ -642,9 +643,14 @@
     });
   }
   function saveEdit(id) {
-    var text = S.editText.trim(), te0 = S.threads.filter(function (x) { return x.id === id; })[0]; if (!text || !te0 || !mine(te0)) { S.editing = null; return renderAll(); }
+    var text = S.editText.trim(), te0 = S.threads.filter(function (x) { return x.id === id; })[0]; if (!text || !te0 || te0.kind === 'edit') { S.editing = null; return renderAll(); }
     S.editing = null;
-    save(S.threads.map(function (t) { return t.id === id ? Object.assign({}, t, { text: text, edited: Date.now() }) : t; }));
+    save(S.threads.map(function (t) { return t.id === id ? Object.assign({}, t, { text: text, edited: Date.now(), editedBy: S.name || '' }) : t; }));
+  }
+  function saveRepEdit(key) {
+    var p = String(key || '').split('|'), text = S.editText.trim(); S.editRep = null;
+    if (!text) return renderAll();
+    save(S.threads.map(function (t) { return t.id !== p[0] ? t : Object.assign({}, t, { replies: (t.replies || []).map(function (r) { return r.id === p[1] ? Object.assign({}, r, { text: text, edited: Date.now(), editedBy: S.name || '' }) : r; }) }); }));
   }
   function addReply(id) {
     var text = S.replyText.trim(); if (!text || !S.name) return;
@@ -687,10 +693,10 @@
     if ((a = b.getAttribute('data-replyfor'))) { S.replyFor = S.replyFor === a ? null : a; S.replyText = ''; renderUi(); var ri = root.querySelector('#rvReply'); if (ri) ri.focus(); return; }
     if ((a = b.getAttribute('data-resolve'))) return save(S.threads.map(function (t) { return t.id === a ? Object.assign({}, t, { resolved: !t.resolved }) : t; }));
     if ((a = b.getAttribute('data-del'))) { S.menu = null; if (S.pop === a) S.pop = null; return save(S.threads.filter(function (t) { return t.id !== a; })); }
-    if ((a = b.getAttribute('data-popedit')) && !pop.contains(b)) { var tp = findT(a); S.menu = null; if (!tp || !mine(tp)) return renderUi(); S.active = a; S.editing = a; S.editWhere = 'pop'; S.editText = tp.text; goTo(a); setTimeout(function () { S.editing = a; S.editWhere = 'pop'; renderPop(); var ed = pop.querySelector('#rvPopEdit'); if (ed) ed.focus(); }, 900); return; }
+    if ((a = b.getAttribute('data-popedit')) && !pop.contains(b)) { var tp = findT(a); S.menu = null; if (!tp || tp.kind === 'edit') return renderUi(); S.active = a; S.editing = a; S.editWhere = 'pop'; S.editText = tp.text; goTo(a); setTimeout(function () { S.editing = a; S.editWhere = 'pop'; renderPop(); var ed = pop.querySelector('#rvPopEdit'); if (ed) ed.focus(); }, 900); return; }
     if ((a = b.getAttribute('data-copyc'))) { var tc = findT(a); S.menu = null; renderUi(); return tc && copyText(tc.text, function () { toast('Copied'); }); }
     if ((a = b.getAttribute('data-more'))) { S.menu = S.menu === a ? null : a; return renderUi(); }
-    if ((a = b.getAttribute('data-edit'))) { var te = S.threads.filter(function (x) { return x.id === a; })[0]; if (!te || !mine(te)) { S.menu = null; return renderUi(); } S.menu = null; S.editing = a; S.editWhere = 'panel'; S.editText = te ? te.text : ''; S.active = a; renderUi(); var ed = root.querySelector('#rvEdit'); if (ed) { ed.focus(); ed.setSelectionRange(ed.value.length, ed.value.length); } return; }
+    if ((a = b.getAttribute('data-edit'))) { var te = S.threads.filter(function (x) { return x.id === a; })[0]; if (!te || te.kind === 'edit') { S.menu = null; return renderUi(); } S.menu = null; S.editing = a; S.editWhere = 'panel'; S.editText = te ? te.text : ''; S.active = a; renderUi(); var ed = root.querySelector('#rvEdit'); if (ed) { ed.focus(); ed.setSelectionRange(ed.value.length, ed.value.length); } return; }
     if (b.hasAttribute('data-editcancel')) { S.editing = null; return renderAll(); }
     if ((a = b.getAttribute('data-editsave'))) return saveEdit(a);
     if ((a = b.getAttribute('data-react'))) {
@@ -792,10 +798,10 @@
       var mine = !!S.name && who.some(function (n) { return authorKey(n) === authorKey(S.name); });
       return '<button class="rv-react' + (mine ? ' on' : '') + '" data-react="' + t.id + '|' + r[0] + '" title="' + esc(r[1] + ': ' + who.join(', ')) + '">' + ICON[r[0]] + '<span>' + who.length + '</span></button>'; }).join('');
     var editing = S.editing === t.id && S.editWhere === 'pop';
-    var row = function (name, at, text, extra) { return '<div class="rv-pop-c">' + avatar(name, 26) + '<div class="rv-pop-cb"><div class="rv-pop-meta"><b>' + esc(name) + '</b><span>' + ago(at) + '</span></div>' + (text != null ? '<p>' + esc(text) + '</p>' : '') + (extra || '') + '</div></div>'; };
+    var row = function (name, at, text, extra, ed, tool) { return '<div class="rv-pop-c">' + avatar(name, 26) + '<div class="rv-pop-cb"><div class="rv-pop-meta"><b>' + esc(name) + '</b><span>' + ago(at) + (ed ? ' · đã sửa' : '') + '</span>' + (tool || '') + '</div>' + (text != null ? '<p>' + esc(text) + '</p>' : '') + (extra || '') + '</div></div>'; };
     var h = '<div class="rv-pop" role="dialog" aria-label="Comment">' +
       '<div class="rv-pop-h"><b>Comment #' + NUM[t.id] + '</b><span class="rv-pop-tools">' +
-        (mine(t) && t.kind !== 'edit' && !t.resolved ? '<button data-popedit="' + t.id + '" aria-label="Edit" title="Edit">' + ICON.pencil + '</button>' : '') +
+        (t.kind !== 'edit' ? '<button data-popedit="' + t.id + '" aria-label="Edit" title="Edit">' + ICON.pencil + '</button>' : '') +
         '<button data-copyc="' + t.id + '" aria-label="Copy comment" title="Copy comment">' + ICON.copy + '</button>' +
         '<button data-resolve="' + t.id + '" class="' + (t.resolved ? 'ok' : '') + '" aria-label="' + (t.resolved ? 'Reopen' : 'Resolve') + '" title="' + (t.resolved ? 'Reopen' : 'Resolve') + '">' + (t.resolved ? ICON.checkf : ICON.checkc) + '</button>' +
         '<button data-del="' + t.id + '" class="del" aria-label="Delete" title="Delete">' + ICON.trash + '</button>' +
@@ -806,8 +812,11 @@
         (editing ? '<div class="rv-edit" style="margin:6px 0 0"><textarea class="rv-in" id="rvPopEdit" data-for="' + t.id + '">' + esc(S.editText) + '</textarea><div class="rv-row" style="justify-content:flex-end"><button class="rv-btn ghost" data-editcancel>Cancel</button><button class="rv-btn pri" data-editsave="' + t.id + '">Save</button></div></div>' : '') +
         (more.length ? '<div class="rv-imgs">' + more.map(function (src) { return '<img src="' + src + '" alt="Attachment" data-lb>'; }).join('') + '</div>' : '') +
         '<div class="rv-reacts">' + REACTIONS.map(function (r) { var who = (t.reactions && t.reactions[r[0]]) || [], me = !!S.name && who.some(function (n) { return authorKey(n) === authorKey(S.name); });
-          return '<button class="rv-react' + (me ? ' on' : '') + '" data-react="' + t.id + '|' + r[0] + '"' + (S.name ? '' : ' disabled') + ' title="' + esc(S.name ? (who.length ? r[1] + ': ' + who.join(', ') : r[1]) : 'Add a comment first to set your name') + '">' + ICON[r[0]] + (who.length ? '<span>' + who.length + '</span>' : '') + '</button>'; }).join('') + '</div>') +
-      (t.replies || []).map(function (r) { return row(r.author, r.at || t.at, r.text); }).join('') +
+          return '<button class="rv-react' + (me ? ' on' : '') + '" data-react="' + t.id + '|' + r[0] + '"' + (S.name ? '' : ' disabled') + ' title="' + esc(S.name ? (who.length ? r[1] + ': ' + who.join(', ') : r[1]) : 'Add a comment first to set your name') + '">' + ICON[r[0]] + (who.length ? '<span>' + who.length + '</span>' : '') + '</button>'; }).join('') + '</div>', !!t.edited) +
+      (t.replies || []).map(function (r) { var er = S.editRep === t.id + '|' + r.id;
+        return row(r.author, r.at || t.at, er ? null : r.text,
+          er ? '<div class="rv-edit" style="margin:6px 0 0"><textarea class="rv-in" id="rvRepEdit" data-for="' + t.id + '|' + r.id + '">' + esc(S.editText) + '</textarea><div class="rv-row" style="justify-content:flex-end"><button class="rv-btn ghost" data-repcancel>Cancel</button><button class="rv-btn pri" data-repsave="' + t.id + '|' + r.id + '">Save</button></div></div>' : '',
+          !!r.edited, er ? '' : '<button class="rv-rep-ed" data-repedit="' + t.id + '|' + r.id + '" aria-label="Edit reply" title="Edit">' + ICON.pencil + '</button>'); }).join('') +
       '</div>' +
       '<div class="rv-pop-f">' + avatar(S.name || S.nameInput || '?', 26) + '<div class="rv-pop-box">' +
         (!S.name ? '<input class="rv-pop-in" id="rvPopName" placeholder="Your name" value="' + esc(S.nameInput) + '">' : '') +
@@ -847,7 +856,11 @@
     if (b.hasAttribute('data-popemoji')) { S.popEmoji = !S.popEmoji; return renderPop(); }
     if ((a = b.getAttribute('data-popsend'))) return sendPopReply(a);
     if ((a = b.getAttribute('data-emoji'))) { S.popReply += a; S.popEmoji = false; renderPop(); var ri = pop.querySelector('#rvPopReply'); if (ri) { ri.focus(); ri.setSelectionRange(ri.value.length, ri.value.length); } return; }
-    if ((a = b.getAttribute('data-popedit'))) { var t = findT(a); if (!t || !mine(t)) return; S.pop = a; S.popMenu = false; S.editing = a; S.editWhere = 'pop'; S.editText = t ? t.text : ''; renderPop(); var ed = pop.querySelector('#rvPopEdit'); if (ed) { ed.focus(); ed.setSelectionRange(ed.value.length, ed.value.length); } return; }
+    if (b.hasAttribute('data-popedit') || b.hasAttribute('data-repedit') || b.hasAttribute('data-repsave') || b.hasAttribute('data-repcancel')) e.stopPropagation();   // handled here; the card re-renders and must not re-trigger the panel handler
+    if ((a = b.getAttribute('data-popedit'))) { var t = findT(a); if (!t || t.kind === 'edit') return; S.pop = a; S.popMenu = false; S.editRep = null; S.editing = a; S.editWhere = 'pop'; S.editText = t ? t.text : ''; renderPop(); var ed = pop.querySelector('#rvPopEdit'); if (ed) { ed.focus(); ed.setSelectionRange(ed.value.length, ed.value.length); } return; }
+    if ((a = b.getAttribute('data-repedit'))) { var p0 = a.split('|'), tr = findT(p0[0]), rr = tr && (tr.replies || []).filter(function (x) { return x.id === p0[1]; })[0]; if (!rr) return; S.editing = null; S.editRep = a; S.editText = rr.text || ''; renderPop(); var re = pop.querySelector('#rvRepEdit'); if (re) { re.focus(); re.setSelectionRange(re.value.length, re.value.length); } return; }
+    if (b.hasAttribute('data-repcancel')) { S.editRep = null; return renderPop(); }
+    if ((a = b.getAttribute('data-repsave'))) return saveRepEdit(a);
     if ((a = b.getAttribute('data-copyc'))) { var tc = findT(a); S.popMenu = false; renderPop(); if (tc) copyText(tc.text, function () { toast('Copied'); }); e.stopPropagation(); return; }
     if (b.hasAttribute('data-del') || b.hasAttribute('data-resolve')) S.popMenu = false;
   });
@@ -855,12 +868,14 @@
     var t = e.target;
     if (t.id === 'rvPopReply') { S.popReply = t.value; autoGrow(t); var sb = pop.querySelector('.rv-pop-send'); if (sb) sb.disabled = !(S.popReply.trim() && (S.name || S.nameInput.trim())); }
     else if (t.id === 'rvPopName') { S.nameInput = t.value; var sb2 = pop.querySelector('.rv-pop-send'); if (sb2) sb2.disabled = !(S.popReply.trim() && S.nameInput.trim()); }
-    else if (t.id === 'rvPopEdit') S.editText = t.value;
+    else if (t.id === 'rvPopEdit' || t.id === 'rvRepEdit') S.editText = t.value;
   });
   pop.addEventListener('keydown', function (e) {
     var t = e.target;
     if (t.id === 'rvPopReply' && e.key === 'Enter' && !e.shiftKey && !e.isComposing) { e.preventDefault(); var tid = S.pop; if (tid) sendPopReply(tid); }
     if (t.id === 'rvPopEdit' && e.key === 'Enter' && !e.shiftKey && !e.isComposing) { e.preventDefault(); saveEdit(t.getAttribute('data-for')); }
+    if (t.id === 'rvRepEdit' && e.key === 'Enter' && !e.shiftKey && !e.isComposing) { e.preventDefault(); return saveRepEdit(t.getAttribute('data-for')); }
+    if (e.key === 'Escape' && S.editRep) { S.editRep = null; return renderPop(); }
     if (e.key === 'Escape') { if (S.editing) { S.editing = null; renderPop(); } else { S.pop = null; renderAll(); } }
   });
   // close the card when clicking elsewhere on the page (not while commenting)

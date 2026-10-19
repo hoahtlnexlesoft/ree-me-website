@@ -122,7 +122,6 @@ window.jobRow = function(j, i){
     <div class="jcell">${ic("money")}<div><small>Mức lương</small>${j.salary}</div></div>
     ${j.english !== undefined ? `<div class="jcell">${ic("brief")}<div><small>Kinh nghiệm</small>${j.exp}</div></div><div class="jcell">${ic("globe")}<div><small>Tiếng Anh</small>${j.english}</div></div>` : `<div class="jcell">${ic("cal")}<div><small>Hạn nộp</small><span class="num">${fmtDate(j.deadline)}</span></div></div>`}
     <span class="arr">${ic("right")}</span>
-    <button class="jsave" data-save="${j.id}" aria-pressed="${isSaved(j.id)}" aria-label="Lưu việc làm">${ic("bookmark")}</button>
   </article>`;
 };
 

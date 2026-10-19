@@ -1300,6 +1300,7 @@ html.embed-form #rx .apply-card > .af,html.embed-form #rx .apply-card > .af-done
 #rx .drop .cloud.cv-ic{width:auto!important;height:auto!important;background:none!important;border:0!important;border-radius:0!important;box-shadow:none!important;margin-bottom:2px}
 #rx .drop .cloud.cv-ic svg{display:block}
 /* pz-fill: photo fills card after removing code label */.pz-card{padding:16px!important}.pz-ph{aspect-ratio:1.5!important}@media (max-width:1199px){.pz-ph{aspect-ratio:1.35!important}}@media (max-width:560px){.pz-card{padding:14px!important}}
+/* dock-hot */a.dock-btn{text-decoration:none!important}@media (max-width:560px){#dockHot .dock-lb{font-size:13px}}
 </style>
 <script>window.PAGE="job"</script>
 </head>
@@ -1396,7 +1397,7 @@ html.embed-form #rx .apply-card > .af,html.embed-form #rx .apply-card > .af-done
       <div class="dock-tx"><b id="dockTitle">REE M&amp;E · Cơ hội nghề nghiệp</b>
         <a class="dock-sub" href="jobs.html">Xem các vị trí đang tuyển <svg width="10" height="10" viewBox="0 0 24 24" fill="currentColor"><path d="M6 9h12l-6 7z"/></svg></a></div>
       <div class="dock-act">
-        <button type="button" class="dock-btn light" id="dockSave"><span class="dock-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 4h12v17l-6-4-6 4z"/></svg></span><span class="dock-lb">Lưu vị trí</span></button>
+        <a class="dock-btn light" id="dockHot" href="tel:0888177486" aria-label="Gọi hotline 0888 177 486"><span class="dock-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1 1 .4 1.9.7 2.8a2 2 0 0 1-.5 2.1L8 9.9a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.4c.9.3 1.8.6 2.8.7a2 2 0 0 1 1.7 2Z"/></svg></span><span class="dock-lb">Hotline 0888 177 486</span></a>
         <button type="button" class="dock-btn pri" data-to-form><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 2 11 13"/><path d="M22 2 15 22l-4-9-9-4z"/></svg>Ứng tuyển ngay</button>
       </div>
       <button type="button" class="dock-x" id="dockX" aria-label="Ẩn thanh ứng tuyển"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M6 6l12 12M18 6 6 18"/></svg></button>
@@ -1645,7 +1646,7 @@ html.embed-form #rx .apply-card > .af,html.embed-form #rx .apply-card > .af-done
   }
   const dock = $('#dock');
   const syncDock = () => { if(!current || !dock) return; $('#dockTitle').textContent = `${current.title} · ${current.code}`;
-    const on = store.get("ree_saved", []).includes(current.id); const b = $('#dockSave'); b.setAttribute('aria-pressed', on); b.dataset.save = current.id; b.querySelector('.dock-lb').textContent = on ? 'Đã lưu' : 'Lưu vị trí'; };
+  };
   try{ sessionStorage.removeItem('ree_dock_off'); }catch(e){}
   $('#dockX').addEventListener('click', () => { dock.hidden = true; });
   dock.addEventListener('click', e => { if(e.target.closest('[data-to-form]')){ $('#apply-card').scrollIntoView({behavior:'smooth', block:'start'}); const n = $('#af-name'); if(n) setTimeout(() => n.focus({preventScroll:true}), 450); } if(e.target.closest('#dockSave')) setTimeout(syncDock, 30); });

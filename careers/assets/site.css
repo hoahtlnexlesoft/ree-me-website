@@ -1306,3 +1306,6 @@ html,body{overflow-x:clip;overscroll-behavior-x:none}
 
 /* side gutters match newtecons.vn header: full width, 90px · ≤1024 40px · ≤575 15px */
 :root{--gut:90px}@media (max-width:1024px){:root{--gut:40px}}@media (max-width:575px){:root{--gut:15px}}
+
+/* no-eyebrow-dash: section labels without the leading line */
+.fo-eyebrow::before,.mh-eb::before{display:none!important}

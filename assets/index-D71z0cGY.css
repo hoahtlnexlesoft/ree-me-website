@@ -360,3 +360,6 @@ html,body{overflow-x:clip;overscroll-behavior-x:none}
 .ree-totop:hover{transform:translateY(-2px)}
 .ree-totop svg{width:20px;height:20px}
 div.fixed.bottom-5:has(> .card-corner) > .ree-totop{opacity:0;pointer-events:none}
+
+/* no-eyebrow-dash: section labels without the leading line */
+.rp-ruler:before{display:none!important}

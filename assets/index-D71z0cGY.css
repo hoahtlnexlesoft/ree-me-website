@@ -394,3 +394,16 @@ div.fixed.bottom-5:has(> .card-corner) > .ree-totop{opacity:0;pointer-events:non
 
 /* process steps: every label on two lines, broken at the same point, so they line up */
 .ree-step-name{white-space:pre-line;min-height:2.75em}
+
+/* Hệ sinh thái: logo · short name · full legal name (links open the member's site) */
+.ree-eco{display:grid;gap:16px;grid-template-columns:repeat(2,minmax(0,1fr))}
+@media (min-width:768px){.ree-eco{grid-template-columns:repeat(3,minmax(0,1fr))}}
+@media (min-width:1180px){.ree-eco{grid-template-columns:repeat(5,minmax(0,1fr));gap:18px}}
+.ree-eco-card{padding:22px 22px 24px;text-decoration:none;color:inherit}
+.ree-eco-logo{display:flex;align-items:center;height:64px;max-width:150px}
+.ree-eco-logo img{max-height:100%;max-width:100%;object-fit:contain;object-position:left center;transition:transform .5s cubic-bezier(.2,.8,.2,1)}
+.ree-eco-card:hover .ree-eco-logo img{transform:scale(1.04)}
+.ree-eco-name{margin-top:20px;font-size:1.05rem;letter-spacing:.01em}
+.ree-eco-full{margin-top:6px;font-size:13px;line-height:1.55}
+a.ree-eco-card:focus-visible{outline:2px solid #1B347D;outline-offset:3px}
+@media (max-width:640px){.ree-eco{gap:12px}.ree-eco-card{padding:16px 16px 18px}.ree-eco-logo{height:48px}.ree-eco-name{margin-top:14px;font-size:.95rem}.ree-eco-full{font-size:12px}}

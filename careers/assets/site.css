@@ -1309,3 +1309,6 @@ html,body{overflow-x:clip;overscroll-behavior-x:none}
 
 /* no-eyebrow-dash: section labels without the leading line */
 .fo-eyebrow::before,.mh-eb::before{display:none!important}
+
+/* pin-once: the location pin only on the first address line */
+.fo-addr + .fo-addr svg{visibility:hidden}

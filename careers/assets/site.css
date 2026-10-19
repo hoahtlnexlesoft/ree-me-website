@@ -1298,3 +1298,5 @@ html body .alert-band.dk.ab-rest,html body .rx .dock.dk-rest .dock-in{padding-to
 :is(.modal,.modal-box):has(.mh-lux) .modal-close:focus{outline:none}
 :is(.modal,.modal-box):has(.mh-lux) .modal-close:focus-visible{outline:none;box-shadow:0 0 0 3px rgba(255,255,255,.35)!important}
 @media (prefers-reduced-motion:reduce){.mb-lux .mb-list li,.mh-lux .mh-photo-l img{animation:none}}
+
+.why-f .why-orbit .b3{top:71%}

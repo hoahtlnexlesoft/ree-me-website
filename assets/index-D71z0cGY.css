@@ -409,3 +409,5 @@ a.ree-eco-card:focus-visible{outline:2px solid #1B347D;outline-offset:3px}
 @media (max-width:640px){.ree-eco{gap:12px}.ree-eco-card{padding:16px 16px 18px}.ree-eco-logo{height:48px}.ree-eco-name{margin-top:14px;font-size:.95rem}.ree-eco-full{font-size:12px}}
 
 /* root-font: one sans family everywhere (preview wrapper overrides body font) */:where(#root){font-family:var(--font-sans)}
+
+/* era-wide: timeline photos 1.5x wider */.ree-era-img{max-width:420px;aspect-ratio:4/3}@media (min-width:1024px){.ree-era-grid{grid-template-columns:minmax(0,1fr) 420px}}

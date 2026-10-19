@@ -201,7 +201,7 @@ function header(){
 }
 const OFFICES = [
   { k:"hcm", tab:"TP. Hồ Chí Minh", name:"Trụ sở chính — TP. Hồ Chí Minh", a1:"Tầng 2, Tòa nhà Etown 5, 364 Cộng Hoà,", a2:"Phường Tân Bình, Thành phố Hồ Chí Minh", phone:"(028) 3810 0068", mail:"ree@reeme.com.vn", map:"https://www.google.com/maps/search/?api=1&query=Etown+5+364+C%E1%BB%99ng+H%C3%B2a+T%C3%A2n+B%C3%ACnh" },
-  { k:"hn", tab:"Hà Nội", name:"Văn phòng làm việc — Hà Nội", a1:"Tầng 17, Toà nhà ICON 4, 243A Đê La Thành,", a2:"Phường Láng, Thành phố Hà Nội", phone:"(024) 6281 9791", mail:"ree@reeme.com.vn", map:"https://www.google.com/maps/search/?api=1&query=ICON4+243A+%C4%90%C3%AA+La+Th%C3%A0nh" }
+  { k:"hn", tab:"Hà Nội", name:"Văn phòng Hà Nội", a1:"Tầng 17, Toà nhà ICON 4, 243A Đê La Thành,", a2:"Phường Láng, Thành phố Hà Nội", phone:"(024) 6281 9791", mail:"ree@reeme.com.vn", map:"https://www.google.com/maps/search/?api=1&query=ICON4+243A+%C4%90%C3%AA+La+Th%C3%A0nh" }
 ];
 OFFICES.forEach(o => o.addr = `${o.a1} ${o.a2}`);
 const officeHTML = o => `<div class="fo-office"><h4>${o.name}</h4>

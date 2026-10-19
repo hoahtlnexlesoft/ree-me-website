@@ -254,7 +254,7 @@
   const PBG = ["linear-gradient(160deg,#2F6FE0,#0B2A78)","linear-gradient(160deg,#F2795B,#B8321C)","linear-gradient(160deg,#2BB39A,#0B5C57)","linear-gradient(160deg,#5B7CFA,#2B2F8B)"];
   $("#lifeGrid").innerHTML = ACTIVITIES.map((a,i) => `<button class="life-card lc-${i+1}" data-act="${a.id}" style="--bg-p:${PBG[i%PBG.length]}">
       ${a.img ? `<img src="${a.img}" alt="" loading="lazy">` : posterSVG(a.id, i)}
-      <span class="life-txt"><h3>${a.title}${i===0?`<i>${ic("right")}</i>`:""}</h3>${i===0?`<p>${a.text}</p>`:""}</span><span class="why-go life-go" aria-hidden="true">${ic("arrow")}</span></button>`).join("");
+      <span class="life-txt"><h3>${a.title}</h3>${i===0?`<p>${a.text}</p>`:""}</span><span class="why-go life-go" aria-hidden="true">${ic("arrow")}</span></button>`).join("");
 
   /* ---- jobs ---- */
   if($("#featured")) { const list = [...JOBS].sort((a,b) => (b.hot - a.hot) || a.deadline.localeCompare(b.deadline)), PER = 8, pages = Math.ceil(list.length / PER);
@@ -275,7 +275,7 @@
   }
 
   /* ---- detail modals ---- */
-  const detail = (title, bg, seed, pk, text, items, img) => luxDetail(title, bg, seed, text, items);
+  const detail = (title, bg, seed, pk, text, items, img) => luxDetail(title, bg, seed, text, items, img);
   document.addEventListener("click", e => {
     const p = e.target.closest("[data-perk]"); if(p){ const d = PERKS.find(x=>x.k===p.dataset.perk); openModal(detail(d.title, d.bg, "perk-"+d.k, d.pk, d.text, d.items)); return; }
     const v = e.target.closest("[data-value]"); if(v){ const d = VALUES[v.dataset.value]; openModal(detail(d.label, d.bg, "val-"+v.dataset.value, d.pk, d.text, d.items)); return; }

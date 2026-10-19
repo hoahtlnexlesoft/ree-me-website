@@ -1321,3 +1321,6 @@ button.why-card:hover .why-go,button.why-card:focus-visible .why-go{color:#C8463
 .life-go svg{width:18px!important;height:18px!important}
 .life-card:hover .life-go,.life-card:focus-visible .life-go{background:rgba(200,70,58,.9)!important;transform:translate(2px,-2px)!important}
 @media (max-width:640px){.why-go{top:16px!important;right:16px!important}}
+
+/* lc1-nolink: the ↗ badge marks the card as clickable; no underlined "link" title */
+.lc-1 .life-txt h3{text-decoration:none!important}

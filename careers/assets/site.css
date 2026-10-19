@@ -1312,3 +1312,12 @@ html,body{overflow-x:clip;overscroll-behavior-x:none}
 
 /* pin-once: the location pin only on the first address line */
 .fo-addr + .fo-addr svg{visibility:hidden}
+
+/* card-go-always: every card that opens a modal/page shows the ↗ arrow (same as the Hệ sinh thái cards) */
+.why-go{top:22px!important;right:22px!important;width:22px!important;height:22px!important;border-radius:0!important;background:none!important;color:#64748b!important;opacity:1!important;transform:none!important;z-index:3;transition:color .25s,transform .25s!important}
+.why-go svg{width:20px!important;height:20px!important;stroke-width:2}
+button.why-card:hover .why-go,button.why-card:focus-visible .why-go{color:#C8463A!important;transform:translate(2px,-2px)!important}
+.life-go{top:16px!important;right:16px!important;width:36px!important;height:36px!important;border-radius:50%!important;display:grid!important;place-items:center;background:rgba(6,14,40,.32)!important;-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);color:#fff!important}
+.life-go svg{width:18px!important;height:18px!important}
+.life-card:hover .life-go,.life-card:focus-visible .life-go{background:rgba(200,70,58,.9)!important;transform:translate(2px,-2px)!important}
+@media (max-width:640px){.why-go{top:16px!important;right:16px!important}}

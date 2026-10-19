@@ -253,17 +253,35 @@ window.openModal = function(html, {wide=false, cls=""}={}){
 window.closeModal = function(){ const m = $(".modal"); if(!m) return; m.remove(); document.body.style.overflow = ""; lastFocus?.focus?.({preventScroll:true}); };
 document.addEventListener("keydown", e => { if(e.key === "Escape") closeModal(); });
 window.toast = function(msg){ $(".toast")?.remove(); const t = document.createElement("div"); t.className="toast"; t.setAttribute("role","status"); t.textContent = msg; document.body.appendChild(t); setTimeout(()=>t.remove(), 2600); };
-/* modal header: deep tonal gradient of the section colour, soft light bloom, fine grid and concentric rings,
-   a small eyebrow + sentence-case title, and a frosted icon badge */
+/* lux modal: photo header toned in the section colour (eyebrow, title, subtitle, frosted icon badge),
+   a list where every line gets its own soft icon tile, and a quiet footer for the actions */
 const MH_ICO = { "perk-reenergize":"gym", "perk-health":"heart", "perk-learn":"cap", "perk-team":"users",
-  "val-hse":"shield", "val-e360":"users", "val-voice":"chat", "val-space":"globe", "alert":"bell" };
-window.posterHead = (seed, kind, bg, title) => {
-  const eb = /^val-/.test(seed) ? "Giá trị cốt lõi" : /^perk-/.test(seed) ? "Phúc lợi & đãi ngộ" : "Cơ hội nghề nghiệp";
-  const ico = MH_ICO[seed];
-  return `<div class="modal-hero mh-lux" style="--mh:${bg}"><span class="mh-grid" aria-hidden="true"></span><span class="mh-rings" aria-hidden="true"><i></i><i></i><i></i></span>`
-    + `<div class="mh-tx"><span class="mh-eb">${eb}</span><h3>${title}</h3></div>`
+  "val-hse":"shield", "val-e360":"star", "val-voice":"chat", "val-space":"globe", "alert":"bell" };
+const MH_IMG = { "perk-reenergize":"assets/img/life-gym.jpg", "perk-health":"assets/img/life-marathon.jpg", "perk-learn":"assets/img/core-training.jpg",
+  "perk-team":"assets/img/life-birthday.jpg", "val-hse":"assets/img/apply-site2.jpg", "val-e360":"assets/img/core-team.jpg",
+  "val-voice":"assets/img/hero-team.jpg", "val-space":"assets/img/why-tower.jpg", "alert":"assets/img/hero-city.jpg" };
+const MH_EB = seed => /^val-/.test(seed) ? "Giá trị cốt lõi" : /^perk-/.test(seed) ? "Phúc lợi & đãi ngộ" : "Cơ hội nghề nghiệp";
+window.luxHead = (seed, bg, title, sub) => {
+  const ico = MH_ICO[seed], img = MH_IMG[seed];
+  return `<div class="modal-hero mh-lux${img ? " has-photo" : ""}" style="--mh:${bg}">`
+    + (img ? `<span class="mh-photo-l" aria-hidden="true"><img src="${img}" alt="" loading="eager" decoding="async"></span>` : "")
+    + `<span class="mh-grid" aria-hidden="true"></span><span class="mh-rings" aria-hidden="true"><i></i><i></i><i></i></span>`
+    + `<div class="mh-tx"><span class="mh-eb">${MH_EB(seed)}</span><h3>${title}</h3>${sub ? `<p class="mh-sub">${sub}</p>` : ""}</div>`
     + (ico ? `<span class="mh-ico" aria-hidden="true">${ic(ico)}</span>` : "") + `</div>`;
 };
+window.posterHead = (seed, kind, bg, title) => luxHead(seed, bg, title);
+/* one icon + tint per line, picked from what the line talks about */
+const MI_RULES = [
+  [/iso/i, "shieldbolt"], [/huấn luyện|đào tạo|khóa|chứng chỉ/i, "cap"], [/gym|yoga|zumba|tập/i, "gym"], [/khám|sức khỏe|pvi/i, "heart"], [/tai nạn|bảo hiểm|an toàn/i, "shield"], [/bhxh|bhyt|hợp đồng|giấy phép/i, "file"],
+  [/revit|bim|mô hình/i, "cube"], [/mentor|đồng hành|kỹ sư trẻ/i, "users"], [/thăng tiến|cấp bậc|tăng bậc/i, "up"],
+  [/sinh nhật|tiệc/i, "party"], [/hội thao|bóng|thể thao/i, "flame"], [/dã ngoại|gia đình|familympic/i, "sun"], [/toolbox|ý kiến|lắng nghe|đối thoại/i, "chat"],
+  [/đánh giá|khung năng lực/i, "star"], [/kế hoạch|định kỳ/i, "cal"], [/leed|xanh|văn phòng/i, "leaf"], [/quyết định|trao quyền/i, "bolt"], [/thưởng|lương/i, "money"]
+];
+const MI_TONES = [["#2F5BD3","#EAF0FD"],["#13866F","#E6F5F0"],["#6A4BD1","#F0ECFC"],["#1F4E8C","#E8EFF8"],["#C26A1B","#FCF1E5"],["#C2415A","#FCEBEE"]];
+window.luxItems = items => `<ul class="mb-list">${items.map((t, k) => { const m = MI_RULES.find(([re]) => re.test(t)), [c, cb] = MI_TONES[k % MI_TONES.length];
+  return `<li style="--c:${c};--cb:${cb};--k:${k}"><span class="mi">${ic(m ? m[1] : "check")}</span><span class="mt">${t}</span></li>`; }).join("")}</ul>`;
+window.luxDetail = (title, bg, seed, text, items) => `${luxHead(seed, bg, title, text)}<div class="modal-body mb-lux">${luxItems(items)}</div>`
+  + `<div class="mb-foot"><a class="btn btn-accent" href="jobs.html">Xem vị trí đang tuyển ${ic("arrow")}</a><button class="btn btn-ghost" data-close>Đóng</button></div>`;
 
 /* ---------- shared modal content ---------- */
 const MODALS = {

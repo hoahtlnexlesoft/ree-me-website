@@ -275,9 +275,7 @@
   }
 
   /* ---- detail modals ---- */
-  const detail = (title, bg, seed, pk, text, items, img) => `${img ? `<div class="modal-hero mh-photo"><img src="${img}" alt=""><h3>${title}</h3></div>` : posterHead(seed, pk, bg, title)}<div class="modal-body">${text?`<p style="font-size:15px;color:var(--fg)">${text}</p>`:""}
-    <ul>${items.map(i=>`<li>${i}</li>`).join("")}</ul>
-    <div class="modal-actions"><a class="btn btn-accent" href="jobs.html">Xem vị trí đang tuyển ${ic("arrow")}</a><button class="btn btn-ghost" data-close>Đóng</button></div></div>`;
+  const detail = (title, bg, seed, pk, text, items, img) => luxDetail(title, bg, seed, text, items);
   document.addEventListener("click", e => {
     const p = e.target.closest("[data-perk]"); if(p){ const d = PERKS.find(x=>x.k===p.dataset.perk); openModal(detail(d.title, d.bg, "perk-"+d.k, d.pk, d.text, d.items)); return; }
     const v = e.target.closest("[data-value]"); if(v){ const d = VALUES[v.dataset.value]; openModal(detail(d.label, d.bg, "val-"+v.dataset.value, d.pk, d.text, d.items)); return; }

@@ -344,3 +344,8 @@ section:has(+ .ree-rel) span.size-10.bottom-5{bottom:150px!important}
 .ree-page,.pg-careers{--gutter:var(--ree-gut)!important;--content-max:100vw!important;--maxw:none!important}
 .ree-page .wrap,.pg-careers .wrap{max-width:none!important}
 .ree-tq-wrap,.ree-hero-wrap,.pg-careers .jd-topbar-in,.pg-careers .jd-wrap{max-width:none!important;padding-left:var(--ree-gut)!important;padding-right:var(--ree-gut)!important}
+
+/* logo-optical: the logo PNG has ~7% transparent margin on the left; pull it back so the mark lines up with the top bar text */
+img.h-10[src*="ree-me-logo"]{margin-left:-4px}
+@media (min-width:640px){img.h-10[src*="ree-me-logo"]{margin-left:-5px}}
+@media (min-width:768px){img.h-10[src*="ree-me-logo"]{margin-left:-6px}}

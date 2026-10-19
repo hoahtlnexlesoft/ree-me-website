@@ -353,3 +353,10 @@ img.h-10[src*="ree-me-logo"]{margin-left:-4px}
 
 /* no-side-pan: slide-in reveals start past the right edge; never let the page pan sideways */
 html,body{overflow-x:clip;overscroll-behavior-x:none}
+
+/* back-to-top (matches careers .fab .top) */
+.ree-totop{width:48px;height:48px;display:grid;place-items:center;border-radius:10px;background:#fff;color:#0A1433;border:1px solid #DCE1EA;box-shadow:0 30px 70px -30px rgba(4,11,38,.55);opacity:0;pointer-events:none;transition:opacity .2s,transform .2s;cursor:pointer}
+.ree-totop.show{opacity:1;pointer-events:auto}
+.ree-totop:hover{transform:translateY(-2px)}
+.ree-totop svg{width:20px;height:20px}
+div.fixed.bottom-5:has(> .card-corner) > .ree-totop{opacity:0;pointer-events:none}

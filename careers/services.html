@@ -792,5 +792,80 @@
   addEventListener("keydown", e => { if(e.key === "Escape") close(); });
 })();
 </script>
+
+<style id="fx-reveal">
+  /* staggered text + image entrance (headings rise word by word, copy fades up, photos wipe in) */
+  .fxw{display:inline-block;overflow:hidden;vertical-align:top;padding:0 .02em .1em;margin:0 -.02em -.1em}
+  .fxw>span{display:inline-block;transform:translateY(112%)}
+  .fx-on .fxw>span{animation:fxWord .95s cubic-bezier(.2,.8,.2,1) both;animation-delay:calc(var(--d,0ms) + var(--i,0) * 55ms)}
+  @keyframes fxWord{from{transform:translateY(112%)}to{transform:none}}
+  .fxu{opacity:0}
+  .fx-on .fxu{animation:fxUp .85s cubic-bezier(.2,.8,.2,1) both;animation-delay:var(--d,0ms)}
+  @keyframes fxUp{from{opacity:0;transform:translateY(28px)}to{opacity:1;transform:none}}
+  .fxa{clip-path:inset(0 0 0 100%)}
+  .fx-on .fxa{animation:fxSide 1.3s cubic-bezier(.77,0,.18,1) both;animation-delay:var(--d,0ms)}
+  @keyframes fxSide{from{clip-path:inset(0 0 0 100%)}to{clip-path:inset(0 0 0 0)}}
+  .fx .sx-media .sx-strip{clip-path:inset(100% 0 0 0)}
+  .fx-on .sx-media.in .sx-strip{animation:fxImg 1.05s cubic-bezier(.77,0,.18,1) both!important;animation-delay:calc(260ms + var(--k) * 130ms)!important}
+  .fx-on .sx-media.in .sx-strip img{animation:fxZoom 1.6s cubic-bezier(.2,.8,.2,1) both;animation-delay:calc(260ms + var(--k) * 130ms)}
+  @keyframes fxImg{from{clip-path:inset(100% 0 0 0)}to{clip-path:inset(0 0 0 0)}}
+  @keyframes fxZoom{from{transform:scale(1.18)}to{transform:none}}
+  .fx .sx-copy.in{animation:none}
+  .sx-t strong .fxw>span{background:linear-gradient(100deg,#E6EEFF 0%,#9DBBFF 50%,#6E98FF 100%);-webkit-background-clip:text;background-clip:text;color:transparent}
+  .fxl{display:inline}
+  .sx-t .fxw,.sx-t .fxw>span{display:inline-block!important;font-weight:inherit}
+  @media (prefers-reduced-motion:reduce){.fxw>span,.fxu,.fxa,.fx .sx-media .sx-strip{transform:none!important;opacity:1!important;clip-path:none!important;animation:none!important}.fx-on .sx-media.in .sx-strip img{animation:none}}
+</style>
+<script>
+(() => {
+  if (matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+  const $ = (q, r = document) => r.querySelector(q), $$ = (q, r = document) => [...r.querySelectorAll(q)];
+  // wrap every word of an element in a mask so it can rise into view; returns the word count
+  const words = (el, d) => { if (!el || el.dataset.fxw) return 0; el.dataset.fxw = 1; let i = 0;
+    if (/flex|grid/.test(getComputedStyle(el).display)) [...el.childNodes].forEach(c => { if (c.nodeType === 3 && c.textContent.trim()) { const w = document.createElement("span"); w.className = "fxl"; c.replaceWith(w); w.append(c); } });
+    const walk = n => { [...n.childNodes].forEach(c => {
+      if (c.nodeType === 3) { const parts = c.textContent.split(/(\s+)/); if (!parts.some(p => p.trim())) return;
+        const frag = document.createDocumentFragment();
+        parts.forEach(p => { if (!p) return; if (!p.trim()) { frag.append(p); return; }
+          const o = document.createElement("span"), w = document.createElement("span"); o.className = "fxw"; w.textContent = p; w.style.setProperty("--i", i++); o.append(w); frag.append(o); });
+        c.replaceWith(frag);
+      } else if (c.nodeType === 1 && c.tagName !== "svg" && c.tagName !== "BR") walk(c); }); };
+    walk(el); el.style.setProperty("--d", (d || 0) + "ms"); return i; };
+  const up = (el, d) => { if (!el) return; el.classList.add("fxu"); el.classList.remove("rv", "d1", "d2", "d3"); el.style.setProperty("--d", d + "ms"); };
+  const play = (sec, at = .2) => { sec.classList.add("fx"); const io = new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) { sec.classList.add("fx-on"); io.disconnect(); } }), { threshold: at }); io.observe(sec); };
+
+  // hero: eyebrow, title word by word, lead, buttons, figures; the picture wipes in from the right
+  const hero = $(".sv-hero");
+  if (hero) {
+    up($(".dk-eye", hero), 100);
+    const h1 = $("h1", hero); if (h1) { h1.classList.remove("rv", "d1"); var n = words(h1, 250); }
+    const t = 250 + (n || 6) * 55 + 250;
+    up($(".dk-lead", hero), t); up($(".dk-cta", hero), t + 160);
+    $$(".dk-stats > div", hero).forEach((x, k) => up(x, t + 320 + k * 120)); $(".dk-stats", hero) && $(".dk-stats", hero).classList.remove("rv", "d3");
+    const art = $(".dk-art", hero); if (art) { art.classList.add("fxa"); art.style.setProperty("--d", "0ms"); }
+    play(hero, 0);
+  }
+
+  // four commitments: heading words, intro, then each card in turn
+  const sd = $("#tieu-chuan");
+  if (sd) { const n2 = words($(".sd-t", sd), 0); const t2 = n2 * 55 + 200;
+    up($(".sd-sub", sd), t2);
+    const cards = () => $$("#stdGrid > *", sd).forEach((c, k) => up(c, t2 + 200 + k * 140));
+    cards(); new MutationObserver(cards).observe($("#stdGrid"), { childList: true });
+    play(sd); }
+
+  // services carousel: each time a service is shown, its title rises word by word, the text follows line by line, photos wipe in one after another
+  const sx = $("#dich-vu"), copy = $("#mxCopy");
+  if (sx && copy) {
+    const deco = () => { const h = $(".sx-t", copy); if (!h || h.dataset.fxw) return;
+      up($(".sx-ghost", copy), 0);
+      const n3 = words(h, 120); let t3 = 120 + n3 * 55 + 150;
+      $$(".sx-text > p, .sx-text li, .sx-text .mx-note", copy).forEach(x => { up(x, t3); t3 += 110; });
+      up($(".sx-cta", copy), t3 + 60); };
+    deco(); new MutationObserver(deco).observe(copy, { childList: true });
+    play(sx, .25);
+  }
+})();
+</script>
 </body>
 </html>

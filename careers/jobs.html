@@ -194,6 +194,11 @@
   .ms-opt:hover{background:#F3F5F9}
   .ms-opt input{width:18px;height:18px;margin:0;accent-color:#123A9C;cursor:pointer}
   .ms-pill{display:inline-block;padding:3px 11px;border-radius:999px;font-size:12px;font-weight:500;white-space:nowrap}
+#unitPop{left:auto;right:0;width:max(100%,400px);max-width:calc(100vw - 32px)}
+#unitPop .ms-opt{align-items:flex-start}
+#unitPop .ms-opt input{flex:none;margin-top:3px}
+#unitPop .ms-pill{white-space:normal;line-height:1.35;min-width:0}
+@media (max-width:760px){#unitPop{left:0;right:auto;width:100%}}
   .ms-none{margin:8px 6px;font-size:13px;color:#7B829A}
   .jgroups{display:flex;flex-direction:column;gap:40px}
   .jg .rows{margin-top:0}

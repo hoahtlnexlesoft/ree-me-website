@@ -1305,7 +1305,7 @@ html body .alert-band.dk.ab-rest,html body .rx .dock.dk-rest .dock-in{padding-to
 html,body{overflow-x:clip;overscroll-behavior-x:none}
 
 /* side gutters match newtecons.vn header: full width, 90px · ≤1024 40px · ≤575 15px */
-:root{--gut:90px}@media (max-width:1024px){:root{--gut:40px}}@media (max-width:575px){:root{--gut:15px}}
+:root{--gut:max(40px,calc((100vw - 1245px) / 2))}@media (max-width:1024px){:root{--gut:20px}}
 
 /* no-eyebrow-dash: section labels without the leading line */
 .fo-eyebrow::before,.mh-eb::before{display:none!important}

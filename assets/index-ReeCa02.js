@@ -243,5 +243,5 @@ addEventListener("hashchange",later);later();
 b.innerHTML='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 19V5M6 11l6-6 6 6"/></svg>';
 b.addEventListener("click",()=>scrollTo({top:0,behavior:"smooth"}));
 const attach=()=>{const f=document.querySelector("div.fixed.bottom-5.right-4.z-40");if(f&&b.parentElement!==f)f.prepend(b)};
-const upd=()=>b.classList.toggle("show",scrollY>700);
+const upd=()=>{b.classList.toggle("show",scrollY>700);const h=document.documentElement.scrollHeight-innerHeight;b.style.setProperty("--p",h>0?Math.min(1,Math.max(0,scrollY/h)).toFixed(3):0)};
 addEventListener("scroll",upd,{passive:true});addEventListener("hashchange",()=>setTimeout(upd,60));setInterval(attach,700);attach();upd();})();

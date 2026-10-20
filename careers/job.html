@@ -1301,6 +1301,7 @@ html.embed-form #rx .apply-card > .af,html.embed-form #rx .apply-card > .af-done
 #rx .drop .cloud.cv-ic svg{display:block}
 /* pz-fill: photo fills card after removing code label */.pz-card{padding:16px!important}.pz-ph{aspect-ratio:1.5!important}@media (max-width:1199px){.pz-ph{aspect-ratio:1.35!important}}@media (max-width:560px){.pz-card{padding:14px!important}}
 /* dock-hot */a.dock-btn{text-decoration:none!important}@media (max-width:560px){#dockHot .dock-lb{font-size:13px}}
+/*posunit*/#rx .pos-chip{align-items:center;padding:8px 10px}#rx .pos-chip .pc-t{display:flex;flex-direction:column;gap:2px;min-width:0;white-space:normal}#rx .pos-chip .pc-t b{font-weight:600;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}#rx .pos-chip .pc-t small{font-size:11px;font-weight:500;color:inherit;opacity:.72;max-width:280px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 </style>
 <script>window.PAGE="job"</script>
 </head>
@@ -1344,7 +1345,6 @@ html.embed-form #rx .apply-card > .af,html.embed-form #rx .apply-card > .af-done
             <div class="af-lab"><span class="lt">Vị trí ứng tuyển <em>*</em></span><a href="jobs.html">Xem tất cả vị trí</a></div>
             <div class="af-box" id="af-pos"></div>
           </div>
-<label class="af-f span2"><span class="af-lab"><span class="lt">Bộ phận ứng tuyển <em>*</em></span></span><span class="af-in"><select id="af-dept" name="department" required><option value="">Chọn bộ phận…</option></select><svg class="caret" width="12" height="12"><use href="#i-chev-d"/></svg></span></label>
 <div class="af-f span2">
             <div class="af-lab"><span class="lt">Khu vực có thể làm việc <em>*</em></span><span>Chọn một hoặc nhiều</span></div>
             <div class="af-box" id="af-regions" role="group" aria-label="Khu vực có thể làm việc"></div>
@@ -1497,7 +1497,7 @@ html.embed-form #rx .apply-card > .af,html.embed-form #rx .apply-card > .af-done
       <figure class="jb-ph p1"><img src="assets/img/core-team.jpg" alt=""></figure>
       <figure class="jb-ph p2"><img src="assets/img/core-duct.jpg" alt=""></figure>
       <figure class="jb-ph p3"><img src="assets/img/core-training.jpg" alt=""></figure>
-      <div class="jb-tools"><button class="jb-ib" data-save="${j.id}" aria-pressed="${saved}" aria-label="Lưu việc làm">${ic("heart")}</button><button class="jb-ib" data-copy="${j.title} – ${j.code}" aria-label="Sao chép mã">${ic("copy")}</button></div>
+      <div class="jb-tools"><button class="jb-ib" data-save="${j.id}" aria-pressed="${saved}" aria-label="Lưu việc làm">${ic("heart")}</button><button class="jb-ib" data-copy="${j.title}" aria-label="Sao chép tên vị trí">${ic("copy")}</button></div>
       <nav class="jb-crumbs" aria-label="Breadcrumb"><a href="./">Cơ Hội Nghề Nghiệp</a><span>/</span><a href="jobs.html">Vị Trí Đang Tuyển</a><span>/</span><b>${j.title}</b></nav>
       <h1 class="jb-title">${words.slice(0,cut).join(" ")} <em>${words.slice(cut).join(" ")}</em></h1>
       ${j.deadline ? `<p class="jb-en">${left >= 0 ? `Còn <b>${left}</b> ngày nhận hồ sơ` : "Đã hết hạn nhận hồ sơ"}</p>` : ""}
@@ -1509,7 +1509,7 @@ html.embed-form #rx .apply-card > .af,html.embed-form #rx .apply-card > .af-done
     document.title = `${j.title} · REE M&E`;
     banner(j);
     document.querySelectorAll('[data-jd-crumb]').forEach(el => el.textContent = j.title);
-    const meta = '<span class="m-code">Mã: ' + esc(j.code) + '</span><span class="m-type">Toàn thời gian cố định</span>';
+    const meta = (j.unit ? '<span class="m-code">' + esc(j.unit) + '</span>' : '') + '<span class="m-type">Toàn thời gian cố định</span>';
     const hl = (cls, icon, label, value, note) => '<div class="hl ' + cls + '"><span class="ico"><svg width="20" height="20"><use href="#' + icon + '"/></svg></span><div><small>' + label + '</small><strong>' + esc(value) + '</strong>' + (note ? '<em>' + esc(note) + '</em>' : '') + '</div></div>';
     const words = j.title.split(" "), cut = Math.max(1, Math.ceil(words.length / 2));
     const saved = store.get("ree_saved", []).includes(j.id);
@@ -1533,7 +1533,7 @@ html.embed-form #rx .apply-card > .af,html.embed-form #rx .apply-card > .af-done
         <div class="sx2-win">
           <div class="sx2-bar"><i></i><i></i><i></i><span></span></div>
           <div class="sx2-wh"><b>Tổng quan vị trí</b><span class="sx2-live"><i></i>Đang tuyển</span></div>
-          ${!j.deadline ? `<div class="sx2-facts"><div><small>Mã vị trí</small><b>${esc(j.code)}</b></div><div><small>Địa điểm làm việc</small><span class="loc-pills">${locPills(j)}</span></div><div><small>Thời gian làm việc</small><b>${esc(j.workTime || "")}</b></div></div>` : `<div class="sx2-score"><small>Thời hạn nộp hồ sơ ${ic("clock")}</small><div class="sx2-sc"><b>${dl}</b><span>${left>=0?"ngày còn lại":"đã hết hạn"}</span></div><div class="sx2-bars">${dbars}</div><p>Hạn chót ${fmtDate(j.deadline)} <span>|</span> ${esc(j.code)}</p></div>`}
+          ${!j.deadline ? `<div class="sx2-facts"><div><small>Bộ phận</small><b>${esc(j.unit||"—")}</b></div><div><small>Địa điểm làm việc</small><span class="loc-pills">${locPills(j)}</span></div><div><small>Thời gian làm việc</small><b>${esc(j.workTime || "")}</b></div></div>` : `<div class="sx2-score"><small>Thời hạn nộp hồ sơ ${ic("clock")}</small><div class="sx2-sc"><b>${dl}</b><span>${left>=0?"ngày còn lại":"đã hết hạn"}</span></div><div class="sx2-bars">${dbars}</div><p>Hạn chót ${fmtDate(j.deadline)} <span>|</span> ${esc(j.code)}</p></div>`}
         </div>
         ${j.systems.length ? `<div class="sx2-threat"><b>Hệ thống phụ trách</b>${j.systems.map(x=>`<div><span class="sx2-ic">${ic("check")}</span><em>${esc(SYSTEMS[x]||x)}</em><strong>${esc(x)}</strong></div>`).join("")}</div>` : ""}
         <div class="sx2-row r1"><span class="sx2-ic">${ic("pin")}</span><div><b>Địa điểm làm việc</b><small>${esc(j.loc)}${j.level ? " · " + esc(DEPTS[j.dept].name) : ""}</small></div><span class="sx2-act"><i></i>${j.hot?"Tuyển gấp":"Đang mở"}</span>${ic("right")}</div>
@@ -1554,7 +1554,7 @@ html.embed-form #rx .apply-card > .af,html.embed-form #rx .apply-card > .af-done
     /* hero (layout from the reference poster) — only existing fields */
     const lead = j.descIntro || (j.desc && j.desc[0]) || '';
     const prow = (k, v) => v ? `<div class="pz-k">${k}</div><div class="pz-v">${v}</div>` : '';
-    const pills = prow('Địa điểm làm việc', locPills(j)) + prow('Mức lương', j.salary && fieldPill('salary', j.salary)) + prow('Yêu cầu về kinh nghiệm', j.exp && fieldPill('exp', j.exp)) + prow('Yêu cầu về tiếng Anh', j.english && fieldPill('english', j.english));
+    const pills = prow('Bộ phận', j.unit && `<span class="loc-pill" style="background:#CDEFEC;color:#1F5652">${esc(j.unit)}</span>`) + prow('Địa điểm làm việc', locPills(j)) + prow('Mức lương', j.salary && fieldPill('salary', j.salary)) + prow('Yêu cầu về kinh nghiệm', j.exp && fieldPill('exp', j.exp)) + prow('Yêu cầu về tiếng Anh', j.english && fieldPill('english', j.english));
     const ring = 'ỨNG TUYỂN NGAY · ỨNG TUYỂN NGAY · ';
     $('#jd-head').innerHTML = `<div class="pz">
       <div class="pz-l">
@@ -1579,7 +1579,6 @@ html.embed-form #rx .apply-card > .af,html.embed-form #rx .apply-card > .af-done
       panel('b', 'Yêu cầu', j.req && tl(j.req)) +
       panel('c', 'Phúc lợi', j.perks && tl(j.perks)) + '</div>';
     positions = [j.id]; regions = [regionOf(j)];
-    renderDepts(j.unit);
     $('#apply-form').hidden = false; $('#af-done').hidden = true;
     renderRegions(); renderPositions(); clearErrors();
   }
@@ -1603,8 +1602,8 @@ html.embed-form #rx .apply-card > .af,html.embed-form #rx .apply-card > .af-done
   function renderPositions(){
     const others = JOBS.filter(j => positions.indexOf(j.id) < 0);
     afPos.innerHTML = positions.map(id => { const j = JOBS.find(x => x.id === id);
-      return '<span class="pos-chip"><svg width="14" height="14"><use href="#i-verify"/></svg><span>' + esc(j.title) + '</span>' + (positions.length > 1 ? '<button type="button" data-rm="' + esc(id) + '" aria-label="Bỏ ' + esc(j.title) + '">×</button>' : '') + '</span>'; }).join('') +
-      (others.length && positions.length < 3 ? '<label class="pos-add"><span><svg width="9" height="9"><use href="#i-plus"/></svg>Thêm vị trí</span><select id="af-add" aria-label="Thêm vị trí ứng tuyển"><option value="">Chọn vị trí…</option>' + others.map(j => '<option value="' + esc(j.id) + '">' + esc(j.title) + ' — ' + esc(j.loc) + '</option>').join('') + '</select></label>' : '');
+      return '<span class="pos-chip"><svg width="14" height="14"><use href="#i-verify"/></svg><span class="pc-t"><b>' + esc(j.title) + '</b>' + (j.unit ? '<small>' + esc(j.unit) + '</small>' : '') + '</span>' + (positions.length > 1 ? '<button type="button" data-rm="' + esc(id) + '" aria-label="Bỏ ' + esc(j.title) + '">×</button>' : '') + '</span>'; }).join('') +
+      (others.length && positions.length < 3 ? '<label class="pos-add"><span><svg width="9" height="9"><use href="#i-plus"/></svg>Thêm vị trí</span><select id="af-add" aria-label="Thêm vị trí ứng tuyển"><option value="">Chọn vị trí…</option>' + others.map(j => '<option value="' + esc(j.id) + '">' + esc(j.title) + (j.unit ? ' — ' + esc(j.unit) : '') + '</option>').join('') + '</select></label>' : '');
   }
   afPos.addEventListener('click', e => { const b = e.target.closest('[data-rm]'); if(b){ positions = positions.filter(c => c !== b.dataset.rm); renderPositions(); } });
   afPos.addEventListener('change', e => { if(e.target.id === 'af-add' && e.target.value){ positions.push(e.target.value); afPos.classList.remove('invalid'); renderPositions(); } });
@@ -1655,7 +1654,7 @@ html.embed-form #rx .apply-card > .af,html.embed-form #rx .apply-card > .af-done
     if(current !== j){ renderDetail(j); scrollTo({top:0}); }
   }
   const dock = $('#dock');
-  const syncDock = () => { if(!current || !dock) return; $('#dockTitle').textContent = `${current.title} · ${current.code}`;
+  const syncDock = () => { if(!current || !dock) return; $('#dockTitle').textContent = current.title + (current.unit ? ' · ' + current.unit : '');
   };
   try{ sessionStorage.removeItem('ree_dock_off'); }catch(e){}
   $('#dockX').addEventListener('click', () => { dock.hidden = true; });
@@ -1678,4 +1677,5 @@ addEventListener("scroll",f,{passive:true});addEventListener("resize",f);f();})(
 (() => { const c = document.getElementById("afAgree"), f = c && c.form, b = f && f.querySelector(".af-submit"); if (!b) return;
   const sync = () => { b.disabled = !c.checked; }; c.addEventListener("change", sync); sync(); })();
 </script>
+<script src="../assets/ree-textfx.js" defer></script>
 </html>

@@ -47,8 +47,8 @@ window.jobDetailHTML = (j, action, opts) => {
   const esc = t => String(t).replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
   const ul = a => '<ul class="jx-ul">' + a.map(t => '<li>' + t + '</li>').join('') + '</ul>';  /* data may contain <b> */
   const row = (k, v) => v && (!only || only.includes(k)) ? '<div class="jx-k">' + k + '</div><div class="jx-v">' + v + '</div>' : '';
-  return '<article class="jx">' + (opts && opts.noHead ? '' : '<header class="jx-h"><h1>' + esc(j.code) + ' - ' + esc(j.title) + '</h1>' + (action || '') + '</header>') + '<div class="jx-grid">' +
-    row('Vị trí', esc(j.title)) + row('Mã vị trí', esc(j.code)) +
+  return '<article class="jx">' + (opts && opts.noHead ? '' : '<header class="jx-h"><h1>' + esc(j.title) + '</h1>' + (action || '') + '</header>') + '<div class="jx-grid">' +
+    row('Vị trí', esc(j.title)) + (j.unit ? row('Bộ phận', esc(j.unit)) : '') +
     row('Địa điểm làm việc', '<span class="loc-pills">' + locPills(j) + '</span>') +
     row('Mức lương', j.salary && fieldPill('salary', j.salary)) +
     row('Yêu cầu về kinh nghiệm', j.exp && fieldPill('exp', j.exp)) +

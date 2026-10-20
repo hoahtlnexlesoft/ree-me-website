@@ -506,7 +506,7 @@
 
   /* grid card — only fields that exist in the data */
   const jxCard = j => `<article class="jx-card" data-jid="${j.id}">
-      <header class="jxc-h"><div class="jxc-tt"><h3><a href="${jobURL(j)}">${j.title}</a></h3><span class="jxc-code">${j.code}</span></div>
+      <header class="jxc-h"><div class="jxc-tt"><h3><a href="${jobURL(j)}">${j.title}</a></h3>${j.unit ? `<span class="jxc-code">${j.unit}</span>` : ""}</div>
         <button class="jxc-save" data-save="${j.id}" aria-pressed="${store.get("ree_saved", []).includes(j.id)}" aria-label="Lưu việc làm">${ic("bookmark")}</button></header>
       ${j.unit ? `<button type="button" class="unit-chip" data-unitf="${j.unit}" title="Xem các vị trí của ${j.unit}">${ic("layers")}${j.unit}</button>` : ""}
       <div class="jxc-tags">${locPills(j)}${j.exp ? fieldPill("exp", j.exp) : ""}${j.english ? fieldPill("english", j.english) : ""}</div>
@@ -659,5 +659,6 @@ addEventListener("scroll",f,{passive:true});addEventListener("resize",f);new Mut
   scan(); new MutationObserver(scan).observe($("#list"), { childList: true });
 })();
 </script>
+<script src="../assets/ree-textfx.js" defer></script>
 </body>
 </html>

@@ -117,7 +117,7 @@ window.jobRow = function(j, i){
   return `<article class="jrow${feat?" feat":""}">
     ${feat ? `<span class="jflag">${ic("flame")}Tuyển gấp</span>` : ""}
     <span class="jico" style="--c:${c};--bg:${bg}">${ic(k)}</span>
-    <div class="jmain"><span class="code">${j.code}</span><h3><a href="${jobURL(j)}">${sentence(j.title)}</a></h3>${j.unit ? `<button type="button" class="unit-chip" data-unitf="${j.unit}" title="Xem các vị trí của ${j.unit}">${ic("layers")}${j.unit}</button>` : ""}<div class="tags">${chips}</div></div>
+    <div class="jmain"><h3><a href="${jobURL(j)}">${sentence(j.title)}</a></h3>${j.unit ? `<button type="button" class="unit-chip" data-unitf="${j.unit}" title="Xem các vị trí của ${j.unit}">${ic("layers")}${j.unit}</button>` : ""}<div class="tags">${chips}</div></div>
     <div class="jcell">${ic("pin")}<div><small>Địa điểm</small><span class="loc-pills">${window.locPills ? locPills(j) : j.loc}</span></div></div>
     <div class="jcell">${ic("money")}<div><small>Mức lương</small>${j.salary}</div></div>
     ${j.english !== undefined ? `<div class="jcell">${ic("brief")}<div><small>Kinh nghiệm</small>${j.exp}</div></div><div class="jcell">${ic("globe")}<div><small>Tiếng Anh</small>${j.english}</div></div>` : `<div class="jcell">${ic("cal")}<div><small>Hạn nộp</small><span class="num">${fmtDate(j.deadline)}</span></div></div>`}
@@ -134,10 +134,10 @@ window.jobTile = function(j, primary){
       <span class="jt-ico" style="--c:${c};--bg:${bg}">${ic(k)}</span>
       <span class="jt-org"><small>${DEPTS[j.dept].name}</small><b>${j.level} · ${j.type}</b></span>
       <span class="jt-menu"><button class="jt-kebab" aria-label="Tùy chọn" aria-expanded="false">${ic("kebab")}</button>
-        <span class="jt-pop" hidden><button data-save="${j.id}" aria-pressed="${isSaved(j.id)}">${ic("bookmark")}<span>Lưu việc làm</span></button><button data-copy="${j.title} – ${j.code}">${ic("copy")}<span>Sao chép mã</span></button><a href="${jobURL(j)}#apply">${ic("arrow")}<span>Ứng tuyển ngay</span></a></span></span>
+        <span class="jt-pop" hidden><button data-save="${j.id}" aria-pressed="${isSaved(j.id)}">${ic("bookmark")}<span>Lưu việc làm</span></button><button data-copy="${j.title}">${ic("copy")}<span>Sao chép tên vị trí</span></button><a href="${jobURL(j)}#apply">${ic("arrow")}<span>Ứng tuyển ngay</span></a></span></span>
     </header>
     <h3><a href="${jobURL(j)}">${sentence(j.title)}</a></h3>
-    <p class="jt-sub">Mã: ${j.code} · Hạn nộp: <span class="num">${fmtDate(j.deadline)}</span></p>
+    <p class="jt-sub">Hạn nộp: <span class="num">${fmtDate(j.deadline)}</span></p>
     <div class="jt-info"><div><small>Địa điểm</small>${j.loc.split(" · ")[0].replace("TP. Hồ Chí Minh","TP. HCM")}</div><div><small>Thu nhập</small>${j.salary}</div><div><small>Kinh nghiệm</small>${j.exp}</div></div>
     <div class="jt-skills"><small>Hệ thống</small><div>${chips}</div></div>
     <footer class="jt-foot"><a class="jt-btn${primary?" primary":""}" href="${jobURL(j)}">Xem chi tiết</a></footer>
@@ -146,7 +146,7 @@ window.jobTile = function(j, primary){
 window.jobMini = function(j){
   const loc = j.loc.split(" · ")[0].replace("TP. Hồ Chí Minh","TP. HCM");
   return `<article class="jmini">
-    <div class="jm-top"><span class="jm-pill">Mã: ${j.code}</span><span class="jm-pill">${loc}</span></div>
+    <div class="jm-top"><span class="jm-pill">${loc}</span></div>
     <h3><a href="${jobURL(j)}">${j.title}</a></h3>
     <p class="jm-sum">${j.summary}</p>
     <div class="jm-tags"><span class="jm-tag money">${ic("money")}${j.salary}</span><span class="jm-tag exp">${ic("brief")}${j.exp} KN</span></div>
@@ -162,7 +162,7 @@ document.addEventListener("click", e => {
 /* ---------- job card (grid) ---------- */
 window.jobCard = function(j){
   return `<article class="job">
-    <div class="job-top">${badge(j)}<span class="code">${j.code}</span></div>
+    <div class="job-top">${badge(j)}</div>
     <h3><a href="${jobURL(j)}">${j.title}</a></h3>
     <p class="sum">${j.summary}</p>
     <div class="meta"><div><small>Địa điểm</small>${j.loc.split(" · ")[0]}</div><div><small>Thu nhập</small>${j.salary}</div><div><small>Kinh nghiệm</small>${j.exp}</div></div>

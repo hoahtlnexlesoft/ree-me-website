@@ -220,7 +220,7 @@
   const VALUES = {
     hse:{ ico:"shield", label:"Văn hóa An toàn HSE", sub:"", bg:"#0E6E5C", pk:3, text:"Không thỏa hiệp với rủi ro tại mọi công trường.",
       items:["Toolbox talk mỗi sáng tại công trường","Giấy phép làm việc cho công việc rủi ro cao","Huấn luyện an toàn định kỳ cho toàn bộ nhân sự","Hệ thống quản lý được chứng nhận ISO 45001 (an toàn, sức khỏe nghề nghiệp) và ISO 14001 (môi trường)."] },
-    e360:{ ico:"users", label:"Đánh giá Năng lực 360°", sub:"", bg:"var(--navy-2)", pk:0, text:"Minh bạch, định kỳ 6 tháng xét duyệt tăng bậc.",
+    e360:{ ico:"users", label:"Đánh giá Năng lực 360°", sub:"", bg:"var(--navy-2)", pk:0, text:"Phản hồi đa chiều khách quan, định kỳ hằng năm hoặc xét duyệt đột xuất khi mở rộng phạm vi công việc.",
       items:["Đánh giá năng lực định kỳ","Khung năng lực rõ ràng cho từng cấp bậc","Kế hoạch phát triển cá nhân sau mỗi kỳ đánh giá"] },
     voice:{ ico:"chat", label:"Được lắng nghe", sub:"Ý kiến kỹ sư được đưa vào quy trình", bg:"#5B4BC4", pk:2, text:"Ý kiến của kỹ sư được đưa vào quy trình chính thức của công ty.",
       items:["Khảo sát gắn kết nhân viên hằng năm","Hộp ý tưởng cải tiến có thưởng","Đối thoại định kỳ với Ban Giám đốc"] },
@@ -228,10 +228,10 @@
       items:["Văn phòng đạt chuẩn LEED Platinum","REENERGIZE Station: phòng gym hiện đại, yoga","Kỹ sư được trao quyền ra quyết định tại hiện trường","Văn phòng công trường đầy đủ tiện nghi"] }
   };
   const CORE = [
-    { t:"Môi trường làm việc", d:"Môi trường làm việc tại các trung tâm điều hành và văn phòng vùng được thiết kế theo tiêu chuẩn Ergonomics hiện đại, kết hợp không gian mở thúc đẩy tương tác đa bộ môn: Thiết kế, Đấu thầu, MEPF công trường và Quản lý chất lượng HSE." },
-    { t:"Chính sách đãi ngộ", d:"Chính sách đãi ngộ dựa trên kết quả minh bạch cùng quỹ thưởng hiệu quả dự án hằng quý, bảo đảm sự tưởng thưởng xứng đáng cho từng mốc tiến độ vượt chỉ tiêu, bảo đảm kỹ sư và gia đình luôn vững tâm đồng hành cùng thương hiệu." },
+    { t:"Môi trường làm việc", d:"Môi trường làm việc tại văn phòng công ty và ban chỉ huy các dự án được thiết kế theo tiêu chuẩn hiện đại kết hợp không gian mở, tạo điều kiện tối ưu cho sự phối hợp nhịp nhàng giữa các bộ phận." },
+    { t:"Chính sách đãi ngộ", d:"Chính sách đãi ngộ minh bạch dựa trên hiệu quả công việc, kết hợp cơ chế thưởng dựa trên kết quả thực hiện dự án và kết quả kinh doanh, giúp đội ngũ kỹ sư cùng gia đình luôn vững tâm đồng hành lâu dài cùng công ty." },
     { t:"Văn hóa An toàn HSE", d:"Không thỏa hiệp với rủi ro tại mọi công trường.", v:"hse" },
-    { t:"Đánh giá Năng lực 360°", d:"Minh bạch, định kỳ 6 tháng xét duyệt tăng bậc.", v:"e360" }
+    { t:"Đánh giá Năng lực 360°", d:"Phản hồi đa chiều khách quan, định kỳ hằng năm hoặc xét duyệt đột xuất khi mở rộng phạm vi công việc.", v:"e360" }
   ];
   $("#coreAcc").innerHTML = CORE.map((c,i) => `<div class="ca-item${i===0?" open":""}">
       <button class="ca-q" aria-expanded="${i===0}">${c.t}<i aria-hidden="true"></i></button>

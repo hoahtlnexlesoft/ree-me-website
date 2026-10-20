@@ -89,14 +89,20 @@
     }
     return { doc: document, win: window, frame: null, key: 'site:' + topRoute() };
   }
+  var PAGE_NAMES = { '/': 'Trang chủ', '/ve-chung-toi': 'Về chúng tôi', '/linh-vuc-thi-cong': 'Lĩnh vực thi công', '/dich-vu': 'Dịch vụ', '/cong-trinh': 'Công trình', '/du-an': 'Dự án', '/phat-trien-ben-vung': 'Phát triển bền vững', '/tin-tuc': 'Tin tức', '/tuyen-dung': 'Tuyển dụng', '/tuyen-dung/vi-tri': 'Tuyển dụng › Vị trí', '/lien-he': 'Liên hệ', '/ho-so-nang-luc': 'Hồ sơ năng lực' };
+  function humanSlug(x) { x = decodeURIComponent(String(x || '')).replace(/[-_]+/g, ' ').trim(); return x ? x.charAt(0).toUpperCase() + x.slice(1) : ''; }
   function labelFor(key) {
+    key = String(key || '');
     if (key.indexOf('careers/') === 0) {
       var f = key.slice(8);
-      if (f === 'index.html') return 'Careers'; if (f === 'jobs.html') return 'Open positions';
-      if (f === 'services.html') return 'Services'; if (f.indexOf('job.html') === 0) return 'Job · ' + f.slice(9);
+      if (f === 'index.html') return 'Tuyển dụng'; if (f === 'jobs.html') return 'Tuyển dụng › Vị trí';
+      if (f === 'services.html') return 'Dịch vụ'; if (f.indexOf('job.html') === 0) return 'Tuyển dụng › ' + (humanSlug(f.slice(9)) || 'Chi tiết');
       return f;
     }
-    var r = key.slice(5); return r === '/' ? 'Home' : r;
+    var r = key.slice(5).split('?')[0].replace(/\/+$/, '') || '/';
+    if (PAGE_NAMES[r]) return PAGE_NAMES[r];
+    var seg = r.split('/').filter(Boolean), base = '/' + seg[0];
+    return (PAGE_NAMES[base] || humanSlug(seg[0])) + (seg.length > 1 ? ' › ' + humanSlug(seg.slice(1).join(' ')) : '');
   }
 
   /* ---------- state ---------- */
@@ -217,7 +223,7 @@
   '.rv-popwrap .rv-pop{position:fixed;z-index:2147482660;width:320px;max-width:calc(100vw - 24px);max-height:min(560px,calc(100vh - 24px));display:flex;flex-direction:column;background:#fff;color:#0f172a;border-radius:18px;box-shadow:0 24px 60px -14px rgba(10,25,60,.45),0 0 0 1px rgba(15,23,42,.06)}' +
   '.rv-pop-h{position:relative;flex:none;display:flex;align-items:center;gap:6px;padding:14px 12px 8px 18px}.rv-pop-h>b{font-size:15px;font-weight:700}' +
   '.rv-pop-tools{margin-left:auto;display:flex;gap:2px}.rv-pop-tools button{width:30px;height:30px;border-radius:8px;display:grid;place-items:center;color:#334155}.rv-pop-tools button:hover,.rv-pop-tools button.on{background:#f1f5f9;color:#0f172a}.rv-pop-tools svg{width:17px;height:17px}' +
-  '.rv-pop-h .rv-menu{top:44px;right:10px}' +
+  '.rv-pop-h .rv-menu{top:44px;right:10px}.rv-pop-ttl{display:flex;flex-direction:column;align-items:flex-start;gap:4px;min-width:0;flex:1 1 auto}.rv-pop-ttl>b{font-size:15px;font-weight:700;white-space:nowrap}.rv-pop-pg{display:inline-flex;align-items:center;gap:4px;max-width:100%;font-size:11px;font-weight:600;line-height:1;color:#1e3a8a;background:#eef2ff;border-radius:999px;padding:4px 8px 4px 6px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.rv-pop-pg svg{flex:none}' +
   '.rv-pop-body{flex:1;min-height:0;overflow-y:auto;padding:4px 18px 6px}' +
   '.rv-pop-shot{display:block;width:100%;aspect-ratio:2/1;object-fit:cover;border-radius:12px;margin:2px 0 14px;outline:1px solid rgba(15,23,42,.08);cursor:zoom-in}' +
   '.rv-pop-c{display:flex;gap:10px;margin-bottom:12px}.rv-pop-c .rv-av{font-size:12px}.rv-pop-cb{min-width:0;flex:1}' +
@@ -499,7 +505,7 @@
       '<div class="rv-seg"><button id="rvBrowse" class="' + (!S.mode ? 'on' : '') + '">' + ICON.pointer + 'Browse</button><button id="rvComment" class="' + (S.mode === true ? 'on' : '') + '">' + ICON.chat + 'Comment</button><button id="rvEditMode" class="' + (S.mode === 'edit' ? 'on' : '') + '">' + ICON.pencil + 'Edit text</button>' + bellBtn() + '</div></div>' + inboxHtml();
     if (!S.open) {
       h += '<aside class="rv-rail"><button class="rv-side" id="rvTab" title="Open comments" aria-label="Open comments">' + ICON.side + '</button><button class="rv-side" id="rvHide" title="Hide comments (full view)" aria-label="Hide comments">' + ICON.eyeoff + '</button><div class="rv-rail-list">' +
-        S.threads.map(function (t, i) { var col = t.resolved ? '#9CA3AF' : colorFor(t.author); return '<button class="rv-dot' + (S.active === t.id ? ' on' : '') + (t.resolved ? ' done' : '') + '" data-rail="' + t.id + '" style="background:' + col + ';color:' + col + '" title="#' + NUM[t.id] + ' · ' + esc(labelFor(t.page)) + ' · ' + esc(t.author) + ': ' + esc(t.text.slice(0, 80)) + '"><span style="color:#fff">' + esc((t.author.trim()[0] || '?')) + '</span></button>'; }).join('') +
+        S.threads.slice().sort(function (a, b) { return (b.at || 0) - (a.at || 0); }).map(function (t, i) { var col = t.resolved ? '#9CA3AF' : colorFor(t.author); return '<button class="rv-dot' + (S.active === t.id ? ' on' : '') + (t.resolved ? ' done' : '') + '" data-rail="' + t.id + '" style="background:' + col + ';color:' + col + '" title="#' + NUM[t.id] + ' · ' + esc(labelFor(t.page)) + ' · ' + esc(t.author) + ': ' + esc(t.text.slice(0, 80)) + '"><span style="color:#fff">' + esc((t.author.trim()[0] || '?')) + '</span></button>'; }).join('') +
         '</div></aside>';
     }
     if (S.open) {
@@ -518,7 +524,7 @@
         '</div><div class="rv-list">';
       if (!list.length) h += '<p class="rv-empty">' + (q ? 'No comments match your search.' : S.filter === 'resolved' ? 'Nothing resolved yet.' : 'No comments yet. Switch to “Comment” and click anything on the page.') + '</p>';
       groups.forEach(function (g) {
-        g.items.sort(function (a, b) { return (NUM[a.id] || 0) - (NUM[b.id] || 0); });
+        g.items.sort(function (a, b) { return (b.at || 0) - (a.at || 0); });
         var fd = !q && !!S.fold[g.name];
         h += '<button type="button" class="rv-gh' + (fd ? ' fd' : '') + '" data-fold="' + esc(g.name) + '" aria-expanded="' + !fd + '" title="' + (fd ? 'Mở rộng' : 'Thu gọn') + '"><i class="rv-gchev">' + ICON.chev + '</i><span>' + esc(g.name) + '</span><em class="rv-gc">' + g.items.length + '</em></button>';
         if (fd) return;
@@ -605,8 +611,16 @@
     var t = S.threads.filter(function (x) { return x.id === id; })[0]; if (!t) return;
     S.active = id; S.flash = id; S.pop = id; S.popMenu = S.popEmoji = false; var c = ctx();
     var el = null; try { el = t.selector ? c.doc.querySelector(t.selector) : null; } catch (e) {}
-    if (el && el.scrollIntoView) el.scrollIntoView({ block: 'center', behavior: 'smooth' });
-    else c.win.scrollTo({ top: Math.max(0, t.ay - c.win.innerHeight / 2), behavior: 'smooth' });
+    var token = (S.focusTok = (S.focusTok || 0) + 1), userMoved = false;
+    var stop = function () { userMoved = true; };
+    ['wheel', 'touchstart', 'keydown'].forEach(function (ev) { addEventListener(ev, stop, { once: true, passive: true }); try { c.win !== window && c.win.addEventListener(ev, stop, { once: true, passive: true }); } catch (e) {} });
+    var place = function () {
+      if (el && el.isConnected && el.scrollIntoView) { try { el.scrollIntoView({ block: 'center', inline: 'nearest', behavior: 'instant' }); } catch (e) { el.scrollIntoView({ block: 'center' }); } }
+      else { try { c.win.scrollTo({ top: Math.max(0, t.ay - c.win.innerHeight / 2), behavior: 'instant' }); } catch (e) { c.win.scrollTo(0, Math.max(0, t.ay - c.win.innerHeight / 2)); } }
+    };
+    place();
+    // late layout shifts (lazy images, reveal animations): re-center once if the target drifted
+    [450, 1200].forEach(function (ms) { setTimeout(function () { if (userMoved || S.focusTok !== token) return; var p = pos(t, ctx()); if (Math.abs(p.y - innerHeight / 2) > 80) { place(); renderPins(); } }, ms); });
     if (el) { el.__rvF = el.style.outline; el.style.outline = '3px solid ' + colorFor(t.author); el.style.outlineOffset = '3px'; }
     renderAll();
     setTimeout(function () { if (el) { el.style.outline = el.__rvF || ''; el.style.outlineOffset = ''; } if (S.flash === id) { S.flash = null; renderPins(); } }, 2600);
@@ -625,7 +639,7 @@
     }
     var tries = 0, iv = setInterval(function () {
       tries++; var c = ctx(), ready = c.key === t.page && c.doc.readyState === 'complete';
-      if (ready || tries > 40) { clearInterval(iv); if (ready) setTimeout(function () { focusThread(id); }, 700); }
+      if (ready || tries > 40) { clearInterval(iv); if (ready) setTimeout(function () { focusThread(id); }, 500); }
     }, 200);
     renderAll();
   }
@@ -809,7 +823,7 @@
     var editing = S.editing === t.id && S.editWhere === 'pop';
     var row = function (name, at, text, extra, ed, tool) { return '<div class="rv-pop-c">' + avatar(name, 26) + '<div class="rv-pop-cb"><div class="rv-pop-meta"><b>' + esc(name) + '</b><span>' + ago(at) + (ed ? ' · đã sửa' : '') + '</span>' + (tool || '') + '</div>' + (text != null ? '<p>' + esc(text) + '</p>' : '') + (extra || '') + '</div></div>'; };
     var h = '<div class="rv-pop" role="dialog" aria-label="Comment">' +
-      '<div class="rv-pop-h"><b>Comment #' + NUM[t.id] + '</b><span class="rv-pop-tools">' +
+      '<div class="rv-pop-h"><span class="rv-pop-ttl"><b>Comment #' + NUM[t.id] + '</b><span class="rv-pop-pg" title="' + esc(labelFor(t.page)) + '"><svg viewBox="0 0 24 24" width="11" height="11" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 21s-7-6.2-7-11.5A7 7 0 0 1 19 9.5C19 14.8 12 21 12 21z"/><circle cx="12" cy="9.5" r="2.5"/></svg>' + esc(labelFor(t.page)) + '</span></span><span class="rv-pop-tools">' +
         (t.kind !== 'edit' ? '<button data-popedit="' + t.id + '" aria-label="Edit" title="Edit">' + ICON.pencil + '</button>' : '') +
         '<button data-copyc="' + t.id + '" aria-label="Copy comment" title="Copy comment">' + ICON.copy + '</button>' +
         '<button data-resolve="' + t.id + '" class="' + (t.resolved ? 'ok' : '') + '" aria-label="' + (t.resolved ? 'Reopen' : 'Resolve') + '" title="' + (t.resolved ? 'Reopen' : 'Resolve') + '">' + (t.resolved ? ICON.checkf : ICON.checkc) + '</button>' +

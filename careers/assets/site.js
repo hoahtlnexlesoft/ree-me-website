@@ -257,7 +257,7 @@ window.toast = function(msg){ $(".toast")?.remove(); const t = document.createEl
 const MH_ICO = { "perk-reenergize":"gym", "perk-health":"heart", "perk-learn":"cap", "perk-team":"users",
   "val-hse":"shield", "val-e360":"star", "val-voice":"chat", "val-space":"globe", "alert":"bell" };
 const MH_IMG = { "perk-reenergize":"assets/img/life-gym.jpg", "perk-health":"assets/img/life-marathon.jpg", "perk-learn":"assets/img/core-training.jpg",
-  "perk-team":"assets/img/life-birthday.jpg", "val-hse":"assets/img/apply-site2.jpg", "val-e360":"assets/img/core-team.jpg",
+  "perk-team":"assets/img/life-birthday-ree.jpg", "val-hse":"assets/img/apply-site2.jpg", "val-e360":"assets/img/core-team.jpg",
   "val-voice":"assets/img/hero-team.jpg", "val-space":"assets/img/why-tower.jpg", "alert":"assets/img/hero-city.jpg" };
 const ACT_ICO = { "reenergize":"gym", "sinh-nhat":"flame", "sinh-nhat-thang":"party", "bong-da":"users" };
 const MH_EB = seed => /^val-/.test(seed) ? "Giá trị cốt lõi" : /^perk-/.test(seed) ? "Phúc lợi & đãi ngộ" : ACT_ICO[seed] ? "Hoạt động gắn kết" : "Cơ hội nghề nghiệp";

@@ -644,7 +644,7 @@ textarea.input{resize:vertical;min-height:72px}
 /* ===== Vì sao chọn REE M&E — dot pattern ===== */
 .sec-why{position:relative;isolation:isolate;overflow:hidden;background:var(--bg)}
 .sec-why::before{content:"";position:absolute;inset:0;z-index:-1;pointer-events:none;
-  background:url(img/why-pattern.webp) right top/max(100%,1400px) auto no-repeat;mix-blend-mode:multiply;
+  background:url(img/why-pattern-hd.webp) right top/max(100%,1400px) auto no-repeat;mix-blend-mode:multiply;
   -webkit-mask-image:linear-gradient(to bottom,#000 70%,transparent);mask-image:linear-gradient(to bottom,#000 70%,transparent)}
 :root[data-theme="dark"] .sec-why::before{filter:invert(1);mix-blend-mode:screen;opacity:.35}
 @media not all{:root:not([data-theme="light"]) .sec-why::before{filter:invert(1);mix-blend-mode:screen;opacity:.35}}

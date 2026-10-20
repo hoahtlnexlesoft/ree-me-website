@@ -1344,6 +1344,7 @@ html.embed-form #rx .apply-card > .af,html.embed-form #rx .apply-card > .af-done
             <div class="af-lab"><span class="lt">Vị trí ứng tuyển <em>*</em></span><a href="jobs.html">Xem tất cả vị trí</a></div>
             <div class="af-box" id="af-pos"></div>
           </div>
+<label class="af-f span2"><span class="af-lab"><span class="lt">Bộ phận ứng tuyển <em>*</em></span></span><span class="af-in"><select id="af-dept" name="department" required><option value="">Chọn bộ phận…</option></select><svg class="caret" width="12" height="12"><use href="#i-chev-d"/></svg></span></label>
 <div class="af-f span2">
             <div class="af-lab"><span class="lt">Khu vực có thể làm việc <em>*</em></span><span>Chọn một hoặc nhiều</span></div>
             <div class="af-box" id="af-regions" role="group" aria-label="Khu vực có thể làm việc"></div>
@@ -1578,11 +1579,20 @@ html.embed-form #rx .apply-card > .af,html.embed-form #rx .apply-card > .af-done
       panel('b', 'Yêu cầu', j.req && tl(j.req)) +
       panel('c', 'Phúc lợi', j.perks && tl(j.perks)) + '</div>';
     positions = [j.id]; regions = [regionOf(j)];
+    renderDepts(j.unit);
     $('#apply-form').hidden = false; $('#af-done').hidden = true;
     renderRegions(); renderPositions(); clearErrors();
   }
 
   const afRegions = $('#af-regions'), afPos = $('#af-pos');
+  function renderDepts(cur){
+    const sel = $('#af-dept'); if(!sel) return;
+    const units = [...new Set(JOBS.map(x => x.unit).filter(Boolean))].sort((a, b) => a.localeCompare(b, 'vi'));
+    if(cur && units.indexOf(cur) < 0) units.unshift(cur);
+    const opt = u => '<option' + (u === cur ? ' selected' : '') + '>' + esc(u) + '</option>';
+    const dept = units.filter(u => /^(Phòng|Ban|Bộ phận) /i.test(u)), proj = units.filter(u => dept.indexOf(u) < 0);
+    sel.innerHTML = '<option value="">Chọn bộ phận…</option>' + (dept.length ? '<optgroup label="Phòng ban">' + dept.map(opt).join('') + '</optgroup>' : '') + (proj.length ? '<optgroup label="Dự án / Công trường">' + proj.map(opt).join('') + '</optgroup>' : '') + '<option>Khác</option>';
+  }
   function renderRegions(){
     afRegions.innerHTML = AF_REGIONS.map(r => { const on = regions.indexOf(r) > -1;
       const t = AF_REGION_TONE[r] || ['#EEF1F3','#3F4A5A'];

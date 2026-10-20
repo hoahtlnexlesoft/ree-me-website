@@ -340,7 +340,7 @@ section:has(+ .ree-rel) span.size-10.bottom-5{bottom:150px!important}
 
 /* full-width layout; side gutters as newtecons.vn */
 /* side gutters match newtecons.vn header: full width, 90px · ≤1024 40px · ≤575 15px */
-:root{--ree-gut:clamp(40px,calc((100vw - 1245px) / 2),90px)}@media (max-width:1024px){:root{--ree-gut:20px}}
+:root{--ree-gut:max(40px,calc((100vw - 1245px) / 2))}@media (max-width:1024px){:root{--ree-gut:20px}}
 .ree-wrap{width:100%;max-width:none!important;margin-inline:auto;padding-inline:var(--ree-gut)!important}
 .ree-page,.pg-careers{--gutter:var(--ree-gut)!important;--content-max:100vw!important;--maxw:none!important}
 .ree-page .wrap,.pg-careers .wrap{max-width:none!important}

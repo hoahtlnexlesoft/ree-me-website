@@ -611,11 +611,11 @@
       if(e.metaKey || e.ctrlKey || e.shiftKey || e.button) return;
       const slug = (qa.getAttribute("href") || "").split("#")[1];
       qvLift(false); document.documentElement.style.overflow = "";
-      try{ if(window.frameElement && slug){ e.preventDefault(); $("#qv").classList.remove("on"); $("#qv").hidden = true; parent.location.hash = "#/tuyen-dung/" + slug; return; } }catch(_){}
+      try{ if(window.frameElement && slug){ e.preventDefault(); $("#qv").classList.remove("on"); $("#qv").hidden = true; const want = "#/tuyen-dung/" + slug; if(parent.location.hash === want) location.href = qa.getAttribute("href"); else parent.location.hash = want; return; } }catch(_){}
       return; } }
     if(e.metaKey || e.ctrlKey || e.shiftKey || e.button) return;
     const card = e.target.closest("#list [data-jid]"); if(!card || e.target.closest("[data-save],[data-unitf]")) return;
-    if(e.target.closest(".arr")){ const j = JOBS.find(o => o.id === card.dataset.jid); if(j){ e.preventDefault(); try{ sessionStorage.removeItem("ree_apply"); }catch(_){} const u = jobURL(j), slug = u.split("#")[1]; try{ if(window.frameElement && slug){ parent.location.hash = "#/tuyen-dung/" + slug; return; } }catch(_){} location.href = u; return; } }
+    if(e.target.closest(".arr")){ const j = JOBS.find(o => o.id === card.dataset.jid); if(j){ e.preventDefault(); try{ sessionStorage.removeItem("ree_apply"); }catch(_){} const u = jobURL(j), slug = u.split("#")[1]; try{ if(window.frameElement && slug){ const want = "#/tuyen-dung/" + slug; if(parent.location.hash === want) location.href = u; else parent.location.hash = want; return; } }catch(_){} location.href = u; return; } }
     e.preventDefault(); qvOpen(card.dataset.jid);
   }, true);
   $("#qvPrev").onclick = () => qvShow(qvIdx - 1); $("#qvNext").onclick = () => qvShow(qvIdx + 1);

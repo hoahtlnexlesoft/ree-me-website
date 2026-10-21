@@ -258,7 +258,7 @@ const css=`.fxct-h{opacity:0}
 @keyframes fxctU{from{opacity:0;transform:translateY(34px)}to{opacity:1;transform:none}}
 @keyframes fxctI{from{transform:scale(1.16);filter:saturate(.6)}to{transform:none;filter:none}}`;
 const st=document.createElement("style");st.id="ree-fx-ct";st.textContent=css;document.head.appendChild(st);
-const onPage=()=>/^#\/cong-trinh\/?(\?.*)?$/.test(location.hash||"");
+const isBV=()=>/^#\/phat-trien-ben-vung\/?(\?.*)?$/.test(location.hash||"");const onPage=()=>/^#\/cong-trinh\/?(\?.*)?$/.test(location.hash||"")||isBV();
 let io=null,queue=[],qT=0;
 const flush=()=>{qT=0;const els=queue.splice(0);els.sort((a,b)=>{const ra=a.getBoundingClientRect(),rb=b.getBoundingClientRect();return (ra.top-rb.top)||(ra.left-rb.left)});
   let i=0,prevTop=null;els.forEach(el=>{const d=Math.min(i,10)*110;el.style.setProperty("--fxd",d+"ms");el.classList.add("fxct-go");i++;
@@ -267,6 +267,8 @@ const mk=()=>io||(io=new IntersectionObserver(es=>{es.forEach(e=>{if(e.isInterse
 const mark=(el,cls)=>{if(!el||el.dataset.fxct)return;el.dataset.fxct="1";el.classList.add(cls);mk().observe(el);};
 const scan=()=>{if(!onPage())return;const main=document.querySelector("#root main")||document.querySelector("main");if(!main)return;
   const secs=[...main.querySelectorAll(":scope > section, :scope > div > section")];
+  if(isBV()){window.__bvIO=window.__bvIO||new IntersectionObserver(es=>{es.forEach(e=>{if(!e.isIntersecting)return;window.__bvIO.unobserve(e.target);e.target.dataset.fxg="2";(window.__bvDone=window.__bvDone||new Set).add(e.target.dataset.fxk);[...e.target.children].filter(c=>c.dataset.fxct==="1").forEach(c=>queue.push(c))});if(queue.length&&!qT)qT=requestAnimationFrame(flush)},{threshold:.15,rootMargin:"0px 0px -6% 0px"});
+    secs.slice(1).forEach(sec=>{sec.querySelectorAll("img").forEach(im=>{if(im.getAttribute("aria-hidden")==="true")return;const c=im.closest(".snap-start,button,figure,article")||im.parentElement;if(!c||c.tagName==="SECTION"||c.dataset.fxct||c.offsetWidth<60||!c.parentElement)return;const gk=(c.parentElement.closest("section")||{}).id+"|"+c.parentElement.className;if(c.parentElement.dataset.fxg==="2"||(window.__bvDone&&window.__bvDone.has(gk))){c.dataset.fxct="2";return}c.parentElement.dataset.fxk=gk;c.dataset.fxct="1";c.classList.add("fxct-c");const g=c.parentElement;if(!g.dataset.fxg){g.dataset.fxg="1";window.__bvIO.observe(g)}})});return;}
   secs.slice(1).forEach(sec=>{
     const cards=[...sec.querySelectorAll("a")].filter(a=>a.querySelector("img")&&a.offsetWidth>120);
     const inCard=n=>cards.some(c=>c.contains(n));

@@ -379,7 +379,8 @@ function mount(){
 
   // back to top
   const tt = $("#toTop");
-  addEventListener("scroll", () => tt.classList.toggle("show", scrollY > 700), {passive:true});
+  const ttU = () => { tt.classList.toggle("show", scrollY > 700); const h = document.documentElement.scrollHeight - innerHeight; tt.style.setProperty("--p", h > 0 ? Math.min(1, Math.max(0, scrollY / h)).toFixed(3) : 0); };
+  addEventListener("scroll", ttU, {passive:true}); ttU();
   tt.addEventListener("click", () => scrollTo({top:0, behavior:"smooth"}));
 }
 

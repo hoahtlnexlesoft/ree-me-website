@@ -1535,7 +1535,7 @@ html.embed-form #rx .apply-card > .af,html.embed-form #rx .apply-card > .af-done
         <div class="sx2-win">
           <div class="sx2-bar"><i></i><i></i><i></i><span></span></div>
           <div class="sx2-wh"><b>Tổng quan vị trí</b><span class="sx2-live"><i></i>Đang tuyển</span></div>
-          ${!j.deadline ? `<div class="sx2-facts"><div><small>Bộ phận</small><b>${esc(j.unit||"—")}</b></div><div><small>Địa điểm làm việc</small><span class="loc-pills">${locPills(j)}</span></div><div><small>Thời gian làm việc</small><b>${esc(j.workTime || "")}</b></div></div>` : `<div class="sx2-score"><small>Thời hạn nộp hồ sơ ${ic("clock")}</small><div class="sx2-sc"><b>${dl}</b><span>${left>=0?"ngày còn lại":"đã hết hạn"}</span></div><div class="sx2-bars">${dbars}</div><p>Hạn chót ${fmtDate(j.deadline)} <span>|</span> ${esc(j.code)}</p></div>`}
+          ${!j.deadline ? `<div class="sx2-facts"><div><small>Bộ phận/dự án</small><b>${esc(j.unit||"—")}</b></div><div><small>Địa điểm làm việc</small><span class="loc-pills">${locPills(j)}</span></div><div><small>Thời gian làm việc</small><b>${esc(j.workTime || "")}</b></div></div>` : `<div class="sx2-score"><small>Thời hạn nộp hồ sơ ${ic("clock")}</small><div class="sx2-sc"><b>${dl}</b><span>${left>=0?"ngày còn lại":"đã hết hạn"}</span></div><div class="sx2-bars">${dbars}</div><p>Hạn chót ${fmtDate(j.deadline)} <span>|</span> ${esc(j.code)}</p></div>`}
         </div>
         ${j.systems.length ? `<div class="sx2-threat"><b>Hệ thống phụ trách</b>${j.systems.map(x=>`<div><span class="sx2-ic">${ic("check")}</span><em>${esc(SYSTEMS[x]||x)}</em><strong>${esc(x)}</strong></div>`).join("")}</div>` : ""}
         <div class="sx2-row r1"><span class="sx2-ic">${ic("pin")}</span><div><b>Địa điểm làm việc</b><small>${esc(j.loc)}${j.level ? " · " + esc(DEPTS[j.dept].name) : ""}</small></div><span class="sx2-act"><i></i>${j.hot?"Tuyển gấp":"Đang mở"}</span>${ic("right")}</div>
@@ -1556,7 +1556,7 @@ html.embed-form #rx .apply-card > .af,html.embed-form #rx .apply-card > .af-done
     /* hero (layout from the reference poster) — only existing fields */
     const lead = j.descIntro || (j.desc && j.desc[0]) || '';
     const prow = (k, v) => v ? `<div class="pz-k">${k}</div><div class="pz-v">${v}</div>` : '';
-    const pills = prow('Bộ phận', j.unit && `<span class="loc-pill" style="background:#CDEFEC;color:#1F5652">${esc(j.unit)}</span>`) + prow('Địa điểm làm việc', locPills(j)) + prow('Mức lương', j.salary && fieldPill('salary', j.salary)) + prow('Yêu cầu về kinh nghiệm', j.exp && fieldPill('exp', j.exp)) + prow('Yêu cầu về tiếng Anh', j.english && fieldPill('english', j.english));
+    const pills = prow('Bộ phận/dự án', j.unit && `<span class="loc-pill" style="background:#CDEFEC;color:#1F5652">${esc(j.unit)}</span>`) + prow('Địa điểm làm việc', locPills(j)) + prow('Mức lương', j.salary && fieldPill('salary', j.salary)) + prow('Yêu cầu về kinh nghiệm', j.exp && fieldPill('exp', j.exp)) + prow('Yêu cầu về tiếng Anh', j.english && fieldPill('english', j.english));
     const ring = 'ỨNG TUYỂN NGAY · ỨNG TUYỂN NGAY · ';
     $('#jd-head').innerHTML = `<div class="pz">
       <div class="pz-l">

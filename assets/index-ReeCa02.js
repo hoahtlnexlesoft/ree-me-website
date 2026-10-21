@@ -78,7 +78,7 @@ function reeAwM(){let{t:tt,lang:lng}=ch();let[o,s]=(0,_.useState)(-1);const N=re
 const e=reeAwD[o];if(!e)return null;const pad=function(v){return(v<9?"0":"")+(v+1)};
 return Na.createPortal((0,P.jsx)("div",{className:"ree-aw-ov",role:"dialog","aria-modal":"true",onClick:function(ev){if(ev.target===ev.currentTarget)s(-1)},children:(0,P.jsxs)("div",{className:"ree-aw-dlg",children:[
 (0,P.jsx)("button",{type:"button",className:"ree-aw-x","aria-label":tt("Đóng","Close"),onClick:function(){s(-1)},children:"×"}),
-(0,P.jsx)("div",{className:"ree-aw-dimg",children:e.noimg?(0,P.jsx)(reeAwPh,{}):(0,P.jsx)("a",{href:reeAwU(e.n),target:"_blank",rel:"noopener",title:tt("Mở ảnh gốc","Open full image"),children:(0,P.jsx)("img",{src:reeAwU(e.n),alt:tt(e.sv,e.se)},e.n)})}),
+(0,P.jsx)("div",{className:"ree-aw-dimg",children:e.noimg?(0,P.jsx)(reeAwPh,{}):(0,P.jsx)("a",{href:reeAwU(e.n),target:"_blank",rel:"noopener",title:tt("Mở ảnh gốc","Open full image"),children:(0,P.jsx)("img",{src:reeAwU(e.n),alt:tt(e.sv,e.se),decoding:"async",style:{backgroundImage:"url("+reeAwU(e.n,1)+")"}},e.n)})}),
 (0,P.jsxs)("div",{className:"ree-aw-dtx",children:[
 (0,P.jsxs)("div",{className:"ree-aw-meta",children:[(0,P.jsx)("span",{className:"ree-aw-tag",children:reeAwT(tt,e.t)}),(0,P.jsx)("span",{className:"ree-aw-dash"}),(0,P.jsx)("span",{children:e.y})]}),
 (0,P.jsx)("h3",{className:"ree-aw-dh",children:tt(e.sv,e.se)}),

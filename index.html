@@ -91,7 +91,7 @@ var p=pending(),el=Date.now()-t0;
 if(!shownAt){if(!p)return;if(el>=700){shownAt=Date.now();M.classList.add('on');}}
 else if(!p&&Date.now()-shownAt>=600){hide();return;}
 if(el>12000){hide();return;}setTimeout(step,120);},120);}
-addEventListener('hashchange',go);})();</script>
+var lastH=location.hash;function chk(){var h=location.hash;if(h!==lastH){lastH=h;go();}}lastH=location.hash;addEventListener('hashchange',chk);addEventListener('popstate',chk);['pushState','replaceState'].forEach(function(k){var o=history[k];history[k]=function(){var r=o.apply(this,arguments);setTimeout(chk,0);return r;};});setInterval(chk,250);})();</script>
 <!--/ree-loader-->
 <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
 <link rel="stylesheet" href="./assets/index-D71z0cGY.css" />

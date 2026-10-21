@@ -611,7 +611,9 @@
       if(e.metaKey || e.ctrlKey || e.shiftKey || e.button) return;
       const slug = (qa.getAttribute("href") || "").split("#")[1];
       qvLift(false); document.documentElement.style.overflow = "";
-      try{ if(window.frameElement && slug){ e.preventDefault(); $("#qv").classList.remove("on"); $("#qv").hidden = true; const want = "#/tuyen-dung/" + slug; if(parent.location.hash === want) location.href = qa.getAttribute("href"); else parent.location.hash = want; return; } }catch(_){}
+      e.preventDefault(); $("#qv").classList.remove("on"); $("#qv").hidden = true;
+      try{ const fe = window.frameElement; if(fe){ fe.style.zIndex = "1"; if(slug){ const want = "#/tuyen-dung/" + slug; if(parent.location.hash !== want) parent.history.replaceState(parent.history.state, "", want); } } }catch(_){}
+      location.href = qa.getAttribute("href"); return;
       return; } }
     if(e.metaKey || e.ctrlKey || e.shiftKey || e.button) return;
     const card = e.target.closest("#list [data-jid]"); if(!card || e.target.closest("[data-save],[data-unitf]")) return;

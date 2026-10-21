@@ -642,3 +642,4 @@ body:has(.ndp) header.fixed{background:linear-gradient(115deg,var(--navy-deep,#0
 @media (max-width:560px){.ree-eco-short{font-size:13.5px}.ree-eco-long{font-size:11px}}
 /*ecoh2*/.ree-eco-h2{animation:ecoH .45s ease both}@keyframes ecoH{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}.ree-eco-rail2 .ree-eco-slead{margin-top:0!important}
 /*ecogap2*/.ree-eco-head{margin-bottom:0!important}.ree-eco-rail.ree-eco-rail2{margin-top:14px!important;padding-top:0!important}@media (max-width:560px){.ree-eco-rail.ree-eco-rail2{margin-top:10px!important}}
+/*ecosz*/.ree-eco-h2{font-size:clamp(21px,2.3vw,30px)!important;line-height:1.2!important}.ree-eco-slead{max-width:760px!important;font-size:14px!important}@media (max-width:560px){.ree-eco-slead{font-size:13.5px!important}}

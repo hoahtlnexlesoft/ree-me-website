@@ -591,6 +591,7 @@
     box.replaceChildren(c);
     qvHdr.hidden = false;
   };
+  addEventListener("pagehide", () => { try{ qvLift(false); }catch(_){} });
   const qvLift = on => { try{
     const f = window.frameElement; if(!f) return;
     if(on){ qvHeaderCopy(true); f.style.zIndex = "2147483000"; }
@@ -605,7 +606,13 @@
   const qvClose = () => { $("#qv").classList.remove("on"); document.documentElement.style.overflow = ""; setTimeout(() => qvLift(false), 220); setTimeout(() => { $("#qv").hidden = true; }, 220); };
   document.addEventListener("click", e => {
     if(e.target.closest("[data-qv-close]")){ qvClose(); return; }
-    if(e.target.closest("[data-qv-apply]")){ try{ sessionStorage.setItem("ree_apply", "1"); }catch(_){} return; }
+    { const qa = e.target.closest("[data-qv-apply],#qvOpen"); if(qa){ const ap = qa.hasAttribute("data-qv-apply");
+      try{ if(ap) sessionStorage.setItem("ree_apply", "1"); else sessionStorage.removeItem("ree_apply"); }catch(_){}
+      if(e.metaKey || e.ctrlKey || e.shiftKey || e.button) return;
+      const slug = (qa.getAttribute("href") || "").split("#")[1];
+      qvLift(false); document.documentElement.style.overflow = "";
+      try{ if(window.frameElement && slug){ e.preventDefault(); $("#qv").classList.remove("on"); $("#qv").hidden = true; parent.location.hash = "#/tuyen-dung/" + slug; return; } }catch(_){}
+      return; } }
     if(e.metaKey || e.ctrlKey || e.shiftKey || e.button) return;
     const card = e.target.closest("#list [data-jid]"); if(!card || e.target.closest("[data-save],[data-unitf]")) return;
     if(e.target.closest(".arr")){ const j = JOBS.find(o => o.id === card.dataset.jid); if(j){ e.preventDefault(); try{ sessionStorage.removeItem("ree_apply"); }catch(_){} const u = jobURL(j), slug = u.split("#")[1]; try{ if(window.frameElement && slug){ parent.location.hash = "#/tuyen-dung/" + slug; return; } }catch(_){} location.href = u; return; } }

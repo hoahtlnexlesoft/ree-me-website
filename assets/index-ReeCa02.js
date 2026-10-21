@@ -287,3 +287,4 @@ b.addEventListener("click",()=>scrollTo({top:0,behavior:"smooth"}));
 const attach=()=>{const f=document.querySelector("div.fixed.bottom-5.right-4.z-40");if(f&&b.parentElement!==f)f.prepend(b)};
 const upd=()=>{b.classList.toggle("show",scrollY>700);const h=document.documentElement.scrollHeight-innerHeight;b.style.setProperty("--p",h>0?Math.min(1,Math.max(0,scrollY/h)).toFixed(3):0)};
 addEventListener("scroll",upd,{passive:true});addEventListener("hashchange",()=>setTimeout(upd,60));setInterval(attach,700);attach();upd();})();
+;/*reescd*/(()=>{const d=document.documentElement,u=()=>d.classList.toggle("ree-scd",scrollY>40);addEventListener("scroll",u,{passive:true});addEventListener("hashchange",()=>setTimeout(u,60));u()})();

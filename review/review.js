@@ -630,7 +630,7 @@
   }
   function goTo(id) {
     var t = S.threads.filter(function (x) { return x.id === id; })[0]; if (!t) return;
-    S.active = id; S.reveal = id; markSeen(id);
+    S.active = id; S.reveal = id; markSeen(id); S.expanded = {}; S.expanded[id] = true; S.menu = null;
     if (ctx().key === t.page) return focusThread(id);
     if (t.page.indexOf('site:') === 0) { location.hash = '#' + t.page.slice(5); }
     else {
@@ -714,7 +714,7 @@
     if ((a = b.getAttribute('data-pmenu'))) { S.pmenu = S.pmenu === a ? null : a; S.menu = null; return renderUi(); }
     if ((a = b.getAttribute('data-fold')) != null) { if (S.fold[a]) delete S.fold[a]; else S.fold[a] = 1; lsSet('rv_fold', JSON.stringify(S.fold)); return renderUi(); }
     if (b.id === 'rvFoldAll' || b.id === 'rvUnfoldAll') { var fa = b.id === 'rvFoldAll'; S.fold = {}; if (fa) S.threads.forEach(function (t) { S.fold[labelFor(t.page)] = 1; }); lsSet('rv_fold', JSON.stringify(S.fold)); S.pmenu = null; return renderUi(); }
-    if ((a = b.getAttribute('data-expand'))) { S.expanded[a] = !S.expanded[a]; return renderUi(); }
+    if ((a = b.getAttribute('data-expand'))) { var wasEx = !!S.expanded[a]; S.expanded = {}; if (!wasEx) { S.expanded[a] = true; S.active = a; } S.menu = null; return renderUi(); }
     if ((a = b.getAttribute('data-goto'))) return goTo(a);
     if ((a = b.getAttribute('data-copy1'))) { var t1 = S.threads.filter(function (x) { return x.id === a; })[0]; return t1 && copyText(t1.text, function () { S.copiedId = a; renderUi(); setTimeout(function () { if (S.copiedId === a) { S.copiedId = null; renderUi(); } }, 1600); }); }
     if ((a = b.getAttribute('data-replyfor'))) { S.replyFor = S.replyFor === a ? null : a; S.replyText = ''; renderUi(); var ri = root.querySelector('#rvReply'); if (ri) ri.focus(); return; }

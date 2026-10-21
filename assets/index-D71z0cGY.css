@@ -697,3 +697,4 @@ body:has(.ndp) header.fixed{background:linear-gradient(115deg,var(--navy-deep,#0
 /*ecogons*/.ree-eco-rail .ree-eco-go{box-shadow:none!important}
 /*ecogo*/.ree-eco-rail .ree-eco-go,.ree-eco-rail .ree-eco-card:hover .ree-eco-go{border:0!important;box-shadow:none!important;background:transparent!important}
 /*awmeta*/.ree-aw-card .ree-aw-meta{justify-content:space-between}.ree-aw-card .ree-aw-dash{display:none}
+/*navbtn2*/.ree-navbtn{width:44px!important;height:44px!important;background:transparent!important;border:1px solid color-mix(in oklab,var(--navy) 50%,transparent)!important;color:var(--navy)!important;box-shadow:none!important;transform:none!important}.ree-navbtn:hover{background:color-mix(in oklab,var(--navy) 10%,transparent)!important;border-color:color-mix(in oklab,var(--navy) 50%,transparent)!important;color:var(--navy)!important;transform:none!important}.ree-navbtn svg{width:24px!important;height:24px!important;stroke-width:2}

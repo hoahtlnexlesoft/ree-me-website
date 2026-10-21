@@ -59,6 +59,11 @@ setTimeout(finish,15000);})();</script>
 #ree-mini.on{opacity:1;transform:none}
 #ree-mini svg{position:absolute;inset:0;width:100%;height:100%;overflow:visible;filter:drop-shadow(0 0 6px rgba(255,255,255,.9))}
 #ree-mini .m-trk{fill:none;stroke:rgba(42,56,117,.14);stroke-width:1.5}
+#ree-mini .m-o1{transform-origin:32px 32px;animation:rmRot 9s linear infinite}
+#ree-mini .m-o2{transform-origin:32px 32px;animation:rmRot 18s linear infinite reverse}
+#ree-mini .m-o1 circle{fill:none;stroke:rgba(29,67,134,.12);stroke-width:1}
+#ree-mini .m-o1 path{fill:none;stroke:rgba(29,67,134,.55);stroke-width:1.2;stroke-linecap:round}
+#ree-mini .m-o2 circle{fill:none;stroke:rgba(29,67,134,.4);stroke-width:1.1;stroke-dasharray:.8 4.2;stroke-linecap:round}
 #ree-mini .m-arc{fill:none;stroke:url(#rmGrad);stroke-width:1.8;stroke-linecap:round;stroke-dasharray:1 176;transform-origin:32px 32px;animation:rmDash 1.5s cubic-bezier(.45,0,.25,1) infinite,rmRot 2.2s linear infinite}
 #ree-mini .m-logo{position:absolute;left:50%;top:50%;width:30px;aspect-ratio:260/180;transform:translate(-50%,-50%) scale(.88);opacity:0;filter:blur(3px)}
 #ree-mini.on .m-logo{animation:rmIn .6s cubic-bezier(.2,.8,.2,1) .05s forwards}
@@ -74,6 +79,8 @@ setTimeout(finish,15000);})();</script>
 <div id="ree-mini" role="status" aria-live="polite" aria-label="Đang tải">
   <svg viewBox="0 0 64 64" aria-hidden="true">
     <defs><linearGradient id="rmGrad" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#1D4386"/><stop offset="1" stop-color="#C8463A"/></linearGradient></defs>
+    <g class="m-o2"><circle cx="32" cy="32" r="41"/></g>
+    <g class="m-o1"><circle cx="32" cy="32" r="35"/><path d="M32 -3a35 35 0 0 1 24.7 10.2"/></g>
     <circle class="m-trk" cx="32" cy="32" r="28"/>
     <circle class="m-arc" cx="32" cy="32" r="28"/>
   </svg>

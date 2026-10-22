@@ -57,7 +57,7 @@ setTimeout(finish,15000);})();</script>
 <style id="ree-mini-css">
 #ree-mini{position:fixed;left:50%;top:50%;z-index:2147482999;width:64px;height:64px;margin:-32px 0 0 -32px;pointer-events:none;opacity:0;transform:scale(.9);transition:opacity .3s ease,transform .45s cubic-bezier(.2,.8,.2,1)}
 #ree-mini.on{opacity:1;transform:none}
-#ree-mini::before{content:"";position:absolute;inset:-13px;border-radius:50%;background:rgba(255,255,255,.92);-webkit-backdrop-filter:blur(14px) saturate(150%);backdrop-filter:blur(14px) saturate(150%);box-shadow:0 14px 34px -10px rgba(6,15,46,.45),0 2px 6px rgba(6,15,46,.12),0 0 0 1px rgba(10,31,92,.06)}
+#ree-mini::before{content:"";position:absolute;inset:-13px;border-radius:50%;background:rgba(255,255,255,.92);-webkit-backdrop-filter:blur(14px) saturate(150%);backdrop-filter:blur(14px) saturate(150%);box-shadow:0 0 0 1px rgba(10,31,92,.06)}
 #ree-mini svg{position:absolute;inset:0;width:100%;height:100%;overflow:visible}
 #ree-mini .m-trk{fill:none;stroke:rgba(42,56,117,.14);stroke-width:1.5}
 #ree-mini .m-o1{transform-origin:32px 32px;animation:rmRot 9s linear infinite}
@@ -68,7 +68,7 @@ setTimeout(finish,15000);})();</script>
 #ree-mini .m-arc{fill:none;stroke:url(#rmGrad);stroke-width:1.8;stroke-linecap:round;stroke-dasharray:1 176;transform-origin:32px 32px;animation:rmDash 1.5s cubic-bezier(.45,0,.25,1) infinite,rmRot 2.2s linear infinite}
 #ree-mini .m-logo{position:absolute;left:50%;top:50%;width:30px;aspect-ratio:260/180;transform:translate(-50%,-50%) scale(.88);opacity:0;filter:blur(3px)}
 #ree-mini.on .m-logo{animation:rmIn .6s cubic-bezier(.2,.8,.2,1) .05s forwards}
-#ree-mini .m-logo img{display:block;width:100%;height:auto;filter:drop-shadow(0 3px 8px rgba(6,15,46,.28))}
+#ree-mini .m-logo img{display:block;width:100%;height:auto}
 #ree-mini .m-logo::after{content:"";position:absolute;inset:0;-webkit-mask:url(./assets/ree-me-logo-bRK-tEB-.png) center/100% 100% no-repeat;mask:url(./assets/ree-me-logo-bRK-tEB-.png) center/100% 100% no-repeat;background:linear-gradient(105deg,transparent 38%,rgba(255,255,255,.75) 50%,transparent 62%) -160% 0/260% 100% no-repeat;animation:rmShine 2.2s cubic-bezier(.4,0,.2,1) .5s infinite}
 #ree-mini:not(.on) *,#ree-mini:not(.on) .m-logo::after{animation-play-state:paused}
 @keyframes rmRot{to{transform:rotate(360deg)}}
@@ -104,7 +104,7 @@ var lastH=location.hash;function chk(){var h=location.hash;if(h!==lastH){lastH=h
 <link rel="stylesheet" href="./assets/index-D71z0cGY.css" />
 <div id="root"></div>
 <script src="./review/config.js"></script>
-<script src="./review/review.js?v=20261021f" defer></script>
+<script src="./review/review.js?v=20261022a" defer></script>
 <script src="./assets/ree-i18n.js?v=1"></script>
 <script type="module" src="./assets/index-ReeCa02.js"></script>
 

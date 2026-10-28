@@ -93,6 +93,21 @@
   .empty .em-acts .btn-ghost{background:#fff;box-shadow:inset 0 0 0 1px var(--line-strong,#D5DCEA)}
   .empty .em-acts .btn-ghost:hover{box-shadow:inset 0 0 0 1px var(--brand-ink,#0B2A6F)}
   @media (max-width:560px){html body .empty{padding:40px 20px 36px;border-radius:18px}.empty .em-acts{width:100%}.empty .em-acts .btn{flex:1 1 100%;justify-content:center}}
+  /* view toggle v2 */
+  html body .view{gap:3px;padding:3px;border:1px solid #DCE3F0;border-radius:12px;background:#fff;overflow:visible}
+  html body .view button{width:38px;height:32px;border-radius:9px;color:#6B7590;transition:background-color .25s,color .25s,box-shadow .25s,transform .2s}
+  html body .view button+button{border-left:0}
+  html body .view button svg{transition:transform .3s cubic-bezier(.2,.8,.2,1)}
+  html body #vList:not([aria-pressed="true"]):hover,html body #vGrid:not([aria-pressed="true"]):hover{background:#EEF3FB!important;color:#0B3F8F!important}
+  html body #vList:not([aria-pressed="true"]),html body #vGrid:not([aria-pressed="true"]){background:transparent!important}
+  html body .view button:hover svg{transform:scale(1.12)}
+  html body .view button:active{transform:scale(.94)}
+  html body .view button[aria-pressed="true"]{border-radius:9px!important;box-shadow:0 4px 10px -6px rgba(11,63,143,.7)!important}
+  html body .view button:focus-visible{outline:2px solid #2F63F0;outline-offset:2px}
+  /* empty-state button icons */
+  .empty .em-acts .btn svg{transition:transform .45s cubic-bezier(.2,.8,.2,1)}
+  .empty .em-acts .btn-ghost:hover svg{transform:rotate(-200deg)}
+  .empty .em-acts .btn-accent:hover svg{transform:translateY(-2px) rotate(-8deg)}
   /* search clear (x) */
   .sx-t input[type=search]::-webkit-search-cancel-button{-webkit-appearance:none;appearance:none;width:24px;height:24px;margin-left:10px;border-radius:50%;cursor:pointer;background:#EEF1F7 url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%235B6478' stroke-width='2.2' stroke-linecap='round'%3E%3Cpath d='M7 7l10 10M17 7 7 17'/%3E%3C/svg%3E") center/11px no-repeat;transition:background-color .2s}
   .sx-t input[type=search]::-webkit-search-cancel-button:hover{background-color:#E1E6F0}

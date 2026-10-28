@@ -22,70 +22,63 @@
     d = d || {}; o = o || {};
     var site = o.site || 'https://ree-me-website.vercel.app/';
     var logo = o.logo || site + 'assets/ree-me-logo-bRK-tEB-.png';
+    var img = o.img || site + 'assets/hero-long-thanh-wkOxBeou.jpg';
     var at = o.at || when();
     var name = esc((d.name || '').trim()), company = esc((d.company || '').trim());
     var phone = esc((d.phone || '').trim()), email = esc((d.email || '').trim()), type = esc((d.type || '').trim());
     var msg = esc((d.message || '').trim()).replace(/\n/g, '<br>');
     var tel = /\{\{/.test(phone) ? phone : phone.replace(/[^0-9+]/g, '');
-    var BG = '#EEF0F4', GOLD = '#C2A16B', HAIR = '#E6E9F0', TINT = '#F6F7FB';
+    var BG = '#E9EDF3', GOLD = '#C2A16B', HAIR = '#E8EAF0', MU = '#6B7385';
     var SERIF = "'Playfair Display',Georgia,'Times New Roman',serif";
     var SANS = "'Inter','Helvetica Neue',Helvetica,Arial,sans-serif";
     var T = function (a) { return '<table role="presentation" cellpadding="0" cellspacing="0" border="0"' + (a || '') + '>'; };
     var dash = '<span style="color:#A9B0C0">—</span>';
-    var head = function (t) { return T(' width="100%"') + '<tr><td style="white-space:nowrap;font:700 11px/1 ' + SANS + ';letter-spacing:.24em;text-transform:uppercase;color:' + NAVY + '">' + t + '</td>' +
-      '<td width="100%" style="padding-left:16px">' + T(' width="100%"') + '<tr><td style="height:1px;background:' + HAIR + ';font-size:0;line-height:0">&nbsp;</td></tr></table></td></tr></table>'; };
-    var cell = function (label, value, w) {
-      return '<td class="c" valign="top" width="' + (w || '50%') + '" style="padding:6px">' + T(' width="100%" style="background:' + TINT + ';border-radius:12px"') +
-        '<tr><td style="padding:16px 18px 17px"><p style="margin:0;font:600 10.5px/1.3 ' + SANS + ';letter-spacing:.14em;text-transform:uppercase;color:#8790A6">' + label + '</p>' +
-        '<p style="margin:7px 0 0;font:600 15.5px/1.45 ' + SANS + ';color:' + INK + ';word-break:break-word">' + (value || dash) + '</p></td></tr></table></td>';
+    var sec = function (t) { return '<p class="sec" style="margin:0 0 4px;font:600 11px/1.4 ' + SANS + ';letter-spacing:.22em;text-transform:uppercase;color:' + RED + '">' + t + '</p>'; };
+    var r = function (l, v, last) {
+      var b = last ? '' : 'border-bottom:1px solid ' + HAIR + ';';
+      return '<tr><td class="lbl" width="170" valign="top" style="padding:16px 12px 16px 0;' + b + 'font:400 14px/1.5 ' + SANS + ';color:' + MU + '">' + l + '</td>' +
+        '<td valign="top" style="padding:16px 0;' + b + 'font:500 15px/1.5 ' + SANS + ';color:' + INK + ';word-break:break-word">' + (v || dash) + '</td></tr>';
     };
-    var link = function (href, v) { return '<a href="' + href + '" style="color:' + NAVY + ';text-decoration:none;border-bottom:1px solid ' + GOLD + '">' + v + '</a>'; };
+    var link = function (href, v) { return '<a href="' + href + '" style="color:' + NAVY + ';text-decoration:none">' + v + '</a>'; };
     return '<!doctype html><html lang="vi"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">' +
       '<meta name="color-scheme" content="light"><meta name="supported-color-schemes" content="light"><title>' + esc(subject(d)) + '</title>' +
       '<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Playfair+Display:ital,wght@0,500;1,400&display=swap" rel="stylesheet">' +
-      '<style>body{margin:0;padding:0;background:' + BG + '}a{color:' + NAVY + '}@media (max-width:620px){.wrap{width:100%!important}.px{padding-left:18px!important;padding-right:18px!important}.hx{padding:34px 24px 32px!important}.g{font-size:22px!important}.q{font-size:18px!important}.c{display:block!important;width:100%!important;box-sizing:border-box}.dv{border-left:0!important;border-top:1px solid #E6E9F0!important}}</style></head>' +
+      '<style>body{margin:0;padding:0;background:' + BG + '}a{color:' + NAVY + '}@media (max-width:620px){.wrap{width:100%!important}.px{padding-left:24px!important;padding-right:24px!important}.hx{padding:28px 24px 30px!important}.sp{height:84px!important}.g{font-size:23px!important}.q{font-size:20px!important}.lbl{width:118px!important}}</style></head>' +
       '<body style="margin:0;padding:0;background:' + BG + '">' +
       T(' width="100%" style="background:' + BG + '"') + '<tr><td align="center" style="padding:32px 12px 44px">' +
-      T(' class="wrap" width="600" style="width:600px;max-width:600px;background:#FFFFFF;border-radius:20px;overflow:hidden;box-shadow:0 30px 70px -40px rgba(11,31,74,.45)"') +
+      T(' class="wrap" width="600" style="width:600px;max-width:600px;background:#FFFFFF;border-radius:16px;overflow:hidden;box-shadow:0 30px 70px -40px rgba(11,31,74,.45)"') +
 
-      /* hero: logo + greeting + intro */
-      '<tr><td class="hx" style="padding:40px 48px 40px;background:' + NAVY_D + ';background-image:radial-gradient(120% 140% at 100% 0%,#24509C 0%,' + NAVY + ' 42%,' + NAVY_D + ' 100%)">' +
-      T(' width="100%"') + '<tr><td valign="middle">' + T() + '<tr><td style="padding:9px 11px;background:#FFFFFF;border-radius:10px"><img src="' + logo + '" width="56" height="39" alt="R.E.E M&amp;E" style="display:block;border:0;width:56px;height:auto"></td></tr></table></td>' +
-      '<td valign="middle" align="right">' + T(' align="right"') + '<tr><td style="width:40px;height:1px;background:' + GOLD + ';font-size:0;line-height:0">&nbsp;</td><td style="width:8px"></td><td style="width:8px;height:8px;border-radius:50%;background:' + RED + ';font-size:0;line-height:0">&nbsp;</td></tr></table></td></tr></table>' +
-      '<p class="g" style="margin:34px 0 0;font:italic 400 25px/1.4 ' + SERIF + ';color:#FFFFFF">Kính gửi Quản trị viên Website &amp; Ban Dự án R.E.E M&amp;E,</p>' +
-      '<p style="margin:16px 0 0;font:400 15px/1.75 ' + SANS + ';color:rgba(255,255,255,.74)">Hệ thống vừa ghi nhận <b style="color:#FFFFFF;font-weight:600">01 Yêu cầu tư vấn dự án mới</b> được gửi từ biểu mẫu trên Website R.E.E M&amp;E. Chi tiết thông tin tiếp nhận như sau:</p>' +
-      '</td></tr>' +
-      '<tr><td style="font-size:0;line-height:0">' + T(' width="100%"') + '<tr><td width="76%" style="height:3px;background:' + GOLD + '">&nbsp;</td><td style="height:3px;background:' + RED + '">&nbsp;</td></tr></table></td></tr>' +
+      /* photo header (C) */
+      '<tr><td bgcolor="' + NAVY_D + '" style="background:' + NAVY_D + ' url(' + img + ') center/cover no-repeat;background-color:' + NAVY_D + ';background-image:url(' + img + ');background-size:cover;background-position:center">' +
+      T(' width="100%" style="background:linear-gradient(180deg,rgba(11,31,74,.25) 0%,rgba(11,31,74,.55) 45%,rgba(11,31,74,.95) 100%)"') + '<tr><td class="hx" style="padding:32px 44px 38px">' +
+      T() + '<tr><td style="padding:9px 11px;background:#FFFFFF;border-radius:10px"><img src="' + logo + '" width="54" height="37" alt="R.E.E M&amp;E" style="display:block;border:0;width:54px;height:auto"></td></tr></table>' +
+      '<div class="sp" style="height:120px;line-height:120px;font-size:0">&nbsp;</div>' +
+      '<p class="g" style="margin:0;font:italic 400 27px/1.38 ' + SERIF + ';color:#FFFFFF">Kính gửi Quản trị viên Website &amp; Ban Dự án R.E.E M&amp;E,</p>' +
+      '<p style="margin:14px 0 0;font:400 15px/1.72 ' + SANS + ';color:rgba(255,255,255,.82)">Hệ thống vừa ghi nhận <b style="color:#FFFFFF;font-weight:600">01 Yêu cầu tư vấn dự án mới</b> được gửi từ biểu mẫu trên Website R.E.E M&amp;E. Chi tiết thông tin tiếp nhận như sau:</p>' +
+      '</td></tr></table></td></tr>' +
+      '<tr><td style="font-size:0;line-height:0">' + T(' width="100%"') + '<tr><td width="70%" style="height:3px;background:' + RED + '">&nbsp;</td><td style="height:3px;background:' + GOLD + '">&nbsp;</td></tr></table></td></tr>' +
 
-      /* customer & project */
-      '<tr><td class="px" style="padding:38px 42px 0"><div style="padding:0 6px 10px">' + head('Thông tin khách hàng &amp; dự án') + '</div>' +
-      T(' class="gr" width="100%"') + '<tr>' + cell('Họ và tên', name) + cell('Công ty', company) + '</tr>' +
-      '<tr>' + cell('Số điện thoại', phone ? link('tel:' + tel, phone) : '') + cell('Email', email ? link('mailto:' + email, email) : '') + '</tr>' +
-      '<tr>' + cell('Loại hình dự án', type, '100%').replace('<td class="c"', '<td class="c" colspan="2"') + '</tr></table></td></tr>' +
+      /* customer & project (A) */
+      '<tr><td class="px" style="padding:42px 48px 0">' + sec('Thông tin khách hàng &amp; dự án') + T(' width="100%"') +
+      r('Họ và tên', name) + r('Công ty', company) + r('Số điện thoại', phone ? link('tel:' + tel, phone) : '') +
+      r('Email', email ? link('mailto:' + email, email) : '') + r('Loại hình dự án', type, true) + '</table></td></tr>' +
 
-      /* request */
-      '<tr><td class="px" style="padding:34px 48px 0">' + head('Nội dung yêu cầu tư vấn') +
-      T(' width="100%" style="margin-top:16px;border-radius:14px;background:#FFFFFF;border:1px solid ' + HAIR + '"') + '<tr>' +
-      '<td width="4" style="background:' + RED + ';border-radius:14px 0 0 14px;font-size:0;line-height:0">&nbsp;</td>' +
-      '<td style="padding:22px 28px 26px 24px"><p style="margin:0;height:22px;font:400 52px/0.9 ' + SERIF + ';color:' + GOLD + '">&ldquo;</p>' +
-      '<p class="q" style="margin:4px 0 0;font:italic 400 19.5px/1.65 ' + SERIF + ';color:' + INK + '">' + (msg || dash) + '</p></td></tr></table></td></tr>' +
+      /* request (A) */
+      '<tr><td class="px" style="padding:44px 48px 0">' + sec('Nội dung yêu cầu tư vấn') +
+      '<p class="q" style="margin:16px 0 0;font:italic 400 22px/1.6 ' + SERIF + ';color:' + NAVY + '">' + (msg ? '&ldquo;' + msg + '&rdquo;' : dash) + '</p></td></tr>' +
 
-      /* time + source */
-      '<tr><td class="px" style="padding:30px 48px 0">' + T(' width="100%" style="background:' + TINT + ';border-radius:12px"') + '<tr>' +
-      '<td class="c" valign="top" width="36%" style="padding:17px 18px 18px 20px"><p style="margin:0;font:600 10.5px/1.3 ' + SANS + ';letter-spacing:.14em;text-transform:uppercase;color:#8790A6">Thời gian gửi</p><p style="margin:7px 0 0;font:600 15.5px/1.45 ' + SANS + ';color:' + INK + '">' + at + '</p></td>' +
-      '<td class="c dv" valign="top" style="padding:17px 20px 18px 20px;border-left:1px solid ' + HAIR + '"><p style="margin:0;font:600 10.5px/1.3 ' + SANS + ';letter-spacing:.14em;text-transform:uppercase;color:#8790A6">Nguồn đăng ký</p><p style="margin:7px 0 0;font:500 14px/1.55 ' + SANS + ';color:' + INK + '">Form &ldquo;Yêu cầu tư vấn / Gửi thông tin dự án&rdquo; - Website R.E.E M&amp;E</p></td>' +
-      '</tr></table></td></tr>' +
+      /* time + source (A) */
+      '<tr><td class="px" style="padding:40px 48px 0">' + T(' width="100%" style="border-top:1px solid ' + HAIR + '"') +
+      r('Thời gian gửi', at) + r('Nguồn đăng ký', 'Form &ldquo;Yêu cầu tư vấn / Gửi thông tin dự án&rdquo; - Website R.E.E M&amp;E', true) + '</table></td></tr>' +
 
-      /* note */
-      '<tr><td class="px" style="padding:22px 48px 0">' + T(' width="100%" style="background:#FFF5F3;border-radius:14px"') + '<tr>' +
-      '<td width="44" valign="top" style="padding:18px 0 18px 18px"><div style="width:26px;height:26px;border-radius:50%;background:' + RED + ';text-align:center;font:700 14px/26px ' + SANS + ';color:#FFFFFF">!</div></td>' +
-      '<td style="padding:18px 22px 18px 14px;font:400 14px/1.7 ' + SANS + ';color:#5B2420"><b style="color:' + RED + ';font-weight:700">Lưu ý:</b> Bộ phận Chăm sóc khách hàng / Tư vấn dự án vui lòng kiểm tra và liên hệ phản hồi cho khách hàng trong vòng <b style="color:' + INK + ';font-weight:700">24 giờ làm việc</b>.</td></tr></table></td></tr>' +
+      /* note (C) */
+      '<tr><td class="px" style="padding:30px 48px 0">' + T(' width="100%" style="background:' + NAVY + ';background-image:linear-gradient(120deg,' + NAVY_D + ',' + NAVY + ');border-radius:12px"') +
+      '<tr><td style="padding:20px 24px;font:400 14.5px/1.7 ' + SANS + ';color:rgba(255,255,255,.86)"><b style="color:' + GOLD + ';font-weight:700">Lưu ý:</b> Bộ phận Chăm sóc khách hàng / Tư vấn dự án vui lòng kiểm tra và liên hệ phản hồi cho khách hàng trong vòng <b style="color:#FFFFFF;font-weight:700">24 giờ làm việc</b>.</td></tr></table></td></tr>' +
 
-      /* sign-off */
-      '<tr><td class="px" style="padding:38px 48px 44px">' + T() + '<tr><td style="width:36px;height:1px;background:' + GOLD + ';font-size:0;line-height:0">&nbsp;</td></tr></table>' +
-      '<p style="margin:18px 0 0;font:italic 400 17px/1.5 ' + SERIF + ';color:' + MUTED + '">Trân trọng,</p>' +
-      '<p style="margin:6px 0 0;font:600 15.5px/1.5 ' + SANS + ';color:' + INK + '">Hệ thống Quản trị Website R.E.E M&amp;E</p></td></tr>' +
-      '<tr><td style="font-size:0;line-height:0">' + T(' width="100%"') + '<tr><td width="76%" style="height:4px;background:' + NAVY + '">&nbsp;</td><td style="height:4px;background:' + RED + '">&nbsp;</td></tr></table></td></tr>' +
+      /* sign-off (B) */
+      '<tr><td class="px" style="padding:40px 48px 46px">' + T() + '<tr><td style="width:40px;height:1px;background:' + GOLD + ';font-size:0;line-height:0">&nbsp;</td></tr></table>' +
+      '<p style="margin:18px 0 0;font:italic 400 17px/1.5 ' + SERIF + ';color:' + MU + '">Trân trọng,</p>' +
+      '<p style="margin:6px 0 0;font:600 15px/1.5 ' + SANS + ';color:' + INK + '">Hệ thống Quản trị Website R.E.E M&amp;E</p></td></tr>' +
 
       '</table></td></tr></table></body></html>';
   }
@@ -106,8 +99,8 @@
     '.rem-x:hover{background:#E4E8F0;color:#0F1B33;transform:rotate(90deg)}.rem-x svg{width:16px;height:16px}' +
     '.rem-note{display:flex;align-items:center;gap:8px;padding:9px 22px;background:#FFF7E8;color:#8A5A00;font-size:12.5px;border-bottom:1px solid #F5E3BF}' +
     '.rem-note svg{flex:none;width:15px;height:15px}' +
-    '.rem-body{flex:1;min-height:0;overflow:auto;display:flex;justify-content:center;background:#EEF0F4}' +
-    '.rem-body iframe{display:block;width:100%;max-width:100%;border:0;background:#EEF0F4;transition:max-width .45s cubic-bezier(.2,.8,.2,1)}' +
+    '.rem-body{flex:1;min-height:0;overflow:auto;display:flex;justify-content:center;background:#E9EDF3}' +
+    '.rem-body iframe{display:block;width:100%;max-width:100%;border:0;background:#E9EDF3;transition:max-width .45s cubic-bezier(.2,.8,.2,1)}' +
     '.rem.mob .rem-body{padding:18px 0}.rem.mob .rem-body iframe{max-width:390px;border-radius:24px;box-shadow:0 0 0 8px #0F1B33,0 24px 50px -24px rgba(0,0,0,.5)}' +
     '@media (max-width:640px){.rem{padding:0}.rem-box{height:100%;border-radius:0}.rem-seg{display:none}.rem-top{padding:12px 12px 12px 16px}}';
 
@@ -116,7 +109,7 @@
     if (!document.getElementById('rem-css')) { var st = document.createElement('style'); st.id = 'rem-css'; st.textContent = css; document.head.appendChild(st); }
     var old = document.querySelector('.rem'); if (old) old.remove();
     var site = new URL('./', location.href).href;
-    var html = build(d, { site: 'https://ree-me-website.vercel.app/', logo: site + 'assets/ree-me-logo-bRK-tEB-.png' });
+    var html = build(d, { site: 'https://ree-me-website.vercel.app/', logo: site + 'assets/ree-me-logo-bRK-tEB-.png', img: site + 'assets/hero-long-thanh-wkOxBeou.jpg' });
     
     var w = document.createElement('div'); w.className = 'rem'; w.setAttribute('role', 'dialog'); w.setAttribute('aria-modal', 'true'); w.setAttribute('aria-label', 'Xem trước email thông báo');
     w.innerHTML = '<div class="rem-box"><div class="rem-top"><span class="rem-av">R</span><div class="rem-meta"><div class="rem-sub">' + esc(subject(d)) + '</div><div class="rem-from"><b>Hệ thống Website R.E.E M&amp;E</b> &lt;no-reply@reeme.com.vn&gt; &nbsp;→&nbsp; ree@reeme.com.vn</div></div>' +

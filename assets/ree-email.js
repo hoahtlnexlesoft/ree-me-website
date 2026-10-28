@@ -27,58 +27,65 @@
     var phone = esc((d.phone || '').trim()), email = esc((d.email || '').trim()), type = esc((d.type || '').trim());
     var msg = esc((d.message || '').trim()).replace(/\n/g, '<br>');
     var tel = /\{\{/.test(phone) ? phone : phone.replace(/[^0-9+]/g, '');
-    var IV = '#F5F3EE', GOLD = '#B08D57', HAIR = '#E7E3DA';
+    var BG = '#EEF0F4', GOLD = '#C2A16B', HAIR = '#E6E9F0', TINT = '#F6F7FB';
     var SERIF = "'Playfair Display',Georgia,'Times New Roman',serif";
     var SANS = "'Inter','Helvetica Neue',Helvetica,Arial,sans-serif";
     var T = function (a) { return '<table role="presentation" cellpadding="0" cellspacing="0" border="0"' + (a || '') + '>'; };
-    var dash = '<span style="color:#B9B3A6">—</span>';
-    var head = function (t) { return '<p class="sec" style="margin:0;font:700 11px/1.4 ' + SANS + ';letter-spacing:.24em;text-transform:uppercase;color:' + NAVY + '"><span style="display:inline-block;width:22px;height:1px;margin-right:12px;vertical-align:middle;background:' + RED + '"></span>' + t + '</p>'; };
-    var line = function (label, value, last) {
-      return '<tr><td class="lbl" valign="top" width="170" style="padding:15px 16px 15px 0;' + (last ? '' : 'border-bottom:1px solid ' + HAIR + ';') + 'font:500 14px/1.5 ' + SANS + ';color:' + MUTED + '">' + label + ':</td>' +
-        '<td valign="top" style="padding:15px 0;' + (last ? '' : 'border-bottom:1px solid ' + HAIR + ';') + 'font:600 15px/1.5 ' + SANS + ';color:' + INK + '">' + (value || dash) + '</td></tr>';
+    var dash = '<span style="color:#A9B0C0">—</span>';
+    var head = function (t) { return T(' width="100%"') + '<tr><td style="white-space:nowrap;font:700 11px/1 ' + SANS + ';letter-spacing:.24em;text-transform:uppercase;color:' + NAVY + '">' + t + '</td>' +
+      '<td width="100%" style="padding-left:16px">' + T(' width="100%"') + '<tr><td style="height:1px;background:' + HAIR + ';font-size:0;line-height:0">&nbsp;</td></tr></table></td></tr></table>'; };
+    var cell = function (label, value, w) {
+      return '<td class="c" valign="top" width="' + (w || '50%') + '" style="padding:6px">' + T(' width="100%" style="background:' + TINT + ';border-radius:12px"') +
+        '<tr><td style="padding:16px 18px 17px"><p style="margin:0;font:600 10.5px/1.3 ' + SANS + ';letter-spacing:.14em;text-transform:uppercase;color:#8790A6">' + label + '</p>' +
+        '<p style="margin:7px 0 0;font:600 15.5px/1.45 ' + SANS + ';color:' + INK + ';word-break:break-word">' + (value || dash) + '</p></td></tr></table></td>';
     };
+    var link = function (href, v) { return '<a href="' + href + '" style="color:' + NAVY + ';text-decoration:none;border-bottom:1px solid ' + GOLD + '">' + v + '</a>'; };
     return '<!doctype html><html lang="vi"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">' +
       '<meta name="color-scheme" content="light"><meta name="supported-color-schemes" content="light"><title>' + esc(subject(d)) + '</title>' +
       '<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Playfair+Display:ital,wght@0,500;1,400&display=swap" rel="stylesheet">' +
-      '<style>body{margin:0;padding:0;background:' + IV + '}a{color:' + NAVY + '}@media (max-width:620px){.wrap{width:100%!important}.px{padding-left:24px!important;padding-right:24px!important}.lbl{width:120px!important}.q{font-size:18px!important}.g{font-size:18px!important}}</style></head>' +
-      '<body style="margin:0;padding:0;background:' + IV + '">' +
-      T(' width="100%" style="background:' + IV + '"') + '<tr><td align="center" style="padding:32px 12px 44px">' +
-      T(' class="wrap" width="600" style="width:600px;max-width:600px;background:#FFFFFF;border-radius:4px;overflow:hidden;box-shadow:0 1px 0 ' + HAIR + ',0 30px 60px -40px rgba(30,25,15,.35)"') +
+      '<style>body{margin:0;padding:0;background:' + BG + '}a{color:' + NAVY + '}@media (max-width:620px){.wrap{width:100%!important}.px{padding-left:18px!important;padding-right:18px!important}.hx{padding:34px 24px 32px!important}.g{font-size:22px!important}.q{font-size:18px!important}.c{display:block!important;width:100%!important;box-sizing:border-box}.dv{border-left:0!important;border-top:1px solid #E6E9F0!important}}</style></head>' +
+      '<body style="margin:0;padding:0;background:' + BG + '">' +
+      T(' width="100%" style="background:' + BG + '"') + '<tr><td align="center" style="padding:32px 12px 44px">' +
+      T(' class="wrap" width="600" style="width:600px;max-width:600px;background:#FFFFFF;border-radius:20px;overflow:hidden;box-shadow:0 30px 70px -40px rgba(11,31,74,.45)"') +
 
-      /* brand bar + logo */
-      '<tr><td style="font-size:0;line-height:0">' + T(' width="100%"') + '<tr><td width="76%" style="height:4px;background:' + NAVY + '">&nbsp;</td><td style="height:4px;background:' + RED + '">&nbsp;</td></tr></table></td></tr>' +
-      '<tr><td align="center" style="padding:38px 40px 0"><img src="' + logo + '" width="66" height="46" alt="R.E.E M&amp;E" style="display:block;border:0;width:66px;height:auto"></td></tr>' +
-      '<tr><td align="center" style="padding:26px 0 0">' + T(' align="center"') + '<tr><td style="width:44px;height:1px;background:' + GOLD + ';font-size:0;line-height:0">&nbsp;</td></tr></table></td></tr>' +
-
-      /* greeting + intro */
-      '<tr><td class="px" style="padding:30px 52px 0"><p class="g" style="margin:0;font:italic 400 21px/1.45 ' + SERIF + ';color:' + INK + '">Kính gửi Quản trị viên Website &amp; Ban Dự án R.E.E M&amp;E,</p>' +
-      '<p style="margin:16px 0 0;font:400 15px/1.75 ' + SANS + ';color:' + MUTED + '">Hệ thống vừa ghi nhận <b style="color:' + INK + ';font-weight:600">01 Yêu cầu tư vấn dự án mới</b> được gửi từ biểu mẫu trên Website R.E.E M&amp;E. Chi tiết thông tin tiếp nhận như sau:</p></td></tr>' +
+      /* hero: logo + greeting + intro */
+      '<tr><td class="hx" style="padding:40px 48px 40px;background:' + NAVY_D + ';background-image:radial-gradient(120% 140% at 100% 0%,#24509C 0%,' + NAVY + ' 42%,' + NAVY_D + ' 100%)">' +
+      T(' width="100%"') + '<tr><td valign="middle">' + T() + '<tr><td style="padding:9px 11px;background:#FFFFFF;border-radius:10px"><img src="' + logo + '" width="56" height="39" alt="R.E.E M&amp;E" style="display:block;border:0;width:56px;height:auto"></td></tr></table></td>' +
+      '<td valign="middle" align="right">' + T(' align="right"') + '<tr><td style="width:40px;height:1px;background:' + GOLD + ';font-size:0;line-height:0">&nbsp;</td><td style="width:8px"></td><td style="width:8px;height:8px;border-radius:50%;background:' + RED + ';font-size:0;line-height:0">&nbsp;</td></tr></table></td></tr></table>' +
+      '<p class="g" style="margin:34px 0 0;font:italic 400 25px/1.4 ' + SERIF + ';color:#FFFFFF">Kính gửi Quản trị viên Website &amp; Ban Dự án R.E.E M&amp;E,</p>' +
+      '<p style="margin:16px 0 0;font:400 15px/1.75 ' + SANS + ';color:rgba(255,255,255,.74)">Hệ thống vừa ghi nhận <b style="color:#FFFFFF;font-weight:600">01 Yêu cầu tư vấn dự án mới</b> được gửi từ biểu mẫu trên Website R.E.E M&amp;E. Chi tiết thông tin tiếp nhận như sau:</p>' +
+      '</td></tr>' +
+      '<tr><td style="font-size:0;line-height:0">' + T(' width="100%"') + '<tr><td width="76%" style="height:3px;background:' + GOLD + '">&nbsp;</td><td style="height:3px;background:' + RED + '">&nbsp;</td></tr></table></td></tr>' +
 
       /* customer & project */
-      '<tr><td class="px" style="padding:36px 52px 0">' + head('Thông tin khách hàng &amp; dự án') +
-      T(' width="100%" style="margin-top:14px;border-top:1px solid ' + HAIR + '"') +
-      line('Họ và tên', name) + line('Công ty', company) +
-      line('Số điện thoại', phone ? '<a href="tel:' + tel + '" style="color:' + NAVY + ';text-decoration:none">' + phone + '</a>' : '') +
-      line('Email', email ? '<a href="mailto:' + email + '" style="color:' + NAVY + ';text-decoration:none;word-break:break-all">' + email + '</a>' : '') +
-      line('Loại hình dự án', type, true) + '</table></td></tr>' +
+      '<tr><td class="px" style="padding:38px 42px 0"><div style="padding:0 6px 10px">' + head('Thông tin khách hàng &amp; dự án') + '</div>' +
+      T(' class="gr" width="100%"') + '<tr>' + cell('Họ và tên', name) + cell('Công ty', company) + '</tr>' +
+      '<tr>' + cell('Số điện thoại', phone ? link('tel:' + tel, phone) : '') + cell('Email', email ? link('mailto:' + email, email) : '') + '</tr>' +
+      '<tr>' + cell('Loại hình dự án', type, '100%').replace('<td class="c"', '<td class="c" colspan="2"') + '</tr></table></td></tr>' +
 
       /* request */
-      '<tr><td class="px" style="padding:36px 52px 0">' + head('Nội dung yêu cầu tư vấn') +
-      T(' width="100%" style="margin-top:16px;background:' + IV + ';border-radius:4px"') + '<tr>' +
-      '<td valign="top" width="54" style="padding:22px 0 0 22px;font:400 58px/0.8 ' + SERIF + ';color:' + RED + '">&ldquo;</td>' +
-      '<td valign="top" style="padding:22px 26px 24px 4px"><p class="q" style="margin:0;font:italic 400 19px/1.65 ' + SERIF + ';color:' + INK + '">' + (msg || dash) + '&rdquo;</p></td></tr></table></td></tr>' +
+      '<tr><td class="px" style="padding:34px 48px 0">' + head('Nội dung yêu cầu tư vấn') +
+      T(' width="100%" style="margin-top:16px;border-radius:14px;background:#FFFFFF;border:1px solid ' + HAIR + '"') + '<tr>' +
+      '<td width="4" style="background:' + RED + ';border-radius:14px 0 0 14px;font-size:0;line-height:0">&nbsp;</td>' +
+      '<td style="padding:22px 28px 26px 24px"><p style="margin:0;height:22px;font:400 52px/0.9 ' + SERIF + ';color:' + GOLD + '">&ldquo;</p>' +
+      '<p class="q" style="margin:4px 0 0;font:italic 400 19.5px/1.65 ' + SERIF + ';color:' + INK + '">' + (msg || dash) + '</p></td></tr></table></td></tr>' +
 
       /* time + source */
-      '<tr><td class="px" style="padding:30px 52px 0">' + T(' width="100%" style="border-top:1px solid ' + HAIR + '"') +
-      line('Thời gian gửi', at) + line('Nguồn đăng ký', '<span style="font-weight:500">Form &ldquo;Yêu cầu tư vấn / Gửi thông tin dự án&rdquo; - Website R.E.E M&amp;E</span>', true) + '</table></td></tr>' +
+      '<tr><td class="px" style="padding:30px 48px 0">' + T(' width="100%" style="background:' + TINT + ';border-radius:12px"') + '<tr>' +
+      '<td class="c" valign="top" width="36%" style="padding:17px 18px 18px 20px"><p style="margin:0;font:600 10.5px/1.3 ' + SANS + ';letter-spacing:.14em;text-transform:uppercase;color:#8790A6">Thời gian gửi</p><p style="margin:7px 0 0;font:600 15.5px/1.45 ' + SANS + ';color:' + INK + '">' + at + '</p></td>' +
+      '<td class="c dv" valign="top" style="padding:17px 20px 18px 20px;border-left:1px solid ' + HAIR + '"><p style="margin:0;font:600 10.5px/1.3 ' + SANS + ';letter-spacing:.14em;text-transform:uppercase;color:#8790A6">Nguồn đăng ký</p><p style="margin:7px 0 0;font:500 14px/1.55 ' + SANS + ';color:' + INK + '">Form &ldquo;Yêu cầu tư vấn / Gửi thông tin dự án&rdquo; - Website R.E.E M&amp;E</p></td>' +
+      '</tr></table></td></tr>' +
 
       /* note */
-      '<tr><td class="px" style="padding:26px 52px 0">' + T(' width="100%"') + '<tr><td style="width:3px;background:' + RED + ';font-size:0;line-height:0">&nbsp;</td>' +
-      '<td style="padding:4px 0 4px 18px;font:400 14px/1.7 ' + SANS + ';color:' + INK + '"><b style="color:' + RED + ';font-weight:700">Lưu ý:</b> Bộ phận Chăm sóc khách hàng / Tư vấn dự án vui lòng kiểm tra và liên hệ phản hồi cho khách hàng trong vòng <b style="font-weight:700">24 giờ làm việc</b>.</td></tr></table></td></tr>' +
+      '<tr><td class="px" style="padding:22px 48px 0">' + T(' width="100%" style="background:#FFF5F3;border-radius:14px"') + '<tr>' +
+      '<td width="44" valign="top" style="padding:18px 0 18px 18px"><div style="width:26px;height:26px;border-radius:50%;background:' + RED + ';text-align:center;font:700 14px/26px ' + SANS + ';color:#FFFFFF">!</div></td>' +
+      '<td style="padding:18px 22px 18px 14px;font:400 14px/1.7 ' + SANS + ';color:#5B2420"><b style="color:' + RED + ';font-weight:700">Lưu ý:</b> Bộ phận Chăm sóc khách hàng / Tư vấn dự án vui lòng kiểm tra và liên hệ phản hồi cho khách hàng trong vòng <b style="color:' + INK + ';font-weight:700">24 giờ làm việc</b>.</td></tr></table></td></tr>' +
 
       /* sign-off */
-      '<tr><td class="px" style="padding:38px 52px 46px"><p style="margin:0;font:italic 400 17px/1.5 ' + SERIF + ';color:' + MUTED + '">Trân trọng,</p>' +
-      '<p style="margin:6px 0 0;font:600 15px/1.5 ' + SANS + ';color:' + INK + '">Hệ thống Quản trị Website R.E.E M&amp;E</p></td></tr>' +
+      '<tr><td class="px" style="padding:38px 48px 44px">' + T() + '<tr><td style="width:36px;height:1px;background:' + GOLD + ';font-size:0;line-height:0">&nbsp;</td></tr></table>' +
+      '<p style="margin:18px 0 0;font:italic 400 17px/1.5 ' + SERIF + ';color:' + MUTED + '">Trân trọng,</p>' +
+      '<p style="margin:6px 0 0;font:600 15.5px/1.5 ' + SANS + ';color:' + INK + '">Hệ thống Quản trị Website R.E.E M&amp;E</p></td></tr>' +
+      '<tr><td style="font-size:0;line-height:0">' + T(' width="100%"') + '<tr><td width="76%" style="height:4px;background:' + NAVY + '">&nbsp;</td><td style="height:4px;background:' + RED + '">&nbsp;</td></tr></table></td></tr>' +
 
       '</table></td></tr></table></body></html>';
   }
@@ -99,8 +106,8 @@
     '.rem-x:hover{background:#E4E8F0;color:#0F1B33;transform:rotate(90deg)}.rem-x svg{width:16px;height:16px}' +
     '.rem-note{display:flex;align-items:center;gap:8px;padding:9px 22px;background:#FFF7E8;color:#8A5A00;font-size:12.5px;border-bottom:1px solid #F5E3BF}' +
     '.rem-note svg{flex:none;width:15px;height:15px}' +
-    '.rem-body{flex:1;min-height:0;overflow:auto;display:flex;justify-content:center;background:#F5F3EE}' +
-    '.rem-body iframe{display:block;width:100%;max-width:100%;border:0;background:#F5F3EE;transition:max-width .45s cubic-bezier(.2,.8,.2,1)}' +
+    '.rem-body{flex:1;min-height:0;overflow:auto;display:flex;justify-content:center;background:#EEF0F4}' +
+    '.rem-body iframe{display:block;width:100%;max-width:100%;border:0;background:#EEF0F4;transition:max-width .45s cubic-bezier(.2,.8,.2,1)}' +
     '.rem.mob .rem-body{padding:18px 0}.rem.mob .rem-body iframe{max-width:390px;border-radius:24px;box-shadow:0 0 0 8px #0F1B33,0 24px 50px -24px rgba(0,0,0,.5)}' +
     '@media (max-width:640px){.rem{padding:0}.rem-box{height:100%;border-radius:0}.rem-seg{display:none}.rem-top{padding:12px 12px 12px 16px}}';
 

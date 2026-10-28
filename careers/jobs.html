@@ -84,8 +84,8 @@
   /* empty state v2 */
   html body .empty{position:relative;max-width:720px;margin:24px auto;padding:52px 32px 48px;border:0;border-radius:24px;background:#fff;box-shadow:0 1px 2px rgba(10,30,80,.05),0 24px 60px -36px rgba(10,30,80,.35);gap:0;overflow:hidden}
   html body .empty::before{content:"";position:absolute;inset:0 0 auto 0;height:120px;background:radial-gradient(60% 100% at 50% 0,rgba(47,99,240,.08),transparent 70%);pointer-events:none}
-  .empty .em-ic{position:relative;display:grid;place-items:center;width:64px;height:64px;border-radius:20px;background:linear-gradient(135deg,#EEF3FF,#E3EAFB);color:var(--brand-ink,#0B2A6F);box-shadow:inset 0 0 0 1px rgba(11,42,111,.06);margin-bottom:20px}
-  .empty .em-ic svg{width:28px;height:28px}
+  .empty .em-ic{position:relative;display:block;width:min(300px,82%);margin:-8px 0 14px}
+  .empty .em-ic svg{display:block;width:100%;height:auto}
   html body .empty h3{position:relative;font-size:clamp(1.3rem,2vw,1.6rem);text-transform:none;letter-spacing:-.01em;font-weight:700;color:var(--brand-ink,#0B2A6F);margin:0}
   .empty .em-p{position:relative;max-width:44ch;margin:10px 0 0;color:var(--muted);font-size:15px;line-height:1.6}
   .empty .em-acts{position:relative;display:flex;gap:12px;flex-wrap:wrap;justify-content:center;margin-top:28px}
@@ -396,7 +396,26 @@
     </div>
     <div id="list"></div>
     <div class="empty" id="empty" hidden>
-      <span class="em-ic" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="6.5"/><path d="m20 20-4-4M8.5 8.5l5 5M13.5 8.5l-5 5"/></svg></span>
+      <span class="em-ic" aria-hidden="true"><svg viewBox="0 0 320 200" fill="none" stroke-linecap="round" stroke-linejoin="round">
+        <ellipse cx="66" cy="180" rx="44" ry="6" fill="#EEF3FB"/><ellipse cx="166" cy="180" rx="62" ry="7" fill="#EEF3FB"/><ellipse cx="236" cy="180" rx="34" ry="5" fill="#EEF3FB"/>
+        <g stroke="#8FA6CF" stroke-width="2"><path d="M100 12v10M95 17h10M282 26v10M277 31h10M298 136v10M293 141h10"/><circle cx="22" cy="142" r="3"/><circle cx="300" cy="92" r="2.5"/></g>
+        <path d="M40 36q1.4 9.6 11 11-9.6 1.4-11 11-1.4-9.6-11-11 9.6-1.4 11-11z" stroke="#1E3A6E" stroke-width="2" fill="#fff"/>
+        <g stroke="#8FA6CF" stroke-width="2.2" stroke-dasharray="4 6"><path d="M62 70c-2-26 22-40 44-30"/><path d="M234 54c24-8 42 12 38 38"/></g>
+        <g stroke="#8FA6CF" stroke-width="2.2"><path d="M99 33l8 7-10 3"/><path d="M266 86l6 8 7-8"/></g>
+        <g stroke="#1E3A6E" stroke-width="2.4">
+          <path d="M65 74V56" /><path d="M28 104 65 76l37 28" fill="#D9E4F5"/><rect x="34" y="100" width="62" height="78" rx="3" fill="#D9E4F5"/>
+          <path d="M58 178v-18a7 7 0 0 1 14 0v18" fill="#B4C7E6"/>
+        </g>
+        <path d="M66 56l13 4.5L66 65z" fill="#E2454A"/>
+        <g fill="#fff"><rect x="44" y="112" width="11" height="9" rx="1.5"/><rect x="60" y="112" width="11" height="9" rx="1.5"/><rect x="76" y="112" width="11" height="9" rx="1.5"/><rect x="44" y="130" width="11" height="9" rx="1.5"/><rect x="76" y="130" width="11" height="9" rx="1.5"/><rect x="60" y="130" width="11" height="9" rx="1.5"/></g>
+        <g stroke="#1E3A6E" stroke-width="2.4"><rect x="118" y="28" width="96" height="150" rx="10" fill="#fff"/><path d="M118 52h96" stroke-width="0"/><rect x="146" y="20" width="40" height="15" rx="5" fill="#D9E4F5"/></g>
+        <path d="M120.5 38v-0a8 8 0 0 1 8-8h17.5v5h40v-5h17.5a8 8 0 0 1 8 8v8h-91z" fill="#EEF3FB"/>
+        <g stroke="#1E3A6E" stroke-width="2.2"><rect x="134" y="62" width="14" height="14" rx="3"/><rect x="134" y="94" width="14" height="14" rx="3"/><rect x="134" y="126" width="14" height="14" rx="3"/></g>
+        <g stroke="#B4C7E6" stroke-width="3.2"><path d="M158 66h38M158 98h38M158 130h38"/></g>
+        <g stroke="#DCE5F3" stroke-width="2.4"><path d="M158 74h24M158 106h24M158 138h24"/></g>
+        <g stroke="#1E3A6E"><path d="M243 150l20 20" stroke-width="8"/><circle cx="224" cy="131" r="26" fill="#EEF3FB" fill-opacity=".92" stroke-width="2.6"/></g>
+        <path d="M216 124a8 8 0 1 1 11.5 7.2c-2.6 1.3-3.5 2.8-3.5 5.6" stroke="#E2454A" stroke-width="2.6"/><circle cx="224" cy="143.5" r="1.9" fill="#E2454A"/>
+      </svg></span>
       <h3>Chưa có vị trí khớp</h3>
       <p class="em-p">Thử bỏ bớt điều kiện lọc, hoặc gửi CV để chúng tôi liên hệ khi có vị trí phù hợp.</p>
       <div class="em-acts"><button class="btn btn-ghost" id="emptyReset" type="button"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 12a9 9 0 1 0 3-6.7"/><path d="M3 4v5h5"/></svg>Xóa bộ lọc</button><button class="btn btn-accent" id="emptyApply" type="button"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/></svg>Gửi CV ngay</button></div>

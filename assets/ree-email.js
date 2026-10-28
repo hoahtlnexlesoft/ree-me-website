@@ -30,7 +30,7 @@
     var msg = esc((d.message || '').trim()).replace(/\n/g, '<br>');
     var tel = /\{\{/.test(phone) ? phone : phone.replace(/[^0-9+]/g, '');
     var BG = '#E9EDF3', GOLD = '#C2A16B', HAIR = '#E8EAF0', MU = '#6B7385';
-    var SERIF = "'Playfair Display',Georgia,'Times New Roman',serif";
+    var SERIF = "Georgia,'Times New Roman',Times,serif";
     var SANS = "'Inter','Helvetica Neue',Helvetica,Arial,sans-serif";
     var T = function (a) { return '<table role="presentation" cellpadding="0" cellspacing="0" border="0"' + (a || '') + '>'; };
     var dash = '<span style="color:#A9B0C0">—</span>';
@@ -43,8 +43,8 @@
     var link = function (href, v) { return '<a href="' + href + '" style="color:' + NAVY + ';text-decoration:none">' + v + '</a>'; };
     return '<!doctype html><html lang="vi"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">' +
       '<meta name="color-scheme" content="light"><meta name="supported-color-schemes" content="light"><title>' + esc(subject(d)) + '</title>' +
-      '<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Playfair+Display:ital,wght@0,500;1,400&display=swap" rel="stylesheet">' +
-      '<style>body{margin:0;padding:0;background:' + BG + '}a{color:' + NAVY + '}@media (max-width:620px){.wrap{width:100%!important}.px{padding-left:24px!important;padding-right:24px!important}.hx{padding:20px 22px!important}.cn{font-size:11px!important;letter-spacing:0!important}.lg{width:54px!important}.lgc{padding-right:12px!important}.gi{width:100%!important}.q{font-size:20px!important}.lbl{width:118px!important}}</style></head>' +
+      '<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">' +
+      '<style>body{margin:0;padding:0;background:' + BG + '}a{color:' + NAVY + '}@media (max-width:620px){.wrap{width:100%!important}.px{padding-left:24px!important;padding-right:24px!important}.hx{padding:20px 22px!important}.cn{font-size:11px!important;letter-spacing:0!important}.lg{width:54px!important}.lgc{padding-right:12px!important}.g{font-size:23px!important}.q{font-size:20px!important}.lbl{width:118px!important}}</style></head>' +
       '<body style="margin:0;padding:0;background:' + BG + '">' +
       T(' width="100%" style="background:' + BG + '"') + '<tr><td align="center" style="padding:32px 12px 44px">' +
       T(' class="wrap" width="600" style="width:600px;max-width:600px;background:#FFFFFF;border-radius:16px;overflow:hidden;box-shadow:0 30px 70px -40px rgba(11,31,74,.45)"') +
@@ -58,7 +58,7 @@
       '<tr><td style="font-size:0;line-height:0">' + T(' width="100%"') + '<tr><td width="70%" style="height:3px;background:' + RED + '">&nbsp;</td><td style="height:3px;background:' + GOLD + '">&nbsp;</td></tr></table></td></tr>' +
 
       /* greeting + intro */
-      '<tr><td class="px" style="padding:32px 48px 0"><img class="gi" src="' + base + 'assets/email/greeting.png" width="504" height="81" alt="Kính gửi Quản trị viên Website &amp; Ban Dự án R.E.E M&amp;E," style="display:block;border:0;width:504px;max-width:100%;height:auto;font:italic 400 24px/1.4 ' + SERIF + ';color:' + INK + '">' +
+      '<tr><td class="px" style="padding:32px 48px 0"><p class="g" style="margin:0;font:italic 400 26px/1.4 ' + SERIF + ';color:' + INK + '">Kính gửi Quản trị viên Website &amp; Ban Dự án R.E.E M&amp;E,</p>' +
       '<p style="margin:16px 0 0;font:400 15.5px/1.75 ' + SANS + ';color:' + MU + '">Hệ thống vừa ghi nhận <b style="color:' + INK + ';font-weight:600">01 Yêu cầu tư vấn dự án mới</b> được gửi từ biểu mẫu trên Website R.E.E M&amp;E. Chi tiết thông tin tiếp nhận như sau:</p></td></tr>' +
 
       /* customer & project (A) */
@@ -81,7 +81,7 @@
 
       /* sign-off (B) */
       '<tr><td class="px" style="padding:28px 48px 34px">' + T() + '<tr><td style="width:40px;height:1px;background:' + GOLD + ';font-size:0;line-height:0">&nbsp;</td></tr></table>' +
-      '<img src="' + base + 'assets/email/tran-trong.png" width="85" height="31" alt="Trân trọng," style="display:block;margin-top:16px;border:0;width:85px;height:auto;font:italic 400 17px/1.5 ' + SERIF + ';color:' + MU + '">' +
+      '<p style="margin:18px 0 0;font:italic 400 17px/1.5 ' + SERIF + ';color:' + MU + '">Trân trọng,</p>' +
       '<p style="margin:6px 0 0;font:600 15px/1.5 ' + SANS + ';color:' + INK + '">Hệ thống Quản trị Website R.E.E M&amp;E</p></td></tr>' +
 
       '</table></td></tr></table></body></html>';

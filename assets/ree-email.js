@@ -17,7 +17,7 @@
     var who = [(d.company || '').trim(), (d.name || '').trim()].filter(Boolean).join(' / ') || 'Khách hàng mới';
     return '[R.E.E Web] Yêu cầu tư vấn dự án mới - ' + who;
   }
-  function label(t) { return '<p class="sec" style="margin:0 0 4px;font:700 11px/1 ' + FONT + ';letter-spacing:.24em;text-transform:uppercase;color:' + NAVY + '"><span style="display:inline-block;width:18px;height:2px;margin-right:10px;vertical-align:middle;background:' + RED + '"></span>' + t + '</p>'; }
+  function initials(n) { n = (n || '').replace(/\{\{.*?\}\}/g, '').trim().split(/\s+/).filter(Boolean); if (!n.length) return 'R'; return ((n[0][0] || '') + (n.length > 1 ? n[n.length - 1][0] : '')).toUpperCase(); }
 
   function build(d, o) {
     d = d || {}; o = o || {};
@@ -26,79 +26,94 @@
     var ref = o.ref || code();
     var at = o.at || when();
     var name = esc((d.name || '').trim()), company = esc((d.company || '').trim());
-    var phone = esc((d.phone || '').trim()), email = esc((d.email || '').trim());
+    var phone = esc((d.phone || '').trim()), email = esc((d.email || '').trim()), type = esc((d.type || '').trim());
     var msg = esc((d.message || '').trim()).replace(/\n/g, '<br>');
-    var who = [company, name].filter(Boolean).join(' / ') || 'Khách hàng mới';
     var tel = /\{\{/.test(phone) ? phone : phone.replace(/[^0-9+]/g, '');
-    var p = 'margin:0;font:400 15px/1.7 ' + FONT + ';color:' + INK;
-    var card = function (inner) { return '<table role="presentation" cellpadding="0" cellspacing="0" border="0" width="100%" style="background:' + SOFT + ';border-radius:14px"><tr><td style="padding:24px 26px 10px">' + inner + '</td></tr></table>'; };
+    var IV = '#F5F3EE', GOLD = '#B08D57', HAIR = '#E7E3DA';
+    var SERIF = "'Playfair Display',Georgia,'Times New Roman',serif";
+    var SANS = "'Inter','Helvetica Neue',Helvetica,Arial,sans-serif";
+    var cap = function (t, c) { return '<p style="margin:0;font:600 10px/1.4 ' + SANS + ';letter-spacing:.28em;text-transform:uppercase;color:' + (c || '#8A8578') + '">' + t + '</p>'; };
+    var dash = '<span style="color:#B9B3A6">—</span>';
+    var T = function (attrs) { return '<table role="presentation" cellpadding="0" cellspacing="0" border="0"' + (attrs || '') + '>'; };
+    var mailto = email ? 'mailto:' + email + '?subject=' + encodeURIComponent('Re: ' + subject(d)) : '';
     return '<!doctype html><html lang="vi"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">' +
-      '<meta name="color-scheme" content="light"><title>' + esc(subject(d)) + '</title>' +
-      '<style>body{margin:0;padding:0;background:#EEF1F6}a{color:' + NAVY + '}@media (max-width:620px){.wrap{width:100%!important}.px{padding-left:22px!important;padding-right:22px!important}.h1{font-size:25px!important}.lbl{width:118px!important}.btn{width:100%!important}.btn td{display:block!important;padding:0 0 10px!important}.btn a{display:block!important;text-align:center!important}.sep{display:none!important}.tm{display:block!important;margin-top:10px}.sec{letter-spacing:.14em!important}}</style></head>' +
-      '<body style="margin:0;padding:0;background:#EEF1F6">' +
-      '<div style="display:none;max-height:0;overflow:hidden;opacity:0">Yêu cầu tư vấn dự án mới từ ' + who + ' — vui lòng phản hồi khách hàng trong vòng 24 giờ làm việc.</div>' +
-      '<table role="presentation" cellpadding="0" cellspacing="0" border="0" width="100%" style="background:#EEF1F6"><tr><td align="center" style="padding:32px 12px 40px">' +
-      '<table role="presentation" class="wrap" cellpadding="0" cellspacing="0" border="0" width="600" style="width:600px;max-width:600px;background:#FFFFFF;border-radius:18px;overflow:hidden;box-shadow:0 24px 60px -30px rgba(11,31,74,.35)">' +
+      '<meta name="color-scheme" content="light"><meta name="supported-color-schemes" content="light"><title>' + esc(subject(d)) + '</title>' +
+      '<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Playfair+Display:ital,wght@0,500;0,600;1,400&display=swap" rel="stylesheet">' +
+      '<style>body{margin:0;padding:0;background:' + IV + '}a{color:' + NAVY + '}' +
+      '@media (max-width:620px){.wrap{width:100%!important}.px{padding-left:24px!important;padding-right:24px!important}.h1{font-size:34px!important}.q{font-size:19px!important}.col{display:block!important;width:100%!important;border-left:0!important;border-top:1px solid rgba(255,255,255,.14)!important;padding:16px 24px!important}.col1{border-top:0!important}.c2{display:block!important;width:100%!important;padding:22px 0 0!important;border-left:0!important}.c2b{padding:20px 0 22px!important}.hide-m{display:none!important}.cta .pb{display:block!important;min-width:0!important}}</style></head>' +
+      '<body style="margin:0;padding:0;background:' + IV + '">' +
+      '<div style="display:none;max-height:0;overflow:hidden;opacity:0">' + ([company, name].filter(Boolean).join(' / ') || 'Khách hàng mới') + ' vừa gửi yêu cầu tư vấn dự án ' + (type ? '(' + type + ') ' : '') + '— vui lòng phản hồi trong 24 giờ làm việc.</div>' +
+      T(' width="100%" style="background:' + IV + '"') + '<tr><td align="center" style="padding:28px 12px 44px">' +
 
-      /* top bar + header */
-      '<tr><td style="font-size:0;line-height:0"><table role="presentation" cellpadding="0" cellspacing="0" border="0" width="100%"><tr><td width="72%" style="height:4px;background:' + NAVY + '">&nbsp;</td><td style="height:4px;background:' + RED + '">&nbsp;</td></tr></table></td></tr>' +
-      '<tr><td class="px" style="padding:26px 44px 22px"><table role="presentation" cellpadding="0" cellspacing="0" border="0" width="100%"><tr>' +
-      '<td valign="middle"><a href="' + site + '" style="text-decoration:none"><img src="' + logo + '" width="74" height="51" alt="R.E.E M&amp;E" style="display:block;border:0;width:74px;height:auto"></a></td>' +
-      '<td valign="middle" align="right" style="font:600 10.5px/1.6 ' + FONT + ';letter-spacing:.16em;text-transform:uppercase;color:' + MUTED + '">Thông báo nội bộ<br><span style="color:' + INK + ';letter-spacing:.08em">' + ref + '</span></td>' +
+      /* pre-header */
+      T(' class="wrap" width="600" style="width:600px;max-width:600px"') + '<tr>' +
+      '<td style="padding:0 6px 14px;font:600 10px/1 ' + SANS + ';letter-spacing:.26em;text-transform:uppercase;color:#8A8578">R.E.E M&amp;E&nbsp;&nbsp;·&nbsp;&nbsp;Thông báo nội bộ</td>' +
+      '<td class="hide-m" align="right" style="padding:0 6px 14px;font:600 10px/1 ' + SANS + ';letter-spacing:.2em;color:#8A8578">' + ref + '</td></tr></table>' +
+
+      T(' class="wrap" width="600" style="width:600px;max-width:600px;background:#FFFFFF;border-radius:4px;overflow:hidden;box-shadow:0 1px 0 ' + HAIR + ',0 30px 60px -40px rgba(30,25,15,.35)"') +
+
+      /* masthead */
+      '<tr><td align="center" style="padding:40px 40px 0"><a href="' + site + '" style="text-decoration:none"><img src="' + logo + '" width="64" height="44" alt="R.E.E M&amp;E" style="display:block;border:0;width:64px;height:auto"></a></td></tr>' +
+      '<tr><td align="center" class="px" style="padding:30px 48px 0">' + cap('Yêu cầu tư vấn dự án', RED) +
+      '<h1 class="h1" style="margin:16px 0 0;font:500 42px/1.12 ' + SERIF + ';letter-spacing:-.01em;color:' + INK + '">Một dự án mới<br><i style="font-weight:400;color:' + NAVY + '">đang chờ phản hồi</i></h1>' +
+      '<p style="margin:22px 0 0;font:500 13px/1.6 ' + SANS + ';letter-spacing:.14em;text-transform:uppercase;color:' + MUTED + '">' + ([company, name].filter(Boolean).join('&nbsp;&nbsp;/&nbsp;&nbsp;') || 'Khách hàng mới') + '</p>' +
+      T(' align="center" style="margin:26px auto 0"') + '<tr><td style="width:44px;height:1px;background:' + GOLD + ';font-size:0;line-height:0">&nbsp;</td></tr></table></td></tr>' +
+
+      /* key facts band */
+      '<tr><td style="padding:36px 0 0">' + T(' width="100%" style="background:' + NAVY_D + ';background-image:linear-gradient(120deg,' + NAVY_D + ' 0%,' + NAVY + ' 100%)"') + '<tr>' +
+      '<td class="col col1" width="40%" valign="top" style="padding:24px 18px 24px 40px">' + cap('Loại hình dự án', '#C9B48A') + '<p style="margin:9px 0 0;font:600 15px/1.4 ' + SANS + ';color:#FFFFFF">' + (type || '—') + '</p></td>' +
+      '<td class="col" width="28%" valign="top" style="padding:24px 18px;border-left:1px solid rgba(255,255,255,.14)">' + cap('Thời gian gửi', '#C9B48A') + '<p style="margin:9px 0 0;font:600 15px/1.4 ' + SANS + ';white-space:nowrap;color:#FFFFFF">' + at + '</p></td>' +
+      '<td class="col" width="32%" valign="top" style="padding:24px 40px 24px 18px;border-left:1px solid rgba(255,255,255,.14)">' + cap('Mã yêu cầu', '#C9B48A') + '<p style="margin:9px 0 0;font:600 15px/1.4 ' + SANS + ';white-space:nowrap;color:#FFFFFF">' + ref + '</p></td>' +
       '</tr></table></td></tr>' +
-
-      /* hero */
-      '<tr><td style="padding:0 16px"><table role="presentation" cellpadding="0" cellspacing="0" border="0" width="100%" style="background:' + NAVY + ';background-image:linear-gradient(135deg,' + NAVY_D + ' 0%,' + NAVY + ' 55%,#1D4690 100%);border-radius:14px"><tr>' +
-      '<td class="px" style="padding:40px 40px 38px">' +
-      '<p style="margin:0;font:700 11px/1 ' + FONT + ';letter-spacing:.3em;text-transform:uppercase;color:#FF8C84">Yêu cầu tư vấn mới<span class="sep">&nbsp;&nbsp;·&nbsp;&nbsp;</span><span class="tm">' + at + '</span></p>' +
-      '<h1 class="h1" style="margin:18px 0 0;font:700 29px/1.25 ' + FONT + ';letter-spacing:-.01em;color:#FFFFFF">01 yêu cầu tư vấn dự án mới<br><span style="color:rgba(255,255,255,.62);font-weight:600">' + who + '</span></h1>' +
-      (d.type ? '<p style="margin:20px 0 0"><span style="display:inline-block;padding:8px 14px;border-radius:999px;background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.18);font:600 12px/1 ' + FONT + ';letter-spacing:.06em;color:#FFFFFF">' + esc(d.type) + '</span></p>' : '') +
-      '</td></tr></table></td></tr>' +
 
       /* greeting */
-      '<tr><td class="px" style="padding:34px 44px 6px"><p style="' + p + ';font-weight:700">Kính gửi Quản trị viên Website &amp; Ban Dự án R.E.E M&amp;E,</p>' +
-      '<p style="' + p + ';margin-top:10px;color:' + MUTED + '">Hệ thống vừa ghi nhận <b style="color:' + INK + '">01 Yêu cầu tư vấn dự án mới</b> được gửi từ biểu mẫu trên Website R.E.E M&amp;E. Chi tiết thông tin tiếp nhận như sau:</p></td></tr>' +
+      '<tr><td class="px" style="padding:40px 48px 0"><p style="margin:0;font:italic 400 19px/1.5 ' + SERIF + ';color:' + INK + '">Kính gửi Quản trị viên Website &amp; Ban Dự án R.E.E M&amp;E,</p>' +
+      '<p style="margin:14px 0 0;font:400 15px/1.75 ' + SANS + ';color:' + MUTED + '">Hệ thống vừa ghi nhận <b style="color:' + INK + ';font-weight:600">01 Yêu cầu tư vấn dự án mới</b> được gửi từ biểu mẫu trên Website R.E.E M&amp;E. Chi tiết thông tin tiếp nhận như sau:</p></td></tr>' +
 
-      /* customer & project */
-      '<tr><td class="px" style="padding:24px 44px 0">' + card(label('Thông tin khách hàng &amp; dự án') +
-      '<table role="presentation" cellpadding="0" cellspacing="0" border="0" width="100%">' +
-      row('Họ và tên', name) + row('Công ty', company) +
-      row('Số điện thoại', phone ? '<a href="tel:' + tel + '" style="color:' + NAVY + ';text-decoration:none;font-weight:600">' + phone + '</a>' : '') +
-      row('Email', email ? '<a href="mailto:' + email + '" style="color:' + NAVY + ';text-decoration:none;font-weight:600">' + email + '</a>' : '') +
-      row('Loại hình dự án', esc(d.type), true) + '</table>') + '</td></tr>' +
-
-      /* request content */
-      '<tr><td class="px" style="padding:18px 44px 0">' + card(label('Nội dung yêu cầu tư vấn') +
-      '<table role="presentation" cellpadding="0" cellspacing="0" border="0" width="100%"><tr><td style="padding:14px 0 16px">' +
-      (msg ? '<p style="margin:0;padding:2px 0 2px 18px;border-left:3px solid ' + RED + ';font:italic 400 15.5px/1.7 Georgia,\'Times New Roman\',serif;color:' + INK + '">&ldquo;' + msg + '&rdquo;</p>' : '<p style="margin:0;font:400 14px/1.6 ' + FONT + ';color:#A3ACBF">Khách hàng không để lại nội dung.</p>') +
-      '</td></tr></table>') + '</td></tr>' +
-
-      /* meta */
-      '<tr><td class="px" style="padding:18px 44px 0"><table role="presentation" cellpadding="0" cellspacing="0" border="0" width="100%">' +
-      row('Thời gian gửi', at) + row('Nguồn đăng ký', 'Form &ldquo;Yêu cầu tư vấn / Gửi thông tin dự án&rdquo; - Website R.E.E M&amp;E', true) +
-      '</table></td></tr>' +
-
-      /* note */
-      '<tr><td class="px" style="padding:22px 44px 0"><table role="presentation" cellpadding="0" cellspacing="0" border="0" width="100%" style="background:#FFF4F2;border-radius:12px;border:1px solid #F8D5D0"><tr>' +
-      '<td width="42" valign="top" style="padding:18px 0 18px 18px"><span style="display:inline-block;width:24px;height:24px;border-radius:50%;background:' + RED + ';color:#FFFFFF;font:700 14px/24px ' + FONT + ';text-align:center">!</span></td>' +
-      '<td style="padding:18px 20px 18px 12px;font:400 14px/1.6 ' + FONT + ';color:#7A2B26"><b style="color:#B3261E">Lưu ý:</b> Bộ phận Chăm sóc khách hàng / Tư vấn dự án vui lòng kiểm tra và liên hệ phản hồi cho khách hàng trong vòng <b style="color:#B3261E">24 giờ làm việc</b>.</td>' +
+      /* client */
+      '<tr><td class="px" style="padding:34px 48px 0">' + cap('Thông tin khách hàng &amp; dự án') +
+      T(' width="100%" style="margin-top:16px;border-top:1px solid ' + HAIR + ';border-bottom:1px solid ' + HAIR + '"') + '<tr>' +
+      '<td class="c2" width="50%" valign="top" style="padding:24px 20px 24px 0">' + T() + '<tr>' +
+      '<td valign="top" style="padding-right:16px"><div style="width:52px;height:52px;border-radius:50%;background:' + NAVY + ';box-shadow:0 0 0 3px #FFFFFF,0 0 0 4px ' + GOLD + ';text-align:center;font:500 19px/52px ' + SERIF + ';color:#FFFFFF">' + initials(d.name) + '</div></td>' +
+      '<td valign="middle"><p style="margin:0;font:500 22px/1.25 ' + SERIF + ';color:' + INK + '">' + (name || dash) + '</p><p style="margin:5px 0 0;font:500 13.5px/1.4 ' + SANS + ';color:' + MUTED + '">' + (company || 'Cá nhân') + '</p></td></tr></table></td>' +
+      '<td class="c2 c2b" width="50%" valign="top" style="padding:24px 0 24px 24px;border-left:1px solid ' + HAIR + '">' +
+      cap('Số điện thoại') + '<p style="margin:6px 0 0;font:600 15px/1.4 ' + SANS + '">' + (phone ? '<a href="tel:' + tel + '" style="color:' + NAVY + ';text-decoration:none">' + phone + '</a>' : dash) + '</p>' +
+      '<div style="height:16px;line-height:16px;font-size:0">&nbsp;</div>' + cap('Email') + '<p style="margin:6px 0 0;font:600 15px/1.4 ' + SANS + ';word-break:break-all">' + (email ? '<a href="mailto:' + email + '" style="color:' + NAVY + ';text-decoration:none">' + email + '</a>' : dash) + '</p></td>' +
       '</tr></table></td></tr>' +
 
-      /* actions */
-      ((tel || email) ? '<tr><td class="px" align="left" style="padding:26px 44px 0"><table role="presentation" class="btn" cellpadding="0" cellspacing="0" border="0"><tr>' +
-      (tel ? '<td style="padding:0 10px 10px 0"><a href="tel:' + tel + '" style="display:inline-block;padding:15px 26px;border-radius:10px;background:' + RED + ';background-image:linear-gradient(90deg,#C8302C,#E4574B);font:700 12px/1 ' + FONT + ';letter-spacing:.16em;text-transform:uppercase;white-space:nowrap;color:#FFFFFF;text-decoration:none">Gọi khách hàng</a></td>' : '') +
-      (email ? '<td style="padding:0 10px 10px 0"><a href="mailto:' + email + '?subject=' + encodeURIComponent('Re: ' + subject(d)) + '" style="display:inline-block;padding:14px 24px;border-radius:10px;border:1px solid ' + NAVY + ';font:700 12px/1 ' + FONT + ';letter-spacing:.16em;text-transform:uppercase;white-space:nowrap;color:' + NAVY + ';text-decoration:none">Trả lời email</a></td>' : '') +
-      '</tr></table></td></tr>' : '') +
+      /* request */
+      '<tr><td class="px" style="padding:36px 48px 0">' + cap('Nội dung yêu cầu tư vấn') +
+      (msg ? T(' width="100%" style="margin-top:14px"') + '<tr><td valign="top" width="40" style="font:400 64px/0.9 ' + SERIF + ';color:' + RED + '">&ldquo;</td>' +
+        '<td valign="top" style="padding-top:6px"><p class="q" style="margin:0;font:italic 400 20px/1.6 ' + SERIF + ';color:' + INK + '">' + msg + '</p></td></tr></table>'
+        : '<p style="margin:14px 0 0;font:400 14px/1.6 ' + SANS + ';color:#A39E92">Khách hàng không để lại nội dung.</p>') +
+      '</td></tr>' +
+
+      /* source */
+      '<tr><td class="px" style="padding:30px 48px 0">' + T(' width="100%" style="background:' + IV + ';border-radius:4px"') + '<tr>' +
+      '<td style="padding:18px 22px;font:400 13px/1.65 ' + SANS + ';color:' + MUTED + '"><b style="color:' + INK + ';font-weight:600">Nguồn đăng ký:</b> Form &ldquo;Yêu cầu tư vấn / Gửi thông tin dự án&rdquo; - Website R.E.E M&amp;E<br><b style="color:' + INK + ';font-weight:600">Thời gian gửi:</b> ' + at + '</td></tr></table></td></tr>' +
+
+      /* note */
+      '<tr><td class="px" style="padding:22px 48px 0">' + T(' width="100%"') + '<tr><td style="width:3px;background:' + RED + ';font-size:0;line-height:0">&nbsp;</td>' +
+      '<td style="padding:4px 0 4px 18px;font:400 14px/1.65 ' + SANS + ';color:' + INK + '"><b style="color:' + RED + ';font-weight:700">Lưu ý</b>&nbsp; Bộ phận Chăm sóc khách hàng / Tư vấn dự án vui lòng kiểm tra và liên hệ phản hồi cho khách hàng trong vòng <b style="font-weight:700">24 giờ làm việc</b>.</td></tr></table></td></tr>' +
+
+      /* CTA */
+      ((tel || email) ? '<tr><td class="px cta" align="center" style="padding:36px 48px 0">' +
+        (tel ? '<a class="pb" href="tel:' + tel + '" style="display:inline-block;min-width:240px;padding:18px 34px;background:' + NAVY + ';background-image:linear-gradient(120deg,' + NAVY_D + ',' + NAVY + ');border-radius:2px;font:600 11.5px/1 ' + SANS + ';letter-spacing:.24em;text-transform:uppercase;color:#FFFFFF;text-decoration:none;text-align:center">Liên hệ khách hàng&nbsp;&nbsp;→</a>' : '') +
+        (email ? '<p style="margin:18px 0 0;font:600 11px/1 ' + SANS + ';letter-spacing:.2em;text-transform:uppercase"><a href="' + mailto + '" style="color:' + NAVY + ';text-decoration:none;border-bottom:1px solid ' + GOLD + ';padding-bottom:4px">Trả lời qua email</a></p>' : '') +
+        '</td></tr>' : '') +
 
       /* sign-off */
-      '<tr><td class="px" style="padding:26px 44px 38px"><p style="' + p + ';color:' + MUTED + '">Trân trọng,</p><p style="' + p + ';margin-top:4px;font-weight:700">Hệ thống Quản trị Website R.E.E M&amp;E</p></td></tr>' +
+      '<tr><td class="px" align="center" style="padding:40px 48px 46px">' + T(' align="center" style="margin:0 auto 22px"') + '<tr><td style="width:44px;height:1px;background:' + GOLD + ';font-size:0;line-height:0">&nbsp;</td></tr></table>' +
+      '<p style="margin:0;font:italic 400 16px/1.5 ' + SERIF + ';color:' + MUTED + '">Trân trọng,</p>' +
+      '<p style="margin:6px 0 0;font:600 12px/1.5 ' + SANS + ';letter-spacing:.2em;text-transform:uppercase;color:' + INK + '">Hệ thống Quản trị Website R.E.E M&amp;E</p></td></tr>' +
+      '</table>' +
 
       /* footer */
-      '<tr><td class="px" style="background:' + NAVY_D + ';padding:24px 44px 26px;font:400 12px/1.7 ' + FONT + ';color:rgba(255,255,255,.55)">' +
-      '<a href="' + site + '" style="color:#FFFFFF;text-decoration:none;font-weight:700">R.E.E M&amp;E Website</a>&nbsp;&nbsp;·&nbsp;&nbsp;<a href="tel:19003339" style="color:#FFFFFF;text-decoration:none">1900 3339</a>&nbsp;&nbsp;·&nbsp;&nbsp;<a href="mailto:ree@reeme.com.vn" style="color:#FFFFFF;text-decoration:none">ree@reeme.com.vn</a><br>' +
-      'Email được tạo tự động khi khách hàng gửi biểu mẫu trên website. Mã yêu cầu: ' + ref + '.</td></tr>' +
+      T(' class="wrap" width="600" style="width:600px;max-width:600px"') + '<tr><td align="center" style="padding:26px 24px 0;font:400 11.5px/1.8 ' + SANS + ';color:#8A8578">' +
+      '<a href="' + site + '" style="color:' + INK + ';text-decoration:none;font-weight:600">reeme.com.vn</a>&nbsp;&nbsp;·&nbsp;&nbsp;<a href="tel:19003339" style="color:' + INK + ';text-decoration:none;font-weight:600">1900 3339</a>&nbsp;&nbsp;·&nbsp;&nbsp;<a href="mailto:ree@reeme.com.vn" style="color:' + INK + ';text-decoration:none;font-weight:600">ree@reeme.com.vn</a><br>' +
+      'Email được tạo tự động khi khách hàng gửi biểu mẫu trên website R.E.E M&amp;E.<br>© ' + new Date().getFullYear() + ' Công ty Cổ phần Dịch vụ &amp; Kỹ thuật Cơ điện lạnh R.E.E</td></tr></table>' +
 
-      '</table></td></tr></table></body></html>';
+      '</td></tr></table></body></html>';
   }
 
   /* ---------- preview overlay ---------- */
@@ -117,8 +132,8 @@
     '.rem-x:hover{background:#E4E8F0;color:#0F1B33;transform:rotate(90deg)}.rem-x svg{width:16px;height:16px}' +
     '.rem-note{display:flex;align-items:center;gap:8px;padding:9px 22px;background:#FFF7E8;color:#8A5A00;font-size:12.5px;border-bottom:1px solid #F5E3BF}' +
     '.rem-note svg{flex:none;width:15px;height:15px}' +
-    '.rem-body{flex:1;min-height:0;overflow:auto;display:flex;justify-content:center;background:#EEF1F6}' +
-    '.rem-body iframe{display:block;width:100%;max-width:100%;border:0;background:#EEF1F6;transition:max-width .45s cubic-bezier(.2,.8,.2,1)}' +
+    '.rem-body{flex:1;min-height:0;overflow:auto;display:flex;justify-content:center;background:#F5F3EE}' +
+    '.rem-body iframe{display:block;width:100%;max-width:100%;border:0;background:#F5F3EE;transition:max-width .45s cubic-bezier(.2,.8,.2,1)}' +
     '.rem.mob .rem-body{padding:18px 0}.rem.mob .rem-body iframe{max-width:390px;border-radius:24px;box-shadow:0 0 0 8px #0F1B33,0 24px 50px -24px rgba(0,0,0,.5)}' +
     '@media (max-width:640px){.rem{padding:0}.rem-box{height:100%;border-radius:0}.rem-seg{display:none}.rem-top{padding:12px 12px 12px 16px}}';
 

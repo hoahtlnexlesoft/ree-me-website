@@ -27,7 +27,7 @@
     var at = o.at || when();
     var name = esc((d.name || '').trim()), company = esc((d.company || '').trim());
     var phone = esc((d.phone || '').trim()), email = esc((d.email || '').trim()), type = esc((d.type || '').trim());
-    var msg = esc((d.message || '').trim()).replace(/\n/g, '<br>');
+    var msg = esc((d.message || '').replace(/\r/g, '').trim()).replace(/\n[ \t]*\n(?:[ \t]*\n)+/g, '\n\n').replace(/^[ \t]*[*\-•][ \t]+/gm, '•&nbsp;&nbsp;').replace(/\n/g, '<br>');
     var tel = /\{\{/.test(phone) ? phone : phone.replace(/[^0-9+]/g, '');
     var BG = '#E9EDF3', GOLD = '#C2A16B', HAIR = '#E8EAF0', MU = '#6B7385';
     var SERIF = "Georgia,'Times New Roman',Times,serif";

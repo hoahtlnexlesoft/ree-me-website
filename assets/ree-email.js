@@ -31,8 +31,6 @@
     var tel = /\{\{/.test(phone) ? phone : phone.replace(/[^0-9+]/g, '');
     var at0 = d.attach || {};
     var kb = function (n) { return n >= 1048576 ? (n / 1048576).toFixed(1).replace('.', ',') + ' MB' : Math.max(1, Math.round(n / 1024)) + ' KB'; };
-    var files = (at0.files || []).map(function (f) { return '<span style="font-weight:500">' + esc(f.name) + '</span>' + (f.size ? ' <span style="color:#8A93A8;font-weight:400">(' + kb(f.size) + ')</span>' : ''); });
-    var links = (at0.links || []).map(function (u) { var e = esc(u); return /\{\{/.test(u) ? e : '<a href="' + e + '" style="color:' + NAVY + ';text-decoration:none;word-break:break-all">' + e + '</a>'; });
     var BG = '#E9EDF3', GOLD = '#C2A16B', HAIR = '#E8EAF0', MU = '#6B7385';
     var SERIF = "Georgia,'Times New Roman',Times,serif";
     var SANS = "'Inter','Helvetica Neue',Helvetica,Arial,sans-serif";
@@ -45,6 +43,19 @@
         '<td valign="top" style="padding:10px 0;' + b + 'font:500 15px/1.5 ' + SANS + ';color:' + INK + ';word-break:break-word">' + (v || dash) + '</td></tr>';
     };
     var link = function (href, v) { return '<a href="' + href + '" style="color:' + NAVY + ';text-decoration:none">' + v + '</a>'; };
+    var fl = at0.files || [], ll = at0.links || [];
+    var EXT = { pdf: ['PDF', '#D93A35'], doc: ['DOC', '#2B5BD7'], docx: ['DOC', '#2B5BD7'], xls: ['XLS', '#1E8A4C'], xlsx: ['XLS', '#1E8A4C'], ppt: ['PPT', '#D9622B'], pptx: ['PPT', '#D9622B'], dwg: ['DWG', '#B07A12'], dxf: ['DXF', '#B07A12'], rvt: ['RVT', '#B07A12'], ifc: ['IFC', '#B07A12'], zip: ['ZIP', '#5E6A82'], rar: ['RAR', '#5E6A82'], '7z': ['7Z', '#5E6A82'], jpg: ['IMG', '#7A4FD1'], jpeg: ['IMG', '#7A4FD1'], png: ['IMG', '#7A4FD1'], webp: ['IMG', '#7A4FD1'] };
+    var host = function (u) { var m = /^https?:\/\/([^\/?#]+)/i.exec(u); var h = m ? m[1].replace(/^www\./, '') : ''; return /drive\.google|docs\.google/.test(h) ? 'Google Drive' : /dropbox/.test(h) ? 'Dropbox' : /onedrive|1drv\.ms/.test(h) ? 'OneDrive' : /sharepoint/.test(h) ? 'SharePoint' : /wetransfer|we\.tl/.test(h) ? 'WeTransfer' : h; };
+    var badge = function (t, c) { return '<td width="52" valign="middle" style="padding:12px 0 12px 14px"><div style="width:38px;height:38px;border-radius:9px;background:' + c + ';text-align:center;font:700 10.5px/38px ' + SANS + ';letter-spacing:.04em;color:#FFFFFF">' + t + '</div></td>'; };
+    var item = function (inner, last) { return '<tr><td style="padding:0' + (last ? '' : ' 0 8px') + '">' + T(' width="100%" style="border:1px solid ' + HAIR + ';border-radius:12px;background:#FFFFFF"') + '<tr>' + inner + '</tr></table></td></tr>'; };
+    var attach = fl.map(function (f, i) {
+      var ph = /\{\{/.test(f.name), ext = ph ? '' : (f.name.split('.').pop() || '').toLowerCase(), e = EXT[ext] || [ph ? 'FILE' : (ext || 'FILE').slice(0, 4).toUpperCase(), NAVY];
+      return item(badge(e[0], e[1]) + '<td valign="middle" style="padding:12px 16px;font:600 14.5px/1.4 ' + SANS + ';color:' + INK + ';word-break:break-all">' + esc(f.name) + (f.size ? '<br><span style="font-weight:400;font-size:12.5px;color:#8A93A8">' + kb(f.size) + '</span>' : '') + '</td>', i === fl.length - 1 && !ll.length);
+    }).concat(ll.map(function (u, i) {
+      var e = esc(u), ph = /\{\{/.test(u);
+      return item(badge('URL', NAVY) + '<td valign="middle" style="padding:12px 8px 12px 16px;font:600 14.5px/1.4 ' + SANS + ';color:' + INK + '">' + (ph ? 'Link tài liệu' : host(u)) + '<br><a href="' + e + '" style="font-weight:400;font-size:12.5px;color:#8A93A8;text-decoration:none;word-break:break-all">' + e + '</a></td>' +
+        (ph ? '' : '<td width="70" align="right" valign="middle" style="padding:12px 16px 12px 0"><a href="' + e + '" style="font:600 12.5px/1 ' + SANS + ';color:' + NAVY + ';text-decoration:none;white-space:nowrap">Mở &rarr;</a></td>'), i === ll.length - 1);
+    }));
     return '<!doctype html><html lang="vi"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">' +
       '<meta name="color-scheme" content="light"><meta name="supported-color-schemes" content="light"><title>' + esc(subject(d)) + '</title>' +
       '<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">' +
@@ -68,11 +79,14 @@
       /* customer & project (A) */
       '<tr><td class="px" style="padding:28px 48px 0">' + sec('Thông tin khách hàng &amp; dự án') + T(' width="100%"') +
       r('Họ và tên', name) + r('Công ty', company) + r('Số điện thoại', phone ? link('tel:' + tel, phone) : '') +
-      r('Email', email ? link('mailto:' + email, email) : '') + r('Loại hình dự án', type, !(files.length || links.length)) + (files.length ? r('Tệp đính kèm', files.join('<br>'), !links.length) : '') + (links.length ? r('Link tài liệu', links.join('<br>'), true) : '') + '</table></td></tr>' +
+      r('Email', email ? link('mailto:' + email, email) : '') + r('Loại hình dự án', type, true) + '</table></td></tr>' +
 
       /* request (A) */
       '<tr><td class="px" style="padding:30px 48px 0">' + sec('Nội dung yêu cầu tư vấn') +
       '<p class="q" style="margin:10px 0 0;font:italic 400 21px/1.6 ' + SERIF + ';color:' + NAVY + '">' + (msg ? '&ldquo;' + msg + '&rdquo;' : dash) + '</p></td></tr>' +
+
+      /* attachments */
+      (attach.length ? '<tr><td class="px" style="padding:28px 48px 0">' + sec('Tài liệu đính kèm') + T(' width="100%" style="margin-top:10px"') + attach.join('') + '</table></td></tr>' : '') +
 
       /* time + source (A) */
       '<tr><td class="px" style="padding:24px 48px 0">' + T(' width="100%" style="border-top:1px solid ' + HAIR + '"') +

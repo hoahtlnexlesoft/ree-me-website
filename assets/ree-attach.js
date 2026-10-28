@@ -2,7 +2,7 @@
    Adds a compact "Tài liệu đính kèm" row under "Nội dung": pick/drop several files and/or paste links.
    State lives in window.__reeAttach = { files: File[], links: string[] } and is read by ree-email.js. */
 (function () {
-  var MAX_FILES = 10, MAX_MB = 20;
+  var MAX_FILES = 2, MAX_MB = 10;
   var ACCEPT = '.pdf,.doc,.docx,.xls,.xlsx,.ppt,.pptx,.dwg,.dxf,.rvt,.ifc,.zip,.rar,.7z,.jpg,.jpeg,.png,.webp';
   window.__reeAttach = { files: [], links: [] };
 
@@ -11,7 +11,7 @@
     'Đính kèm file': 'Attach files',
     'Dán link Google Drive, Dropbox… rồi nhấn Enter': 'Paste a Google Drive, Dropbox… link and press Enter',
     'Thêm': 'Add',
-    'Tối đa 10 file, mỗi file ≤ 20MB · PDF, Word, Excel, CAD, ảnh, ZIP': 'Up to 10 files, ≤ 20MB each · PDF, Word, Excel, CAD, images, ZIP',
+    'Tối đa 2 file, mỗi file dưới 10MB · PDF, Word, Excel, CAD, ảnh, ZIP': 'Up to 2 files, under 10MB each · PDF, Word, Excel, CAD, images, ZIP',
     'Link chưa hợp lệ, vui lòng bắt đầu bằng http:// hoặc https://': 'Invalid link, please start with http:// or https://'
   });
 
@@ -56,10 +56,10 @@
       '<div class="ra-row"><button type="button" class="ra-btn">' + ICO.clip + '<span>Đính kèm file</span></button>' +
       '<label class="ra-link">' + ICO.link + '<input type="url" inputmode="url" placeholder="Dán link Google Drive, Dropbox… rồi nhấn Enter" aria-label="Link tài liệu"><button type="button">Thêm</button></label></div>' +
       '<input type="file" multiple accept="' + ACCEPT + '" hidden>' +
-      '<div class="ra-list" aria-live="polite"></div><div class="ra-hint">Tối đa 10 file, mỗi file ≤ 20MB · PDF, Word, Excel, CAD, ảnh, ZIP</div>';
+      '<div class="ra-list" aria-live="polite"></div><div class="ra-hint">Tối đa 2 file, mỗi file dưới 10MB · PDF, Word, Excel, CAD, ảnh, ZIP</div>';
     host.parentNode.insertBefore(box, host.nextSibling);
     var fileIn = box.querySelector('input[type=file]'), linkIn = box.querySelector('input[type=url]'), list = box.querySelector('.ra-list'), hint = box.querySelector('.ra-hint');
-    var err = function (m) { hint.className = m ? 'ra-err' : 'ra-hint'; hint.textContent = m || 'Tối đa 10 file, mỗi file ≤ 20MB · PDF, Word, Excel, CAD, ảnh, ZIP'; };
+    var err = function (m) { hint.className = m ? 'ra-err' : 'ra-hint'; hint.textContent = m || 'Tối đa 2 file, mỗi file dưới 10MB · PDF, Word, Excel, CAD, ảnh, ZIP'; };
     var draw = function () {
       list.innerHTML = S.files.map(function (f, i) { return '<span class="ra-chip">' + ICO.clip.replace('<svg', '<svg aria-hidden="true"') + '<span title="' + esc(f.name) + '">' + esc(f.name) + '</span><small>' + size(f.size) + '</small><button type="button" data-rf="' + i + '" aria-label="Xoá">' + ICO.x + '</button></span>'; }).join('') +
         S.links.map(function (l, i) { return '<span class="ra-chip">' + ICO.link + '<span title="' + esc(l) + '">' + esc(l.replace(/^https?:\/\//, '')) + '</span><button type="button" data-rl="' + i + '" aria-label="Xoá">' + ICO.x + '</button></span>'; }).join('');
@@ -67,8 +67,8 @@
     var addFiles = function (fl) {
       var msg = '';
       Array.prototype.forEach.call(fl, function (f) {
-        if (S.files.length >= MAX_FILES) { msg = 'Tối đa ' + MAX_FILES + ' file.'; return; }
-        if (f.size > MAX_MB * 1048576) { msg = '“' + f.name + '” lớn hơn ' + MAX_MB + 'MB.'; return; }
+        if (S.files.length >= MAX_FILES) { msg = 'Chỉ đính kèm tối đa ' + MAX_FILES + ' file.'; return; }
+        if (f.size >= MAX_MB * 1048576) { msg = '“' + f.name + '” vượt quá ' + MAX_MB + 'MB, vui lòng chọn file dưới ' + MAX_MB + 'MB.'; return; }
         if (S.files.some(function (x) { return x.name === f.name && x.size === f.size; })) return;
         S.files.push(f);
       });

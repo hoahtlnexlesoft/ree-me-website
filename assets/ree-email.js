@@ -73,9 +73,10 @@
       '<tr><td class="px" style="padding:40px 48px 0">' + T(' width="100%" style="border-top:1px solid ' + HAIR + '"') +
       r('Thời gian gửi', at) + r('Nguồn đăng ký', 'Form &ldquo;Yêu cầu tư vấn / Gửi thông tin dự án&rdquo; - Website R.E.E M&amp;E', true) + '</table></td></tr>' +
 
-      /* note (C) */
-      '<tr><td class="px" style="padding:30px 48px 0">' + T(' width="100%" style="background:' + NAVY + ';background-image:linear-gradient(120deg,' + NAVY_D + ',' + NAVY + ');border-radius:12px"') +
-      '<tr><td style="padding:20px 24px;font:400 14.5px/1.7 ' + SANS + ';color:rgba(255,255,255,.86)"><b style="color:' + GOLD + ';font-weight:700">Lưu ý:</b> Bộ phận Chăm sóc khách hàng / Tư vấn dự án vui lòng kiểm tra và liên hệ phản hồi cho khách hàng trong vòng <b style="color:#FFFFFF;font-weight:700">24 giờ làm việc</b>.</td></tr></table></td></tr>' +
+      /* note */
+      '<tr><td class="px" style="padding:30px 48px 0">' + T(' width="100%" style="background:#FBF6EC;border-radius:12px;border:1px solid #EFE3CB"') +
+      '<tr><td width="4" style="background:' + GOLD + ';border-radius:12px 0 0 12px;font-size:0;line-height:0">&nbsp;</td>' +
+      '<td style="padding:19px 24px 19px 20px;font:400 14.5px/1.7 ' + SANS + ';color:#4A3F2C"><b style="color:#9A7330;font-weight:700">Lưu ý:</b> Bộ phận Chăm sóc khách hàng / Tư vấn dự án vui lòng kiểm tra và liên hệ phản hồi cho khách hàng trong vòng <b style="color:' + INK + ';font-weight:700">24 giờ làm việc</b>.</td></tr></table></td></tr>' +
 
       /* sign-off (B) */
       '<tr><td class="px" style="padding:40px 48px 46px">' + T() + '<tr><td style="width:40px;height:1px;background:' + GOLD + ';font-size:0;line-height:0">&nbsp;</td></tr></table>' +

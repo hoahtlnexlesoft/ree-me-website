@@ -43,16 +43,16 @@
     return '<!doctype html><html lang="vi"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">' +
       '<meta name="color-scheme" content="light"><meta name="supported-color-schemes" content="light"><title>' + esc(subject(d)) + '</title>' +
       '<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Playfair+Display:ital,wght@0,500;1,400&display=swap" rel="stylesheet">' +
-      '<style>body{margin:0;padding:0;background:' + BG + '}a{color:' + NAVY + '}@media (max-width:620px){.wrap{width:100%!important}.px{padding-left:24px!important;padding-right:24px!important}.hx{padding:28px 24px 30px!important}.sp{height:110px!important}.g{font-size:23px!important}.q{font-size:20px!important}.lbl{width:118px!important}}</style></head>' +
+      '<style>body{margin:0;padding:0;background:' + BG + '}a{color:' + NAVY + '}@media (max-width:620px){.wrap{width:100%!important}.px{padding-left:24px!important;padding-right:24px!important}.hx{padding:20px 24px 20px!important}.sp{height:30px!important}.g{font-size:23px!important}.q{font-size:20px!important}.lbl{width:118px!important}}</style></head>' +
       '<body style="margin:0;padding:0;background:' + BG + '">' +
       T(' width="100%" style="background:' + BG + '"') + '<tr><td align="center" style="padding:32px 12px 44px">' +
       T(' class="wrap" width="600" style="width:600px;max-width:600px;background:#FFFFFF;border-radius:16px;overflow:hidden;box-shadow:0 30px 70px -40px rgba(11,31,74,.45)"') +
 
       /* photo header (C) */
       '<tr><td bgcolor="' + NAVY_D + '" style="background:' + NAVY_D + ' url(' + img + ') center/cover no-repeat;background-color:' + NAVY_D + ';background-image:url(' + img + ');background-size:cover;background-position:center">' +
-      T(' width="100%" style="background:linear-gradient(180deg,rgba(11,31,74,.35) 0%,rgba(11,31,74,.05) 45%,rgba(11,31,74,.55) 100%)"') + '<tr><td class="hx" style="padding:32px 44px 38px">' +
+      T(' width="100%" style="background:linear-gradient(180deg,rgba(11,31,74,.35) 0%,rgba(11,31,74,.05) 45%,rgba(11,31,74,.55) 100%)"') + '<tr><td class="hx" style="padding:26px 44px 26px">' +
       T() + '<tr><td style="padding:9px 11px;background:#FFFFFF;border-radius:10px"><img src="' + logo + '" width="54" height="37" alt="R.E.E M&amp;E" style="display:block;border:0;width:54px;height:auto"></td></tr></table>' +
-      '<div class="sp" style="height:150px;line-height:150px;font-size:0">&nbsp;</div>' +
+      '<div class="sp" style="height:46px;line-height:46px;font-size:0">&nbsp;</div>' +
       '</td></tr></table></td></tr>' +
       '<tr><td style="font-size:0;line-height:0">' + T(' width="100%"') + '<tr><td width="70%" style="height:3px;background:' + RED + '">&nbsp;</td><td style="height:3px;background:' + GOLD + '">&nbsp;</td></tr></table></td></tr>' +
 

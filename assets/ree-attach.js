@@ -34,8 +34,7 @@
     '.ra-chip button{display:grid;place-items:center;width:18px;height:18px;border:0;border-radius:50%;background:transparent;color:#5E6A82;cursor:pointer}.ra-chip button:hover{background:#D9E3F5;color:#0F1B33}' +
     '.ra-chip svg{width:12px;height:12px}' +
     '@media (max-width:560px){.ra-row{flex-direction:column}.ra-btn{justify-content:center}}' +
-    '@media (min-width:1024px){[role=dialog] form:has(.ra-list:not(:empty)) textarea[name=message]{height:min(204px,max(70px,calc(92vh - 660px)))!important}}' +
-    '@media (min-width:1024px) and (max-height:800px){[role=dialog] .ra-hint{display:none}[role=dialog] form textarea[name=message]{height:min(204px,max(90px,calc(92vh - 562px)))}[role=dialog] form:has(.ra-list:not(:empty)) textarea[name=message]{height:max(64px,calc(92vh - 640px))!important}}';
+    '@media (min-width:1024px){[role=dialog] form:has(.ra-list:not(:empty)) textarea[name=message]{height:min(160px,max(64px,calc(92vh - 662px)))!important}}';
 
   var ICO = {
     clip: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m21.4 11.1-9.2 9.2a6 6 0 0 1-8.5-8.5l9.2-9.2a4 4 0 0 1 5.7 5.7l-9.2 9.2a2 2 0 0 1-2.8-2.8l8.5-8.5"/></svg>',

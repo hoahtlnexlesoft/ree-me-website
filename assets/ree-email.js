@@ -29,6 +29,10 @@
     var phone = esc((d.phone || '').trim()), email = esc((d.email || '').trim()), type = esc((d.type || '').trim());
     var msg = esc((d.message || '').replace(/\r/g, '').trim()).replace(/\n[ \t]*\n(?:[ \t]*\n)+/g, '\n\n').replace(/^[ \t]*[*\-•][ \t]+/gm, '•&nbsp;&nbsp;').replace(/\n/g, '<br>');
     var tel = /\{\{/.test(phone) ? phone : phone.replace(/[^0-9+]/g, '');
+    var at0 = d.attach || {};
+    var kb = function (n) { return n >= 1048576 ? (n / 1048576).toFixed(1).replace('.', ',') + ' MB' : Math.max(1, Math.round(n / 1024)) + ' KB'; };
+    var files = (at0.files || []).map(function (f) { return '<span style="font-weight:500">' + esc(f.name) + '</span>' + (f.size ? ' <span style="color:#8A93A8;font-weight:400">(' + kb(f.size) + ')</span>' : ''); });
+    var links = (at0.links || []).map(function (u) { var e = esc(u); return /\{\{/.test(u) ? e : '<a href="' + e + '" style="color:' + NAVY + ';text-decoration:none;word-break:break-all">' + e + '</a>'; });
     var BG = '#E9EDF3', GOLD = '#C2A16B', HAIR = '#E8EAF0', MU = '#6B7385';
     var SERIF = "Georgia,'Times New Roman',Times,serif";
     var SANS = "'Inter','Helvetica Neue',Helvetica,Arial,sans-serif";
@@ -64,7 +68,7 @@
       /* customer & project (A) */
       '<tr><td class="px" style="padding:28px 48px 0">' + sec('Thông tin khách hàng &amp; dự án') + T(' width="100%"') +
       r('Họ và tên', name) + r('Công ty', company) + r('Số điện thoại', phone ? link('tel:' + tel, phone) : '') +
-      r('Email', email ? link('mailto:' + email, email) : '') + r('Loại hình dự án', type, true) + '</table></td></tr>' +
+      r('Email', email ? link('mailto:' + email, email) : '') + r('Loại hình dự án', type, !(files.length || links.length)) + (files.length ? r('Tệp đính kèm', files.join('<br>'), !links.length) : '') + (links.length ? r('Link tài liệu', links.join('<br>'), true) : '') + '</table></td></tr>' +
 
       /* request (A) */
       '<tr><td class="px" style="padding:30px 48px 0">' + sec('Nội dung yêu cầu tư vấn') +
@@ -109,7 +113,7 @@
     '@media (max-width:640px){.rem{padding:0}.rem-box{height:100%;border-radius:0}.rem-seg{display:none}.rem-top{padding:12px 12px 12px 16px}}';
 
   function open(d) {
-    d = d || {};
+    d = Object.assign({}, d || {}, { attach: window.__reeAttach ? { files: (window.__reeAttach.files || []).slice(), links: (window.__reeAttach.links || []).slice() } : null });
     if (!document.getElementById('rem-css')) { var st = document.createElement('style'); st.id = 'rem-css'; st.textContent = css; document.head.appendChild(st); }
     var old = document.querySelector('.rem'); if (old) old.remove();
     var site = new URL('./', location.href).href;

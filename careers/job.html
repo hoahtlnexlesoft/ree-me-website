@@ -683,6 +683,21 @@
 @keyframes afaSpin{0%,100%{transform:scale(1) rotate(0)}50%{transform:scale(1.18) rotate(45deg)}}
 @keyframes afaTwk{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.35;transform:scale(.7)}}
 @media (prefers-reduced-motion:reduce){#rx .af-done .afd-art svg *{animation:none!important;stroke-dashoffset:0!important;opacity:1!important}}
+/* review / success: own full page */
+html.afp-on,html.afp-on body{overflow:hidden!important}
+html.afp-on .dock,html.afp-on .fab,html.afp-on [class*="float"]{display:none!important}
+#rx .afp{position:fixed;inset:0;z-index:2147480000;overflow:auto;background:radial-gradient(90% 60% at 50% 0%,#EAF0FB 0%,#F6F8FC 55%,#F6F8FC 100%);animation:afpIn .35s ease both}
+#rx .afp[hidden]{display:none!important}
+@keyframes afpIn{from{opacity:0}to{opacity:1}}
+#rx .afp-bar{position:sticky;top:0;z-index:2;display:flex;align-items:center;gap:20px;height:72px;padding:0 max(24px,calc(50% - 560px));background:rgba(255,255,255,.86);-webkit-backdrop-filter:blur(12px);backdrop-filter:blur(12px);border-bottom:1px solid #E6EBF4}
+#rx .afp-logo{display:flex;align-items:center;gap:12px;text-decoration:none;color:#5E6A82;font-size:11px;line-height:1.3;letter-spacing:.12em;text-transform:uppercase}
+#rx .afp-logo b{color:#0B2A6F;font-size:13px;letter-spacing:.06em}
+#rx .afp-crumb{margin-left:auto;font-size:13.5px;font-weight:600;color:#1B3A7A;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:55%}
+#rx .afp-in{max-width:1040px;margin:0 auto;padding:40px 24px 64px}
+#rx .afp .af-review,#rx .afp .af-done{display:block;margin:0!important;padding:44px 48px!important;border-radius:24px!important;background:#fff!important;box-shadow:0 30px 70px -40px rgba(11,42,111,.35),0 0 0 1px #E6EBF4!important;-webkit-backdrop-filter:none!important;backdrop-filter:none!important}
+#rx .afp .af-done{display:flex!important;min-height:0!important;padding:64px 48px!important}
+#rx .afp .af-review[hidden],#rx .afp .af-done[hidden]{display:none!important}
+@media (max-width:640px){#rx .afp-bar{height:60px;gap:12px}#rx .afp-logo span{display:none}#rx .afp-in{padding:18px 12px 40px}#rx .afp .af-review,#rx .afp .af-done{padding:26px 18px!important;border-radius:18px!important}}
 /* success state v3 — premium */
 #rx .apply-card > .af-done{background:radial-gradient(120% 70% at 50% 0%,rgba(236,242,253,.95) 0%,rgba(255,255,255,.92) 55%)!important}
 #rx .af-done .afd-art{width:min(320px,86%);margin-bottom:4px}
@@ -1773,7 +1788,7 @@ html.embed-form #rx .apply-card > .af,html.embed-form #rx .apply-card > .af-done
     if(!cvFile){ drop.classList.add('invalid'); bad.push(drop); }
     if(bad.length){ showErr('Vui lòng kiểm tra ' + bad.length + ' mục được tô đỏ (bắt buộc hoặc chưa đúng định dạng).');
       (bad[0].focus ? bad[0] : drop).scrollIntoView({behavior:'smooth', block:'center'}); if(bad[0].focus) bad[0].focus({preventScroll:true}); return; }
-    hideErr(); $('#afr-body').innerHTML = reviewHTML(); form.hidden = true; $('#af-review').hidden = false; $('#apply-card').scrollIntoView({behavior:'smooth', block:'start'});
+    hideErr(); $('#afr-body').innerHTML = reviewHTML(); afPage('review');
   });
   function reviewHTML(){
     const v = id => esc(($(id).value || '').trim()), sel = id => { const el = $(id); return esc(el.options[el.selectedIndex] ? el.options[el.selectedIndex].text : el.value); };
@@ -1788,8 +1803,24 @@ html.embed-form #rx .apply-card > .af,html.embed-form #rx .apply-card > .af-done
       '<section><h5><i>03</i>Giới thiệu bản thân &amp; CV</h5><dl>' + row('Tại sao bạn phù hợp', '<span class="afr-why">' + v('#af-why').replace(/\n/g, '<br>') + '</span>', true) +
       row('CV đính kèm', cvFile ? '<span class="afr-file"><b>' + esc(ext) + '</b><span>' + esc(cvFile.name) + '<small>' + kb(cvFile.size) + '</small></span></span>' : '', true) + row('Người giới thiệu', v('#af-ref'), true) + '</dl></section>';
   }
-  $('#afr-edit').addEventListener('click', () => { $('#af-review').hidden = true; $('#apply-form').hidden = false; $('#apply-card').scrollIntoView({behavior:'smooth', block:'start'}); });
-  $('#afr-send').addEventListener('click', () => { $('#af-review').hidden = true; $('#af-done').hidden = false; $('#apply-card').scrollIntoView({behavior:'smooth', block:'start'}); });
+  $('#afr-edit').addEventListener('click', () => { if(history.state && history.state.afp) history.back(); else afPage(null); });
+  $('#afr-send').addEventListener('click', () => afPage('done', true));
+  /* review + success shown as their own full page (no job header / sidebar), browser Back returns to the form */
+  function afPage(mode, replace){
+    let pg = $('#af-page');
+    if(!pg){ pg = document.createElement('div'); pg.id = 'af-page'; pg.className = 'afp'; pg.setAttribute('role', 'dialog'); pg.setAttribute('aria-modal', 'true');
+      pg.innerHTML = '<header class="afp-bar"><a class="afp-logo" href="./"><img src="assets/img/ree-logo.svg" alt="REE M&amp;E" width="54" height="38"><span>Tuyển dụng<br><b>REE M&amp;E</b></span></a><span class="afp-crumb" id="afp-crumb"></span></header><div class="afp-in"></div>';
+      $('#rx').appendChild(pg); pg.querySelector('.afp-in').append($('#af-review'), $('#af-done')); }
+    const form = $('#apply-form');
+    if(!mode){ pg.hidden = true; document.documentElement.classList.remove('afp-on'); $('#af-review').hidden = true; $('#af-done').hidden = true; form.hidden = false; $('#apply-card').scrollIntoView({block:'start'}); return; }
+    form.hidden = true; pg.hidden = false; document.documentElement.classList.add('afp-on');
+    $('#af-review').hidden = mode !== 'review'; $('#af-done').hidden = mode !== 'done';
+    const j = positions.length ? JOBS.find(x => x.id === positions[0]) : null;
+    $('#afp-crumb').textContent = (mode === 'review' ? 'Xem lại hồ sơ' : 'Hồ sơ ứng tuyển') + (j ? ' · ' + j.title : '');
+    pg.scrollTop = 0;
+    const st = {afp: mode}; if(replace || (history.state && history.state.afp)) history.replaceState(st, ''); else history.pushState(st, '');
+  }
+  addEventListener('popstate', e => { const m = e.state && e.state.afp; if(m === 'done'){ history.pushState({afp:'done'}, ''); return; } if(!m && $('#af-page') && !$('#af-page').hidden){ if(!$('#af-done').hidden){ history.pushState({afp:'done'}, ''); return; } afPage(null); } });
   $('#jd-sections').addEventListener('click', e => { if(e.target.closest('[data-to-form]')){ $('#apply-card').scrollIntoView({behavior:'smooth', block:'start'}); setTimeout(() => $('#af-name').focus({preventScroll:true}), 450); } });
   $('#jd-head').addEventListener('click', e => { if(e.target.closest('[data-to-form]')){ $('#apply-card').scrollIntoView({behavior:'smooth', block:'start'}); setTimeout(() => $('#af-name').focus({preventScroll:true}), 450); } });
   const tEl = $('#toast'); let tt; const showToast = m => { tEl.textContent = m; tEl.classList.add('show'); clearTimeout(tt); tt = setTimeout(() => tEl.classList.remove('show'), 2200); };

@@ -1510,6 +1510,52 @@ html.embed-form #rx .apply-card > .af,html.embed-form #rx .apply-card > .af-done
 /*pzt*/#rx .pz-t,.rx .pz-t{font-size:clamp(30px,1.2rem + 2.4vw,52px)!important;line-height:1.1!important;letter-spacing:-.02em!important}
 </style>
 <script>window.PAGE="job"</script>
+<style id="afr3-css">
+/* review v3: applicant hero + two clean columns */
+#rx .af-review .afr-body{display:block!important;margin-top:20px!important}
+#rx .afr3{display:flex;flex-direction:column;gap:14px}
+#rx .afr3-hero{position:relative;overflow:hidden;display:flex;align-items:center;gap:20px;padding:22px 26px;border-radius:18px;color:#fff;
+  background:radial-gradient(120% 140% at 100% 0%,rgba(127,163,245,.28),transparent 55%),radial-gradient(80% 120% at 0% 100%,rgba(176,141,87,.18),transparent 60%),linear-gradient(135deg,#0B2560 0%,#16357A 55%,#1F4590 100%)}
+#rx .afr3-hero::after{content:"";position:absolute;left:26px;right:26px;bottom:0;height:1px;background:linear-gradient(90deg,transparent,rgba(227,199,143,.7),transparent)}
+#rx .afr3-av{flex:none;display:grid;place-items:center;width:58px;height:58px;border-radius:50%;font-size:19px;font-weight:600;letter-spacing:.02em;color:#fff;background:linear-gradient(#1B3A7A,#1B3A7A) padding-box,linear-gradient(135deg,#F1DCAA,#B08D57) border-box;border:2px solid transparent;box-shadow:0 6px 18px rgba(4,14,40,.35)}
+#rx .afr3-id{flex:1;min-width:0;display:flex;flex-direction:column;gap:4px}
+#rx .afr3-lab,#rx .afr3-ct small{font-size:11px;font-weight:600;letter-spacing:.09em;text-transform:uppercase;color:rgba(227,199,143,.95)}
+#rx .afr3-id strong{font-size:22px;font-weight:600;letter-spacing:-.01em;line-height:1.2}
+#rx .afr3-chips{display:flex;flex-wrap:wrap;gap:6px;margin-top:4px}
+#rx .afr3-chip{display:inline-flex;align-items:center;gap:6px;height:28px;padding:0 12px;border-radius:999px;font-size:13px;font-weight:500;background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.2);color:#fff}
+#rx .afr3-chip{display:inline-block!important;height:auto!important;max-width:100%;line-height:1.4;padding:4px 12px!important;border-radius:14px!important}
+#rx .afr3-chip i{font-style:normal;opacity:.55;margin:0 6px}
+#rx .afr3-ct{list-style:none;margin:0;padding:0 0 0 24px;border-left:1px solid rgba(255,255,255,.14);display:grid;gap:10px;flex:none;max-width:44%}
+#rx .afr3-ct li{display:flex;align-items:center;gap:12px;min-width:0}
+#rx .afr3-ct li>i{flex:none;display:grid;place-items:center;width:32px;height:32px;border-radius:10px;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.14);color:#E3C78F}
+#rx .afr3-ct li>i svg{width:15px;height:15px}
+#rx .afr3-ct li>span{display:flex;flex-direction:column;min-width:0;font-size:14.5px;font-weight:500;line-height:1.3;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+#rx .afr3-ct small{font-size:10px;margin-bottom:1px}
+#rx .afr3-grid{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.2fr);background:#fff;border:1px solid #E6EBF4;border-radius:18px}
+#rx .afr3-col{padding:22px 26px;min-width:0}
+#rx .afr3-col+.afr3-col{border-left:1px solid #EDF1F7}
+#rx .afr3-col h5{position:relative;margin:0 0 16px;padding-top:14px;font-size:15px;font-weight:600;color:#0F1B33;letter-spacing:-.005em}
+#rx .afr3-col h5::before{content:"";position:absolute;top:0;left:0;width:22px;height:3px;border-radius:3px;background:#1B3A7A}
+#rx .afr3-kvs{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:16px 24px}
+#rx .afr3-kv{display:flex;flex-direction:column;gap:6px;min-width:0}
+#rx .afr3-kv.wide{grid-column:1/-1}
+#rx .afr3-k{font-size:11px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:#8A93A8}
+#rx .afr3-v{font-size:15px;font-weight:500;color:#0F1B33;line-height:1.45;min-width:0;overflow-wrap:anywhere}
+#rx .afr3 .afr-why{display:-webkit-box;-webkit-box-orient:vertical;-webkit-line-clamp:4;overflow:hidden;font-weight:400;font-size:14.5px;line-height:1.6;color:#2B3546}
+#rx .afr3 .afr-files{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:8px}
+#rx .afr3 .afr-file{margin:0!important}
+@media (max-height:820px) and (min-width:1025px){#rx .afr3-hero{padding:16px 22px}#rx .afr3-col{padding:16px 22px}#rx .afr3-col h5{margin-bottom:12px}#rx .afr3-kvs{gap:12px 20px}#rx .afr3 .afr-why{-webkit-line-clamp:3}#rx .afr3-av{width:50px;height:50px;font-size:17px}#rx .afr3-ct{gap:6px}}
+@media (max-width:860px){#rx .afr3-hero{flex-wrap:wrap;padding:20px}#rx .afr3-ct{max-width:none;width:100%;padding:16px 0 0;border-left:0;border-top:1px solid rgba(255,255,255,.14)}#rx .afr3-grid{grid-template-columns:1fr}#rx .afr3-col+.afr3-col{border-left:0;border-top:1px solid #EDF1F7}#rx .afr3-col{padding:20px}}
+@media (max-width:480px){#rx .afr3-kvs{grid-template-columns:1fr}#rx .afr3-id strong{font-size:19px}}
+#rx .afr3-hero>*{position:relative;z-index:1}
+#rx .afr3-hero::before{content:"";position:absolute;inset:0;z-index:0;pointer-events:none;
+  background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 400 400' fill='none'%3E%3Cg stroke='%23fff' stroke-opacity='.09'%3E%3Ccircle cx='200' cy='200' r='60'/%3E%3Ccircle cx='200' cy='200' r='100'/%3E%3Ccircle cx='200' cy='200' r='140'/%3E%3Ccircle cx='200' cy='200' r='180' stroke-dasharray='2 6'/%3E%3Cpath d='M200 0v400M0 200h400' stroke-dasharray='3 7'/%3E%3C/g%3E%3Cpath d='M200 60a140 140 0 0 1 140 140' stroke='%23E3C78F' stroke-opacity='.45' stroke-width='1.5' stroke-linecap='round'/%3E%3Ccircle cx='340' cy='200' r='3' fill='%23E3C78F' fill-opacity='.7'/%3E%3C/svg%3E") no-repeat 62% 50%/440px 440px,radial-gradient(rgba(255,255,255,.12) 1px,transparent 1.3px) 0 0/14px 14px;
+  -webkit-mask-image:linear-gradient(90deg,transparent 18%,#000 48%,#000 70%,transparent 96%);mask-image:linear-gradient(90deg,transparent 18%,#000 48%,#000 70%,transparent 96%)}
+#rx .afr3-grid{position:relative;overflow:hidden}
+#rx .afr3-grid::before{content:"";position:absolute;top:0;right:0;width:220px;height:140px;pointer-events:none;background:radial-gradient(rgba(27,58,122,.16) 1px,transparent 1.3px) 0 0/12px 12px;-webkit-mask-image:radial-gradient(100% 100% at 100% 0,#000,transparent 70%);mask-image:radial-gradient(100% 100% at 100% 0,#000,transparent 70%)}
+#rx .afr3-col{position:relative}
+@media (max-height:760px) and (min-width:1025px){#rx .af-review .afr-body{margin-top:14px!important}#rx .afr3{gap:10px}#rx .afr3-hero{padding:12px 20px}#rx .afr3-ct{gap:4px}#rx .afr3-ct li>i{width:28px;height:28px}#rx .afr3-col{padding:14px 20px}#rx .afr3-col h5{margin-bottom:10px;padding-top:11px}#rx .afr3-kvs{gap:10px 18px}#rx .afr3 .afr-why{-webkit-line-clamp:2}#rx .afr3-k{font-size:10.5px}#rx .afr3-v{font-size:14px}}
+</style>
 </head>
 <body>
 <div id="site-header"></div>
@@ -1901,11 +1947,21 @@ html.embed-form #rx .apply-card > .af,html.embed-form #rx .apply-card > .af-done
     const pos = positions.map(id => { const j = JOBS.find(x => x.id === id); return j ? '<span class="afr-tag">' + esc(j.title) + (j.loc ? ' · ' + esc(j.loc) : '') + '</span>' : ''; }).join('');
     const rg = regions.map(r => '<span class="afr-tag soft">' + esc(r) + '</span>').join('');
     const kb = n => n >= 1048576 ? (n/1048576).toFixed(1).replace('.', ',') + ' MB' : Math.max(1, Math.round(n/1024)) + ' KB';
-    return '<section><h5><i>01</i>Thông tin cá nhân</h5><dl>' + row('Họ và tên', v('#af-name')) + row('Số điện thoại', v('#af-phone')) + row('Email', v('#af-email')) + row('Nơi ở hiện tại', v('#af-city')) + '</dl></section>' +
-      '<section><h5><i>02</i>Nguyện vọng ứng tuyển</h5><dl>' + row('Vị trí ứng tuyển', '<span class="afr-tags">' + pos + '</span>', true) + row('Khu vực làm việc', '<span class="afr-tags">' + rg + '</span>', true) +
-      row('Mức lương mong đợi', v('#af-salary')) + row('Thời gian đi làm', v('#af-start')) + row('Trình độ tiếng Anh', sel('#af-eng')) + row('Nguồn tuyển dụng', sel('#af-src')) + '</dl></section>' +
-      '<section><h5><i>03</i>Giới thiệu bản thân &amp; CV</h5><dl>' + row('Tại sao bạn phù hợp', '<span class="afr-why">' + v('#af-why').replace(/\n/g, '<br>') + '</span>', true) +
-      row('CV / Hồ sơ đính kèm', (cvFiles.length || cvLinks.length) ? '<span class="afr-files">' + cvFiles.map(f => '<span class="afr-file"><b class="t-' + extOf(f.name).toLowerCase() + '">' + esc(extOf(f.name)) + '</b><span>' + esc(f.name) + '<small>' + kb(f.size) + '</small></span></span>').join('') + cvLinks.map(u => '<a class="afr-file" href="' + esc(u) + '" target="_blank" rel="noopener"><b class="t-url">URL</b><span>' + esc(hostOf(u)) + '<small>' + esc(u.replace(/^https?:\/\//, '')) + '</small></span></a>').join('') + '</span>' : '', true) + row('Người giới thiệu', v('#af-ref'), true) + '</dl></section>';
+    const nm = ($('#af-name').value || '').trim(), ws = nm.split(/\s+/).filter(Boolean);
+    const ini = esc(((ws[0] || '')[0] || '') + (ws.length > 1 ? ws[ws.length - 1][0] : '')).toUpperCase();
+    const I = d => '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">' + d + '</svg>';
+    const ic = { ph: I('<path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1.9.4 1.8.7 2.7a2 2 0 0 1-.5 2.1L8 9.8a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.4c.9.3 1.8.6 2.7.7a2 2 0 0 1 1.7 2Z"/>'),
+      ml: I('<rect x="2.5" y="4.5" width="19" height="15" rx="2.5"/><path d="m3 6.5 9 6.5 9-6.5"/>'), pin: I('<path d="M12 21s-7-6.1-7-11.5a7 7 0 0 1 14 0C19 14.9 12 21 12 21Z"/><circle cx="12" cy="9.5" r="2.5"/>') };
+    const kv = (k, val, wide) => '<div class="afr3-kv' + (wide ? ' wide' : '') + '"><span class="afr3-k">' + k + '</span><span class="afr3-v">' + (val || '<span class="afr-na">—</span>') + '</span></div>';
+    const pos3 = positions.map(id => { const j = JOBS.find(x => x.id === id); return j ? '<span class="afr3-chip">' + esc(j.title) + (j.loc ? '<i>·</i>' + esc(j.loc) : '') + '</span>' : ''; }).join('');
+    const files = cvFiles.map(f => '<span class="afr-file"><b class="t-' + extOf(f.name).toLowerCase() + '">' + esc(extOf(f.name)) + '</b><span>' + esc(f.name) + '<small>' + kb(f.size) + '</small></span></span>').join('') + cvLinks.map(u => '<a class="afr-file" href="' + esc(u) + '" target="_blank" rel="noopener"><b class="t-url">URL</b><span>' + esc(hostOf(u)) + '<small>' + esc(u.replace(/^https?:\/\//, '')) + '</small></span></a>').join('');
+    return '<div class="afr3">' +
+      '<div class="afr3-hero"><span class="afr3-av">' + ini + '</span><div class="afr3-id"><span class="afr3-lab">Họ và tên</span><strong>' + v('#af-name') + '</strong><span class="afr3-chips">' + pos3 + '</span></div>' +
+        '<ul class="afr3-ct"><li><i>' + ic.ph + '</i><span><small>Số điện thoại</small>' + v('#af-phone') + '</span></li><li><i>' + ic.ml + '</i><span><small>Email</small>' + v('#af-email') + '</span></li><li><i>' + ic.pin + '</i><span><small>Nơi ở hiện tại</small>' + v('#af-city') + '</span></li></ul></div>' +
+      '<div class="afr3-grid"><div class="afr3-col"><h5>Nguyện vọng ứng tuyển</h5><div class="afr3-kvs">' + kv('Khu vực làm việc', '<span class="afr-tags">' + rg + '</span>', true) +
+        kv('Mức lương mong đợi', v('#af-salary')) + kv('Thời gian đi làm', v('#af-start')) + kv('Trình độ tiếng Anh', sel('#af-eng')) + kv('Nguồn tuyển dụng', sel('#af-src')) + kv('Người giới thiệu', v('#af-ref'), true) + '</div></div>' +
+        '<div class="afr3-col"><h5>Giới thiệu bản thân &amp; CV</h5><div class="afr3-kvs">' + kv('Tại sao bạn phù hợp', '<span class="afr-why">' + v('#af-why').replace(/\n/g, '<br>') + '</span>', true) +
+        kv('CV / Hồ sơ đính kèm', files ? '<span class="afr-files">' + files + '</span>' : '', true) + '</div></div></div></div>';
   }
   $('#afr-edit').addEventListener('click', () => { if(history.state && history.state.afp) history.back(); else afPage(null); });
   $('#afr-send').addEventListener('click', () => afPage('done', true));

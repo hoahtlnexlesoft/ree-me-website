@@ -732,6 +732,46 @@ html.afp-on .dock,html.afp-on .fab,html.afp-on [class*="float"]{display:none!imp
   #rx .afp .af-review .afr-acts{margin-top:12px}
   #rx .afp .af-review .afr-acts .afr-edit,#rx .afp .af-review .afr-acts .afr-send{height:44px!important}
 }
+/* CV: multiple files + link */
+#rx .cv-link{display:flex;align-items:center;gap:8px;height:46px;margin-top:10px;padding:0 6px 0 14px;border:1px solid #DCE3F0;border-radius:12px;background:#fff;color:#8A93A8;transition:border-color .2s,box-shadow .2s}
+#rx .cv-link:focus-within{border-color:#2F5BEA;box-shadow:0 0 0 3px rgba(47,91,234,.12)}
+#rx .cv-link input{flex:1;min-width:0;height:100%;border:0!important;outline:0;background:transparent!important;box-shadow:none!important;padding:0 4px!important;font:inherit;font-size:13.5px;color:#14213D}
+#rx .cv-link button{flex:none;height:34px;padding:0 14px;border:0;border-radius:9px;background:#EEF3FB;color:#1B3A7A;font:600 13px/1 var(--font);cursor:pointer}
+#rx .cv-link button:hover{background:#E1E9F7}
+#rx .cv-list{display:flex;flex-direction:column;gap:8px;margin-top:10px}#rx .cv-list:empty{display:none}
+#rx .cv-chip{display:flex;align-items:center;gap:12px;padding:8px 8px 8px 8px;border:1px solid #E6EBF4;border-radius:12px;background:#fff}
+#rx .cv-chip>span{flex:1;min-width:0;font-size:13px;font-weight:600;color:#14213D;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+#rx .cv-chip small{display:block;font-size:11.5px;font-weight:400;color:#8A93A8;overflow:hidden;text-overflow:ellipsis}
+#rx .cv-chip button{flex:none;display:grid;place-items:center;width:28px;height:28px;border:0;border-radius:50%;background:transparent;color:#8A93A8;cursor:pointer}#rx .cv-chip button:hover{background:#F1F3F8;color:#14213D}
+#rx .cv-chip b,#rx .af-review .afr-file b{flex:none;display:grid;place-items:center;width:36px;height:36px;border-radius:9px;color:#fff;font-size:10px;font-weight:700;letter-spacing:.04em;background:#5E6A82}
+#rx .t-pdf{background:linear-gradient(135deg,#E5534B,#C23A33)!important}
+#rx .t-doc,#rx .t-docx{background:linear-gradient(135deg,#3D6FE0,#2550B8)!important}
+#rx .t-url{background:linear-gradient(135deg,#1E3A6E,#0B2A6F)!important}
+#rx .af-review .afr-files{display:flex;flex-direction:column;gap:8px;width:100%}
+#rx .af-review a.afr-file{text-decoration:none}
+#rx .af-review .afr-file{display:flex!important;align-items:center;gap:10px;padding:7px 10px 7px 7px;border:1px solid #E6EBF4;border-radius:11px;background:#FAFBFD}
+#rx .af-review .afr-file>span{min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-size:13px;color:#14213D}
+#rx .af-review .afr-file small{overflow:hidden;text-overflow:ellipsis}
+#rx .af-review a.afr-file:hover{border-color:#C9D6EE;background:#F3F6FC}
+
+#rx .af-f.cv .cv-link input,#rx .af-f.cv .cv-link input:focus,#rx .af-f.cv .cv-link input:hover{border:0!important;box-shadow:none!important;outline:0!important;background:transparent!important;height:100%!important;min-height:0!important;border-radius:0!important}
+#rx .af-review .afr-body>section,#rx .af-review dl,#rx .af-review .afr-row,#rx .af-review dd{min-width:0}
+#rx .af-review .afr-body{grid-template-columns:minmax(0,1fr) minmax(0,1.15fr) minmax(0,1.25fr)}
+#rx .af-review .afr-file{min-width:0;max-width:100%}
+#rx .af-review .afr-file>span{flex:1;min-width:0}
+#rx .af-review .afr-file small{display:block;white-space:nowrap}
+/* review palette refresh */
+#rx .af-review section{position:relative;background:#fff!important;border:1px solid #E3E8F2!important;overflow:hidden}
+#rx .af-review section::before{content:"";position:absolute;inset:0 0 auto 0;height:3px;background:linear-gradient(90deg,#0B2A6F,#2F5BEA)}
+#rx .af-review section:nth-child(2)::before{background:linear-gradient(90deg,#2F5BEA,#7FA3F5)}
+#rx .af-review section:nth-child(3)::before{background:linear-gradient(90deg,#B08D57,#E3C78F)}
+#rx .af-review h5 i{background:linear-gradient(135deg,#0B2A6F,#2554B8)!important;color:#fff!important}
+#rx .af-review section:nth-child(3) h5 i{background:linear-gradient(135deg,#B08D57,#D8B878)!important}
+#rx .af-review dt{text-transform:uppercase;letter-spacing:.08em;font-size:10.5px!important;font-weight:600;color:#97A1B5!important}
+#rx .af-review dd{color:#0F1B33!important}
+#rx .af-review .afr-tag{background:#0B2A6F!important;color:#fff!important}
+#rx .af-review .afr-tag.soft{background:#F6EFE2!important;color:#7A5A22!important}
+#rx .af-review .afr-step{color:#B08D57!important}
 /* success state v3 — premium */
 #rx .apply-card > .af-done{background:radial-gradient(120% 70% at 50% 0%,rgba(236,242,253,.95) 0%,rgba(255,255,255,.92) 55%)!important}
 #rx .af-done .afd-art{width:min(320px,86%);margin-bottom:4px}
@@ -1514,7 +1554,7 @@ html.embed-form #rx .apply-card > .af,html.embed-form #rx .apply-card > .af-done
           <fieldset class="af-group"><legend><span>03</span>Giới thiệu bản thân &amp; CV</legend><div class="af-grid">
 <label class="af-f why"><span class="af-lab"><span class="lt">Tại sao bạn phù hợp với công việc này? <em>*</em></span></span><textarea id="af-why" name="why" required placeholder="Tóm tắt thế mạnh chuyên môn, kinh nghiệm thực tế tại các công trình hoặc định hướng phát triển..."></textarea></label>
 <div class="af-f cv">
-            <div class="af-lab"><span class="lt">Đính kèm CV / Hồ sơ năng lực <em>*</em></span><span>Tối đa: 10MB</span></div>
+            <div class="af-lab"><span class="lt">Đính kèm CV / Hồ sơ năng lực <em>*</em></span><span>Tối đa 2 file · ≤ 10MB/file</span></div>
             <label class="drop" id="af-drop" for="af-cv">
               <span class="cloud cv-ic"><svg viewBox="0 0 48 48" width="46" height="46" fill="none" aria-hidden="true">
                 <path d="M11 6.5h15.5L36 16v6.5" stroke="#2F5BEA" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/>
@@ -1530,7 +1570,9 @@ html.embed-form #rx .apply-card > .af,html.embed-form #rx .apply-card > .af-done
               <small>Hỗ trợ định dạng: .PDF, .DOC, .DOCX</small>
               <span class="file" id="af-file" hidden></span>
             </label>
-            <input id="af-cv" type="file" accept=".pdf,.doc,.docx" hidden>
+            <input id="af-cv" type="file" accept=".pdf,.doc,.docx" multiple hidden>
+            <div class="cv-link"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M10 13a5 5 0 0 0 7.5.5l3-3a5 5 0 0 0-7-7l-1.7 1.7"/><path d="M14 11a5 5 0 0 0-7.5-.5l-3 3a5 5 0 0 0 7 7l1.7-1.7"/></svg><input id="af-cvlink" type="url" inputmode="url" placeholder="Hoặc dán link Google Drive / Portfolio rồi nhấn Enter" aria-label="Link CV hoặc hồ sơ năng lực"><button type="button" id="af-cvlink-add">Thêm</button></div>
+            <div class="cv-list" id="af-cvlist" aria-live="polite"></div>
           </div>
 <label class="af-f span2"><span class="af-lab"><span class="lt">Người giới thiệu (nếu có)</span></span><input class="plain" id="af-ref" name="referrer" placeholder="Họ tên, SĐT hoặc Mã nhân viên người giới thiệu..."></label>
           </div></fieldset>
@@ -1796,21 +1838,40 @@ html.embed-form #rx .apply-card > .af,html.embed-form #rx .apply-card > .af-done
   afPos.addEventListener('click', e => { const b = e.target.closest('[data-rm]'); if(b){ positions = positions.filter(c => c !== b.dataset.rm); renderPositions(); } });
   afPos.addEventListener('change', e => { if(e.target.id === 'af-add' && e.target.value){ positions.push(e.target.value); afPos.classList.remove('invalid'); renderPositions(); } });
 
-  const drop = $('#af-drop'), cv = $('#af-cv'), fileLabel = $('#af-file'); let cvFile = null;
+  const drop = $('#af-drop'), cv = $('#af-cv'), fileLabel = $('#af-file'); let cvFile = null, cvFiles = [], cvLinks = [];
   const errEl = $('#af-err');
   const showErr = m => { errEl.textContent = m; errEl.hidden = false; }, hideErr = () => { errEl.hidden = true; };
-  function setFile(f){
-    if(!f) return;
-    if(!/\.(pdf|docx?)$/i.test(f.name)){ showErr('CV cần ở định dạng .PDF, .DOC hoặc .DOCX.'); return; }
-    if(f.size > 10*1024*1024){ showErr('Tệp CV vượt quá 10MB. Vui lòng nén hoặc chọn tệp nhỏ hơn.'); return; }
-    cvFile = f; fileLabel.hidden = false; fileLabel.textContent = '📎 ' + f.name + ' (' + Math.max(1, Math.round(f.size/1024)) + ' KB)';
-    drop.classList.remove('invalid'); hideErr();
+  const kbs = n => n >= 1048576 ? (n/1048576).toFixed(1).replace('.', ',') + ' MB' : Math.max(1, Math.round(n/1024)) + ' KB';
+  const ICX = '<svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><path d="M7 7l10 10M17 7 7 17"/></svg>';
+  const extOf = n => (n.split('.').pop() || '').toUpperCase().slice(0, 4);
+  const hostOf = u => { const m = /^https?:\/\/([^\/?#]+)/i.exec(u), h = m ? m[1].replace(/^www\./, '') : ''; return /drive\.google|docs\.google/.test(h) ? 'Google Drive' : /dropbox/.test(h) ? 'Dropbox' : /onedrive|1drv\.ms|sharepoint/.test(h) ? 'OneDrive' : /linkedin/.test(h) ? 'LinkedIn' : /behance/.test(h) ? 'Behance' : h; };
+  function drawCv(){
+    cvFile = cvFiles[0] || null; fileLabel.hidden = true;
+    $('#af-cvlist').innerHTML = cvFiles.map((f, i) => '<span class="cv-chip"><b class="t-' + extOf(f.name).toLowerCase() + '">' + esc(extOf(f.name)) + '</b><span>' + esc(f.name) + '<small>' + kbs(f.size) + '</small></span><button type="button" data-rf="' + i + '" aria-label="Xoá">' + ICX + '</button></span>').join('') +
+      cvLinks.map((u, i) => '<span class="cv-chip"><b class="t-url">URL</b><span>' + esc(hostOf(u)) + '<small>' + esc(u.replace(/^https?:\/\//, '')) + '</small></span><button type="button" data-rl="' + i + '" aria-label="Xoá">' + ICX + '</button></span>').join('');
+    if(cvFiles.length || cvLinks.length) drop.classList.remove('invalid');
   }
-  cv.addEventListener('change', () => setFile(cv.files[0]));
+  function setFile(f){
+    if(!f) return false;
+    if(!/\.(pdf|docx?)$/i.test(f.name)){ showErr('CV cần ở định dạng .PDF, .DOC hoặc .DOCX.'); return false; }
+    if(f.size > 10*1024*1024){ showErr('“' + f.name + '” vượt quá 10MB. Vui lòng nén hoặc chọn tệp nhỏ hơn.'); return false; }
+    if(cvFiles.length >= 2){ showErr('Chỉ đính kèm tối đa 2 file. Bạn có thể dán thêm link Google Drive.'); return false; }
+    if(cvFiles.some(x => x.name === f.name && x.size === f.size)) return false;
+    cvFiles.push(f); hideErr(); return true;
+  }
+  const addFiles = fl => { Array.prototype.forEach.call(fl || [], setFile); drawCv(); };
+  function addLink(){ const inp = $('#af-cvlink'), v = inp.value.trim(); if(!v) return;
+    if(!/^https?:\/\/\S+\.\S+/i.test(v)){ showErr('Link chưa hợp lệ, vui lòng bắt đầu bằng http:// hoặc https://'); return; }
+    if(cvLinks.indexOf(v) < 0 && cvLinks.length < 3) cvLinks.push(v); inp.value = ''; hideErr(); drawCv(); }
+  $('#af-cvlink').addEventListener('keydown', e => { if(e.key === 'Enter'){ e.preventDefault(); addLink(); } });
+  $('#af-cvlink').addEventListener('blur', () => { if($('#af-cvlink').value.trim()) addLink(); });
+  $('#af-cvlink-add').addEventListener('click', addLink);
+  $('#af-cvlist').addEventListener('click', e => { const b = e.target.closest('button'); if(!b) return; if(b.dataset.rf != null) cvFiles.splice(+b.dataset.rf, 1); else cvLinks.splice(+b.dataset.rl, 1); drawCv(); });
+  cv.addEventListener('change', () => { addFiles(cv.files); cv.value = ''; });
   ['dragenter','dragover'].forEach(ev => drop.addEventListener(ev, e => { e.preventDefault(); drop.classList.add('over'); }));
   ['dragleave','drop'].forEach(ev => drop.addEventListener(ev, e => { e.preventDefault(); drop.classList.remove('over'); }));
-  drop.addEventListener('drop', e => setFile(e.dataTransfer.files[0]));
-  function clearErrors(){ document.querySelectorAll('#apply-form .invalid').forEach(el => el.classList.remove('invalid')); hideErr(); cvFile = null; cv.value = ''; fileLabel.hidden = true; }
+  drop.addEventListener('drop', e => addFiles(e.dataTransfer.files));
+  function clearErrors(){ document.querySelectorAll('#apply-form .invalid').forEach(el => el.classList.remove('invalid')); hideErr(); cvFile = null; cvFiles = []; cvLinks = []; if(typeof drawCv === 'function') drawCv(); cv.value = ''; fileLabel.hidden = true; }
   $('#apply-form').addEventListener('input', e => e.target.classList.remove('invalid'));
   $('#apply-form').addEventListener('submit', e => {
     e.preventDefault(); const form = e.target, bad = [];
@@ -1819,7 +1880,8 @@ html.embed-form #rx .apply-card > .af,html.embed-form #rx .apply-card > .af-done
     const phone = $('#af-phone'); if(phone.value.trim() && phone.value.replace(/\D/g,'').length < 9){ phone.classList.add('invalid'); bad.push(phone); }
     if(!positions.length){ afPos.classList.add('invalid'); bad.push(afPos); }
     if(!regions.length){ afRegions.classList.add('invalid'); bad.push(afRegions); }
-    if(!cvFile){ drop.classList.add('invalid'); bad.push(drop); }
+    if($('#af-cvlink').value.trim()) addLink();
+    if(!cvFiles.length && !cvLinks.length){ drop.classList.add('invalid'); bad.push(drop); }
     if(bad.length){ showErr('Vui lòng kiểm tra ' + bad.length + ' mục được tô đỏ (bắt buộc hoặc chưa đúng định dạng).');
       (bad[0].focus ? bad[0] : drop).scrollIntoView({behavior:'smooth', block:'center'}); if(bad[0].focus) bad[0].focus({preventScroll:true}); return; }
     hideErr(); $('#afr-body').innerHTML = reviewHTML(); afPage('review');
@@ -1830,12 +1892,11 @@ html.embed-form #rx .apply-card > .af,html.embed-form #rx .apply-card > .af-done
     const pos = positions.map(id => { const j = JOBS.find(x => x.id === id); return j ? '<span class="afr-tag">' + esc(j.title) + (j.loc ? ' · ' + esc(j.loc) : '') + '</span>' : ''; }).join('');
     const rg = regions.map(r => '<span class="afr-tag soft">' + esc(r) + '</span>').join('');
     const kb = n => n >= 1048576 ? (n/1048576).toFixed(1).replace('.', ',') + ' MB' : Math.max(1, Math.round(n/1024)) + ' KB';
-    const ext = cvFile ? (cvFile.name.split('.').pop() || '').toUpperCase().slice(0, 4) : '';
     return '<section><h5><i>01</i>Thông tin cá nhân</h5><dl>' + row('Họ và tên', v('#af-name')) + row('Số điện thoại', v('#af-phone')) + row('Email', v('#af-email')) + row('Nơi ở hiện tại', v('#af-city')) + '</dl></section>' +
       '<section><h5><i>02</i>Nguyện vọng ứng tuyển</h5><dl>' + row('Vị trí ứng tuyển', '<span class="afr-tags">' + pos + '</span>', true) + row('Khu vực làm việc', '<span class="afr-tags">' + rg + '</span>', true) +
       row('Mức lương mong đợi', v('#af-salary')) + row('Thời gian đi làm', v('#af-start')) + row('Trình độ tiếng Anh', sel('#af-eng')) + row('Nguồn tuyển dụng', sel('#af-src')) + '</dl></section>' +
       '<section><h5><i>03</i>Giới thiệu bản thân &amp; CV</h5><dl>' + row('Tại sao bạn phù hợp', '<span class="afr-why">' + v('#af-why').replace(/\n/g, '<br>') + '</span>', true) +
-      row('CV đính kèm', cvFile ? '<span class="afr-file"><b>' + esc(ext) + '</b><span>' + esc(cvFile.name) + '<small>' + kb(cvFile.size) + '</small></span></span>' : '', true) + row('Người giới thiệu', v('#af-ref'), true) + '</dl></section>';
+      row('CV / Hồ sơ đính kèm', (cvFiles.length || cvLinks.length) ? '<span class="afr-files">' + cvFiles.map(f => '<span class="afr-file"><b class="t-' + extOf(f.name).toLowerCase() + '">' + esc(extOf(f.name)) + '</b><span>' + esc(f.name) + '<small>' + kb(f.size) + '</small></span></span>').join('') + cvLinks.map(u => '<a class="afr-file" href="' + esc(u) + '" target="_blank" rel="noopener"><b class="t-url">URL</b><span>' + esc(hostOf(u)) + '<small>' + esc(u.replace(/^https?:\/\//, '')) + '</small></span></a>').join('') + '</span>' : '', true) + row('Người giới thiệu', v('#af-ref'), true) + '</dl></section>';
   }
   $('#afr-edit').addEventListener('click', () => { if(history.state && history.state.afp) history.back(); else afPage(null); });
   $('#afr-send').addEventListener('click', () => afPage('done', true));

@@ -1590,7 +1590,7 @@ html.embed-form #rx .apply-card > .af,html.embed-form #rx .apply-card > .af-done
             <div class="af-lab"><span class="lt">Khu vực có thể làm việc <em>*</em></span><span>Chọn một hoặc nhiều</span></div>
             <div class="af-box" id="af-regions" role="group" aria-label="Khu vực có thể làm việc"></div>
           </div>
-<label class="af-f"><span class="af-lab"><span class="lt">Mức lương mong đợi <em>*</em></span></span><span class="af-in"><svg width="15" height="14"><use href="#i-cash"/></svg><input id="af-salary" name="salary" required placeholder="VD: 18 - 25 triệu VNĐ"></span></label>
+<label class="af-f"><span class="af-lab"><span class="lt">Mức lương mong đợi <em>*</em></span></span><span class="af-in"><svg width="15" height="14"><use href="#i-cash"/></svg><input id="af-salary" name="salary" required type="text" inputmode="numeric" autocomplete="off" maxlength="15" pattern="[0-9]{1,3}(\.[0-9]{3})*" placeholder="VD: 11.000.000"></span></label>
 <label class="af-f"><span class="af-lab"><span class="lt">Thời gian có thể đi làm <em>*</em></span></span><span class="af-in"><svg width="14" height="14"><use href="#i-cal"/></svg><input id="af-start" name="start" required placeholder="VD: Ngay lập tức / 2 tuần"></span></label>
 <label class="af-f"><span class="af-lab"><span class="lt">Trình độ tiếng Anh <em>*</em></span></span><span class="af-in"><select id="af-eng" name="english" required><option>Đọc hiểu tài liệu chuyên ngành</option><option>Giao tiếp cơ bản</option><option>Giao tiếp tốt</option><option>Thành thạo (IELTS 6.5+ / tương đương)</option><option>Chưa sử dụng được</option></select><svg class="caret" width="12" height="12"><use href="#i-chev-d"/></svg></span></label>
 <label class="af-f"><span class="af-lab"><span class="lt">Nguồn tuyển dụng <em>*</em></span></span><span class="af-in"><select id="af-src" name="source" required><option>Fanpage Facebook REE M&amp;E</option><option>Website REE M&amp;E</option><option>LinkedIn</option><option>Trang tuyển dụng (TopCV, VietnamWorks…)</option><option>Người quen giới thiệu</option><option>Khác</option></select><svg class="caret" width="12" height="12"><use href="#i-chev-d"/></svg></span></label>
@@ -1930,6 +1930,14 @@ html.embed-form #rx .apply-card > .af,html.embed-form #rx .apply-card > .af-done
       (bad[0].focus ? bad[0] : drop).scrollIntoView({behavior:'smooth', block:'center'}); if(bad[0].focus) bad[0].focus({preventScroll:true}); return; }
     hideErr(); $('#afr-body').innerHTML = reviewHTML(); afPage('review');
   });
+  /* salary: digits only, grouped with dots (11.000.000) */
+  (function(){ const el = $('#af-salary'); if(!el) return;
+    const fmt = () => { const raw = el.value.replace(/\D/g, '').replace(/^0+(?=\d)/, '').slice(0, 12);
+      const pos = el.selectionStart, digitsBefore = el.value.slice(0, pos).replace(/\D/g, '').length;
+      el.value = raw.replace(/\B(?=(\d{3})+(?!\d))/g, '.');
+      let i = 0, d = 0; while(i < el.value.length && d < digitsBefore){ if(/\d/.test(el.value[i])) d++; i++; }
+      try { el.setSelectionRange(i, i); } catch(_){} };
+    el.addEventListener('input', fmt); el.addEventListener('paste', () => setTimeout(fmt, 0)); })();
   function reviewHTML(){
     const IC01 = '<svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="8" r="4"/><path d="M4.5 20.5a7.5 7.5 0 0 1 15 0"/></svg>', IC02 = '<svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="7" width="18" height="13" rx="2.5"/><path d="M8.5 7V5.5A1.5 1.5 0 0 1 10 4h4a1.5 1.5 0 0 1 1.5 1.5V7"/><path d="M3 12.5h18"/><path d="M11 12.5v1.5h2v-1.5"/></svg>', IC03 = '<svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8Z"/><path d="M14 3v5h5"/><path d="M9 13h6M9 17h4"/></svg>';
     const v = id => esc(($(id).value || '').trim()), sel = id => { const el = $(id); return esc(el.options[el.selectedIndex] ? el.options[el.selectedIndex].text : el.value); };

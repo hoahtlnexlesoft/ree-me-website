@@ -700,6 +700,38 @@ html.afp-on .dock,html.afp-on .fab,html.afp-on [class*="float"]{display:none!imp
 @media (max-width:640px){#rx .afp-bar{height:60px;gap:12px}#rx .afp-logo span{display:none}#rx .afp-in{padding:18px 12px 40px}#rx .afp .af-review,#rx .afp .af-done{padding:26px 18px!important;border-radius:18px!important}}
 #rx .afp.afp-embed .afp-bar{display:none}
 #rx .afp.afp-embed .afp-in{padding-top:calc(var(--afp-top,0px) + 32px)}
+/* review page: fit one screen on desktop (no scrolling) */
+@media (min-width:1025px){
+  #rx .afp .af-review{padding:30px 36px 28px!important}
+  #rx .afp .afp-in{padding-bottom:24px}
+  #rx .afp .af-review h4{margin-top:6px;font-size:24px}
+  #rx .afp .af-review .afr-head p{margin-top:6px;max-width:none;font-size:13.5px}
+  #rx .afp .af-review .afr-body{margin-top:18px;grid-template-columns:1fr 1.15fr 1.25fr;align-items:stretch;gap:14px}
+  #rx .afp .af-review section{padding:16px 18px 8px;display:flex;flex-direction:column}
+  #rx .afp .af-review h5{margin-bottom:4px;font-size:14px}
+  #rx .afp .af-review dl{grid-template-columns:1fr!important}
+  #rx .afp .af-review .afr-row,#rx .afp .af-review dl>.afr-row:nth-child(2){grid-template-columns:1fr;gap:3px;padding:8px 0;border-top:1px solid #EEF1F6}
+  #rx .afp .af-review dl>.afr-row:first-child{border-top:0}
+  #rx .afp .af-review dt{font-size:12px}
+  #rx .afp .af-review dd{font-size:13.5px}
+  #rx .afp .af-review .afr-tag{height:24px;font-size:12px;padding:0 10px}
+  #rx .afp .af-review .afr-why{display:-webkit-box;-webkit-line-clamp:5;-webkit-box-orient:vertical;overflow:hidden;font-size:13px;line-height:1.55}
+  #rx .afp .af-review .afr-file b{width:34px;height:34px}
+  #rx .afp .af-review .afr-acts{margin-top:18px}
+}
+@media (min-width:1025px) and (max-height:820px){
+  #rx .afp.afp-embed .afp-in{padding-top:calc(var(--afp-top,0px) + 12px)}
+  #rx .afp .afp-in{padding-top:20px;padding-bottom:12px}
+  #rx .afp .af-review{padding:20px 30px 18px!important}
+  #rx .afp .af-review h4{font-size:21px;margin-top:4px}
+  #rx .afp .af-review .afr-head p{font-size:12.5px;margin-top:4px}
+  #rx .afp .af-review .afr-body{margin-top:12px;gap:12px}
+  #rx .afp .af-review section{padding:12px 16px 4px}
+  #rx .afp .af-review .afr-row,#rx .afp .af-review dl>.afr-row:nth-child(2){padding:5px 0;gap:1px}
+  #rx .afp .af-review .afr-why{-webkit-line-clamp:3}
+  #rx .afp .af-review .afr-acts{margin-top:12px}
+  #rx .afp .af-review .afr-acts .afr-edit,#rx .afp .af-review .afr-acts .afr-send{height:44px!important}
+}
 /* success state v3 — premium */
 #rx .apply-card > .af-done{background:radial-gradient(120% 70% at 50% 0%,rgba(236,242,253,.95) 0%,rgba(255,255,255,.92) 55%)!important}
 #rx .af-done .afd-art{width:min(320px,86%);margin-bottom:4px}

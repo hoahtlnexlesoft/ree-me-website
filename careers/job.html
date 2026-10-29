@@ -654,11 +654,35 @@
 #rx .af-review .afr-file b{display:grid;place-items:center;width:38px;height:38px;border-radius:9px;background:#D93A35;color:#fff;font-size:10.5px;letter-spacing:.04em}
 #rx .af-review .afr-file small{display:block;font-size:12px;font-weight:400;color:#8A93A8}
 #rx .af-review .afr-acts{display:flex;justify-content:flex-end;align-items:center;gap:12px;margin-top:24px}
-#rx .af-review .afr-edit{display:inline-flex;align-items:center;gap:8px;height:50px;padding:0 22px;border-radius:999px;border:1.5px solid #1B3A7A;background:#fff;color:#1B3A7A;font-family:var(--font);font-size:14px;font-weight:600;cursor:pointer;transition:background .2s}
+#rx .af-review .afr-edit{display:inline-flex;align-items:center;gap:8px;height:50px;padding:0 24px;border-radius:999px;border:1.5px solid #1B3A7A;background:#fff;color:#1B3A7A;font-family:var(--font);font-size:14px;font-weight:600;cursor:pointer;transition:background .2s}
 #rx .af-review .afr-edit:hover{background:#EEF3FB}
-#rx .af-review .afr-send{width:auto;min-width:260px}
+#rx .af-review .afr-acts .afr-edit,#rx .af-review .afr-acts .afr-send{height:50px!important;border-radius:999px!important;font-family:var(--font)!important;font-size:15px!important;font-weight:600!important;letter-spacing:0!important;text-transform:none!important}
+#rx .af-review .afr-send{display:inline-flex!important;align-items:center;justify-content:center;gap:10px;width:auto!important;min-width:240px;padding:0 28px!important;border:0!important;background:oklch(0.586 0.196 28)!important;background-image:none!important;color:#fff!important;box-shadow:0 14px 26px -16px rgba(193,60,52,.7)!important;cursor:pointer;transition:transform .2s,box-shadow .2s,filter .2s}
+#rx .af-review .afr-send:hover{transform:translateY(-1px);filter:brightness(1.05);box-shadow:0 18px 30px -16px rgba(193,60,52,.8)!important}
 @media (max-width:1024px){#rx .apply-card > .af-review{grid-column:1;padding:28px 22px 30px}}
 @media (max-width:640px){#rx .af-review dl{grid-template-columns:1fr}#rx .af-review dl>.afr-row:nth-child(2){border-top:1px solid #EEF1F6}#rx .af-review .afr-row{grid-template-columns:1fr;gap:4px}#rx .af-review .afr-acts{flex-direction:column-reverse;align-items:stretch}#rx .af-review .afr-send{min-width:0}#rx .af-review .afr-edit{justify-content:center}#rx .af-review h4{font-size:22px}}
+/* illustration motion */
+#rx .af-done .afd-art svg *{transform-box:fill-box}
+#rx .af-done .afa-env{transform-origin:center;animation:afaInL .8s .1s cubic-bezier(.2,.8,.2,1) both,afaFloat 4.2s 1.2s ease-in-out infinite}
+#rx .af-done .afa-doc{transform-origin:center;animation:afaInU .8s .2s cubic-bezier(.2,.8,.2,1) both,afaFloat 4.8s 1.4s ease-in-out infinite reverse}
+#rx .af-done .afa-plane{transform-origin:center;animation:afaFly 1s .7s cubic-bezier(.2,.8,.2,1) both,afaDrift 3.6s 1.8s ease-in-out infinite}
+#rx .af-done .afa-dash path{animation:afaDash 1.4s linear infinite}
+#rx .af-done .afa-ln path,#rx .af-done .afa-ln2 path{stroke-dasharray:80;stroke-dashoffset:80;animation:afdDraw .6s cubic-bezier(.65,0,.35,1) forwards}
+#rx .af-done .afa-ln path:nth-child(1){animation-delay:.55s}#rx .af-done .afa-ln path:nth-child(2){animation-delay:.7s}#rx .af-done .afa-ln path:nth-child(3){animation-delay:.85s}#rx .af-done .afa-ln path:nth-child(4){animation-delay:1s}
+#rx .af-done .afa-ln2 path:nth-child(1){animation-delay:.65s}#rx .af-done .afa-ln2 path:nth-child(2){animation-delay:.8s}#rx .af-done .afa-ln2 path:nth-child(3){animation-delay:.95s}#rx .af-done .afa-ln2 path:nth-child(4){animation-delay:1.1s}
+#rx .af-done .afa-star{transform-origin:center;animation:afaSpin 5s 1s ease-in-out infinite}
+#rx .af-done .afa-twk>*{transform-origin:center;animation:afaTwk 2.8s ease-in-out infinite}
+#rx .af-done .afa-twk>*:nth-child(2){animation-delay:.6s}#rx .af-done .afa-twk>*:nth-child(3){animation-delay:1.2s}#rx .af-done .afa-twk>*:nth-child(4){animation-delay:1.8s}
+#rx .af-done .afd-seal,#rx .af-done .afd-ring{transform-origin:center!important}#rx .af-done .afd-seal{animation-delay:1.15s!important}#rx .af-done .afd-seal .afd-k{animation-delay:1.5s!important}
+@keyframes afaInL{from{opacity:0;transform:translateX(-22px)}to{opacity:1;transform:none}}
+@keyframes afaInU{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:none}}
+@keyframes afaFly{from{opacity:0;transform:translate(-40px,30px) rotate(-12deg) scale(.7)}to{opacity:1;transform:none}}
+@keyframes afaFloat{0%,100%{transform:translateY(0)}50%{transform:translateY(-5px)}}
+@keyframes afaDrift{0%,100%{transform:translate(0,0) rotate(0)}50%{transform:translate(4px,-6px) rotate(-4deg)}}
+@keyframes afaDash{to{stroke-dashoffset:-20}}
+@keyframes afaSpin{0%,100%{transform:scale(1) rotate(0)}50%{transform:scale(1.18) rotate(45deg)}}
+@keyframes afaTwk{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.35;transform:scale(.7)}}
+@media (prefers-reduced-motion:reduce){#rx .af-done .afd-art svg *{animation:none!important;stroke-dashoffset:0!important;opacity:1!important}}
 /* success state v3 — premium */
 #rx .apply-card > .af-done{background:radial-gradient(120% 70% at 50% 0%,rgba(236,242,253,.95) 0%,rgba(255,255,255,.92) 55%)!important}
 #rx .af-done .afd-art{width:min(320px,86%);margin-bottom:4px}
@@ -1483,18 +1507,18 @@ html.embed-form #rx .apply-card > .af,html.embed-form #rx .apply-card > .af-done
             </defs>
             <ellipse cx="166" cy="104" rx="150" ry="96" fill="url(#afdG)"/>
             <ellipse cx="68" cy="178" rx="40" ry="6" fill="#EEF3FB"/><ellipse cx="168" cy="180" rx="66" ry="7" fill="#EEF3FB"/>
-            <g stroke="#8FA6CF" stroke-width="2"><path d="M96 14v10M91 19h10M300 112v10M295 117h10M44 186v8M40 190h8"/><circle cx="24" cy="96" r="3"/><circle cx="246" cy="182" r="2.5"/></g>
-            <path d="M34 40q1.4 9.6 11 11-9.6 1.4-11 11-1.4-9.6-11-11 9.6-1.4 11-11z" stroke="#B08D57" stroke-width="1.6" fill="url(#afdGold)"/>
+            <g class="afa-twk" stroke="#8FA6CF" stroke-width="2"><path d="M96 14v10M91 19h10M300 112v10M295 117h10M44 186v8M40 190h8"/><circle cx="24" cy="96" r="3"/><circle cx="246" cy="182" r="2.5"/></g>
+            <path class="afa-star" d="M34 40q1.4 9.6 11 11-9.6 1.4-11 11-1.4-9.6-11-11 9.6-1.4 11-11z" stroke="#B08D57" stroke-width="1.6" fill="url(#afdGold)"/>
             <g class="afd-tw"><path d="M292 150q.9 6 7 7-6.1.9-7 7-.9-6.1-7-7 6.1-.9 7-7z" fill="url(#afdGold)"/><path d="M236 12q.7 4.5 5 5.2-4.3.7-5 5.2-.7-4.5-5-5.2 4.3-.7 5-5.2z" fill="url(#afdGold)"/></g>
-            <g stroke="#8FA6CF" stroke-width="2.2" stroke-dasharray="4 6"><path d="M60 96c-6-30 18-52 50-50"/><path d="M220 46c10-16 26-22 34-20"/></g>
+            <g class="afa-dash" stroke="#8FA6CF" stroke-width="2.2" stroke-dasharray="4 6"><path d="M60 96c-6-30 18-52 50-50"/><path d="M220 46c10-16 26-22 34-20"/></g>
             <path d="M101 41l9 5-9 5" stroke="#8FA6CF" stroke-width="2.2"/>
-            <g stroke="#1E3A6E" stroke-width="2.4" filter="url(#afdS)"><rect x="36" y="112" width="66" height="50" rx="5" fill="#D9E4F5"/><path d="M36 117l33 23 33-23"/></g>
-            <g stroke="#1E3A6E" stroke-width="2.4" filter="url(#afdS)"><rect x="122" y="26" width="94" height="148" rx="10" fill="#fff"/></g>
+            <g class="afa-env" stroke="#1E3A6E" stroke-width="2.4" filter="url(#afdS)"><rect x="36" y="112" width="66" height="50" rx="5" fill="#D9E4F5"/><path d="M36 117l33 23 33-23"/></g>
+            <g class="afa-doc"><g stroke="#1E3A6E" stroke-width="2.4" filter="url(#afdS)"><rect x="122" y="26" width="94" height="148" rx="10" fill="#fff"/></g>
             <path d="M124.5 36a8 8 0 0 1 8-8h73a8 8 0 0 1 8 8v28h-89z" fill="url(#afdHd)"/>
             <g stroke="#1E3A6E" stroke-width="2.2"><circle cx="148" cy="50" r="11" fill="#D9E4F5"/><path d="M141 57a8 8 0 0 1 14 0" /></g>
-            <g stroke="#B4C7E6" stroke-width="3.2"><path d="M168 45h32M138 84h62M138 104h62M138 124h48"/></g>
-            <g stroke="#DCE5F3" stroke-width="2.4"><path d="M168 54h20M138 92h44M138 112h50M138 132h30"/></g>
-            <g stroke="#1E3A6E" stroke-width="2.4"><path d="M250 30l46-16-20 44-8-14z" fill="#fff"/><path d="M268 44l28-30" /><path d="M268 44l-2 14 10-8"/></g>
+            <g class="afa-ln" stroke="#B4C7E6" stroke-width="3.2"><path d="M168 45h32M138 84h62M138 104h62M138 124h48"/></g>
+            <g class="afa-ln2" stroke="#DCE5F3" stroke-width="2.4"><path d="M168 54h20M138 92h44M138 112h50M138 132h30"/></g></g>
+            <g class="afa-plane" stroke="#1E3A6E" stroke-width="2.4"><path d="M250 30l46-16-20 44-8-14z" fill="#fff"/><path d="M268 44l28-30" /><path d="M268 44l-2 14 10-8"/></g>
             <g class="afd-seal" filter="url(#afdS2)"><circle cx="214" cy="158" r="22" fill="url(#afdOk)" stroke="#fff" stroke-width="4"/><path class="afd-k" d="M204 158.5l7 7 13-14" stroke="#fff" stroke-width="3.6"/></g><circle cx="214" cy="158" r="30" stroke="#34C487" stroke-opacity=".35" stroke-width="1.5" class="afd-ring"/>
           </svg></span>
           <h4>Hồ sơ đã sẵn sàng</h4>

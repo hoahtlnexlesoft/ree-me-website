@@ -1545,6 +1545,16 @@ html.embed-form #rx .apply-card > .af,html.embed-form #rx .apply-card > .af-done
 #rx .af-f.cv .cv-link button{flex:none!important;height:34px!important;min-height:0!important;padding:0 16px!important;margin:0!important;border:0!important;border-radius:9px!important;box-shadow:none!important;line-height:1!important}
 </style>
 <style id="af-flash-css">@keyframes afFlash{0%{box-shadow:0 0 0 0 rgba(52,96,194,.35)}100%{box-shadow:0 0 0 14px rgba(52,96,194,0)}}#rx .af-flash{animation:afFlash 1.1s ease-out}</style>
+<style id="afd-next-css">
+#rx .af-done .afd-next{display:grid;grid-template-columns:1fr 1fr;gap:12px;max-width:640px;width:100%;margin:26px auto 0;text-align:left}
+#rx .af-done .afd-ni{display:flex;gap:12px;align-items:flex-start;padding:16px 18px;border-radius:14px;background:rgba(255,255,255,.82);border:1px solid #E3E9F4}
+#rx .af-done .afd-ni>i{flex:none;display:grid;place-items:center;width:36px;height:36px;border-radius:50%;background:linear-gradient(145deg,#E9F0FC,#D6E2F7);color:#2950AE}
+#rx .af-done .afd-ni>span{font-size:13px;line-height:1.55;color:#4A5672}
+#rx .af-done .afd-ni b{display:block;margin-bottom:3px;font-size:14px;font-weight:600;color:#14275A}
+#rx .af-done .afd-ni a{color:#2950AE;font-weight:600;text-decoration:none;white-space:nowrap}
+#rx .af-done .afd-ni a:hover{text-decoration:underline}
+@media (max-width:640px){#rx .af-done .afd-next{grid-template-columns:1fr}}
+</style>
 </head>
 <body>
 <div id="site-header"></div>
@@ -1590,7 +1600,7 @@ html.embed-form #rx .apply-card > .af,html.embed-form #rx .apply-card > .af-done
             <div class="af-lab"><span class="lt">Khu vực có thể làm việc <em>*</em></span><span>Chọn một hoặc nhiều</span></div>
             <div class="af-box" id="af-regions" role="group" aria-label="Khu vực có thể làm việc"></div>
           </div>
-<label class="af-f"><span class="af-lab"><span class="lt">Mức lương mong đợi <em>*</em></span></span><span class="af-in"><svg width="15" height="14"><use href="#i-cash"/></svg><input id="af-salary" name="salary" required type="text" inputmode="numeric" autocomplete="off" maxlength="15" pattern="[0-9]{1,3}(\.[0-9]{3})*" placeholder="VD: 11.000.000"></span></label>
+<label class="af-f"><span class="af-lab"><span class="lt">Mức lương mong đợi <em>*</em></span></span><span class="af-in"><svg width="15" height="14"><use href="#i-cash"/></svg><input id="af-salary" name="salary" required type="text" inputmode="numeric" autocomplete="off" maxlength="15" pattern="[0-9]{1,3}(\.[0-9]{3})*" placeholder="VD: 32.000.000"></span></label>
 <label class="af-f"><span class="af-lab"><span class="lt">Thời gian có thể đi làm <em>*</em></span></span><span class="af-in"><svg width="14" height="14"><use href="#i-cal"/></svg><input id="af-start" name="start" required placeholder="VD: Ngay lập tức / 2 tuần"></span></label>
 <label class="af-f"><span class="af-lab"><span class="lt">Trình độ tiếng Anh <em>*</em></span></span><span class="af-in"><select id="af-eng" name="english" required><option>Đọc hiểu tài liệu chuyên ngành</option><option>Giao tiếp cơ bản</option><option>Giao tiếp tốt</option><option>Thành thạo (IELTS 6.5+ / tương đương)</option><option>Chưa sử dụng được</option></select><svg class="caret" width="12" height="12"><use href="#i-chev-d"/></svg></span></label>
 <label class="af-f"><span class="af-lab"><span class="lt">Nguồn tuyển dụng <em>*</em></span></span><span class="af-in"><select id="af-src" name="source" required><option>Fanpage Facebook REE M&amp;E</option><option>Website REE M&amp;E</option><option>LinkedIn</option><option>Trang tuyển dụng (TopCV, VietnamWorks…)</option><option>Người quen giới thiệu</option><option>Khác</option></select><svg class="caret" width="12" height="12"><use href="#i-chev-d"/></svg></span></label>
@@ -1656,9 +1666,9 @@ html.embed-form #rx .apply-card > .af,html.embed-form #rx .apply-card > .af-done
             <g class="afa-plane" stroke="#1E3A6E" stroke-width="2.4"><path d="M250 30l46-16-20 44-8-14z" fill="#fff"/><path d="M268 44l28-30" /><path d="M268 44l-2 14 10-8"/></g>
             <g class="afd-seal" filter="url(#afdS2)"><circle cx="214" cy="158" r="22" fill="url(#afdOk)" stroke="#fff" stroke-width="4"/><path class="afd-k" d="M204 158.5l7 7 13-14" stroke="#fff" stroke-width="3.6"/></g><circle cx="214" cy="158" r="30" stroke="#34C487" stroke-opacity=".35" stroke-width="1.5" class="afd-ring"/>
           </svg></span>
-          <h4>Hồ sơ đã sẵn sàng</h4>
-          <p class="afd-lead">Thông tin của bạn đã được kiểm tra đầy đủ.</p>
-          <p class="afd-note"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9.5"/><path d="M12 11v5.5M12 7.6v.4"/></svg><span>Đây là bản xem thử nên hồ sơ <b>chưa được gửi</b> đến Ban Nhân Sự — chức năng gửi sẽ được kết nối với email tuyển dụng của REE M&amp;E.</span></p>
+          <h4>Hồ sơ đã được gửi</h4>
+          <p class="afd-lead">Cảm ơn bạn đã quan tâm đến cơ hội nghề nghiệp tại R.E.E M&amp;E.</p>
+          <div class="afd-next"><div class="afd-ni"><i><svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2.5" y="4.5" width="19" height="15" rx="2.5"/><path d="m3 6.5 9 6.5 9-6.5"/></svg></i><span><b>Chờ phản hồi qua email</b>Ban Nhân Sự sẽ xem xét hồ sơ và liên hệ với bạn trong vòng 24 – 48 giờ làm việc. Vui lòng kiểm tra cả hộp thư Spam/Quảng cáo.</span></div><div class="afd-ni"><i><svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1.9.4 1.8.7 2.7a2 2 0 0 1-.5 2.1L8 9.8a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.4c.9.3 1.8.6 2.7.7a2 2 0 0 1 1.7 2Z"/></svg></i><span><b>Cần tra cứu hồ sơ?</b>Gọi Hotline tuyển dụng <a href="tel:0888177486">0888 177 486</a> (T2 – T7, giờ hành chính) để được hỗ trợ.</span></div></div>
           <a id="af-again" href="jobs.html"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 7h18M3 12h18M3 17h12"/></svg>Xem các vị trí khác</a>
         </div>
       </aside>
@@ -1746,7 +1756,7 @@ html.embed-form #rx .apply-card > .af,html.embed-form #rx .apply-card > .af-done
 
 <div id="site-footer"></div>
 
-<script src="../assets/ree-i18n.js?v=1" defer></script>
+<script src="../assets/ree-i18n.js?v=3" defer></script>
 <script src="assets/jobs-data.js"></script>
 <script src="assets/site.js?v=20261021t"></script>
 <script>
@@ -1899,7 +1909,7 @@ html.embed-form #rx .apply-card > .af,html.embed-form #rx .apply-card > .af-done
     if(!f) return false;
     if(!/\.(pdf|docx?)$/i.test(f.name)){ showErr('CV cần ở định dạng .PDF, .DOC hoặc .DOCX.'); return false; }
     if(f.size > 10*1024*1024){ showErr('“' + f.name + '” vượt quá 10MB. Vui lòng nén hoặc chọn tệp nhỏ hơn.'); return false; }
-    if(cvFiles.length >= 2){ showErr('Chỉ đính kèm tối đa 2 file. Bạn có thể dán thêm link Google Drive.'); return false; }
+    if(cvFiles.length >= 2){ showErr('Chỉ đính kèm tối đa 2 file.'); return false; }
     if(cvFiles.some(x => x.name === f.name && x.size === f.size)) return false;
     cvFiles.push(f); hideErr(); return true;
   }

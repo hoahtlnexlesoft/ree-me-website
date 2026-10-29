@@ -626,8 +626,39 @@
 #rx .af-done .afd-note{display:flex;gap:12px;align-items:flex-start;max-width:540px;margin:24px 0 0;padding:15px 18px;border-radius:14px;background:#FFF8EC;border:1px solid #F6E3BF;text-align:left;font-size:13.5px;line-height:1.6;color:#6B4E1E}
 #rx .af-done .afd-note svg{flex:none;margin-top:2px;color:#C98A1B}
 #rx .af-done .afd-note b{color:#3E2C0E}
-#rx .af-done #af-again{display:inline-flex;align-items:center;gap:9px;margin-top:28px;height:46px;padding:0 24px;border-radius:999px;border:1.5px solid #1B3A7A;background:#fff;color:#1B3A7A;font-family:var(--font);font-size:14px;font-weight:600;cursor:pointer;transition:background .25s,color .25s,transform .2s,box-shadow .25s}
+#rx .af-done #af-again{text-decoration:none;display:inline-flex;align-items:center;gap:9px;margin-top:28px;height:46px;padding:0 24px;border-radius:999px;border:1.5px solid #1B3A7A;background:#fff;color:#1B3A7A;font-family:var(--font);font-size:14px;font-weight:600;cursor:pointer;transition:background .25s,color .25s,transform .2s,box-shadow .25s}
 #rx .af-done #af-again:hover{background:#1B3A7A;color:#fff;box-shadow:0 12px 24px -14px rgba(27,58,122,.8);transform:translateY(-1px)}
+/* review step */
+#rx .apply-card > .af-review{grid-column:2;padding:40px 44px 40px}
+#rx .apply-card > .af-review[hidden]{display:none!important}
+#rx .af-review .afr-step{display:inline-flex;align-items:center;gap:8px;font-size:11px;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:#D93A35}
+#rx .af-review .afr-step::before{content:"";width:18px;height:2px;background:currentColor}
+#rx .af-review h4{margin:10px 0 0;font-size:26px;line-height:1.2;font-weight:700;letter-spacing:-.01em;color:var(--navy-900)}
+#rx .af-review .afr-head p{margin:8px 0 0;max-width:620px;font-size:14px;line-height:1.6;color:#5E6A82}
+#rx .af-review .afr-body{margin-top:24px;display:grid;gap:14px}
+#rx .af-review section{border:1px solid #E6EBF4;border-radius:16px;background:rgba(255,255,255,.85);padding:18px 22px 6px}
+#rx .af-review h5{display:flex;align-items:center;gap:10px;margin:0 0 6px;font-size:15px;font-weight:700;color:var(--navy-900)}
+#rx .af-review h5 i{font-style:normal;display:grid;place-items:center;width:28px;height:28px;border-radius:50%;background:#EEF3FB;color:#1B3A7A;font-size:11.5px;font-weight:700}
+#rx .af-review dl{display:grid;grid-template-columns:1fr 1fr;column-gap:28px;margin:0}
+#rx .af-review .afr-row{display:grid;grid-template-columns:150px 1fr;gap:12px;padding:11px 0;border-top:1px solid #EEF1F6}
+#rx .af-review .afr-row.full{grid-column:1/-1}
+#rx .af-review dl>.afr-row:nth-child(-n+2){border-top:0}
+#rx .af-review dt{font-size:13px;color:#7A859C}
+#rx .af-review dd{margin:0;font-size:14px;font-weight:600;color:#14213D;word-break:break-word}
+#rx .af-review .afr-na{color:#B3BCCD;font-weight:400}
+#rx .af-review .afr-tags{display:flex;flex-wrap:wrap;gap:6px}
+#rx .af-review .afr-tag{display:inline-flex;align-items:center;height:28px;padding:0 12px;border-radius:999px;background:#EEF3FB;color:#1B3A7A;font-size:12.5px;font-weight:600}
+#rx .af-review .afr-tag.soft{background:#F3F5F9;color:#3F4A5A}
+#rx .af-review .afr-why{display:block;font-weight:500;line-height:1.6;color:#2B3650}
+#rx .af-review .afr-file{display:inline-flex;align-items:center;gap:12px}
+#rx .af-review .afr-file b{display:grid;place-items:center;width:38px;height:38px;border-radius:9px;background:#D93A35;color:#fff;font-size:10.5px;letter-spacing:.04em}
+#rx .af-review .afr-file small{display:block;font-size:12px;font-weight:400;color:#8A93A8}
+#rx .af-review .afr-acts{display:flex;justify-content:flex-end;align-items:center;gap:12px;margin-top:24px}
+#rx .af-review .afr-edit{display:inline-flex;align-items:center;gap:8px;height:50px;padding:0 22px;border-radius:999px;border:1.5px solid #1B3A7A;background:#fff;color:#1B3A7A;font-family:var(--font);font-size:14px;font-weight:600;cursor:pointer;transition:background .2s}
+#rx .af-review .afr-edit:hover{background:#EEF3FB}
+#rx .af-review .afr-send{width:auto;min-width:260px}
+@media (max-width:1024px){#rx .apply-card > .af-review{grid-column:1;padding:28px 22px 30px}}
+@media (max-width:640px){#rx .af-review dl{grid-template-columns:1fr}#rx .af-review dl>.afr-row:nth-child(2){border-top:1px solid #EEF1F6}#rx .af-review .afr-row{grid-template-columns:1fr;gap:4px}#rx .af-review .afr-acts{flex-direction:column-reverse;align-items:stretch}#rx .af-review .afr-send{min-width:0}#rx .af-review .afr-edit{justify-content:center}#rx .af-review h4{font-size:22px}}
 /* success state v3 — premium */
 #rx .apply-card > .af-done{background:radial-gradient(120% 70% at 50% 0%,rgba(236,242,253,.95) 0%,rgba(255,255,255,.92) 55%)!important}
 #rx .af-done .afd-art{width:min(320px,86%);margin-bottom:4px}
@@ -1236,7 +1267,7 @@ html,body{overflow-x:clip}
 #rx .af-head h3{margin-top:22px;font-size:34px;line-height:1.12;font-weight:600;letter-spacing:-.025em;color:#1D2B44!important}
 #rx .af-head p{margin-top:16px;font-size:14px;line-height:1.6;color:#4A5868;display:flex;gap:8px;align-items:flex-start}
 #rx .af-head p svg{flex:none;margin-top:4px;color:oklch(58.6% .196 28)!important}
-#rx .apply-card > .af,#rx .apply-card > .af-done{grid-column:2;padding:40px 44px 44px}
+#rx .apply-card > .af,#rx .apply-card > .af-done,#rx .apply-card > .af-review{grid-column:2;padding:40px 44px 44px}
 #rx .af{display:flex;flex-direction:column;gap:30px}
 #rx .af-group{display:block;padding:0 0 30px;border-bottom:1px solid #EEF1F7}
 #rx .af-group legend{float:none;display:flex;flex-direction:row;align-items:center;gap:12px;margin-bottom:20px;font-size:17px;font-weight:600;color:#0A1A55}
@@ -1276,20 +1307,20 @@ html,body{overflow-x:clip}
 #rx .af-agree input[type=checkbox]:focus-visible,.af-agree input[type=checkbox]:focus-visible{outline:none;box-shadow:0 0 0 3px rgba(30,58,138,.18)!important}
 .af-agree{gap:10px!important;align-items:flex-start!important}
 .af-submit:disabled{opacity:.45;cursor:not-allowed;filter:none!important;transform:none!important}
-@media (max-width:1000px){#rx .apply-card{grid-template-columns:1fr}#rx .af-head{grid-row:auto;padding:30px 24px}#rx .af-head > div{position:static}#rx .af-head h3{font-size:28px}#rx .apply-card > .af,#rx .apply-card > .af-done{grid-column:1;padding:28px 22px 30px}}
+@media (max-width:1000px){#rx .apply-card{grid-template-columns:1fr}#rx .af-head{grid-row:auto;padding:30px 24px}#rx .af-head > div{position:static}#rx .af-head h3{font-size:28px}#rx .apply-card > .af,#rx .apply-card > .af-done,#rx .apply-card > .af-review{grid-column:1;padding:28px 22px 30px}}
   .rx .dock-btn.light[aria-pressed="true"] .dock-ic{background:linear-gradient(135deg,#8EDBF7,#F6D6D1)!important;color:#1C1C19!important}
   .rx .dock-btn.light[aria-pressed="true"] .dock-ic svg{fill:currentColor}
 
 /* apply form: site photo (engineers) as the card background, title text on the left, translucent form card on the right */
 #rx .apply-card{overflow:clip!important;grid-template-columns:420px minmax(0,1fr)!important;
   background:linear-gradient(180deg,#EEF3F9 0,#EEF3F9 calc(100% - 700px),rgba(238,243,249,.55) calc(100% - 640px),rgba(238,243,249,0) calc(100% - 540px)),linear-gradient(90deg,rgba(240,245,251,0) 0,rgba(240,245,251,0) 1080px,#F0F5FB 1303px),url(assets/img/apply-duo.jpg) 0 100%/auto 700px no-repeat,#EEF3F9!important}
-#rx .apply-card > .af,#rx .apply-card > .af-done{background:rgba(255,255,255,.86)!important;-webkit-backdrop-filter:blur(16px) saturate(1.1);backdrop-filter:blur(16px) saturate(1.1)}
+#rx .apply-card > .af,#rx .apply-card > .af-done,#rx .apply-card > .af-review{background:rgba(255,255,255,.86)!important;-webkit-backdrop-filter:blur(16px) saturate(1.1);backdrop-filter:blur(16px) saturate(1.1)}
 #rx .apply-card > .af-head{position:relative!important;top:auto;align-self:start!important;height:auto;margin:0;border-radius:0;box-shadow:none;background:none!important;padding:36px 34px!important;color:#1F2D3A}
 #rx .af-head > div{position:static!important}
 #rx .af-tag{background:transparent!important;border:0!important;padding:0!important;color:#2C3A55!important}
 #rx .af-head h3{margin-top:14px!important;font-size:36px!important;color:#14306B!important}
 #rx .af-head p{color:#2F3B52!important}
-#rx .apply-card > .af,#rx .apply-card > .af-done{margin:22px 22px 22px 0;background:rgba(255,255,255,.9);-webkit-backdrop-filter:blur(12px);backdrop-filter:blur(12px);border-radius:20px;box-shadow:0 24px 60px -34px rgba(10,26,85,.4),0 0 0 1px rgba(10,26,85,.05)}
+#rx .apply-card > .af,#rx .apply-card > .af-done,#rx .apply-card > .af-review{margin:22px 22px 22px 0;background:rgba(255,255,255,.9);-webkit-backdrop-filter:blur(12px);backdrop-filter:blur(12px);border-radius:20px;box-shadow:0 24px 60px -34px rgba(10,26,85,.4),0 0 0 1px rgba(10,26,85,.05)}
 @media (max-width:1100px){#rx .apply-card{grid-template-columns:380px minmax(0,1fr)!important}}
 /* af-noline: no divider lines between the form sections */
 #rx .af-group{border-bottom:0!important;padding-bottom:0!important}
@@ -1299,7 +1330,7 @@ html,body{overflow-x:clip}
 @media (min-width:901px){#rx .apply-card{grid-template-columns:280px minmax(0,1fr)!important}#rx .apply-card > .af-head{padding:34px 26px!important}#rx .af-head h3{font-size:31px!important}}
 @media (max-width:900px){#rx .apply-card{grid-template-columns:1fr!important;background:linear-gradient(180deg,#EDF3FB 0,rgba(237,243,251,0) 200px,rgba(237,243,251,0) 520px,#EDF3FB 640px),url(assets/img/apply-duo.jpg) 0 178px/auto 470px no-repeat,#EDF3FB!important}
   #rx .apply-card > .af-head{min-height:600px;padding:28px 22px!important}#rx .af-head h3{font-size:28px!important}
-  #rx .apply-card > .af,#rx .apply-card > .af-done{margin:0 12px 12px}}
+  #rx .apply-card > .af,#rx .apply-card > .af-done,#rx .apply-card > .af-review{margin:0 12px 12px}}
 
 /* dock: floating while scrolling, full-width band once it reaches the end of the page (same as careers index) */
 html body .rx .dock.dk-rest .dock-x{display:none}
@@ -1313,9 +1344,9 @@ html.embed-form .jd-wrap>*:not(.jd-grid),html.embed-form .jd-grid>*:not(#apply-c
 html.embed-form #rx,html.embed-form .jd-wrap,html.embed-form .jd-grid{display:block!important;margin:0!important;padding:0!important;background:none!important;max-width:none!important;min-height:0!important}
 html.embed-form #rx::before,html.embed-form #rx::after{display:none!important}
 html.embed-form #apply-card{display:block!important;margin:0!important;border:0!important;border-radius:0!important;box-shadow:none!important;max-width:none!important;position:static!important}
-html.embed-form #rx .apply-card>.af,html.embed-form #rx .apply-card>.af-done{padding:22px 32px 20px!important}
+html.embed-form #rx .apply-card>.af,html.embed-form #rx .apply-card>.af-done,html.embed-form #rx .apply-card>.af-review{padding:22px 32px 20px!important}
 html.embed-form body #rx .jd-wrap,html.embed-form body #rx .jd-grid,html.embed-form body main{padding-bottom:0!important;margin-bottom:0!important}
-@media (max-width:600px){html.embed-form #rx .apply-card>.af,html.embed-form #rx .apply-card>.af-done{padding:18px 16px 18px!important}}
+@media (max-width:600px){html.embed-form #rx .apply-card>.af,html.embed-form #rx .apply-card>.af-done,html.embed-form #rx .apply-card>.af-review{padding:18px 16px 18px!important}}
 
 /* no divider between the last field group and the submit button */
 #rx .af-group:last-of-type{border-bottom:0!important;padding-bottom:0!important}
@@ -1338,11 +1369,11 @@ html:not(.embed-form) #rx .apply-card > .af{padding-bottom:26px!important}
 
 /* no borders on the apply card or the inner form card */
 #rx #apply-card.apply-card{border:0!important}
-#rx .apply-card > .af,#rx .apply-card > .af-done{box-shadow:0 24px 60px -34px rgba(10,26,85,.35)!important;border:0!important}
+#rx .apply-card > .af,#rx .apply-card > .af-done,#rx .apply-card > .af-review{box-shadow:0 24px 60px -34px rgba(10,26,85,.35)!important;border:0!important}
 
 /* modal (form-only): plain white, no photo / card */
 html.embed-form #rx #apply-card.apply-card{background:#fff!important;display:block!important}
-html.embed-form #rx .apply-card > .af,html.embed-form #rx .apply-card > .af-done{margin:0!important;background:#fff!important;border-radius:0!important;box-shadow:none!important;-webkit-backdrop-filter:none!important;backdrop-filter:none!important}
+html.embed-form #rx .apply-card > .af,html.embed-form #rx .apply-card > .af-done,html.embed-form #rx .apply-card > .af-review{margin:0!important;background:#fff!important;border-radius:0!important;box-shadow:none!important;-webkit-backdrop-filter:none!important;backdrop-filter:none!important}
 
 /* CV upload icon: file + image + upload badge (no round chip) */
 #rx .drop .cloud.cv-ic{width:auto!important;height:auto!important;background:none!important;border:0!important;border-radius:0!important;box-shadow:none!important;margin-bottom:2px}
@@ -1435,6 +1466,11 @@ html.embed-form #rx .apply-card > .af,html.embed-form #rx .apply-card > .af-done
           <label class="af-lock af-agree"><input type="checkbox" id="afAgree" name="agree" value="1" checked required><span>Bằng việc nhấn nút Ứng tuyển, bạn đồng ý cung cấp thông tin cá nhân phục vụ cho quá trình tuyển dụng theo quy định của Tập đoàn REE. Xem chi tiết <a href="https://www.reecorp.com/bao-mat-du-lieu-ca-nhan" target="_blank" rel="noopener">tại đây</a>.</span></label>
         </div>
         </form>
+        <div class="af-review" id="af-review" hidden>
+          <div class="afr-head"><span class="afr-step">Bước cuối</span><h4>Xem lại hồ sơ trước khi gửi</h4><p>Vui lòng kiểm tra thông tin bên dưới. Sau khi xác nhận, hồ sơ sẽ được gửi đến Ban Nhân Sự và không chỉnh sửa được nữa.</p></div>
+          <div class="afr-body" id="afr-body"></div>
+          <div class="afr-acts"><button type="button" class="afr-edit" id="afr-edit"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4Z"/></svg>Chỉnh sửa</button><button type="button" class="btn-grad afr-send" id="afr-send">Xác nhận gửi hồ sơ <svg width="14" height="14"><use href="#i-arrow-r"/></svg></button></div>
+        </div>
         <div class="af-done" id="af-done" hidden>
           <span class="afd-art" aria-hidden="true"><svg viewBox="0 0 320 200" fill="none" stroke-linecap="round" stroke-linejoin="round">
             <defs>
@@ -1464,7 +1500,7 @@ html.embed-form #rx .apply-card > .af,html.embed-form #rx .apply-card > .af-done
           <h4>Hồ sơ đã sẵn sàng</h4>
           <p class="afd-lead">Thông tin của bạn đã được kiểm tra đầy đủ.</p>
           <p class="afd-note"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9.5"/><path d="M12 11v5.5M12 7.6v.4"/></svg><span>Đây là bản xem thử nên hồ sơ <b>chưa được gửi</b> đến Ban Nhân Sự — chức năng gửi sẽ được kết nối với email tuyển dụng của REE M&amp;E.</span></p>
-          <button type="button" id="af-again"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4Z"/></svg>Chỉnh sửa hồ sơ</button>
+          <a id="af-again" href="jobs.html"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 7h18M3 12h18M3 17h12"/></svg>Xem các vị trí khác</a>
         </div>
       </aside>
     </div>
@@ -1658,7 +1694,7 @@ html.embed-form #rx .apply-card > .af,html.embed-form #rx .apply-card > .af-done
       panel('b', 'Yêu cầu', j.req && tl(j.req)) +
       panel('c', 'Phúc lợi', j.perks && tl(j.perks)) + '</div>';
     positions = [j.id]; regions = [regionOf(j)];
-    $('#apply-form').hidden = false; $('#af-done').hidden = true;
+    $('#apply-form').hidden = false; $('#af-done').hidden = true; $('#af-review').hidden = true;
     renderRegions(); renderPositions(); clearErrors();
   }
 
@@ -1713,9 +1749,23 @@ html.embed-form #rx .apply-card > .af,html.embed-form #rx .apply-card > .af-done
     if(!cvFile){ drop.classList.add('invalid'); bad.push(drop); }
     if(bad.length){ showErr('Vui lòng kiểm tra ' + bad.length + ' mục được tô đỏ (bắt buộc hoặc chưa đúng định dạng).');
       (bad[0].focus ? bad[0] : drop).scrollIntoView({behavior:'smooth', block:'center'}); if(bad[0].focus) bad[0].focus({preventScroll:true}); return; }
-    hideErr(); form.hidden = true; $('#af-done').hidden = false; $('#apply-card').scrollIntoView({behavior:'smooth', block:'start'});
+    hideErr(); $('#afr-body').innerHTML = reviewHTML(); form.hidden = true; $('#af-review').hidden = false; $('#apply-card').scrollIntoView({behavior:'smooth', block:'start'});
   });
-  $('#af-again').addEventListener('click', () => { $('#apply-form').hidden = false; $('#af-done').hidden = true; });
+  function reviewHTML(){
+    const v = id => esc(($(id).value || '').trim()), sel = id => { const el = $(id); return esc(el.options[el.selectedIndex] ? el.options[el.selectedIndex].text : el.value); };
+    const row = (k, val, full) => '<div class="afr-row' + (full ? ' full' : '') + '"><dt>' + k + '</dt><dd>' + (val || '<span class="afr-na">—</span>') + '</dd></div>';
+    const pos = positions.map(id => { const j = JOBS.find(x => x.id === id); return j ? '<span class="afr-tag">' + esc(j.title) + (j.loc ? ' · ' + esc(j.loc) : '') + '</span>' : ''; }).join('');
+    const rg = regions.map(r => '<span class="afr-tag soft">' + esc(r) + '</span>').join('');
+    const kb = n => n >= 1048576 ? (n/1048576).toFixed(1).replace('.', ',') + ' MB' : Math.max(1, Math.round(n/1024)) + ' KB';
+    const ext = cvFile ? (cvFile.name.split('.').pop() || '').toUpperCase().slice(0, 4) : '';
+    return '<section><h5><i>01</i>Thông tin cá nhân</h5><dl>' + row('Họ và tên', v('#af-name')) + row('Số điện thoại', v('#af-phone')) + row('Email', v('#af-email')) + row('Nơi ở hiện tại', v('#af-city')) + '</dl></section>' +
+      '<section><h5><i>02</i>Nguyện vọng ứng tuyển</h5><dl>' + row('Vị trí ứng tuyển', '<span class="afr-tags">' + pos + '</span>', true) + row('Khu vực làm việc', '<span class="afr-tags">' + rg + '</span>', true) +
+      row('Mức lương mong đợi', v('#af-salary')) + row('Thời gian đi làm', v('#af-start')) + row('Trình độ tiếng Anh', sel('#af-eng')) + row('Nguồn tuyển dụng', sel('#af-src')) + '</dl></section>' +
+      '<section><h5><i>03</i>Giới thiệu bản thân &amp; CV</h5><dl>' + row('Tại sao bạn phù hợp', '<span class="afr-why">' + v('#af-why').replace(/\n/g, '<br>') + '</span>', true) +
+      row('CV đính kèm', cvFile ? '<span class="afr-file"><b>' + esc(ext) + '</b><span>' + esc(cvFile.name) + '<small>' + kb(cvFile.size) + '</small></span></span>' : '', true) + row('Người giới thiệu', v('#af-ref'), true) + '</dl></section>';
+  }
+  $('#afr-edit').addEventListener('click', () => { $('#af-review').hidden = true; $('#apply-form').hidden = false; $('#apply-card').scrollIntoView({behavior:'smooth', block:'start'}); });
+  $('#afr-send').addEventListener('click', () => { $('#af-review').hidden = true; $('#af-done').hidden = false; $('#apply-card').scrollIntoView({behavior:'smooth', block:'start'}); });
   $('#jd-sections').addEventListener('click', e => { if(e.target.closest('[data-to-form]')){ $('#apply-card').scrollIntoView({behavior:'smooth', block:'start'}); setTimeout(() => $('#af-name').focus({preventScroll:true}), 450); } });
   $('#jd-head').addEventListener('click', e => { if(e.target.closest('[data-to-form]')){ $('#apply-card').scrollIntoView({behavior:'smooth', block:'start'}); setTimeout(() => $('#af-name').focus({preventScroll:true}), 450); } });
   const tEl = $('#toast'); let tt; const showToast = m => { tEl.textContent = m; tEl.classList.add('show'); clearTimeout(tt); tt = setTimeout(() => tEl.classList.remove('show'), 2200); };

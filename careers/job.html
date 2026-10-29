@@ -615,8 +615,13 @@
 #rx .af-done .afd-c{stroke-dasharray:145;stroke-dashoffset:145;animation:afdDraw .7s .1s cubic-bezier(.65,0,.35,1) forwards;opacity:.35}
 #rx .af-done .afd-k{stroke-dasharray:36;stroke-dashoffset:36;animation:afdDraw .45s .6s cubic-bezier(.65,0,.35,1) forwards}
 @keyframes afdDraw{to{stroke-dashoffset:0}}
+#rx .af-done .afd-art{display:block;width:min(300px,82%)}
+#rx .af-done .afd-art svg{display:block;width:100%;height:auto}
+#rx .af-done .afd-art svg>circle:last-of-type{transform-origin:214px 158px;animation:afdPop .5s .25s cubic-bezier(.3,1.6,.5,1) both}
+@keyframes afdPop{from{transform:scale(0)}to{transform:scale(1)}}
+
 @keyframes afdPulse{0%{transform:scale(.92);opacity:.9}100%{transform:scale(1.25);opacity:0}}
-#rx .af-done h4{margin:26px 0 0;font-size:28px;line-height:1.2;font-weight:700;letter-spacing:-.01em;color:var(--navy-900)}
+#rx .af-done h4{margin:14px 0 0;font-size:28px;line-height:1.2;font-weight:700;letter-spacing:-.01em;color:var(--navy-900)}
 #rx .af-done .afd-lead{margin:10px 0 0;font-size:15.5px;line-height:1.6;color:#5E6A82}
 #rx .af-done .afd-note{display:flex;gap:12px;align-items:flex-start;max-width:540px;margin:24px 0 0;padding:15px 18px;border-radius:14px;background:#FFF8EC;border:1px solid #F6E3BF;text-align:left;font-size:13.5px;line-height:1.6;color:#6B4E1E}
 #rx .af-done .afd-note svg{flex:none;margin-top:2px;color:#C98A1B}
@@ -1409,7 +1414,21 @@ html.embed-form #rx .apply-card > .af,html.embed-form #rx .apply-card > .af-done
         </div>
         </form>
         <div class="af-done" id="af-done" hidden>
-          <span class="ok afd-ic" aria-hidden="true"><svg viewBox="0 0 52 52" width="34" height="34" fill="none"><circle class="afd-c" cx="26" cy="26" r="23" stroke="currentColor" stroke-width="3"/><path class="afd-k" d="M15.5 27.5l7 7 14-15" stroke="currentColor" stroke-width="3.6" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+          <span class="afd-art" aria-hidden="true"><svg viewBox="0 0 320 200" fill="none" stroke-linecap="round" stroke-linejoin="round">
+            <ellipse cx="68" cy="178" rx="40" ry="6" fill="#EEF3FB"/><ellipse cx="168" cy="180" rx="66" ry="7" fill="#EEF3FB"/>
+            <g stroke="#8FA6CF" stroke-width="2"><path d="M96 14v10M91 19h10M300 112v10M295 117h10M44 186v8M40 190h8"/><circle cx="24" cy="96" r="3"/><circle cx="246" cy="182" r="2.5"/></g>
+            <path d="M34 40q1.4 9.6 11 11-9.6 1.4-11 11-1.4-9.6-11-11 9.6-1.4 11-11z" stroke="#1E3A6E" stroke-width="2" fill="#fff"/>
+            <g stroke="#8FA6CF" stroke-width="2.2" stroke-dasharray="4 6"><path d="M60 96c-6-30 18-52 50-50"/><path d="M220 46c10-16 26-22 34-20"/></g>
+            <path d="M101 41l9 5-9 5" stroke="#8FA6CF" stroke-width="2.2"/>
+            <g stroke="#1E3A6E" stroke-width="2.4"><rect x="36" y="112" width="66" height="50" rx="5" fill="#D9E4F5"/><path d="M36 117l33 23 33-23"/></g>
+            <g stroke="#1E3A6E" stroke-width="2.4"><rect x="122" y="26" width="94" height="148" rx="10" fill="#fff"/></g>
+            <path d="M124.5 36a8 8 0 0 1 8-8h73a8 8 0 0 1 8 8v28h-89z" fill="#EEF3FB"/>
+            <g stroke="#1E3A6E" stroke-width="2.2"><circle cx="148" cy="50" r="11" fill="#D9E4F5"/><path d="M141 57a8 8 0 0 1 14 0" /></g>
+            <g stroke="#B4C7E6" stroke-width="3.2"><path d="M168 45h32M138 84h62M138 104h62M138 124h48"/></g>
+            <g stroke="#DCE5F3" stroke-width="2.4"><path d="M168 54h20M138 92h44M138 112h50M138 132h30"/></g>
+            <g stroke="#1E3A6E" stroke-width="2.4"><path d="M250 30l46-16-20 44-8-14z" fill="#fff"/><path d="M268 44l28-30" /><path d="M268 44l-2 14 10-8"/></g>
+            <circle cx="214" cy="158" r="22" fill="#1F9D63" stroke="#fff" stroke-width="4"/><path d="M204 158.5l7 7 13-14" stroke="#fff" stroke-width="3.6"/>
+          </svg></span>
           <h4>Hồ sơ đã sẵn sàng</h4>
           <p class="afd-lead">Thông tin của bạn đã được kiểm tra đầy đủ.</p>
           <p class="afd-note"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9.5"/><path d="M12 11v5.5M12 7.6v.4"/></svg><span>Đây là bản xem thử nên hồ sơ <b>chưa được gửi</b> đến Ban Nhân Sự — chức năng gửi sẽ được kết nối với email tuyển dụng của REE M&amp;E.</span></p>

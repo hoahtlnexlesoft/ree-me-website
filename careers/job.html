@@ -698,6 +698,8 @@ html.afp-on .dock,html.afp-on .fab,html.afp-on [class*="float"]{display:none!imp
 #rx .afp .af-done{display:flex!important;min-height:0!important;padding:64px 48px!important}
 #rx .afp .af-review[hidden],#rx .afp .af-done[hidden]{display:none!important}
 @media (max-width:640px){#rx .afp-bar{height:60px;gap:12px}#rx .afp-logo span{display:none}#rx .afp-in{padding:18px 12px 40px}#rx .afp .af-review,#rx .afp .af-done{padding:26px 18px!important;border-radius:18px!important}}
+#rx .afp.afp-embed .afp-bar{display:none}
+#rx .afp.afp-embed .afp-in{padding-top:calc(var(--afp-top,0px) + 32px)}
 /* success state v3 — premium */
 #rx .apply-card > .af-done{background:radial-gradient(120% 70% at 50% 0%,rgba(236,242,253,.95) 0%,rgba(255,255,255,.92) 55%)!important}
 #rx .af-done .afd-art{width:min(320px,86%);margin-bottom:4px}
@@ -1813,6 +1815,8 @@ html.embed-form #rx .apply-card > .af,html.embed-form #rx .apply-card > .af-done
       $('#rx').appendChild(pg); pg.querySelector('.afp-in').append($('#af-review'), $('#af-done')); }
     const form = $('#apply-form');
     if(!mode){ pg.hidden = true; document.documentElement.classList.remove('afp-on'); $('#af-review').hidden = true; $('#af-done').hidden = true; form.hidden = false; $('#apply-card').scrollIntoView({block:'start'}); return; }
+    let topH = 0; try { if(window.top !== window.self && !document.documentElement.classList.contains('embed-form')){ const ph = window.parent.document.querySelector('header'); if(ph) topH = Math.ceil(ph.getBoundingClientRect().bottom); } } catch(_){}
+    pg.classList.toggle('afp-embed', topH > 0); pg.style.setProperty('--afp-top', topH + 'px');
     form.hidden = true; pg.hidden = false; document.documentElement.classList.add('afp-on');
     $('#af-review').hidden = mode !== 'review'; $('#af-done').hidden = mode !== 'done';
     const j = positions.length ? JOBS.find(x => x.id === positions[0]) : null;

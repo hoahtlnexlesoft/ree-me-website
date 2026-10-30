@@ -1571,6 +1571,18 @@ html.embed-form #rx .afp .af-review::before,html.embed-form #rx .afp .af-review:
 html.embed-form #rx .afp .af-done::before,html.embed-form #rx .afp .af-done::after{inset:0;border-radius:0}
 html.embed-form #rx .afp .af-done{padding:36px 32px 34px!important}
 html.embed-form #rx .af-review .afr-body{display:grid!important;grid-template-columns:minmax(0,1fr)!important;gap:14px!important}
+@media (min-width:760px){
+  html.embed-form #rx .afp .af-review .afr-body{grid-template-columns:minmax(0,1fr) minmax(0,1.12fr) minmax(0,1.22fr)!important;align-items:stretch;gap:14px!important;margin-top:18px}
+  html.embed-form #rx .afp .af-review section{padding:16px 18px 8px!important;display:flex;flex-direction:column}
+  html.embed-form #rx .afp .af-review h5{margin-bottom:6px!important}
+  html.embed-form #rx .afp .af-review dl{grid-template-columns:1fr!important}
+  html.embed-form #rx .afp .af-review .afr-row,html.embed-form #rx .afp .af-review dl>.afr-row:nth-child(2){grid-template-columns:1fr!important;gap:3px;padding:8px 0;border-top:1px solid #EEF1F6}
+  html.embed-form #rx .afp .af-review dl>.afr-row:first-child{border-top:0}
+  html.embed-form #rx .afp .af-review dt{font-size:12px}
+  html.embed-form #rx .afp .af-review dd{font-size:13.5px}
+  html.embed-form #rx .afp .af-review .afr-why{display:-webkit-box;-webkit-line-clamp:5;-webkit-box-orient:vertical;overflow:hidden;font-size:13px;line-height:1.55}
+  html.embed-form #rx .afp .af-review .afr-head p{max-width:none}
+}
 html.embed-form #rx .af-review .afr-body>section{min-width:0}
 @media (max-width:600px){html.embed-form #rx .afp .af-review,html.embed-form #rx .afp .af-done{padding:18px 16px 22px!important}}
 @media (max-width:600px){html.embed-form #rx .afp .af-done{min-height:100vh!important;box-sizing:border-box;display:flex!important;flex-direction:column;align-items:center;justify-content:center;padding-top:56px!important}html.embed-form #rx .afp .af-done[hidden]{display:none!important}}
@@ -1998,7 +2010,9 @@ html.embed-form #rx .af-review .afr-body>section{min-width:0}
     if(!document.documentElement.classList.contains('embed-form')) return;
     try { const box = window.parent.document.querySelector('.cvm-box'); if(!box) return;
       if(mode === 'done'){ requestAnimationFrame(() => { const d = $('#af-done'); box.style.setProperty('--cvm-h', Math.ceil(d.getBoundingClientRect().height) + 'px'); box.classList.add('is-done'); }); }
-      else box.classList.remove('is-done'); } catch(_){}
+      else box.classList.remove('is-done');
+      box.classList.toggle('is-review', mode === 'review');
+      if(mode === 'review'){ const fit = () => { const r = $('#af-review'), h = window.parent.document.querySelector('.cvm-h'); if(r && !r.hidden) box.style.setProperty('--cvm-rh', Math.ceil(r.getBoundingClientRect().height + (h ? h.offsetHeight : 0)) + 'px'); }; requestAnimationFrame(fit); setTimeout(fit, 420); } } catch(_){}
   }
   document.addEventListener('click', e => { const a = e.target.closest('#af-again'); if(!a || !document.documentElement.classList.contains('embed-form')) return;
     try { const x = window.parent.document.querySelector('#cvm [data-cvm-close].cvm-x'); if(x){ e.preventDefault(); x.click(); } } catch(_){} });
@@ -2008,7 +2022,7 @@ html.embed-form #rx .af-review .afr-body>section{min-width:0}
       pg.innerHTML = '<header class="afp-bar"><a class="afp-logo" href="./"><img src="assets/img/ree-logo.svg" alt="REE M&amp;E" width="54" height="38"><span>Tuyển dụng<br><b>REE M&amp;E</b></span></a><span class="afp-crumb" id="afp-crumb"></span></header><div class="afp-in"></div>';
       $('#rx').appendChild(pg); pg.querySelector('.afp-in').append($('#af-review'), $('#af-done')); }
     const form = $('#apply-form');
-    if(!mode){ pg.hidden = true; document.documentElement.classList.remove('afp-on'); $('#af-review').hidden = true; $('#af-done').hidden = true; form.hidden = false; afFocusForm(); return; }
+    if(!mode){ pg.hidden = true; document.documentElement.classList.remove('afp-on'); $('#af-review').hidden = true; $('#af-done').hidden = true; form.hidden = false; cvmParent(null); afFocusForm(); return; }
     let topH = 0; try { if(window.top !== window.self && !document.documentElement.classList.contains('embed-form')){ const ph = window.parent.document.querySelector('header'); if(ph) topH = Math.ceil(ph.getBoundingClientRect().bottom); } } catch(_){}
     pg.classList.toggle('afp-embed', topH > 0); pg.style.setProperty('--afp-top', topH + 'px');
     form.hidden = true; pg.hidden = false; document.documentElement.classList.add('afp-on');

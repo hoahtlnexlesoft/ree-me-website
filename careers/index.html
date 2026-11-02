@@ -18,7 +18,17 @@
   .modal-hero.mh-photo img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
   .modal-hero.mh-photo::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(10,16,32,0) 35%,rgba(10,16,32,.72) 100%)}
   .modal-hero.mh-photo h3{z-index:1;text-shadow:0 2px 12px rgba(0,0,0,.35)}
-</style></head><body>
+</style><style id="hero-photo-mobile">
+/* phones: the team photo was blown up by background-size:cover on the tall stacked hero — show it at a calmer scale, fading into the navy */
+@media (max-width:860px){
+  .hero-photo{background:
+    linear-gradient(180deg,rgba(5,36,128,.84) 0,rgba(6,44,148,.78) 240px,rgba(6,52,160,.94) calc(min(560px,70vh) - 90px),#0634A0 min(560px,70vh)),
+    linear-gradient(#0634A0,#0634A0),
+    image-set(url("assets/img/hero-team.webp") type("image/webp"),url("assets/img/hero-team.jpg") type("image/jpeg")) center top/auto min(560px,70vh) no-repeat,#0634A0!important;
+    background-blend-mode:normal,color,normal!important}
+}
+</style>
+</head><body>
 <title>REE M&amp;E Careers</title>
 <link rel="stylesheet" href="assets/fonts.css">
 <link rel="preconnect" href="https://fonts.googleapis.com" /><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin /><link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />

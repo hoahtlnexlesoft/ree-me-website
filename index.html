@@ -122,23 +122,23 @@ var lastH=location.hash;function chk(){var h=location.hash;if(h!==lastH){lastH=h
 <style id="ree-mobile-fix">
 /* top utility bar: keep "Hồ sơ năng lực · Xem nhanh · Tải PDF" on one line on small phones */
 @media (max-width:420px){
-  header .ree-wrap>div:first-child{flex-wrap:nowrap!important;gap:6px!important;min-width:0}
-  header .ree-wrap>div:first-child .ruler{letter-spacing:.14em!important;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;min-width:0}
-  header .ree-wrap>div:first-child a{flex:none;white-space:nowrap;padding-left:9px!important;padding-right:9px!important;letter-spacing:.1em!important}
-  header .ree-wrap>div:last-child{flex-wrap:nowrap!important;gap:10px!important}
+  header>div.overflow-hidden>.ree-wrap>div:first-child{flex-wrap:nowrap!important;gap:6px!important;min-width:0}
+  header>div.overflow-hidden>.ree-wrap>div:first-child .ruler{letter-spacing:.14em!important;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;min-width:0}
+  header>div.overflow-hidden>.ree-wrap>div:first-child a{flex:none;white-space:nowrap;padding-left:9px!important;padding-right:9px!important;letter-spacing:.1em!important}
+  header>div.overflow-hidden>.ree-wrap>div:last-child{flex-wrap:nowrap!important;gap:10px!important}
 }
-@media (max-width:339px){header .ree-wrap>div:first-child .ruler{display:none}}
+@media (max-width:339px){header>div.overflow-hidden>.ree-wrap>div:first-child .ruler{display:none}}
 /* phones: utility bar on ONE line — hotline & "Liên hệ" live in the menu (Liên hệ nhanh) */
 @media (max-width:639px){
-  header .ree-wrap{flex-wrap:nowrap!important;gap:10px!important;padding-top:7px!important;padding-bottom:7px!important}
-  header .ree-wrap>div:last-child>span:first-child,header .ree-wrap>div:last-child>button{display:none!important}
-  header .ree-wrap>div:last-child{flex:none;gap:0!important}
-  header .ree-wrap>div:first-child{flex-wrap:nowrap!important;min-width:0}
-  header .ree-wrap>div:first-child>*{flex:none;white-space:nowrap}
-  header .ree-wrap>div:first-child a{padding-top:3px!important;padding-bottom:3px!important}
+  header>div.overflow-hidden>.ree-wrap{flex-wrap:nowrap!important;gap:10px!important;padding-top:7px!important;padding-bottom:7px!important}
+  header>div.overflow-hidden>.ree-wrap>div:last-child>span:first-child,header>div.overflow-hidden>.ree-wrap>div:last-child>button{display:none!important}
+  header>div.overflow-hidden>.ree-wrap>div:last-child{flex:none;gap:0!important}
+  header>div.overflow-hidden>.ree-wrap>div:first-child{flex-wrap:nowrap!important;min-width:0}
+  header>div.overflow-hidden>.ree-wrap>div:first-child>*{flex:none;white-space:nowrap}
+  header>div.overflow-hidden>.ree-wrap>div:first-child a{padding-top:3px!important;padding-bottom:3px!important}
 }
-@media (max-width:639px){header .ree-wrap>div:first-child .ruler{font-size:9px!important;letter-spacing:.06em!important}header .ree-wrap>div:first-child a{padding-left:8px!important;padding-right:8px!important;letter-spacing:.08em!important}header .ree-wrap>div:first-child{gap:5px!important}}
-@media (max-width:349px){header .ree-wrap>div:first-child .ruler{display:none}}
+@media (max-width:639px){header>div.overflow-hidden>.ree-wrap>div:first-child .ruler{font-size:9px!important;letter-spacing:.06em!important}header>div.overflow-hidden>.ree-wrap>div:first-child a{padding-left:8px!important;padding-right:8px!important;letter-spacing:.08em!important}header>div.overflow-hidden>.ree-wrap>div:first-child{gap:5px!important}}
+@media (max-width:349px){header>div.overflow-hidden>.ree-wrap>div:first-child .ruler{display:none}}
 /* mobile menu: page behind is locked, the menu itself scrolls */
 html.ree-lock,html.ree-lock body{overflow:hidden!important;overscroll-behavior:none}
 header aside .overflow-y-auto{overscroll-behavior:contain;-webkit-overflow-scrolling:touch;touch-action:pan-y;padding-bottom:calc(32px + env(safe-area-inset-bottom,0px))!important}

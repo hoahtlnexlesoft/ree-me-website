@@ -169,6 +169,17 @@ if(document.body)start();else document.addEventListener('DOMContentLoaded',start
   a.ree-eco-card:active .ree-eco-site{background:#1B347D;color:#fff}
   a.ree-eco-card:active .ree-eco-site i{background:#D93A35;transform:translate(2px,-2px)}
 }
+/* phones: cards only as tall as their content */
+@media (max-width:767px){
+  .ree-eco-grid{align-items:start!important;grid-auto-rows:auto!important}
+  .ree-eco-grid .ree-eco-cell,.ree-eco-grid .ree-eco-card{height:auto!important}
+  .ree-eco-grid .ree-eco-media{height:auto!important;min-height:0!important;padding:16px 16px 4px!important;justify-content:flex-start!important}
+  .ree-eco-grid .ree-eco-media>div{height:52px!important;justify-content:flex-start!important}
+  .ree-eco-grid .ree-eco-body{flex:none!important;min-height:0!important;height:auto!important;padding-top:8px!important;padding-bottom:14px!important}
+  .ree-eco-grid a.ree-eco-card .ree-eco-body{padding-bottom:10px!important}
+  .ree-eco-grid a.ree-eco-card .ree-eco-site{margin:0 10px 10px!important;padding:5px 5px 5px 11px!important;font-size:11px!important}
+  .ree-eco-grid a.ree-eco-card .ree-eco-site i{width:24px!important;height:24px!important}
+}
 </style>
 <script>(function(){var ARR='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17 17 7M9 7h8v8"/></svg>';
 function host(u){try{return new URL(u).hostname.replace(/^www\./,'');}catch(e){return '';}}

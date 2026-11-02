@@ -771,7 +771,11 @@
   addEventListener("resize", () => requestAnimationFrame(layout));
   media.addEventListener("click", e => { const st = e.target.closest(".sx-strip"); if(!st) return; const k = [...media.children].indexOf(st); if(k !== act){ e.stopPropagation(); act = k; layout(); } }, true);
   // hover a photo strip to open it straight away (like the home "Dự án tiêu biểu" accordion)
-  if(matchMedia("(hover:hover) and (pointer:fine)").matches) media.addEventListener("mouseover", e => { const st = e.target.closest(".sx-strip"); if(!st || st.parentNode !== media) return; const k = [...media.children].indexOf(st); if(k !== act){ act = k; layout(); } });
+  // only real pointer movement opens a strip (not the layout sliding under a still cursor), with a short lock while panels animate
+  if(matchMedia("(hover:hover) and (pointer:fine)").matches){ let lx = -1, ly = -1, lockT = 0;
+    media.addEventListener("mousemove", e => { const moved = Math.abs(e.clientX - lx) + Math.abs(e.clientY - ly) > 3; lx = e.clientX; ly = e.clientY;
+      if(!moved || Date.now() < lockT) return; const st = e.target.closest(".sx-strip"); if(!st || st.parentNode !== media) return;
+      const k = [...media.children].indexOf(st); if(k !== act){ act = k; layout(); lockT = Date.now() + 750; } }); }
   const fitCopy = () => { copy.style.minHeight = ""; if(innerWidth <= 1000) return; const keep = copy.innerHTML; let max = 0;
     SV.forEach((_, k) => { copy.innerHTML = copyHTML(k); max = Math.max(max, copy.offsetHeight); }); copy.innerHTML = keep; copy.style.minHeight = max + "px"; };
   let cur = -1;

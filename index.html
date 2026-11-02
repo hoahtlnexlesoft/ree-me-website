@@ -168,8 +168,8 @@ html.ree-hide-header header{opacity:0!important;pointer-events:none!important;tr
   #tong-quan p{color:rgba(255,255,255,.93)!important;text-shadow:0 1px 10px rgba(0,0,0,.35)}
   #tong-quan .ruler{color:rgba(255,255,255,.9)!important}
 }
-/* Công trình hero on phones: 'Kéo xuống để khám phá' gets its own centred row above the dots + arrows (it used to overlap them) */
-@media (max-width:767px){div:has(>.ree-scroll-in){flex-wrap:wrap!important;align-items:center!important;row-gap:14px!important}.ree-scroll.ree-scroll-in{display:flex!important;order:-1;flex:0 0 100%!important;position:static!important;transform:none!important;left:auto!important;right:auto!important;bottom:auto!important;margin:0!important;align-items:center;justify-content:center}}
+/* Công trình hero on phones: 'Kéo xuống để khám phá' gets its own centred row at the very bottom, under the dots + arrows (it used to overlap them) */
+@media (max-width:767px){div:has(>.ree-scroll-in){flex-wrap:wrap!important;align-items:center!important;row-gap:14px!important}.ree-scroll.ree-scroll-in{display:flex!important;order:2;flex:0 0 100%!important;position:static!important;transform:none!important;left:auto!important;right:auto!important;bottom:auto!important;margin:0!important;align-items:center;justify-content:center}}
 /* Hồ sơ năng lực viewer (phones): 'Trang 01 / 43' on the same line as the prev/next buttons */
 @media (max-width:639px){.ree-bro-next~p,.ree-bro-prev~p{bottom:8px!important;height:46px!important;display:flex!important;align-items:center!important;justify-content:center!important;line-height:1!important}}
 /* project lightbox arrows: solid glass buttons so they stay visible over bright photos */

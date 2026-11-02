@@ -34,6 +34,7 @@
     '.ra-chip button{display:grid;place-items:center;width:18px;height:18px;border:0;border-radius:50%;background:transparent;color:#5E6A82;cursor:pointer}.ra-chip button:hover{background:#D9E3F5;color:#0F1B33}' +
     '.ra-chip svg{width:12px;height:12px}' +
     '@media (max-width:560px){.ra-row{flex-direction:column}.ra-btn{justify-content:center}}' +
+    '.ra .ra-link{box-sizing:border-box!important;height:46px!important;min-height:46px!important;padding:0 6px 0 12px!important;align-items:center!important;display:flex!important}.ra .ra-link input{height:100%!important;min-height:0!important;line-height:normal!important}.ra .ra-link button{height:34px!important;min-height:0!important;padding:0 14px!important;margin:0!important;border-radius:9px!important;line-height:1!important}' +
     '@media (min-width:1024px){[role=dialog] form:has(.ra-list:not(:empty)) textarea[name=message]{height:min(160px,max(64px,calc(92vh - 662px)))!important}}';
 
   var ICO = {

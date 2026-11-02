@@ -1671,8 +1671,8 @@ html.embed-form #rx .af-review .afr-body>section{min-width:0}
           </div>
 <label class="af-f"><span class="af-lab"><span class="lt">Mức lương mong đợi <em>*</em></span></span><span class="af-in"><svg width="15" height="14"><use href="#i-cash"/></svg><input id="af-salary" name="salary" required type="text" inputmode="numeric" autocomplete="off" maxlength="15" pattern="[0-9]{1,3}(\.[0-9]{3})*" placeholder="VD: 32.000.000"></span></label>
 <label class="af-f"><span class="af-lab"><span class="lt">Thời gian có thể đi làm <em>*</em></span></span><span class="af-in"><svg width="14" height="14"><use href="#i-cal"/></svg><input id="af-start" name="start" required placeholder="VD: Ngay lập tức / 2 tuần"></span></label>
-<label class="af-f"><span class="af-lab"><span class="lt">Trình độ tiếng Anh <em>*</em></span></span><span class="af-in"><select id="af-eng" name="english" required><option>Đọc hiểu tài liệu chuyên ngành</option><option>Giao tiếp cơ bản</option><option>Giao tiếp tốt</option><option>Thành thạo (IELTS 6.5+ / tương đương)</option><option>Chưa sử dụng được</option></select><svg class="caret" width="12" height="12"><use href="#i-chev-d"/></svg></span></label>
-<label class="af-f"><span class="af-lab"><span class="lt">Nguồn tuyển dụng <em>*</em></span></span><span class="af-in"><select id="af-src" name="source" required><option>Fanpage Facebook REE M&amp;E</option><option>Website REE M&amp;E</option><option>LinkedIn</option><option>Trang tuyển dụng (TopCV, VietnamWorks…)</option><option>Người quen giới thiệu</option><option>Khác</option></select><svg class="caret" width="12" height="12"><use href="#i-chev-d"/></svg></span></label>
+<div class="af-f sd" data-sd="af-eng"><span class="af-lab"><span class="lt">Trình độ tiếng Anh <em>*</em></span></span><span class="af-in"><select id="af-eng" name="english" required tabindex="-1" aria-hidden="true"><option value="">Chọn trình độ tiếng Anh</option></select><button type="button" class="sd-btn" aria-haspopup="listbox" aria-expanded="false"><span class="sd-val">Chọn trình độ tiếng Anh</span><svg class="caret" width="12" height="12"><use href="#i-chev-d"/></svg></button><div class="sd-pop" hidden><input class="sd-q" placeholder="Tìm trình độ…" autocomplete="off"><div class="sd-list" role="listbox"></div></div></span></div>
+<div class="af-f sd" data-sd="af-src"><span class="af-lab"><span class="lt">Nguồn tuyển dụng <em>*</em></span></span><span class="af-in"><select id="af-src" name="source" required tabindex="-1" aria-hidden="true"><option value="">Chọn nguồn tuyển dụng</option></select><button type="button" class="sd-btn" aria-haspopup="listbox" aria-expanded="false"><span class="sd-val">Chọn nguồn tuyển dụng</span><svg class="caret" width="12" height="12"><use href="#i-chev-d"/></svg></button><div class="sd-pop" hidden><input class="sd-q" placeholder="Tìm nguồn tuyển dụng…" autocomplete="off"><div class="sd-list" role="listbox"></div></div></span></div>
           </div></fieldset>
           <fieldset class="af-group"><legend><span>03</span>Giới thiệu bản thân &amp; CV</legend><div class="af-grid">
 <label class="af-f why"><span class="af-lab"><span class="lt">Tại sao bạn phù hợp với công việc này? <em>*</em></span></span><textarea id="af-why" name="why" required placeholder="Tóm tắt thế mạnh chuyên môn, kinh nghiệm thực tế tại các công trình hoặc định hướng phát triển..."></textarea></label>
@@ -2114,4 +2114,87 @@ addEventListener("scroll",f,{passive:true});addEventListener("resize",f);f();})(
 <script src="../assets/ree-textfx.js" defer></script>
 </html><script src="../assets/ree-mtype.js?v=2" defer></script>
 <script src="../assets/ree-embed-modal.js?v=4" defer></script>
+<style id="sd-css">
+#rx .sd .af-in{position:relative}
+#rx .sd select{position:absolute!important;inset:0;width:100%!important;height:100%!important;opacity:0!important;pointer-events:none!important}
+#rx .sd-btn{all:unset;box-sizing:border-box;display:flex;align-items:center;gap:10px;width:100%;height:52px;padding:0 40px 0 14px;border:1px solid #DDE3EE;border-radius:14px;background:#fff;font-size:15px;color:#7C88A6;cursor:pointer;transition:border-color .2s,box-shadow .2s}
+#rx .sd-btn:hover{border-color:#B9C3D8}
+#rx .sd-btn[aria-expanded=true],#rx .sd-btn:focus-visible{border-color:#1E3A8A;box-shadow:0 0 0 3px rgba(30,58,138,.12)}
+#rx .sd .af-in:has(select.invalid) .sd-btn{border-color:#E5484D}
+#rx .sd-btn .caret{position:absolute;right:16px;top:50%!important;left:auto!important;margin-top:-6px;color:#1E3A8A!important;transition:transform .2s}
+#rx .sd-btn[aria-expanded=true] .caret{transform:rotate(180deg)}
+#rx .sd-val{min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+#rx .sd-val .ms-pill{max-width:100%;overflow:hidden;text-overflow:ellipsis;vertical-align:middle}
+#rx .sd-pop{position:absolute;z-index:60;top:calc(100% + 8px);left:0;width:100%;min-width:260px;box-sizing:border-box;padding:10px;background:#fff;border:1px solid #DDE1EA;border-radius:14px;box-shadow:0 24px 48px -20px rgba(10,20,51,.35)}
+#rx .sd-pop[hidden]{display:none}
+#rx .sd-q{display:block;width:100%;box-sizing:border-box;height:42px!important;border:1px solid #DDE1EA!important;border-radius:10px!important;padding:0 12px!important;font:inherit;font-size:14px;color:#0E1530;background:#fff!important;outline:none;margin-bottom:6px}
+#rx .sd-q:focus{border-color:#2F6BE8!important;box-shadow:0 0 0 3px rgba(47,107,232,.15)!important}
+#rx .sd-list{max-height:248px;overflow-y:auto;overscroll-behavior:contain;padding-right:4px;scrollbar-width:thin;scrollbar-color:#C5CCDB transparent}
+#rx .sd-list::-webkit-scrollbar{width:6px}#rx .sd-list::-webkit-scrollbar-thumb{background:#C5CCDB;border-radius:6px}
+#rx .sd-opt{display:flex;align-items:center;gap:12px;padding:7px 6px;border-radius:8px;cursor:pointer}
+#rx .sd-opt:hover,#rx .sd-opt.kb{background:#F3F5F9}
+#rx .sd-opt input{-webkit-appearance:none;appearance:none;flex:none;width:18px!important;height:18px!important;margin:0;padding:0!important;border:1.5px solid #C5CCDB!important;border-radius:50%!important;background:#fff!important;box-shadow:0 1px 2px rgba(14,21,48,.08)!important;cursor:pointer;transition:border-color .18s,box-shadow .18s}
+#rx .sd-opt:hover input{border-color:#1E3A8A!important}
+#rx .sd-opt input:checked{border-color:#1E3A8A!important;background:radial-gradient(circle,#1E3A8A 0 4px,#fff 4.5px)!important}
+#rx .sd .ms-pill{display:inline-block;padding:3px 11px;border-radius:999px;font-size:12.5px;font-weight:500;line-height:1.45;white-space:normal}
+#rx .sd-none{margin:8px 6px;font-size:13px;color:#7B829A}
+</style>
+<script id="sd-js">
+(function(){
+  var OPTS = {
+    'af-eng': [
+      {k:'Chưa sử dụng được', c:'#ECEEF3', t:'#4A5168'},
+      {k:'Đọc hiểu tài liệu chuyên ngành', c:'#CFE7F4', t:'#2C4D5E'},
+      {k:'Giao tiếp cơ bản', c:'#D0F3DF', t:'#2D5C41'},
+      {k:'Giao tiếp tốt', c:'#CEF4F5', t:'#2A5E60'},
+      {k:'TOEIC 450 – 600', c:'#F7EACD', t:'#675222'},
+      {k:'TOEIC 600 – 800', c:'#F7E0CD', t:'#644225'},
+      {k:'TOEIC 800+', c:'#F6CDD6', t:'#632734'},
+      {k:'IELTS 5.0 – 6.0', c:'#DDD1F3', t:'#3F2F5B'},
+      {k:'Thành thạo (IELTS 6.5+ / tương đương)', c:'#DCE8C4', t:'#46562A'},
+      {k:'Bản ngữ / Song ngữ', c:'#D6DEF5', t:'#1E3A8A'}
+    ],
+    'af-src': [
+      {k:'Website công ty', c:'#D6DEF5', t:'#1E3A8A'},
+      {k:'Fanpage Facebook REE M&E JSC', c:'#D3E3FB', t:'#1D4ED8'},
+      {k:'Fanpage LinkedIn REE M&E JSC', c:'#CFE3EC', t:'#0B5372'},
+      {k:'Fanpage TikTok REE M&E Careers', c:'#E2E4EA', t:'#272B36'},
+      {k:'Người quen giới thiệu', c:'#F9DCCB', t:'#8A3D14'},
+      {k:'Các hội nhóm Facebook', c:'#D9E6FB', t:'#2851A3'},
+      {k:'Các hội nhóm Zalo', c:'#CEEFFA', t:'#145A73'},
+      {k:'Các website việc làm (Top CV, Careerviet, Vieclam24h…)', c:'#D3F0DA', t:'#1D5E31'},
+      {k:'Ngày hội việc làm / Trường đại học', c:'#F7EACD', t:'#675222'},
+      {k:'Khác', c:'#ECEEF3', t:'#4A5168'}
+    ]
+  };
+  var esc = function(x){ return String(x).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/"/g,'&quot;'); };
+  var norm = function(x){ return String(x).normalize('NFD').replace(/[̀-ͯ]/g,'').replace(/đ/g,'d').replace(/Đ/g,'D').toLowerCase(); };
+  var pill = function(o){ return '<span class="ms-pill" style="background:'+o.c+';color:'+o.t+'">'+esc(o.k)+'</span>'; };
+  var all = [];
+  document.querySelectorAll('#rx .sd').forEach(function(wrap){
+    var id = wrap.dataset.sd, sel = document.getElementById(id), opts = OPTS[id] || [];
+    var btn = wrap.querySelector('.sd-btn'), val = wrap.querySelector('.sd-val'), pop = wrap.querySelector('.sd-pop'), q = wrap.querySelector('.sd-q'), list = wrap.querySelector('.sd-list');
+    var ph = sel.options[0].text;
+    opts.forEach(function(o){ var op = document.createElement('option'); op.value = o.k; op.textContent = o.k; sel.appendChild(op); });
+    var paint = function(){ var o = opts.find(function(x){ return x.k === sel.value; }); val.innerHTML = o ? pill(o) : esc(ph); wrap.classList.toggle('set', !!o); };
+    var draw = function(){ var f = norm(q.value.trim());
+      list.innerHTML = opts.filter(function(o){ return !f || norm(o.k).indexOf(f) > -1; }).map(function(o){ return '<label class="sd-opt"><input type="radio" name="sd-'+id+'" value="'+esc(o.k)+'"'+(sel.value===o.k?' checked':'')+'>'+pill(o)+'</label>'; }).join('') || '<p class="sd-none">Không tìm thấy</p>'; };
+    var open = function(on){ all.forEach(function(x){ if(x !== api) x.close(); }); pop.hidden = !on; btn.setAttribute('aria-expanded', on);
+      if(on){ q.value = ''; draw(); var c = list.querySelector('input:checked'); if(c) c.closest('.sd-opt').scrollIntoView({block:'nearest'}); if(matchMedia('(hover:hover)').matches) setTimeout(function(){ q.focus(); }, 0); } };
+    var api = { close: function(){ pop.hidden = true; btn.setAttribute('aria-expanded', false); } }; all.push(api);
+    btn.addEventListener('click', function(e){ e.preventDefault(); e.stopPropagation(); open(pop.hidden); });
+    pop.addEventListener('click', function(e){ e.stopPropagation(); });
+    q.addEventListener('input', draw);
+    q.addEventListener('keydown', function(e){ if(e.key === 'Escape'){ api.close(); btn.focus(); } if(e.key === 'Enter'){ e.preventDefault(); var f = list.querySelector('input'); if(f){ f.checked = true; f.dispatchEvent(new Event('change', {bubbles:true})); } } });
+    list.addEventListener('change', function(e){ if(e.target.type !== 'radio') return; sel.value = e.target.value; sel.classList.remove('invalid'); sel.dispatchEvent(new Event('change', {bubbles:true})); paint(); api.close(); btn.focus({preventScroll:true}); });
+    sel.addEventListener('focus', function(){ btn.focus({preventScroll:true}); });
+    new MutationObserver(paint).observe(sel, {attributes:true, attributeFilter:['class']});
+    var form = sel.form; if(form) form.addEventListener('reset', function(){ setTimeout(paint, 0); });
+    paint();
+  });
+  document.addEventListener('click', function(){ all.forEach(function(x){ x.close(); }); });
+  document.addEventListener('keydown', function(e){ if(e.key === 'Escape') all.forEach(function(x){ x.close(); }); });
+})();
+</script>
+
 

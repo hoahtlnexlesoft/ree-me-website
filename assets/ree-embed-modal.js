@@ -6,7 +6,8 @@
   function covers(el) {
     if (el.closest('[data-review-ui], .afp')) return false;
     if (el.hidden || el.closest('[hidden]')) return false;
-    var cs = getComputedStyle(el); if (cs.display === 'none' || cs.visibility === 'hidden') return false;
+    var cs = getComputedStyle(el); if (cs.display === 'none' || cs.visibility === 'hidden' || cs.pointerEvents === 'none' || el.getAttribute('aria-hidden') === 'true') return false;
+    if (parseFloat(cs.opacity) < 0.05 && !/(^|\s)(open|on|show|active|is-open)(\s|$)/.test(el.className)) return false; // closed overlays that are merely transparent
     if (cs.position !== 'fixed') return false;
     var r = el.getBoundingClientRect(); return r.width >= innerWidth * 0.9 && r.height >= innerHeight * 0.9;
   }

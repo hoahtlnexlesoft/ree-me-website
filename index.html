@@ -154,6 +154,9 @@ header aside .overflow-y-auto>*:last-child button{white-space:nowrap;letter-spac
   header aside .overflow-y-auto>*:last-child button{padding-top:13px!important;padding-bottom:13px!important}
 }
 @media (max-height:600px){header aside .ree-mnav li a{padding-top:7px!important;padding-bottom:7px!important}header aside .overflow-y-auto>*:last-child{margin-top:12px!important;gap:8px!important}}
+/* contact modal on phones/tablets: form only — the navy contact panel stacked under it looked like a page footer */
+@media (max-width:1023px){[role=dialog] .grid:has(textarea[name=message])>.bg-navy.order-2{display:none!important}[role=dialog] .grid:has(textarea[name=message]){grid-template-columns:minmax(0,1fr)!important}[role=dialog] .grid:has(textarea[name=message])>div{min-width:0}}
+@media (max-width:639px){[role=dialog] .grid:has(textarea[name=message])>.order-1{padding-left:20px!important;padding-right:20px!important}}
 /* project lightbox arrows: solid glass buttons so they stay visible over bright photos */
 div.fixed.inset-0[role=dialog] button[aria-label="Ảnh trước"],div.fixed.inset-0[role=dialog] button[aria-label="Ảnh sau"],div.fixed.inset-0[role=dialog] button[aria-label="Previous image"],div.fixed.inset-0[role=dialog] button[aria-label="Next image"]{background:rgba(9,20,52,.62)!important;border:1.5px solid rgba(255,255,255,.7)!important;color:#fff!important;-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px)}
 @media (hover:hover){div.fixed.inset-0[role=dialog] button[aria-label="Ảnh trước"]:hover,div.fixed.inset-0[role=dialog] button[aria-label="Ảnh sau"]:hover,div.fixed.inset-0[role=dialog] button[aria-label="Previous image"]:hover,div.fixed.inset-0[role=dialog] button[aria-label="Next image"]:hover{background:#D93A35!important;border-color:#D93A35!important}}

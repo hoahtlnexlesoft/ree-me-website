@@ -225,6 +225,7 @@ var y=r.top-dr.top+r.height/2;['Ảnh trước','Ảnh sau','Previous image','Ne
 var t;function q(){clearTimeout(t);t=setTimeout(place,30);}
 function start(){new MutationObserver(function(){q();var i=document.querySelector('div.fixed.inset-0[role=dialog] figure img');if(i&&!i.__reeArr){i.__reeArr=1;i.addEventListener('load',q);}}).observe(document.body,{childList:true,subtree:true,attributes:true,attributeFilter:['src']});addEventListener('resize',q);}
 if(document.body)start();else document.addEventListener('DOMContentLoaded',start);})();</script>
+<script>addEventListener('message',function(e){var d=e.data;if(d&&typeof d.reeHideHeader==='boolean')document.documentElement.classList.toggle('ree-hide-header',d.reeHideHeader);});</script>
 <script src="./review/config.js"></script>
 <script src="./review/review.js?v=20261102b" defer></script>
 <script src="./assets/ree-i18n.js?v=3"></script>

@@ -15,9 +15,10 @@
     for (var i = 0; i < list.length && !open; i++) if (covers(list[i])) open = true;
     if (open === on) return; on = open;
     try { window.parent.document.documentElement.classList.toggle('ree-hide-header', open); } catch (e) {}
+    try { window.parent.postMessage({ reeHideHeader: open }, '*'); } catch (e) {}
   }
   var t; function q() { clearTimeout(t); t = setTimeout(check, 40); }
   function start() { new MutationObserver(q).observe(document.body, { subtree: true, childList: true, attributes: true, attributeFilter: ['class', 'hidden', 'style', 'open', 'aria-hidden'] }); check(); }
-  addEventListener('pagehide', function () { try { window.parent.document.documentElement.classList.remove('ree-hide-header'); } catch (e) {} });
+  addEventListener('pagehide', function () { try { window.parent.document.documentElement.classList.remove('ree-hide-header'); } catch (e) {} try { window.parent.postMessage({ reeHideHeader: false }, '*'); } catch (e) {} });
   if (document.body) start(); else document.addEventListener('DOMContentLoaded', start);
 })();

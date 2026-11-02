@@ -256,7 +256,7 @@
   .lb figure{margin:0;max-width:min(1100px,100%);display:grid;gap:12px}
   .lb img{max-height:78vh;width:auto;max-width:100%;border-radius:12px;justify-self:center}
   .lb figcaption{color:rgba(255,255,255,.85);font-size:14px;text-align:center}
-  .lb button{position:absolute;top:18px;right:18px;width:44px;height:44px;border-radius:10px;border:1px solid rgba(255,255,255,.3);background:rgba(255,255,255,.08);color:#fff;font-size:22px;cursor:pointer}
+  .lb button{position:absolute;top:18px;right:18px;width:44px;height:44px;border-radius:10px;border:1px solid rgba(255,255,255,.3);background:rgba(255,255,255,.08);color:#fff;font-size:22px;cursor:pointer}.lb button{display:grid;place-items:center;padding:0;line-height:0}.lb button svg{display:block;pointer-events:none}
 
   :root[data-theme="dark"] .std,:root[data-theme="dark"] .svc,:root[data-theme="dark"] .sv-index{background:#111a2e;border-color:#22304d}
   /* slider */
@@ -653,7 +653,7 @@
 
 <div id="site-footer"></div>
 
-<div class="lb" id="lb" aria-hidden="true"><button type="button" aria-label="Đóng">×</button><figure><img alt=""><figcaption></figcaption></figure></div>
+<div class="lb" id="lb" aria-hidden="true"><button type="button" aria-label="Đóng"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18"/></svg></button><figure><img alt=""><figcaption></figcaption></figure></div>
 
 <script src="../assets/ree-i18n.js?v=3" defer></script>
 <script src="assets/jobs-data.js"></script>
@@ -887,6 +887,6 @@
 </script>
 <script src="../assets/ree-textfx.js" defer></script>
 <script src="../assets/ree-mtype.js?v=2" defer></script>
-<script src="../assets/ree-embed-modal.js?v=2" defer></script>
+<script src="../assets/ree-embed-modal.js?v=3" defer></script>
 </body>
 </html>

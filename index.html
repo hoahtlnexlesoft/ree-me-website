@@ -168,8 +168,8 @@ html.ree-hide-header header{opacity:0!important;pointer-events:none!important;tr
   #tong-quan p{color:rgba(255,255,255,.93)!important;text-shadow:0 1px 10px rgba(0,0,0,.35)}
   #tong-quan .ruler{color:rgba(255,255,255,.9)!important}
 }
-/* Công trình hero on phones: drop the 'Kéo xuống để khám phá' cue — it sat on top of the dots and arrows */
-@media (max-width:767px){.ree-scroll.ree-scroll-in{display:none!important}div:has(>.ree-scroll-in){align-items:center!important}}
+/* Công trình hero on phones: 'Kéo xuống để khám phá' gets its own centred row above the dots + arrows (it used to overlap them) */
+@media (max-width:767px){div:has(>.ree-scroll-in){flex-wrap:wrap!important;align-items:center!important;row-gap:14px!important}.ree-scroll.ree-scroll-in{display:flex!important;order:-1;flex:0 0 100%!important;position:static!important;transform:none!important;left:auto!important;right:auto!important;bottom:auto!important;margin:0!important;align-items:center;justify-content:center}}
 /* project lightbox arrows: solid glass buttons so they stay visible over bright photos */
 div.fixed.inset-0[role=dialog] button[aria-label="Ảnh trước"],div.fixed.inset-0[role=dialog] button[aria-label="Ảnh sau"],div.fixed.inset-0[role=dialog] button[aria-label="Previous image"],div.fixed.inset-0[role=dialog] button[aria-label="Next image"]{background:rgba(9,20,52,.62)!important;border:1.5px solid rgba(255,255,255,.7)!important;color:#fff!important;-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px)}
 @media (hover:hover){div.fixed.inset-0[role=dialog] button[aria-label="Ảnh trước"]:hover,div.fixed.inset-0[role=dialog] button[aria-label="Ảnh sau"]:hover,div.fixed.inset-0[role=dialog] button[aria-label="Previous image"]:hover,div.fixed.inset-0[role=dialog] button[aria-label="Next image"]:hover{background:#D93A35!important;border-color:#D93A35!important}}

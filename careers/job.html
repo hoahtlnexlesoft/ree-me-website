@@ -1588,6 +1588,8 @@ html.embed-form #rx .af-review .afr-body>section{min-width:0}
 @media (max-width:600px){html.embed-form #rx .afp .af-done{min-height:100vh!important;box-sizing:border-box;display:flex!important;flex-direction:column;align-items:center;justify-content:center;padding-top:56px!important}html.embed-form #rx .afp .af-done[hidden]{display:none!important}}
 </style>
 <style id="job-mobile-fix">
+/* phones: no decorative orbit lines/dots behind the job header (they peeked out next to the buttons) */
+@media (max-width:760px){#rx{background:#FAFAFB!important}}
 /* phones: job facts as label | value rows (same as desktop), round phone icon */
 @media (max-width:760px){
   #rx .pz-pills{grid-template-columns:auto minmax(0,1fr)!important;gap:10px 14px!important;align-items:start!important}

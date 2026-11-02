@@ -13,6 +13,7 @@
       if (e.closest('[data-review-ui],.rv-devwrap,svg')) continue;
       if (!hasText(e)) continue;
       var px = parseFloat(getComputedStyle(e).fontSize), f = factor(px);
+      if (e.tagName === 'H1' && e.classList.contains('font-condensed') && e.classList.contains('uppercase') && px >= 28) f = 0.72; // project detail titles (long, all caps)
       var anc = e.parentElement && e.parentElement.closest('[data-mt]');
       if (anc && Math.abs(parseFloat(getComputedStyle(anc).fontSize) - px) < 0.2) continue; // inherits an already-scaled size
       if (f < 1) todo.push([e, px, f]);

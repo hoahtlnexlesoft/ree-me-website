@@ -172,6 +172,13 @@ html.ree-hide-header header{opacity:0!important;pointer-events:none!important;tr
 @media (max-width:767px){div:has(>.ree-scroll-in){flex-wrap:wrap!important;align-items:center!important;row-gap:14px!important}.ree-scroll.ree-scroll-in{display:flex!important;order:2;flex:0 0 100%!important;position:static!important;transform:none!important;left:auto!important;right:auto!important;bottom:auto!important;margin:0!important;align-items:center;justify-content:center}}
 /* Hồ sơ năng lực viewer (phones): 'Trang 01 / 43' on the same line as the prev/next buttons */
 @media (max-width:639px){.ree-bro-next~p,.ree-bro-prev~p{bottom:8px!important;height:46px!important;display:flex!important;align-items:center!important;justify-content:center!important;line-height:1!important}}
+/* phones: consistent vertical rhythm between sections */
+@media (max-width:640px){
+  #trong-diem-quoc-gia,#danh-muc,#moi-truong,#xa-hoi{padding-top:48px!important;padding-bottom:48px!important}
+  #quy-trinh{padding-top:48px!important;padding-bottom:48px!important}
+  .pg-news .news-featured{padding-bottom:40px!important}
+  main section.min-h-svh{padding-top:48px!important;padding-bottom:48px!important}
+}
 /* project lightbox arrows: solid glass buttons so they stay visible over bright photos */
 div.fixed.inset-0[role=dialog] button[aria-label="Ảnh trước"],div.fixed.inset-0[role=dialog] button[aria-label="Ảnh sau"],div.fixed.inset-0[role=dialog] button[aria-label="Previous image"],div.fixed.inset-0[role=dialog] button[aria-label="Next image"]{background:rgba(9,20,52,.62)!important;border:1.5px solid rgba(255,255,255,.7)!important;color:#fff!important;-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px)}
 @media (hover:hover){div.fixed.inset-0[role=dialog] button[aria-label="Ảnh trước"]:hover,div.fixed.inset-0[role=dialog] button[aria-label="Ảnh sau"]:hover,div.fixed.inset-0[role=dialog] button[aria-label="Previous image"]:hover,div.fixed.inset-0[role=dialog] button[aria-label="Next image"]:hover{background:#D93A35!important;border-color:#D93A35!important}}

@@ -1337,3 +1337,15 @@ button.why-card:hover .why-go,button.why-card:focus-visible .why-go{color:#C8463
 .fab .top svg{width:16px!important;height:16px!important;transition:transform .25s}
 .fab .top:hover svg{transform:translateY(-1px)}
 .fab:has(.qc-bubble.on) .top{opacity:0;pointer-events:none}
+
+/* ===== phones: one consistent vertical rhythm (48px between sections) ===== */
+@media (max-width:640px){
+  .sec,.sec-why,.sec-life,.core{padding-top:48px!important;padding-bottom:48px!important}
+  .sv-hero + .sd{padding-top:24px!important}
+  .sd{padding-bottom:40px!important}
+  .mx.sx{padding-top:48px!important}
+  .jl-hero{padding-bottom:96px!important;min-height:0!important}
+  html.embed .jl-hero{padding-top:calc(var(--hdr-h) + 2px)!important}
+  .jl-hero{padding-top:calc(var(--hdr-h,64px) + 16px)!important}
+  html.embed .jl-hero{padding-top:calc(var(--hdr-h) + 2px)!important}
+}

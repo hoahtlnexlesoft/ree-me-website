@@ -947,7 +947,7 @@
   /* ---------- Desktop / Tablet / Mobile preview (review only) ---------- */
   (function deviceSwitcher() {
     if (window.name === 'ree-device') return;           // already inside the device frame
-    var W = { tablet: 820, mobile: 390 }, mode = 'desktop', box = null, frame = null;
+    var W = { tablet: 820, mobile: 390, mobiles: 360, mobilel: 430 }, mode = 'desktop', box = null, frame = null;
     var dcss = '.rv-dev{position:fixed;left:12px;bottom:14px;z-index:2147482600;display:flex;gap:6px;padding:6px;border-radius:999px;background:rgba(255,255,255,.88);box-shadow:0 4px 16px rgba(0,0,0,.18);backdrop-filter:blur(8px)}' +
       '.rv-dev button,.rv-devbar button{height:32px;padding:0 14px;border-radius:999px;font-size:13px;font-weight:600;color:#1e293b;background:#fff;box-shadow:0 1px 4px rgba(0,0,0,.12);white-space:nowrap}' +
       '.rv-dev button:hover,.rv-devbar button:hover{background:#f8fafc}.rv-dev button.on,.rv-devbar button.on{background:#306eed;color:#fff}' +
@@ -959,7 +959,7 @@
       '@media (max-width:768px){.rv-dev{display:none}}';
     var st = document.createElement('style'); st.textContent = dcss; document.head.appendChild(st);
     var bar = document.createElement('div'); bar.className = 'rv rv-dev'; bar.setAttribute('data-review-ui', '');
-    var tabs = function () { return [['desktop', 'Desktop'], ['tablet', 'Tablet'], ['mobile', 'Mobile']].map(function (t) { return '<button type="button" data-dev="' + t[0] + '" class="' + (mode === t[0] ? 'on' : '') + '" aria-pressed="' + (mode === t[0]) + '">' + t[1] + '</button>'; }).join(''); };
+    var tabs = function () { return [['desktop', 'Desktop'], ['tablet', 'Tablet'], ['mobilel', 'Mobile L'], ['mobile', 'Mobile'], ['mobiles', 'Mobile S']].map(function (t) { return '<button type="button" data-dev="' + t[0] + '" class="' + (mode === t[0] ? 'on' : '') + '" aria-pressed="' + (mode === t[0]) + '" title="' + (W[t[0]] ? W[t[0]] + 'px' : '') + '">' + t[1] + '</button>'; }).join(''); };
     function draw() { bar.innerHTML = tabs(); if (box) box.querySelector('.rv-devbar').innerHTML = tabs(); }
     function pick(m) {
       if (m === mode) return;

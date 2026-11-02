@@ -233,6 +233,12 @@ var t;function q(){clearTimeout(t);t=setTimeout(place,30);}
 function start(){new MutationObserver(function(){q();var i=document.querySelector('div.fixed.inset-0[role=dialog] figure img');if(i&&!i.__reeArr){i.__reeArr=1;i.addEventListener('load',q);}}).observe(document.body,{childList:true,subtree:true,attributes:true,attributeFilter:['src']});addEventListener('resize',q);}
 if(document.body)start();else document.addEventListener('DOMContentLoaded',start);})();</script>
 <script>addEventListener('message',function(e){var d=e.data;if(d&&typeof d.reeHideHeader==='boolean')document.documentElement.classList.toggle('ree-hide-header',d.reeHideHeader);});</script>
+<script>(function(){/* group carousel: height follows the visible slide (no empty gap under the shorter slide) */
+function fit(r){var w=r.clientWidth||1,k=Math.round(r.scrollLeft/w),s=r.children[k];if(!s)return;var h=s.scrollHeight;r.style.height=(h+parseFloat(getComputedStyle(r).paddingBottom||0))+'px';}
+function bind(r){if(r.__fit)return;r.__fit=1;r.style.alignItems='flex-start';r.style.transition='height .35s ease';var t;r.addEventListener('scroll',function(){clearTimeout(t);t=setTimeout(function(){fit(r)},80)},{passive:true});addEventListener('resize',function(){fit(r)});setTimeout(function(){fit(r)},300);if(window.ResizeObserver)[].forEach.call(r.children,function(c){new ResizeObserver(function(){fit(r)}).observe(c)});}
+function scan(){document.querySelectorAll('.ree-eco-rail').forEach(bind);}
+function start(){new MutationObserver(scan).observe(document.body,{childList:true,subtree:true});scan();}
+if(document.body)start();else document.addEventListener('DOMContentLoaded',start);})();</script>
 <script src="./review/config.js"></script>
 <script src="./review/review.js?v=20261102d" defer></script>
 <script src="./assets/ree-i18n.js?v=3"></script>

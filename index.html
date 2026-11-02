@@ -143,6 +143,14 @@ header aside .overflow-y-auto>*:last-child button{white-space:nowrap;letter-spac
   header aside .overflow-y-auto>*:last-child button{padding-top:13px!important;padding-bottom:13px!important}
 }
 @media (max-height:600px){header aside .ree-mnav li a{padding-top:7px!important;padding-bottom:7px!important}header aside .overflow-y-auto>*:last-child{margin-top:12px!important;gap:8px!important}}
+/* project lightbox caption on phones */
+@media (max-width:767px){
+  div.fixed.inset-0[role=dialog] figcaption{margin-top:14px!important;padding:0 8px}
+  div.fixed.inset-0[role=dialog] figcaption .ruler{font-size:9px!important;letter-spacing:.14em!important;line-height:1.5}
+  div.fixed.inset-0[role=dialog] figcaption .display{margin-top:6px!important;font-size:clamp(16px,5vw,20px)!important;line-height:1.25!important;letter-spacing:0!important}
+  div.fixed.inset-0[role=dialog] figcaption .display+p{font-size:12px!important;margin-top:4px!important}
+  div.fixed.inset-0[role=dialog] figcaption a{margin-top:12px!important;font-size:9.5px!important;letter-spacing:.12em!important;padding:6px 7px 6px 13px!important}
+}
 </style>
 <script>(function(){var H=document.documentElement,y=0,on=false;
 function sync(){var lock=document.body&&document.body.style.overflow==='hidden';if(lock===on)return;on=lock;

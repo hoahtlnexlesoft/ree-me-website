@@ -86,6 +86,8 @@
   .sx-strip.on figcaption{opacity:1;transform:none}
   .sx-media.in .sx-strip{animation:sxIn .8s cubic-bezier(.2,.8,.2,1) both!important;animation-delay:calc(var(--k) * 90ms)!important}
   @keyframes sxIn{from{opacity:0;transform:translateY(24px)}to{opacity:1;transform:none}}
+  @media (max-width:1000px){.sx-media .sx-strip.on,.sx-media .sx-strip.on:hover{flex:1 1 auto!important}}
+  .sx-media.sx-fresh .sx-strip{transition:none!important}
   @media (max-width:1000px){.sx-in{grid-template-columns:minmax(0,1fr)!important}.sx-media{height:min(78vw,440px)!important;gap:6px!important}.sx-strip{flex-basis:40px!important}.sx-k{bottom:16px;font-size:11px}}
 
   /* full-height open photo + smaller heading */
@@ -779,14 +781,18 @@
     act = 0;
     media.innerHTML = s.imgs.map(([src, cap], k) => `<figure class="sx-strip" style="--k:${k}" title="${cap}"><img class="sx-bg" src="${P + src}" alt="" aria-hidden="true"><img class="sx-img" src="${P + src}" alt="${cap}"><span class="sx-k">${pad(k+1)}</span><figcaption><b>${pad(k+1)} / ${pad(s.imgs.length)}</b>${cap}</figcaption></figure>`).join("");
     media.querySelectorAll(".sx-img").forEach(im => im.complete ? 0 : im.addEventListener("load", layout, {once:true}));
-    layout(); requestAnimationFrame(layout);
+    media.classList.add("sx-fresh"); layout(); requestAnimationFrame(() => { layout(); requestAnimationFrame(() => media.classList.remove("sx-fresh")); });
     $("#sxN").textContent = pad(n+1); $("#sxName").textContent = SHORT[s.id]; $("#sxProg").style.width = ((n+1) / SV.length * 100) + "%"; };
   addEventListener("resize", layout); addEventListener("load", layout); if(window.ResizeObserver) new ResizeObserver(layout).observe(media);
-  $("#svPrev").addEventListener("click", () => go(cur-1)); $("#svNext").addEventListener("click", () => go(cur+1));
+  // keep the prev/next controls under the finger: re-anchor the scroll after the content above changes height
+  const goKeep = n => { const nav = $("#svNext"), y0 = nav.getBoundingClientRect().top; go(n);
+    const fix = () => { const d = nav.getBoundingClientRect().top - y0; if(Math.abs(d) > 1) window.scrollBy({top: d, left: 0, behavior: "instant"}); };
+    fix(); requestAnimationFrame(fix); };
+  $("#svPrev").addEventListener("click", () => goKeep(cur-1)); $("#svNext").addEventListener("click", () => goKeep(cur+1));
   $("#sxScroll").addEventListener("click", () => { const nx = $("#dich-vu").nextElementSibling; (nx || document.body).scrollIntoView({behavior:"smooth"}); });
   let sx = null; const sec = $("#dich-vu");
   sec.addEventListener("touchstart", e => sx = e.touches[0].clientX, {passive:true});
-  sec.addEventListener("touchend", e => { if(sx === null) return; const dx = e.changedTouches[0].clientX - sx; if(Math.abs(dx) > 60) go(cur + (dx < 0 ? 1 : -1)); sx = null; });
+  sec.addEventListener("touchend", e => { if(sx === null) return; const dx = e.changedTouches[0].clientX - sx; if(Math.abs(dx) > 60) goKeep(cur + (dx < 0 ? 1 : -1)); sx = null; });
   addEventListener("keydown", e => { if(document.querySelector(".lb.open")) return; const r = sec.getBoundingClientRect(); if(r.top > innerHeight*.5 || r.bottom < innerHeight*.5) return;
     if(e.key === "ArrowRight") go(cur+1); if(e.key === "ArrowLeft") go(cur-1); });
   go(0);

@@ -380,6 +380,8 @@
 <style id="qv-facts-row">
 /* quick view on phones: short facts as label | value on one line (like desktop); long sections stay full width */
 @media (max-width:900px){
+  .qv-body{padding-left:0!important;padding-right:0!important}
+  .qv-body .jx{padding-left:14px!important;padding-right:14px!important}
   .qv-body .jx-grid{grid-template-columns:auto minmax(0,1fr)!important;column-gap:14px!important;align-items:start}
   .qv-body .jx-k{white-space:nowrap;padding-top:3px}
   .qv-body .jx-k:has(+ .jx-v :is(.jx-ul,.jx-p,ul,p)),.qv-body .jx-v:has(:is(.jx-ul,.jx-p,ul,p)){grid-column:1/-1}

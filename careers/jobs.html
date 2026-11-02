@@ -377,6 +377,16 @@
   #abMail svg{display:block}
 </style>
 <script>window.PAGE="jobs"</script>
+<style id="qv-facts-row">
+/* quick view on phones: short facts as label | value on one line (like desktop); long sections stay full width */
+@media (max-width:900px){
+  .qv-body .jx-grid{grid-template-columns:auto minmax(0,1fr)!important;column-gap:14px!important;align-items:start}
+  .qv-body .jx-k{white-space:nowrap;padding-top:3px}
+  .qv-body .jx-k:has(+ .jx-v :is(.jx-ul,.jx-p,ul,p)),.qv-body .jx-v:has(:is(.jx-ul,.jx-p,ul,p)){grid-column:1/-1}
+  .qv-body .jx-v .loc-pill{max-width:100%;white-space:normal;height:auto;line-height:1.35}
+}
+@media (max-width:360px){.qv-body .jx-k{white-space:normal;max-width:9.5em}}
+</style>
 <style id="dock-call-round">
 /* call button in the bottom bar: perfect circle with a centred round icon */
 @media (max-width:900px){

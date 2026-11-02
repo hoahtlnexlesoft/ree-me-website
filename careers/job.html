@@ -2133,9 +2133,11 @@ addEventListener("scroll",f,{passive:true});addEventListener("resize",f);f();})(
 #rx .sd-list::-webkit-scrollbar{width:6px}#rx .sd-list::-webkit-scrollbar-thumb{background:#C5CCDB;border-radius:6px}
 #rx .sd-opt{display:flex;align-items:center;gap:12px;padding:7px 6px;border-radius:8px;cursor:pointer}
 #rx .sd-opt:hover,#rx .sd-opt.kb{background:#F3F5F9}
-#rx .sd-opt input{-webkit-appearance:none;appearance:none;flex:none;width:18px!important;height:18px!important;margin:0;padding:0!important;border:1.5px solid #C5CCDB!important;border-radius:50%!important;background:#fff!important;box-shadow:0 1px 2px rgba(14,21,48,.08)!important;cursor:pointer;transition:border-color .18s,box-shadow .18s}
-#rx .sd-opt:hover input{border-color:#1E3A8A!important}
-#rx .sd-opt input:checked{border-color:#1E3A8A!important;background:radial-gradient(circle,#1E3A8A 0 4px,#fff 4.5px)!important}
+#rx .sd-opt input:focus-visible+.ms-pill{outline:2px solid #2F6BE8;outline-offset:2px}
+#rx .sd-opt input{position:absolute!important;opacity:0!important;width:1px!important;height:1px!important;pointer-events:none;margin:0;padding:0!important;border:0!important}
+#rx .sd-opt{position:relative;justify-content:space-between;padding:8px 10px}
+#rx .sd-opt:has(input:checked){background:#EEF2FB}
+#rx .sd-opt:has(input:checked)::after{content:'';flex:none;width:16px;height:16px;background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath d='M3.5 8.4 6.6 11.4 12.5 4.8' fill='none' stroke='%231E3A8A' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") center/16px no-repeat}
 #rx .sd .ms-pill{display:inline-block;padding:3px 11px;border-radius:999px;font-size:12.5px;font-weight:500;line-height:1.45;white-space:normal}
 #rx .sd-none{margin:8px 6px;font-size:13px;color:#7B829A}
 </style>
@@ -2179,6 +2181,7 @@ addEventListener("scroll",f,{passive:true});addEventListener("resize",f);f();})(
     btn.addEventListener('click', function(e){ e.preventDefault(); e.stopPropagation(); open(pop.hidden); });
     pop.addEventListener('click', function(e){ e.stopPropagation(); });
     q.addEventListener('input', draw);
+    list.addEventListener('click', function(e){ var o = e.target.closest('.sd-opt'); if(o && o.querySelector('input').value === sel.value) setTimeout(function(){ api.close(); }, 0); });
     q.addEventListener('keydown', function(e){ if(e.key === 'Escape'){ api.close(); btn.focus(); } if(e.key === 'Enter'){ e.preventDefault(); var f = list.querySelector('input'); if(f){ f.checked = true; f.dispatchEvent(new Event('change', {bubbles:true})); } } });
     list.addEventListener('change', function(e){ if(e.target.type !== 'radio') return; sel.value = e.target.value; sel.classList.remove('invalid'); sel.dispatchEvent(new Event('change', {bubbles:true})); paint(); api.close(); btn.focus({preventScroll:true}); });
     sel.addEventListener('focus', function(){ btn.focus({preventScroll:true}); });

@@ -1595,7 +1595,7 @@ html.embed-form #rx .af-review .afr-body>section{min-width:0}
   #rx .pz-k{margin-top:0!important;font-size:13px;white-space:nowrap}
 }
 @media (max-width:360px){#rx .pz-k{white-space:normal;max-width:9.5em}}
-@media (max-width:760px){#rx .pz-v{min-width:0}#rx .pz-v .loc-pill{max-width:100%;white-space:normal;line-height:1.35;height:auto!important}}
+@media (max-width:760px){#rx .pz-v{min-width:0}}
 #rx .dock-ic{flex:none!important;width:26px!important;height:26px!important;min-width:26px;min-height:26px}
 @media (max-width:900px){#rx .apply-card{background:#EDF3FB!important;grid-template-rows:auto!important}#rx .apply-card>.af-head{min-height:0!important;height:auto!important;padding-bottom:4px!important}}
 @media (max-width:480px){#rx .jd-wrap{padding-left:14px!important;padding-right:14px!important}}
@@ -1612,6 +1612,15 @@ html.embed-form #rx .af-review .afr-body>section{min-width:0}
 .ab-act,.dock-act{display:flex!important;align-items:center!important}.ab-act>*,.dock-act>*{align-self:center!important;margin-top:0!important;margin-bottom:0!important;vertical-align:middle}
 #cdBar,.ab,.dock{align-items:center}.ab>button,.dock>button,.ab [class*="close"],.dock [class*="close"],.ab-x,.dock-x{top:50%!important;transform:translateY(-50%);align-self:center!important;margin-top:0!important;margin-bottom:0!important;display:grid;place-items:center}
 </style>
+<style id="pill-ellipsis">
+/* phones: long pills stay on one line with … ; tap to see the full text */
+@media (max-width:760px){
+  #rx .pz-v .loc-pill,.qv-body .jx-v .loc-pill{display:inline-block!important;max-width:100%!important;white-space:nowrap!important;overflow:hidden!important;text-overflow:ellipsis!important;height:auto!important;line-height:1.5!important;vertical-align:top;cursor:pointer}
+  #rx .pz-v .loc-pill.full,.qv-body .jx-v .loc-pill.full{white-space:normal!important;overflow:visible!important}
+}
+</style>
+<script>document.addEventListener('click',function(e){var p=e.target.closest&&e.target.closest('.pz-v .loc-pill,.jx-v .loc-pill');if(!p||innerWidth>760)return;if(p.scrollWidth>p.clientWidth+1||p.classList.contains('full'))p.classList.toggle('full');});
+(function(){function t(){document.querySelectorAll('.pz-v .loc-pill,.jx-v .loc-pill').forEach(function(p){if(!p.title)p.title=p.textContent.trim();});}new MutationObserver(t).observe(document.documentElement,{childList:true,subtree:true});})();</script>
 </head>
 <body>
 <div id="site-header"></div>

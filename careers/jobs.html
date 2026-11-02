@@ -385,7 +385,7 @@
   .qv-body .jx-grid{grid-template-columns:auto minmax(0,1fr)!important;column-gap:14px!important;align-items:start}
   .qv-body .jx-k{white-space:nowrap;padding-top:3px}
   .qv-body .jx-k:has(+ .jx-v :is(.jx-ul,.jx-p,ul,p)),.qv-body .jx-v:has(:is(.jx-ul,.jx-p,ul,p)){grid-column:1/-1}
-  .qv-body .jx-v .loc-pill{max-width:100%;white-space:normal;height:auto;line-height:1.35}
+  .qv-body .jx-v{min-width:0}
 }
 @media (max-width:360px){.qv-body .jx-k{white-space:normal;max-width:9.5em}}
 </style>
@@ -399,6 +399,15 @@
 .ab-act,.dock-act{display:flex!important;align-items:center!important}.ab-act>*,.dock-act>*{align-self:center!important;margin-top:0!important;margin-bottom:0!important;vertical-align:middle}
 #cdBar,.ab,.dock{align-items:center}.ab>button,.dock>button,.ab [class*="close"],.dock [class*="close"],.ab-x,.dock-x{top:50%!important;transform:translateY(-50%);align-self:center!important;margin-top:0!important;margin-bottom:0!important;display:grid;place-items:center}
 </style>
+<style id="pill-ellipsis">
+/* phones: long pills stay on one line with … ; tap to see the full text */
+@media (max-width:760px){
+  #rx .pz-v .loc-pill,.qv-body .jx-v .loc-pill{display:inline-block!important;max-width:100%!important;white-space:nowrap!important;overflow:hidden!important;text-overflow:ellipsis!important;height:auto!important;line-height:1.5!important;vertical-align:top;cursor:pointer}
+  #rx .pz-v .loc-pill.full,.qv-body .jx-v .loc-pill.full{white-space:normal!important;overflow:visible!important}
+}
+</style>
+<script>document.addEventListener('click',function(e){var p=e.target.closest&&e.target.closest('.pz-v .loc-pill,.jx-v .loc-pill');if(!p||innerWidth>760)return;if(p.scrollWidth>p.clientWidth+1||p.classList.contains('full'))p.classList.toggle('full');});
+(function(){function t(){document.querySelectorAll('.pz-v .loc-pill,.jx-v .loc-pill').forEach(function(p){if(!p.title)p.title=p.textContent.trim();});}new MutationObserver(t).observe(document.documentElement,{childList:true,subtree:true});})();</script>
 </head>
 <body>
 <div id="site-header"></div>

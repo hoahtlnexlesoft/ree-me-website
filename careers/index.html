@@ -18,7 +18,12 @@
   .modal-hero.mh-photo img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
   .modal-hero.mh-photo::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(10,16,32,0) 35%,rgba(10,16,32,.72) 100%)}
   .modal-hero.mh-photo h3{z-index:1;text-shadow:0 2px 12px rgba(0,0,0,.35)}
-</style><style id="hero-photo-mobile">
+</style><style id="life-grid-mobile">
+/* tablets/phones: rows size to their card (the big first card was 320px tall in a 230px row and overlapped the next one) */
+@media (max-width:900px){.life-grid{grid-auto-rows:auto!important}.life-card{min-height:230px}.lc-1{min-height:300px}}
+@media (max-width:540px){.life-grid{gap:14px}.life-card{min-height:210px}.lc-1{min-height:280px}}
+</style>
+<style id="hero-photo-mobile">
 /* phones: the team photo was blown up by background-size:cover on the tall stacked hero — show it at a calmer scale, fading into the navy */
 @media (max-width:860px){
   .hero-photo{background:

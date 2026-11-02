@@ -23,6 +23,15 @@
 @media (max-width:900px){.life-grid{grid-auto-rows:auto!important}.life-card{min-height:230px}.lc-1{min-height:300px}}
 @media (max-width:540px){.life-grid{gap:14px}.life-card{min-height:210px}.lc-1{min-height:280px}}
 </style>
+<style id="hero-mobile-compact">
+@media (max-width:860px){.hero .vnmap{display:none!important}}
+@media (max-width:640px){
+  .hero .hero-cta{display:flex!important;flex-wrap:nowrap!important;gap:10px!important;width:100%}
+  .hero .hero-cta .btn{flex:1 1 0;min-width:0;justify-content:center;padding-left:10px!important;padding-right:10px!important;font-size:12px!important;letter-spacing:.06em!important;white-space:nowrap}
+  .hero .hero-cta .btn svg{flex:none;width:14px;height:14px}
+}
+@media (max-width:379px){.hero .hero-cta .btn{font-size:11px!important;letter-spacing:.03em!important;padding-left:8px!important;padding-right:8px!important;gap:6px!important}.hero .hero-cta{gap:8px!important}}
+</style>
 <style id="hero-photo-mobile">
 /* phones: the team photo was blown up by background-size:cover on the tall stacked hero — show it at a calmer scale, fading into the navy */
 @media (max-width:860px){

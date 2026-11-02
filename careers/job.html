@@ -1590,7 +1590,8 @@ html.embed-form #rx .af-review .afr-body>section{min-width:0}
 <style id="job-mobile-fix">
 /* phones: job facts as label | value rows (same as desktop), round phone icon */
 @media (max-width:760px){
-  #rx .pz-pills{grid-template-columns:auto minmax(0,1fr)!important;gap:10px 14px!important;align-items:center}
+  #rx .pz-pills{grid-template-columns:auto minmax(0,1fr)!important;gap:10px 14px!important;align-items:start!important}
+  #rx .pz-k{padding-top:4px}
   #rx .pz-k{margin-top:0!important;font-size:13px;white-space:nowrap}
 }
 @media (max-width:360px){#rx .pz-k{white-space:normal;max-width:9.5em}}
@@ -1608,7 +1609,7 @@ html.embed-form #rx .af-review .afr-body>section{min-width:0}
 .dock-btn.light .dock-ic{flex:none!important;width:28px!important;height:28px!important;min-width:28px!important;min-height:28px!important;border-radius:50%!important;display:grid!important;place-items:center!important}
 .dock-btn.light .dock-ic svg{width:15px!important;height:15px!important;flex:none;display:block}
 .ab-act,.dock-act{display:flex!important;align-items:center!important}.ab-act>*,.dock-act>*{align-self:center!important;margin-top:0!important;margin-bottom:0!important;vertical-align:middle}
-#cdBar,.ab,.dock{align-items:center}.ab>button,.dock>button,.ab [class*="close"],.dock [class*="close"],.ab-x,.dock-x{align-self:center!important;margin-top:0!important;margin-bottom:0!important;display:grid;place-items:center}
+#cdBar,.ab,.dock{align-items:center}.ab>button,.dock>button,.ab [class*="close"],.dock [class*="close"],.ab-x,.dock-x{top:50%!important;transform:translateY(-50%);align-self:center!important;margin-top:0!important;margin-bottom:0!important;display:grid;place-items:center}
 </style>
 </head>
 <body>

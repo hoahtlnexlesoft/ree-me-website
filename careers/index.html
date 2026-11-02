@@ -18,7 +18,17 @@
   .modal-hero.mh-photo img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
   .modal-hero.mh-photo::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(10,16,32,0) 35%,rgba(10,16,32,.72) 100%)}
   .modal-hero.mh-photo h3{z-index:1;text-shadow:0 2px 12px rgba(0,0,0,.35)}
-</style><style id="life-grid-mobile">
+</style><style id="why-mobile">
+/* phones: text benefit cards hug their content; photo cards keep a fixed height */
+@media (max-width:640px){
+  .why{grid-auto-rows:auto!important}
+  .why>.why-card:not(.why-photo){min-height:0!important;height:auto!important;justify-content:flex-start!important;padding-top:20px!important;padding-bottom:22px!important}
+  .why>.why-card:not(.why-photo) .why-go{top:16px!important;right:16px!important}
+  .why>.why-card:not(.why-photo)>*:not(.why-go):first-of-type{margin-top:4px}
+  .why>.why-photo{min-height:220px}.why>.why-c{min-height:320px}
+}
+</style>
+<style id="life-grid-mobile">
 /* tablets/phones: rows size to their card (the big first card was 320px tall in a 230px row and overlapped the next one) */
 @media (max-width:900px){.life-grid{grid-auto-rows:auto!important}.life-card{min-height:230px}.lc-1{min-height:300px}}
 @media (max-width:540px){.life-grid{gap:14px}.life-card{min-height:210px}.lc-1{min-height:280px}}

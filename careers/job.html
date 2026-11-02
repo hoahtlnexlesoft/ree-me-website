@@ -1587,6 +1587,19 @@ html.embed-form #rx .af-review .afr-body>section{min-width:0}
 @media (max-width:600px){html.embed-form #rx .afp .af-review,html.embed-form #rx .afp .af-done{padding:18px 16px 22px!important}}
 @media (max-width:600px){html.embed-form #rx .afp .af-done{min-height:100vh!important;box-sizing:border-box;display:flex!important;flex-direction:column;align-items:center;justify-content:center;padding-top:56px!important}html.embed-form #rx .afp .af-done[hidden]{display:none!important}}
 </style>
+<style id="job-mobile-fix">
+/* phones: job facts as label | value rows (same as desktop), round phone icon */
+@media (max-width:760px){
+  #rx .pz-pills{grid-template-columns:auto minmax(0,1fr)!important;gap:10px 14px!important;align-items:center}
+  #rx .pz-k{margin-top:0!important;font-size:13px;white-space:nowrap}
+}
+@media (max-width:360px){#rx .pz-k{white-space:normal;max-width:9.5em}}
+@media (max-width:760px){#rx .pz-v{min-width:0}#rx .pz-v .loc-pill{max-width:100%;white-space:normal;line-height:1.35;height:auto!important}}
+#rx .dock-ic{flex:none!important;width:26px!important;height:26px!important;min-width:26px;min-height:26px}
+@media (max-width:900px){#rx .apply-card{background:#EDF3FB!important;grid-template-rows:auto!important}#rx .apply-card>.af-head{min-height:0!important;height:auto!important;padding-bottom:4px!important}}
+@media (max-width:480px){#rx .jd-wrap{padding-left:14px!important;padding-right:14px!important}}
+#rx .dock-ic svg{flex:none;display:block}
+</style>
 </head>
 <body>
 <div id="site-header"></div>

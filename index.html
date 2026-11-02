@@ -159,6 +159,15 @@ header aside .overflow-y-auto>*:last-child button{white-space:nowrap;letter-spac
 @media (max-width:639px){[role=dialog] .grid:has(textarea[name=message])>.order-1{padding-left:20px!important;padding-right:20px!important}}
 /* a modal open inside an embedded careers page: hide the site header so it doesn't cover the modal */
 html.ree-hide-header header{opacity:0!important;pointer-events:none!important;transform:translateY(-100%);transition:opacity .25s,transform .3s}
+/* "Xem tất cả" links: always on the left, under the section title */
+.pg-news .news-featured .sec-head{flex-direction:column!important;align-items:flex-start!important;gap:18px!important}
+.ree-rel-foot{align-items:flex-start!important}
+/* Về chúng tôi › Tổng quan on phones/tablets: text runs full width, so darken the whole photo (desktop fades only on the right) */
+@media (max-width:1023px){
+  #tong-quan>div[aria-hidden]{background:linear-gradient(180deg,rgba(8,18,52,.78) 0%,rgba(8,18,52,.86) 45%,rgba(8,18,52,.92) 100%)!important}
+  #tong-quan p{color:rgba(255,255,255,.93)!important;text-shadow:0 1px 10px rgba(0,0,0,.35)}
+  #tong-quan .ruler{color:rgba(255,255,255,.9)!important}
+}
 /* project lightbox arrows: solid glass buttons so they stay visible over bright photos */
 div.fixed.inset-0[role=dialog] button[aria-label="Ảnh trước"],div.fixed.inset-0[role=dialog] button[aria-label="Ảnh sau"],div.fixed.inset-0[role=dialog] button[aria-label="Previous image"],div.fixed.inset-0[role=dialog] button[aria-label="Next image"]{background:rgba(9,20,52,.62)!important;border:1.5px solid rgba(255,255,255,.7)!important;color:#fff!important;-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px)}
 @media (hover:hover){div.fixed.inset-0[role=dialog] button[aria-label="Ảnh trước"]:hover,div.fixed.inset-0[role=dialog] button[aria-label="Ảnh sau"]:hover,div.fixed.inset-0[role=dialog] button[aria-label="Previous image"]:hover,div.fixed.inset-0[role=dialog] button[aria-label="Next image"]:hover{background:#D93A35!important;border-color:#D93A35!important}}

@@ -239,6 +239,9 @@
 .ms-opt:hover input{border-color:#1E3A8A}
 .ms-opt input:checked{background-color:#1E3A8A;border-color:#1E3A8A;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath d='M4.3 8.5 6.9 11l4.9-5.6' fill='none' stroke='%23fff' stroke-width='2.1' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E"),linear-gradient(180deg,#2F52B5 0%,#1B347D 100%);box-shadow:inset 0 1px 0 rgba(255,255,255,.22),0 4px 12px -4px rgba(27,52,125,.6);animation:tickPop .22s cubic-bezier(.3,1.6,.5,1)}
 @keyframes tickPop{from{transform:scale(.82)}to{transform:none}}
+.ms-opt.ms-all{border-bottom:1px solid #EEF0F5;border-radius:8px 8px 0 0;margin-bottom:4px;padding-bottom:9px}
+.ms-all-t{font-size:14px;font-weight:600;color:#0E1530}
+.ms-opt input:indeterminate{background-color:#1E3A8A;border-color:#1E3A8A;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath d='M4.5 8h7' fill='none' stroke='%23fff' stroke-width='2.1' stroke-linecap='round'/%3E%3C/svg%3E")}
 .ms-opt input:focus-visible{outline:none;box-shadow:0 0 0 3px rgba(30,58,138,.18)}
   .ms-pill{display:inline-block;padding:3px 11px;border-radius:999px;font-size:12px;font-weight:500;white-space:nowrap}
 #unitPop{left:auto;right:0;width:max-content;min-width:100%;max-width:calc(100vw - 32px)}
@@ -555,26 +558,38 @@
     unit: { field:"unit", all:"Tất cả bộ phận, dự án", many:"bộ phận, dự án", tags:[] }
   };
   Object.values(TAGS).forEach(g => { const have = uniq(JOBS.map(j => j[g.field]).filter(Boolean)).sort((a,b) => g.field !== "unit" ? 0 : (/^Phòng/.test(b) - /^Phòng/.test(a)) || a.localeCompare(b,"vi")); g.tags = g.tags.filter(t => have.includes(t.k)).concat(have.filter(v => !g.tags.some(t => t.k === v)).map(v => g.field === "unit" ? (/^Phòng/.test(v) ? { k:v, c:"#E3EAF8", t:"#1E3A80" } : { k:v, c:"#F3E8D6", t:"#6B4A1F" }) : { k:v, c:"#E5E7EB", t:"#111" })); });
+  const msAllRow = (keys, sel) => `<label class="ms-opt ms-all"><input type="checkbox" value="__all__" ${keys.length && keys.every(k => sel.includes(k)) ? "checked" : ""}><span class="ms-all-t">Chọn tất cả</span></label>`;
+  const msAllSync = (list, keys, sel) => { const a = list.querySelector('input[value="__all__"]'); if(!a) return; const n = keys.filter(k => sel.includes(k)).length; a.checked = n > 0 && n === keys.length; a.indeterminate = n > 0 && n < keys.length; };
   const closeAllMs = () => document.querySelectorAll(".ms-pop").forEach(p => { p.hidden = true; p.parentNode.querySelector(".ms-btn").setAttribute("aria-expanded", false); });
   Object.entries(TAGS).forEach(([id, g]) => {
     st[id] = [];
-    const draw = () => { const q = norm($("#"+id+"Q").value.trim());
-      $("#"+id+"List").innerHTML = g.tags.filter(o => !q || norm(o.k).includes(q)).map(o => `<label class="ms-opt"><input type="checkbox" value="${o.k}" ${st[id].includes(o.k)?"checked":""}><span class="ms-pill" style="background:${o.c};color:${o.t}">${o.k}</span></label>`).join("") || '<p class="ms-none">Không tìm thấy</p>'; };
+    const vis = () => { const q = norm($("#"+id+"Q").value.trim()); return g.tags.filter(o => !q || norm(o.k).includes(q)); };
+    const draw = () => { const L = vis();
+      $("#"+id+"List").innerHTML = L.length ? msAllRow(L.map(o => o.k), st[id]) + L.map(o => `<label class="ms-opt"><input type="checkbox" value="${o.k}" ${st[id].includes(o.k)?"checked":""}><span class="ms-pill" style="background:${o.c};color:${o.t}">${o.k}</span></label>`).join("") : '<p class="ms-none">Không tìm thấy</p>'; msAllSync($("#"+id+"List"), L.map(o => o.k), st[id]); };
     g.setVal = () => { const v = st[id]; $("#"+id+"Val").textContent = !v.length ? g.all : v.length <= 2 ? v.join(", ") : v.length + " " + g.many; $("#"+id+"Ms").classList.toggle("set", v.length > 0); };
     $("#"+id+"Btn").addEventListener("click", e => { e.stopPropagation(); const was = $("#"+id+"Pop").hidden; closeAllMs(); if(was){ $("#"+id+"Pop").hidden = false; $("#"+id+"Btn").setAttribute("aria-expanded", true); $("#"+id+"Q").value = ""; draw(); setTimeout(() => $("#"+id+"Q").focus(), 0); } });
     $("#"+id+"Pop").addEventListener("click", e => e.stopPropagation());
     $("#"+id+"Q").addEventListener("input", draw);
-    $("#"+id+"List").addEventListener("change", e => { const v = e.target.value; st[id] = e.target.checked ? [...st[id], v] : st[id].filter(x => x !== v); st.page = 1; g.setVal(); render(); });
+    $("#"+id+"List").addEventListener("change", e => { const v = e.target.value; const L = vis().map(o => o.k);
+      if(v === "__all__") st[id] = e.target.checked ? [...new Set([...st[id], ...L])] : st[id].filter(x => !L.includes(x));
+      else st[id] = e.target.checked ? [...st[id], v] : st[id].filter(x => x !== v);
+      msAllSync($("#"+id+"List"), L, st[id]); if(v === "__all__") $("#"+id+"List").querySelectorAll('input:not([value="__all__"])').forEach(i => i.checked = st[id].includes(i.value));
+      st.page = 1; g.setVal(); render(); });
   });
   st.locs = []; st.closed = [];
-  const drawLocList = () => { const q = norm($("#locQ").value.trim());
-    $("#locList").innerHTML = LOCOPTS.filter(o => !q || norm(o.k).includes(q)).map(o => `<label class="ms-opt"><input type="checkbox" value="${o.k}" ${st.locs.includes(o.k)?"checked":""}><span class="ms-pill" style="background:${o.c};color:${o.t}">${o.k}</span></label>`).join("") || '<p class="ms-none">Không tìm thấy</p>'; };
+  const locVis = () => { const q = norm($("#locQ").value.trim()); return LOCOPTS.filter(o => !q || norm(o.k).includes(q)); };
+  const drawLocList = () => { const L = locVis();
+    $("#locList").innerHTML = L.length ? msAllRow(L.map(o => o.k), st.locs) + L.map(o => `<label class="ms-opt"><input type="checkbox" value="${o.k}" ${st.locs.includes(o.k)?"checked":""}><span class="ms-pill" style="background:${o.c};color:${o.t}">${o.k}</span></label>`).join("") : '<p class="ms-none">Không tìm thấy</p>'; msAllSync($("#locList"), L.map(o => o.k), st.locs); };
   const setLocVal = () => { $("#locVal").textContent = !st.locs.length ? "Tất cả địa điểm" : st.locs.length <= 2 ? st.locs.join(", ") : st.locs.length + " địa điểm"; $("#locMs").classList.toggle("set", st.locs.length > 0); };
   const openLoc = on => { $("#locPop").hidden = !on; $("#locBtn").setAttribute("aria-expanded", on); if(on){ $("#locQ").value = ""; drawLocList(); setTimeout(() => $("#locQ").focus(), 0); } };
   $("#locBtn").addEventListener("click", e => { e.stopPropagation(); const was = $("#locPop").hidden; closeAllMs(); openLoc(was); });
   $("#locPop").addEventListener("click", e => e.stopPropagation());
   $("#locQ").addEventListener("input", drawLocList);
-  $("#locList").addEventListener("change", e => { const v = e.target.value; st.locs = e.target.checked ? [...st.locs, v] : st.locs.filter(x => x !== v); st.page = 1; setLocVal(); render(); });
+  $("#locList").addEventListener("change", e => { const v = e.target.value; const L = locVis().map(o => o.k);
+    if(v === "__all__") st.locs = e.target.checked ? [...new Set([...st.locs, ...L])] : st.locs.filter(x => !L.includes(x));
+    else st.locs = e.target.checked ? [...st.locs, v] : st.locs.filter(x => x !== v);
+    msAllSync($("#locList"), L, st.locs); if(v === "__all__") $("#locList").querySelectorAll('input:not([value="__all__"])').forEach(i => i.checked = st.locs.includes(i.value));
+    st.page = 1; setLocVal(); render(); });
   document.addEventListener("click", () => { openLoc(false); closeAllMs(); });
   document.addEventListener("keydown", e => { if(e.key === "Escape"){ openLoc(false); closeAllMs(); } });
   const DEPT_IC = { "":"grid", site:"gear", design:"cube", qs:"calc" };

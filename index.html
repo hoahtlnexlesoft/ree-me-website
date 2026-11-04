@@ -120,6 +120,9 @@ var lastH=location.hash;function chk(){var h=location.hash;if(h!==lastH){lastH=h
 <link rel="stylesheet" href="./assets/index-D71z0cGY.css" />
 <div id="root"></div>
 <style id="ree-mobile-fix">
+/* project picker (hero circles): never show a scrollbar */
+nav[aria-label="Chọn công trình"]{scrollbar-width:none;-ms-overflow-style:none}@media (max-width:1023px){nav[aria-label="Chọn công trình"]{overflow-y:hidden!important;overscroll-behavior-x:contain}}
+nav[aria-label="Chọn công trình"]::-webkit-scrollbar{display:none;width:0;height:0}
 /* top utility bar: keep "Hồ sơ năng lực · Xem nhanh · Tải PDF" on one line on small phones */
 @media (max-width:420px){
   header>div.overflow-hidden>.ree-wrap>div:first-child{flex-wrap:nowrap!important;gap:6px!important;min-width:0}

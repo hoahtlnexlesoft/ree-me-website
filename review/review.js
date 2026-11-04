@@ -90,7 +90,7 @@
     }
     return { doc: document, win: window, frame: null, key: 'site:' + topRoute() };
   }
-  var PAGE_NAMES = { '/': 'Trang chủ', '/ve-chung-toi': 'Về chúng tôi', '/linh-vuc-thi-cong': 'Lĩnh vực thi công', '/dich-vu': 'Dịch vụ', '/cong-trinh': 'Công trình', '/du-an': 'Dự án', '/phat-trien-ben-vung': 'Phát triển bền vững', '/tin-tuc': 'Tin tức', '/tuyen-dung': 'Tuyển dụng', '/tuyen-dung/vi-tri': 'Tuyển dụng › Vị trí', '/ho-so-nang-luc': 'Hồ sơ năng lực' };
+  var PAGE_NAMES = { '/': 'Trang chủ', '/ve-chung-toi': 'Về chúng tôi', '/dich-vu': 'Dịch vụ', '/cong-trinh': 'Công trình', '/phat-trien-ben-vung': 'Phát triển bền vững', '/tin-tuc': 'Tin tức', '/tuyen-dung': 'Tuyển dụng', '/tuyen-dung/vi-tri': 'Tuyển dụng › Vị trí', '/ho-so-nang-luc': 'Hồ sơ năng lực' };
   function humanSlug(x) { x = decodeURIComponent(String(x || '')).replace(/[-_]+/g, ' ').trim(); return x ? x.charAt(0).toUpperCase() + x.slice(1) : ''; }
   function labelFor(key) {
     key = String(key || '');

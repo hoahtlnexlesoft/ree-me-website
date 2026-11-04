@@ -157,6 +157,63 @@
     requestAnimationFrame(function () { w.classList.add('on'); w.querySelector('.rem-x').focus({ preventScroll: true }); });
   }
 
-  window.REE_EMAIL = { build: build, subject: subject };
-  window.__reeEmailPreview = open;
+  /* Thank-you screen shown after a successful submit (replaces the email preview) */
+  var tyCss =
+    '.rty{position:fixed;inset:0;z-index:2147483000;display:grid;place-items:center;padding:20px;background:rgba(10,18,36,.58);-webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px);opacity:0;transition:opacity .3s ease;font-family:inherit}' +
+    '.rty.on{opacity:1}' +
+    '.rty-box{position:relative;width:100%;max-width:460px;background:#fff;border-radius:24px;padding:44px 36px 32px;text-align:center;box-shadow:0 40px 90px -30px rgba(10,18,36,.55);transform:translateY(16px) scale(.97);transition:transform .45s cubic-bezier(.2,.8,.2,1);overflow:hidden}' +
+    '.rty.on .rty-box{transform:none}' +
+    '.rty-box:before{content:"";position:absolute;left:0;right:0;top:0;height:4px;background:linear-gradient(90deg,#1B2D5B,#2F4C8F 60%,#D7262E)}' +
+    '.rty-x{position:absolute;top:14px;right:14px;width:34px;height:34px;border:0;border-radius:50%;background:#F1F3F8;color:#5E6A82;display:grid;place-items:center;cursor:pointer;transition:background .2s,transform .3s}' +
+    '.rty-x:hover{background:#E4E8F0;color:#0F1B33;transform:rotate(90deg)}.rty-x svg{width:15px;height:15px}' +
+    '.rty-ic{position:relative;width:76px;height:76px;margin:0 auto 22px;border-radius:50%;background:#EEF2FB;display:grid;place-items:center}' +
+    '.rty-ic:after{content:"";position:absolute;inset:-8px;border-radius:50%;border:1.5px solid rgba(27,45,91,.14);animation:rtyP 2.4s ease-out infinite}' +
+    '.rty-ic span{width:54px;height:54px;border-radius:50%;background:#1B2D5B;display:grid;place-items:center;box-shadow:0 10px 24px -8px rgba(27,45,91,.6)}' +
+    '.rty-ic svg{width:26px;height:26px}.rty-ic path{stroke-dasharray:30;stroke-dashoffset:30;animation:rtyD .55s .25s ease forwards}' +
+    '@keyframes rtyD{to{stroke-dashoffset:0}}@keyframes rtyP{0%{transform:scale(.9);opacity:1}100%{transform:scale(1.25);opacity:0}}' +
+    '.rty-k{font-size:12px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:#D7262E;margin:0 0 8px}' +
+    '.rty h3{margin:0;font-size:24px;line-height:1.3;font-weight:600;color:#0F1B33}' +
+    '.rty p.rty-t{margin:12px auto 0;max-width:360px;font-size:15px;line-height:1.65;color:#5E6A82}' +
+    '.rty-c{display:flex;justify-content:center;flex-wrap:wrap;gap:8px;margin:24px 0 0}' +
+    '.rty-c a{display:inline-flex;align-items:center;gap:7px;padding:9px 14px;border-radius:999px;background:#F5F7FB;border:1px solid #E4E8F0;color:#1B2D5B;font-size:13.5px;font-weight:500;text-decoration:none;transition:border-color .2s,background .2s}' +
+    '.rty-c a:hover{background:#EEF2FB;border-color:#C9D3EA}.rty-c svg{width:15px;height:15px;flex:none}' +
+    '.rty-b{margin-top:26px;width:100%;height:48px;border:0;border-radius:999px;background:#1B2D5B;color:#fff;font:inherit;font-size:15px;font-weight:600;cursor:pointer;transition:background .2s,transform .2s}' +
+    '.rty-b:hover{background:#13224A;transform:translateY(-1px)}' +
+    '.rty-b:focus{outline:none}.rty-b:focus-visible{outline:2px solid #2F4C8F;outline-offset:3px}' +
+    '@media (max-width:640px){.rty{align-items:end;padding:0}.rty-box{max-width:none;border-radius:24px 24px 0 0;padding:40px 22px calc(24px + env(safe-area-inset-bottom));transform:translateY(40px)}.rty h3{font-size:21px}}' +
+    '@media (prefers-reduced-motion:reduce){.rty-ic:after{animation:none}.rty-ic path{animation:none;stroke-dashoffset:0}}';
+
+  function thanks(d) {
+    d = d || {};
+    if (!document.getElementById('rty-css')) { var st = document.createElement('style'); st.id = 'rty-css'; st.textContent = tyCss; document.head.appendChild(st); }
+    var old = document.querySelector('.rty'); if (old) old.remove();
+    var en = (document.documentElement.lang || '').indexOf('en') === 0;
+    var name = String(d.name || '').trim();
+    var T = en ? {
+      k: 'Request received', h: name ? 'Thank you, ' + name + '!' : 'Thank you for contacting R.E.E M&E',
+      t: 'Your consultation request has been sent successfully. Our team will get back to you as soon as possible.', b: 'Close', x: 'Close'
+    } : {
+      k: 'Đã gửi yêu cầu', h: name ? 'Cảm ơn ' + name + '!' : 'Cảm ơn bạn đã liên hệ R.E.E M&E',
+      t: 'Yêu cầu tư vấn của bạn đã được gửi thành công. Đội ngũ R.E.E M&E sẽ liên hệ lại với bạn trong thời gian sớm nhất.', b: 'Đóng', x: 'Đóng'
+    };
+    var w = document.createElement('div'); w.className = 'rty'; w.setAttribute('role', 'dialog'); w.setAttribute('aria-modal', 'true'); w.setAttribute('aria-labelledby', 'rty-h');
+    w.setAttribute('data-no-i18n', '');
+    w.innerHTML = '<div class="rty-box">' +
+      '<button type="button" class="rty-x" aria-label="' + T.x + '"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M6 6l12 12M18 6 6 18"/></svg></button>' +
+      '<div class="rty-ic"><span><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></span></div>' +
+      '<p class="rty-k">' + T.k + '</p><h3 id="rty-h">' + esc(T.h) + '</h3><p class="rty-t">' + T.t + '</p>' +
+      '<div class="rty-c"><a href="tel:19003339"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L15 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2"/></svg>Hotline 1900 3339</a>' +
+      '<a href="mailto:ree@reeme.com.vn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/></svg>ree@reeme.com.vn</a></div>' +
+      '<button type="button" class="rty-b">' + T.b + '</button></div>';
+    document.body.appendChild(w);
+    var prev = document.body.style.overflow; document.body.style.overflow = 'hidden';
+    function close() { w.classList.remove('on'); document.removeEventListener('keydown', onKey); document.body.style.overflow = prev; setTimeout(function () { w.remove(); }, 300); }
+    function onKey(e) { if (e.key === 'Escape') close(); }
+    document.addEventListener('keydown', onKey);
+    w.addEventListener('click', function (e) { if (e.target === w || e.target.closest('.rty-x,.rty-b')) close(); });
+    requestAnimationFrame(function () { w.classList.add('on'); w.querySelector('.rty-b').focus({ preventScroll: true }); });
+  }
+
+  window.REE_EMAIL = { build: build, subject: subject, preview: open };
+  window.__reeEmailPreview = thanks;
 })();

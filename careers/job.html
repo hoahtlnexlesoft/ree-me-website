@@ -756,7 +756,7 @@ html.afp-on .dock,html.afp-on .fab,html.afp-on [class*="float"]{display:none!imp
 
 #rx .af-f.cv .cv-link input,#rx .af-f.cv .cv-link input:focus,#rx .af-f.cv .cv-link input:hover{border:0!important;box-shadow:none!important;outline:0!important;background:transparent!important;height:100%!important;min-height:0!important;border-radius:0!important}
 #rx .af-review .afr-body>section,#rx .af-review dl,#rx .af-review .afr-row,#rx .af-review dd{min-width:0}
-#rx .af-review .afr-body{grid-template-columns:minmax(0,1fr) minmax(0,1.15fr) minmax(0,1.25fr)}
+@media (min-width:1025px){#rx .af-review .afr-body{grid-template-columns:minmax(0,1fr) minmax(0,1.15fr) minmax(0,1.25fr)}}@media (max-width:1024px){#rx .af-review .afr-body{grid-template-columns:minmax(0,1fr)}}
 #rx .af-review .afr-file{min-width:0;max-width:100%}
 #rx .af-review .afr-file>span{flex:1;min-width:0}
 #rx .af-review .afr-file small{display:block;white-space:nowrap}

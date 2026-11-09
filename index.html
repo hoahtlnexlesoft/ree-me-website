@@ -257,7 +257,7 @@ if(document.body)start();else document.addEventListener('DOMContentLoaded',start
 <script src="./assets/ree-mtype.js?v=2" defer></script>
 <script src="./assets/ree-map.js?v=1" defer></script>
 <script id="ree-sctl-align">
-/* "Công trình theo loại hình" slider: right arrow lines up with the header's hamburger / content edge */
+/* "Công trình theo loại hình" slider: right arrow + last card line up with the header's hamburger / content edge */
 (function(){
   function fit(){ document.querySelectorAll('.ree-sctl').forEach(function(c){
     var wrap=c.closest('.ree-wrap'), strip=c.closest('.ree-strip')||c.parentElement; if(!wrap) return;
@@ -265,6 +265,7 @@ if(document.body)start();else document.addEventListener('DOMContentLoaded',start
     var contentRight=wr.right-parseFloat(cs.paddingRight||0);
     var pad=Math.max(0,Math.round(sr.right-contentRight));
     if(c.style.paddingRight!==pad+'px'){ c.style.setProperty('padding-right',pad+'px','important'); c.style.setProperty('max-width','none','important'); }
+    var tr=strip.querySelector('.ree-strack'); if(tr&&tr.style.paddingRight!==pad+'px') tr.style.setProperty('padding-right',pad+'px','important');
   }); }
   var t; function q(){ clearTimeout(t); t=setTimeout(fit,30); }
   addEventListener('resize',q); addEventListener('load',q); addEventListener('hashchange',function(){setTimeout(fit,400)});

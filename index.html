@@ -256,4 +256,19 @@ if(document.body)start();else document.addEventListener('DOMContentLoaded',start
 <script src="./assets/ree-attach.js?v=5" defer></script>
 <script src="./assets/ree-mtype.js?v=2" defer></script>
 <script src="./assets/ree-map.js?v=1" defer></script>
+<script id="ree-sctl-align">
+/* "Công trình theo loại hình" slider: right arrow lines up with the header's hamburger / content edge */
+(function(){
+  function fit(){ document.querySelectorAll('.ree-sctl').forEach(function(c){
+    var wrap=c.closest('.ree-wrap'), strip=c.closest('.ree-strip')||c.parentElement; if(!wrap) return;
+    var cs=getComputedStyle(wrap), wr=wrap.getBoundingClientRect(), sr=strip.getBoundingClientRect();
+    var contentRight=wr.right-parseFloat(cs.paddingRight||0);
+    var pad=Math.max(0,Math.round(sr.right-contentRight));
+    if(c.style.paddingRight!==pad+'px'){ c.style.setProperty('padding-right',pad+'px','important'); c.style.setProperty('max-width','none','important'); }
+  }); }
+  var t; function q(){ clearTimeout(t); t=setTimeout(fit,30); }
+  addEventListener('resize',q); addEventListener('load',q); addEventListener('hashchange',function(){setTimeout(fit,400)});
+  new MutationObserver(function(){ if(document.querySelector('.ree-sctl')) q(); }).observe(document.documentElement,{childList:true,subtree:true});
+})();
+</script>
 </body></html>

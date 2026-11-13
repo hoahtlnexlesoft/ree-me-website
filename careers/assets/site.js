@@ -214,7 +214,7 @@ function footer(){
       <h2 class="fo-title">Mạng lưới văn phòng</h2>
       <div class="fo-offices">${OFFICES.map(officeHTML).join("")}</div>
       <h4 class="fo-navh">Điều hướng</h4>
-      <nav class="fo-nav" aria-label="Điều hướng"><a href="./">Trang chủ</a><a href="jobs.html">Vị trí tuyển dụng</a><a href="./#moi-truong">Phúc lợi &amp; đãi ngộ</a><a href="./#con-nguoi">Con người REE M&amp;E</a><a href="./#doi-song">Văn hóa doanh nghiệp</a><a href="#" data-open="profile">Hồ sơ năng lực</a></nav>
+      <nav class="fo-nav" aria-label="Điều hướng"><a href="../index.html#/ve-chung-toi" target="_top" data-site-route="/ve-chung-toi">Về chúng tôi</a><a href="../index.html#/dich-vu" target="_top" data-site-route="/dich-vu">Dịch vụ</a><a href="../index.html#/cong-trinh" target="_top" data-site-route="/cong-trinh">Công trình tiêu biểu</a><a href="../index.html#/phat-trien-ben-vung" target="_top" data-site-route="/phat-trien-ben-vung">Phát triển bền vững</a><a href="../index.html#/tin-tuc" target="_top" data-site-route="/tin-tuc">Tin tức</a><a href="../index.html#/tuyen-dung" target="_top" data-site-route="/tuyen-dung">Tuyển dụng</a><a href="#" data-open="chat">Liên hệ</a></nav>
       <div class="fo-cta"><a class="btn btn-accent" href="tel:19003339">${ic("phone")} 1900 3339</a><button class="btn btn-line" data-open="chat">Gửi yêu cầu ${ic("arrow")}</button></div>
       <div class="fo-bottom">
         <div class="fo-brand"><img src="assets/img/ree-logo.svg" alt="REE M&amp;E" width="70" height="49"><p>Công ty Cổ phần Dịch vụ &amp; Kỹ thuật Cơ điện lạnh R.E.E — Nhà thầu Cơ điện lạnh (MEPF) cho các công trình trọng điểm trên toàn quốc.</p></div>
@@ -508,3 +508,7 @@ window.reeBarCheck = function(host, anim, cls, end){
   const on = host._rest ? (d < 60 || b < 60) : (d <= 0 || b <= 4);
   reeBarRest(host, anim, cls, on);
 };
+
+/* footer nav: same links as the main site footer; when embedded, route the parent SPA instead of reloading */
+document.addEventListener("click", e => { const a = e.target.closest("a[data-site-route]"); if(!a || e.metaKey || e.ctrlKey || e.shiftKey || e.button) return;
+  try { if(window.top !== window.self && window.parent.location.pathname){ e.preventDefault(); window.parent.location.hash = "#" + a.dataset.siteRoute; window.parent.scrollTo(0,0); } } catch(_){} });

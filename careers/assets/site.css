@@ -1349,3 +1349,6 @@ button.why-card:hover .why-go,button.why-card:focus-visible .why-go{color:#C8463
   .jl-hero{padding-top:calc(var(--hdr-h,64px) + 16px)!important}
   html.embed .jl-hero{padding-top:calc(var(--hdr-h) + 2px)!important}
 }
+
+/* client feedback: no red rule beside office blocks (match main site footer) */
+.fo-office{border-left:0!important;padding-left:0!important}

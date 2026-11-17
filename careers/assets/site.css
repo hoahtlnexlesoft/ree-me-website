@@ -1352,3 +1352,12 @@ button.why-card:hover .why-go,button.why-card:focus-visible .why-go{color:#C8463
 
 /* client feedback: no red rule beside office blocks (match main site footer) */
 .fo-office{border-left:0!important;padding-left:0!important}
+
+/* scrollbars everywhere (vertical + horizontal): thin, no track background — macOS-style overlay look */
+*{scrollbar-width:thin;scrollbar-color:rgba(100,112,135,.42) transparent}
+*::-webkit-scrollbar{width:8px;height:8px;background:transparent}
+*::-webkit-scrollbar-track,*::-webkit-scrollbar-corner{background:transparent}
+*::-webkit-scrollbar-thumb{background:rgba(100,112,135,.4);border-radius:999px;border:2px solid transparent;background-clip:padding-box}
+*::-webkit-scrollbar-thumb:hover{background-color:rgba(100,112,135,.62)}
+.drawer-panel,.drawer-panel *,.site-footer *,.modal-hero *{scrollbar-color:rgba(255,255,255,.3) transparent}
+.drawer-panel ::-webkit-scrollbar-thumb{background-color:rgba(255,255,255,.28)}

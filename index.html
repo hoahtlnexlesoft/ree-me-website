@@ -75,6 +75,15 @@ var lastH=location.hash;function chk(){var h=location.hash;if(h!==lastH){lastH=h
 <div id="root"></div>
 <script src="./assets/ree-skel.js?v=1"></script>
 <style id="ree-mobile-fix">
+/* scrollbars everywhere (vertical + horizontal): thin, no track background — macOS-style overlay look */
+*{scrollbar-width:thin;scrollbar-color:rgba(100,112,135,.42) transparent}
+*::-webkit-scrollbar{width:8px;height:8px;background:transparent}
+*::-webkit-scrollbar-track,*::-webkit-scrollbar-corner{background:transparent}
+*::-webkit-scrollbar-thumb{background:rgba(100,112,135,.4);border-radius:999px;border:2px solid transparent;background-clip:padding-box}
+*::-webkit-scrollbar-thumb:hover{background-color:rgba(100,112,135,.62)}
+/* on dark surfaces (side menu, dark modals) use a light thumb */
+header aside,header aside *,.bg-navy-deep,.bg-navy-deep *{scrollbar-color:rgba(255,255,255,.3) transparent}
+header aside ::-webkit-scrollbar-thumb,.bg-navy-deep ::-webkit-scrollbar-thumb{background-color:rgba(255,255,255,.28)}
 /* client feedback: ESG icons green, office blocks without red rule */
 .ree-esg-ic{color:#1E8A4C}
 .ree-fo-office{padding-left:0}

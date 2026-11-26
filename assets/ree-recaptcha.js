@@ -17,11 +17,12 @@
    With a key: Google's own reCAPTCHA badge is rendered there (inline, not floating, so it never covers the chat button).
    Without a key (DEMO): a text placeholder marks the spot; nothing is loaded from Google and no token is sent. */
 (function () {
-  /* TẠM THỜI dùng TEST KEY công khai của Google (developers.google.com/recaptcha/docs/faq) để xem badge hiển thị.
-     Badge sẽ có dòng đỏ "This reCAPTCHA is for testing purposes only" và mọi lần kiểm tra đều "pass".
-     → Khi có key thật: thay TEST_KEY bằng site key reCAPTCHA v3 của R.E.E (hoặc gán window.REE_RECAPTCHA_SITE_KEY). */
+  /* Site key reCAPTCHA v3 "R.E.E M&E Website" (Score based), domain: ree-me-website.vercel.app.
+     Khi lên tên miền chính thức: thêm domain đó vào key trong trang quản trị reCAPTCHA (hoặc tạo key mới và thay ở đây).
+     SECRET KEY của key này chỉ dùng phía server, không đặt trong file này.
+     TEST_KEY = key thử công khai của Google (v2) — chỉ dùng khi cần xem badge mà chưa có key thật. */
   var TEST_KEY = "6LeIxAcTAAAAAJcZVRqyHh71UMIEGNQ_MXjiZKhI";
-  var SITE_KEY = window.REE_RECAPTCHA_SITE_KEY || TEST_KEY;   // ← dán site key reCAPTCHA v3 vào đây
+  var SITE_KEY = window.REE_RECAPTCHA_SITE_KEY || "6LdqDzMuAAAAALbJZoQizihn_uGHH3Oh2nZOv8K1";
   var IS_TEST = SITE_KEY === TEST_KEY;
   var DEMO_NOTICE = true;                               // show the placeholder while SITE_KEY is empty
 

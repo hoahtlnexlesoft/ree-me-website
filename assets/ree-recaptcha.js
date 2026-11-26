@@ -11,20 +11,25 @@
       Each submission carries:  recaptchaToken, recaptchaAction ("contact_form" | "job_apply").
       Tokens expire after 2 minutes and can be verified only once.
 
-   WHERE IT SHOWS  (element .ree-rc-badge, data-recaptcha="on" | "demo")
+   WHERE IT SHOWS  (element .ree-rc-badge, data-recaptcha="on" | "test" | "demo")
    - under the "Gửi yêu cầu" button of the project / consult forms
    - under "Gửi hồ sơ ứng tuyển ngay" and under "Xác nhận gửi hồ sơ" (careers)
    With a key: Google's own reCAPTCHA badge is rendered there (inline, not floating, so it never covers the chat button).
    Without a key (DEMO): a text placeholder marks the spot; nothing is loaded from Google and no token is sent. */
 (function () {
-  var SITE_KEY = window.REE_RECAPTCHA_SITE_KEY || "";   // ← dán site key reCAPTCHA v3 vào đây
+  /* TẠM THỜI dùng TEST KEY công khai của Google (developers.google.com/recaptcha/docs/faq) để xem badge hiển thị.
+     Badge sẽ có dòng đỏ "This reCAPTCHA is for testing purposes only" và mọi lần kiểm tra đều "pass".
+     → Khi có key thật: thay TEST_KEY bằng site key reCAPTCHA v3 của R.E.E (hoặc gán window.REE_RECAPTCHA_SITE_KEY). */
+  var TEST_KEY = "6LeIxAcTAAAAAJcZVRqyHh71UMIEGNQ_MXjiZKhI";
+  var SITE_KEY = window.REE_RECAPTCHA_SITE_KEY || TEST_KEY;   // ← dán site key reCAPTCHA v3 vào đây
+  var IS_TEST = SITE_KEY === TEST_KEY;
   var DEMO_NOTICE = true;                               // show the placeholder while SITE_KEY is empty
 
   var css = document.createElement("style");
   css.id = "ree-recaptcha-css";
   css.textContent =
     ".ree-rc-badge{margin-top:12px;display:flex}" +
-    ".ree-rc-badge[data-recaptcha=on]{min-height:60px}" +
+    ".ree-rc-badge:not([data-recaptcha=demo]){min-height:60px}" +
     ".ree-rc-badge .grecaptcha-badge{box-shadow:0 1px 2px rgba(11,31,77,.08),0 0 0 1px #E3E7EF!important;border-radius:8px!important;overflow:hidden}" +
     "#af-review .afr-acts+.ree-rc-badge{justify-content:flex-end}" +
     "@media (max-width:640px){#af-review .afr-acts+.ree-rc-badge{justify-content:flex-start}}" +
@@ -54,7 +59,8 @@
     return load().then(function (g) {
       if (!g || !box) return null;
       if (box.__rcId != null) return box.__rcId;
-      try { box.__rcId = g.render(box, { sitekey: SITE_KEY, badge: "inline", size: "invisible" }); } catch (e) { return null; }
+      try { box.__rcId = g.render(box, { sitekey: SITE_KEY, badge: "inline", size: "invisible",
+        callback: function (tk) { var r = box.__rcRes; box.__rcRes = null; if (r) r(tk); } }); } catch (e) { return null; }
       return box.__rcId;
     });
   }
@@ -70,16 +76,20 @@
 
   /* returns a fresh token, or null (no key / blocked / timeout) — the server decides what to do with null */
   function token(action) {
-    return widget(boxFor(action)).then(function (id) {
+    var box = boxFor(action);
+    return widget(box).then(function (id) {
       if (id == null) return null;
+      var g = window.grecaptcha;
       return new Promise(function (resolve) {
-        var done = false, t = setTimeout(function () { if (!done) { done = true; resolve(null); } }, 8000);
+        var done = false;
+        function fin(tk) { if (done) return; done = true; clearTimeout(t); box.__rcRes = null; resolve(tk || null); }
+        var t = setTimeout(function () { fin(null); }, 8000);
+        box.__rcRes = fin;                                   /* v2-style keys (incl. Google test key): token via callback */
         try {
-          window.grecaptcha.execute(id, { action: action }).then(
-            function (tk) { if (!done) { done = true; clearTimeout(t); resolve(tk || null); } },
-            function () { if (!done) { done = true; clearTimeout(t); resolve(null); } });
-        } catch (e) { done = true; clearTimeout(t); resolve(null); }
-      });
+          var p = g.execute(id, { action: action });        /* v3 keys: execute() returns a promise */
+          if (p && typeof p.then === "function") p.then(fin, function () { fin(null); });
+        } catch (e) { fin(null); }
+      }).then(function (tk) { if (IS_TEST) { try { g.reset(id); } catch (e) {} } return tk; });
     });
   }
   function attach(data, action) {
@@ -89,7 +99,7 @@
       return out;
     });
   }
-  window.reeRecaptcha = { enabled: !!SITE_KEY, siteKey: SITE_KEY, load: load, token: token, attach: attach };
+  window.reeRecaptcha = { enabled: !!SITE_KEY, test: IS_TEST, siteKey: SITE_KEY, load: load, token: token, attach: attach };
   if (!SITE_KEY && !DEMO_NOTICE) return;
 
   /* ---------- placement ---------- */
@@ -98,10 +108,12 @@
   function place(anchor) {
     if (!anchor || anchor.__reeRc) return; anchor.__reeRc = 1;
     var d = document.createElement("div"); d.className = "ree-rc-badge";
-    d.setAttribute("data-recaptcha", SITE_KEY ? "on" : "demo");
+    d.setAttribute("data-recaptcha", !SITE_KEY ? "demo" : IS_TEST ? "test" : "on");
     if (!SITE_KEY) d.innerHTML = NOTE;                  /* DEMO placeholder */
     anchor.parentNode.insertBefore(d, anchor.nextSibling);
-    if (SITE_KEY) widget(d);                            /* Google's inline badge */
+    if (SITE_KEY) widget(d).then(function (id) {       /* Google's inline badge; if Google can't load, keep the text notice */
+      if (id == null && !d.firstChild) { d.innerHTML = NOTE; d.setAttribute("data-recaptcha", "demo"); }
+    });
   }
   function scan() {
     document.querySelectorAll("form").forEach(function (f) {

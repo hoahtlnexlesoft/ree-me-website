@@ -59,7 +59,7 @@
     loading = new Promise(function (resolve) {
       window.__reeRcOnload = function () { resolve(window.grecaptcha); };
       var s = document.createElement("script");
-      s.src = "https://www.google.com/recaptcha/api.js?render=explicit&onload=__reeRcOnload&hl=vi";
+      s.src = "https://www.google.com/recaptcha/api.js?render=explicit&onload=__reeRcOnload&hl=en";
       s.async = true; s.defer = true;
       s.onerror = function () { loading = null; resolve(null); };
       document.head.appendChild(s);

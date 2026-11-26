@@ -1,0 +1,69 @@
+<!doctype html><html lang="vi"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="color-scheme" content="light"><meta name="supported-color-schemes" content="light">
+<!--
+  EMAIL GỬI CHO KHÁCH (người điền form "Gửi thông tin dự án" / "Yêu cầu tư vấn")
+  Subject: [R.E.E M&E] Xác nhận tiếp nhận yêu cầu tư vấn dự án - {{name}} / {{company}}
+           (khi khách không nhập Công ty: bỏ " / {{company}}")
+  Biến: {{name}} {{company}} {{phone}} {{email}} {{type}} {{message}} {{system.created_at}} (định dạng HH:mm - dd/MM/yyyy)
+  Khi {{company}} trống: hiển thị "—" ở dòng Công ty / Đơn vị.
+-->
+<title>[R.E.E M&amp;E] Xác nhận tiếp nhận yêu cầu tư vấn dự án - {{name}} / {{company}}</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>body{margin:0;padding:0;background:#E9EDF3}a{color:#13306B}@media (max-width:620px){.wrap{width:100%!important}.px{padding-left:24px!important;padding-right:24px!important}.hx{padding:20px 22px!important}.cn{font-size:11px!important;letter-spacing:0!important}.lg{width:54px!important}.lgc{padding-right:12px!important}.g{font-size:22px!important}.q{font-size:19px!important}.lbl{width:118px!important}.ct{display:block!important;width:100%!important;padding:0 0 10px!important}}</style></head>
+<body style="margin:0;padding:0;background:#E9EDF3">
+<div style="display:none;max-height:0;overflow:hidden;opacity:0;color:#E9EDF3">R.E.E M&amp;E đã tiếp nhận yêu cầu tư vấn dự án của Quý khách.</div>
+<table role="presentation" cellpadding="0" cellspacing="0" border="0" width="100%" style="background:#E9EDF3"><tr><td align="center" style="padding:32px 12px 44px">
+<table role="presentation" cellpadding="0" cellspacing="0" border="0" class="wrap" width="600" style="width:600px;max-width:600px;background:#FFFFFF;border-radius:16px;overflow:hidden;box-shadow:0 30px 70px -40px rgba(11,31,74,.45)">
+
+<!-- HEADER -->
+<tr><td bgcolor="#1F45A0" style="background-color:#1F45A0;background-image:url(https://ree-me-website.vercel.app/assets/hero-long-thanh-wkOxBeou.jpg);background-size:cover;background-position:center 30%"><table role="presentation" cellpadding="0" cellspacing="0" border="0" width="100%" style="background:linear-gradient(100deg,rgba(24,58,145,.97) 0%,rgba(33,73,165,.93) 55%,rgba(44,88,180,.82) 100%)"><tr><td class="hx" style="padding:26px 40px"><table role="presentation" cellpadding="0" cellspacing="0" border="0"><tr><td class="lgc" valign="middle" style="padding-right:18px"><img class="lg" src="https://ree-me-website.vercel.app/assets/ree-me-logo-bRK-tEB-.png" width="72" height="50" alt="R.E.E M&amp;E" style="display:block;border:0;width:72px;height:auto"></td><td valign="middle" class="cn" style="font:700 15px/1.35 'Inter','Helvetica Neue',Helvetica,Arial,sans-serif;letter-spacing:.01em;text-transform:uppercase;color:#FFFFFF">Công ty Cổ phần Dịch vụ &amp; Kỹ&nbsp;thuật<br>Cơ điện lạnh R.E.E</td></tr></table></td></tr></table></td></tr>
+<tr><td style="font-size:0;line-height:0"><table role="presentation" cellpadding="0" cellspacing="0" border="0" width="100%"><tr><td width="70%" style="height:3px;background:#D93A35">&nbsp;</td><td style="height:3px;background:#C2A16B">&nbsp;</td></tr></table></td></tr>
+
+<!-- LỜI CHÀO -->
+<tr><td class="px" style="padding:32px 48px 0">
+<p class="g" style="margin:0;font:italic 400 26px/1.4 Georgia,'Times New Roman',Times,serif;color:#0F1B33">Kính gửi Quý khách {{name}},</p>
+<p style="margin:16px 0 0;font:400 15.5px/1.75 'Inter','Helvetica Neue',Helvetica,Arial,sans-serif;color:#6B7385">Công ty Cổ phần Dịch vụ &amp; Kỹ thuật Cơ Điện Lạnh R.E.E (<b style="color:#0F1B33;font-weight:600">R.E.E M&amp;E</b>) trân trọng cảm ơn Quý khách đã quan tâm và gửi yêu cầu tư vấn dự án thông qua website của chúng tôi.</p>
+<p style="margin:12px 0 0;font:400 15.5px/1.75 'Inter','Helvetica Neue',Helvetica,Arial,sans-serif;color:#6B7385">Chúng tôi xác nhận đã tiếp nhận thông tin của Quý khách với nội dung chi tiết như sau:</p>
+</td></tr>
+
+<!-- THÔNG TIN ĐĂNG KÝ TƯ VẤN -->
+<tr><td class="px" style="padding:28px 48px 0">
+<p style="margin:0 0 2px;font:600 11px/1.4 'Inter','Helvetica Neue',Helvetica,Arial,sans-serif;letter-spacing:.22em;text-transform:uppercase;color:#D93A35">Thông tin đăng ký tư vấn</p>
+<table role="presentation" cellpadding="0" cellspacing="0" border="0" width="100%">
+<tr><td class="lbl" width="170" valign="top" style="padding:10px 12px 10px 0;border-bottom:1px solid #E8EAF0;font:400 14px/1.5 'Inter','Helvetica Neue',Helvetica,Arial,sans-serif;color:#6B7385">Họ và tên</td><td valign="top" style="padding:10px 0;border-bottom:1px solid #E8EAF0;font:500 15px/1.5 'Inter','Helvetica Neue',Helvetica,Arial,sans-serif;color:#0F1B33;word-break:break-word">{{name}}</td></tr>
+<tr><td class="lbl" width="170" valign="top" style="padding:10px 12px 10px 0;border-bottom:1px solid #E8EAF0;font:400 14px/1.5 'Inter','Helvetica Neue',Helvetica,Arial,sans-serif;color:#6B7385">Công ty / Đơn vị</td><td valign="top" style="padding:10px 0;border-bottom:1px solid #E8EAF0;font:500 15px/1.5 'Inter','Helvetica Neue',Helvetica,Arial,sans-serif;color:#0F1B33;word-break:break-word">{{company}}</td></tr>
+<tr><td class="lbl" width="170" valign="top" style="padding:10px 12px 10px 0;border-bottom:1px solid #E8EAF0;font:400 14px/1.5 'Inter','Helvetica Neue',Helvetica,Arial,sans-serif;color:#6B7385">Số điện thoại</td><td valign="top" style="padding:10px 0;border-bottom:1px solid #E8EAF0;font:500 15px/1.5 'Inter','Helvetica Neue',Helvetica,Arial,sans-serif;color:#0F1B33;word-break:break-word">{{phone}}</td></tr>
+<tr><td class="lbl" width="170" valign="top" style="padding:10px 12px 10px 0;border-bottom:1px solid #E8EAF0;font:400 14px/1.5 'Inter','Helvetica Neue',Helvetica,Arial,sans-serif;color:#6B7385">Email</td><td valign="top" style="padding:10px 0;border-bottom:1px solid #E8EAF0;font:500 15px/1.5 'Inter','Helvetica Neue',Helvetica,Arial,sans-serif;color:#0F1B33;word-break:break-word"><a href="mailto:{{email}}" style="color:#13306B;text-decoration:none">{{email}}</a></td></tr>
+<tr><td class="lbl" width="170" valign="top" style="padding:10px 12px 10px 0;border-bottom:1px solid #E8EAF0;font:400 14px/1.5 'Inter','Helvetica Neue',Helvetica,Arial,sans-serif;color:#6B7385">Loại hình dự án</td><td valign="top" style="padding:10px 0;border-bottom:1px solid #E8EAF0;font:500 15px/1.5 'Inter','Helvetica Neue',Helvetica,Arial,sans-serif;color:#0F1B33;word-break:break-word">{{type}}</td></tr>
+<tr><td class="lbl" width="170" valign="top" style="padding:10px 12px 10px 0;font:400 14px/1.5 'Inter','Helvetica Neue',Helvetica,Arial,sans-serif;color:#6B7385">Thời gian tiếp nhận</td><td valign="top" style="padding:10px 0;font:500 15px/1.5 'Inter','Helvetica Neue',Helvetica,Arial,sans-serif;color:#0F1B33;word-break:break-word">{{system.created_at}}</td></tr>
+</table></td></tr>
+
+<!-- NỘI DUNG YÊU CẦU -->
+<tr><td class="px" style="padding:30px 48px 0">
+<p style="margin:0 0 2px;font:600 11px/1.4 'Inter','Helvetica Neue',Helvetica,Arial,sans-serif;letter-spacing:.22em;text-transform:uppercase;color:#D93A35">Nội dung yêu cầu</p>
+<table role="presentation" cellpadding="0" cellspacing="0" border="0" width="100%" style="margin-top:12px;background:#F5F7FB;border-radius:12px"><tr><td width="4" style="background:#13306B;border-radius:12px 0 0 12px;font-size:0;line-height:0">&nbsp;</td><td class="q" style="padding:18px 22px;font:italic 400 19px/1.65 Georgia,'Times New Roman',Times,serif;color:#13306B;word-break:break-word">&ldquo;{{message}}&rdquo;</td></tr></table>
+</td></tr>
+
+<!-- TIẾP THEO -->
+<tr><td class="px" style="padding:28px 48px 0">
+<p style="margin:0;font:400 15.5px/1.75 'Inter','Helvetica Neue',Helvetica,Arial,sans-serif;color:#6B7385">Yêu cầu của Quý khách đã được chuyển đến <b style="color:#0F1B33;font-weight:600">Ban Phát triển Dự án R.E.E M&amp;E</b>. Chuyên viên phụ trách sẽ xem xét thông tin và liên hệ lại với Quý khách qua số điện thoại hoặc email trong thời gian sớm nhất</p>
+</td></tr>
+
+<!-- LIÊN HỆ -->
+<tr><td class="px" style="padding:22px 48px 0">
+<table role="presentation" cellpadding="0" cellspacing="0" border="0" width="100%" style="background:#FBF6EC;border-radius:12px;border:1px solid #EFE3CB"><tr><td width="4" style="background:#C2A16B;border-radius:12px 0 0 12px;font-size:0;line-height:0">&nbsp;</td><td style="padding:18px 22px 18px 20px">
+<p style="margin:0 0 12px;font:400 14.5px/1.6 'Inter','Helvetica Neue',Helvetica,Arial,sans-serif;color:#4A3F2C">Nếu cần hỗ trợ thêm, Quý khách có thể liên hệ trực tiếp qua:</p>
+<table role="presentation" cellpadding="0" cellspacing="0" border="0"><tr>
+<td class="ct" valign="middle" style="padding:0 28px 0 0"><table role="presentation" cellpadding="0" cellspacing="0" border="0"><tr><td valign="middle" style="padding-right:10px"><div style="width:32px;height:32px;border-radius:50%;background:#D93A35;text-align:center;font:700 14px/32px Arial,sans-serif;color:#FFFFFF">&#9742;</div></td><td valign="middle" style="font:400 12px/1.35 'Inter','Helvetica Neue',Helvetica,Arial,sans-serif;color:#9A7330">Hotline<br><a href="tel:19003339" style="font:700 16px/1.35 'Inter','Helvetica Neue',Helvetica,Arial,sans-serif;color:#0F1B33;text-decoration:none">1900 3339</a></td></tr></table></td>
+<td class="ct" valign="middle"><table role="presentation" cellpadding="0" cellspacing="0" border="0"><tr><td valign="middle" style="padding-right:10px"><div style="width:32px;height:32px;border-radius:50%;background:#13306B;text-align:center;font:700 15px/32px Arial,sans-serif;color:#FFFFFF">@</div></td><td valign="middle" style="font:400 12px/1.35 'Inter','Helvetica Neue',Helvetica,Arial,sans-serif;color:#9A7330">Email<br><a href="mailto:ree@reeme.com.vn" style="font:700 16px/1.35 'Inter','Helvetica Neue',Helvetica,Arial,sans-serif;color:#0F1B33;text-decoration:none">ree@reeme.com.vn</a></td></tr></table></td>
+</tr></table>
+</td></tr></table>
+</td></tr>
+
+<!-- KÝ TÊN -->
+<tr><td class="px" style="padding:28px 48px 34px">
+<table role="presentation" cellpadding="0" cellspacing="0" border="0"><tr><td style="width:40px;height:1px;background:#C2A16B;font-size:0;line-height:0">&nbsp;</td></tr></table>
+<p style="margin:18px 0 0;font:italic 400 17px/1.5 Georgia,'Times New Roman',Times,serif;color:#6B7385">Trân trọng,</p>
+<p style="margin:6px 0 0;font:600 15px/1.5 'Inter','Helvetica Neue',Helvetica,Arial,sans-serif;color:#0F1B33">Đội ngũ R.E.E M&amp;E</p>
+</td></tr>
+
+</table></td></tr></table></body></html>

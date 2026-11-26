@@ -12,6 +12,9 @@
       Tokens expire after 2 minutes and can be verified only once. */
 (function () {
   var SITE_KEY = window.REE_RECAPTCHA_SITE_KEY || "";   // ← dán site key reCAPTCHA v3 vào đây
+  /* DEMO: while there is no key, still show the Google notice so devs/clients see where reCAPTCHA sits.
+     Nothing is loaded and no token is sent until SITE_KEY is filled in. */
+  var DEMO_NOTICE = true;
 
   var css = document.createElement("style");
   css.id = "ree-recaptcha-css";
@@ -64,7 +67,7 @@
   }
 
   window.reeRecaptcha = { enabled: !!SITE_KEY, siteKey: SITE_KEY, load: load, token: token, attach: attach };
-  if (!SITE_KEY) return;
+  if (!SITE_KEY && !DEMO_NOTICE) return;
 
   /* Google's required notice (the floating badge is hidden), shown under each protected submit button */
   var SHIELD = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="m9 12 2 2 4-4"/></svg>';
@@ -72,6 +75,7 @@
   function addNote(anchor) {
     if (!anchor || anchor.__reeRc) return; anchor.__reeRc = 1;
     var p = document.createElement("p"); p.className = "ree-rc-note"; p.innerHTML = NOTE;
+    p.setAttribute("data-recaptcha", SITE_KEY ? "on" : "demo");
     anchor.parentNode.insertBefore(p, anchor.nextSibling);
   }
   function scan() {

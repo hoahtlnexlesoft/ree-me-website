@@ -41,7 +41,7 @@
     ".ree-rc-badge .grecaptcha-badge:hover iframe{transform:none}" +
     ".ree-rc-cap{font-size:11px;line-height:1.5;color:#7A8399;white-space:nowrap;letter-spacing:0;text-transform:none;font-weight:400}" +
     ".ree-rc-cap a{color:inherit;text-decoration:underline;text-underline-offset:2px}.ree-rc-cap a:hover{color:#1B347D}" +
-    "#af-review .afr-acts{flex-wrap:wrap}" +
+    "@media (min-width:641px) and (max-width:1279px){#af-review .afr-acts>.ree-rc-badge .ree-rc-cap{display:none}}" +
     "#af-review .afr-acts>.ree-rc-badge{margin:0 auto 0 0}" +
     "@media (max-width:640px){#af-review .afr-acts>.ree-rc-badge{margin:4px 0 0}}" +
     ".ree-rc-note{margin:0;font-size:11.5px;line-height:1.55;color:#7A8399;letter-spacing:0;text-transform:none;font-weight:400;display:flex;gap:7px;align-items:flex-start}" +

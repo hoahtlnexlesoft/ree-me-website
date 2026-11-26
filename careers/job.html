@@ -1841,6 +1841,7 @@ html.embed-form #rx .af-review .afr-body>section{min-width:0}
 <script src="../assets/ree-i18n.js?v=3" defer></script>
 <script src="assets/jobs-data.js"></script>
 <script src="../assets/ree-skel.js?v=1"></script>
+<script src="../assets/ree-recaptcha.js?v=1"></script>
 <script src="assets/site.js?v=20261113a"></script>
 <script>
 (function(){
@@ -2045,7 +2046,12 @@ html.embed-form #rx .af-review .afr-body>section{min-width:0}
       row('CV / Hồ sơ đính kèm', (cvFiles.length || cvLinks.length) ? '<span class="afr-files">' + cvFiles.map(f => '<span class="afr-file"><b class="t-' + extOf(f.name).toLowerCase() + '">' + esc(extOf(f.name)) + '</b><span>' + esc(f.name) + '<small>' + kb(f.size) + '</small></span></span>').join('') + cvLinks.map(u => '<a class="afr-file" href="' + esc(u) + '" target="_blank" rel="noopener"><b class="t-url">URL</b><span>' + esc(hostOf(u)) + '<small>' + esc(u.replace(/^https?:\/\//, '')) + '</small></span></a>').join('') + '</span>' : '', true) + row('Người giới thiệu', v('#af-ref'), true) + '</dl></section>';
   }
   $('#afr-edit').addEventListener('click', () => { if(history.state && history.state.afp) history.back(); else afPage(null); });
-  $('#afr-send').addEventListener('click', () => afPage('done', true));
+  $('#afr-send').addEventListener('click', async e => { const b = e.currentTarget; if(b.disabled) return;
+    /* reCAPTCHA v3: fresh token for the final submission (sent with the application data) */
+    if(window.reeRecaptcha && window.reeRecaptcha.enabled){ const lab = b.innerHTML; b.disabled = true; b.innerHTML = 'Đang gửi...';
+      const tk = await window.reeRecaptcha.token('job_apply'); b.disabled = false; b.innerHTML = lab;
+      let h = $('#af-rc'); if(!h){ h = document.createElement('input'); h.type = 'hidden'; h.id = 'af-rc'; h.name = 'recaptchaToken'; $('#apply-form').appendChild(h); } h.value = tk || ''; }
+    afPage('done', true); });
   /* review + success shown as their own full page (no job header / sidebar), browser Back returns to the form */
   /* back from review: bring the form into view (below any parent site header) and focus the first field */
   try { history.scrollRestoration = 'manual'; } catch(_){}

@@ -30,15 +30,25 @@
   css.id = "ree-recaptcha-css";
   css.textContent =
     ".ree-rc-badge{margin-top:12px;display:flex}" +
-    ".ree-rc-badge:not([data-recaptcha=demo]){min-height:60px}" +
-    ".ree-rc-badge .grecaptcha-badge{box-shadow:0 1px 2px rgba(11,31,77,.08),0 0 0 1px #E3E7EF!important;border-radius:8px!important;overflow:hidden}" +
-    "#af-review .afr-acts+.ree-rc-badge{justify-content:flex-end}" +
-    "@media (max-width:640px){#af-review .afr-acts+.ree-rc-badge{justify-content:flex-start}}" +
+    /* compact badge: only Google's logo (70×60) + a short caption; hovering the logo slides the full badge open */
+    ".ree-rc-badge:not([data-recaptcha=demo]){align-items:center;gap:12px;flex:none}" +
+    ".ree-rc-w{flex:none;width:56px;height:48px;position:relative}" +
+    ".ree-rc-w>div{transform:scale(.8);transform-origin:0 0}" +
+    "form .ree-rc-badge:not([data-recaptcha=demo]){justify-content:center;margin-top:14px}" +
+    ".ree-rc-badge .grecaptcha-badge{width:70px!important;height:60px!important;overflow:hidden!important;border-radius:10px!important;box-shadow:0 0 0 1px #E3E7EF,0 4px 12px -6px rgba(11,31,77,.18)!important;transition:width .35s ease!important;position:relative;z-index:2}" +
+    ".ree-rc-badge .grecaptcha-badge iframe{transform:translateX(-186px);transition:transform .35s ease}" +
+    ".ree-rc-badge .grecaptcha-badge:hover{width:256px!important}" +
+    ".ree-rc-badge .grecaptcha-badge:hover iframe{transform:none}" +
+    ".ree-rc-cap{font-size:11px;line-height:1.5;color:#7A8399;white-space:nowrap;letter-spacing:0;text-transform:none;font-weight:400}" +
+    ".ree-rc-cap a{color:inherit;text-decoration:underline;text-underline-offset:2px}.ree-rc-cap a:hover{color:#1B347D}" +
+    "#af-review .afr-acts{flex-wrap:wrap}" +
+    "#af-review .afr-acts>.ree-rc-badge{margin:0 auto 0 0}" +
+    "@media (max-width:640px){#af-review .afr-acts>.ree-rc-badge{margin:4px 0 0}}" +
     ".ree-rc-note{margin:0;font-size:11.5px;line-height:1.55;color:#7A8399;letter-spacing:0;text-transform:none;font-weight:400;display:flex;gap:7px;align-items:flex-start}" +
     ".ree-rc-note svg{flex:none;width:13px;height:13px;margin-top:2px;color:#9AA3B6}" +
     ".ree-rc-note a{color:inherit;text-decoration:underline;text-underline-offset:2px}" +
     ".ree-rc-note a:hover{color:#1B347D}" +
-    "#af-review .afr-acts+.ree-rc-badge .ree-rc-note{text-align:right}";
+    "";
   (document.head || document.documentElement).appendChild(css);
 
   /* ---------- Google API (explicit render, so the badge can be inline) ---------- */
@@ -60,7 +70,8 @@
     return load().then(function (g) {
       if (!g || !box) return null;
       if (box.__rcId != null) return box.__rcId;
-      try { box.__rcId = g.render(box, { sitekey: SITE_KEY, badge: "inline", size: "invisible",
+      var host = box.querySelector(".ree-rc-w") || box;
+      try { box.__rcId = g.render(host, { sitekey: SITE_KEY, badge: "inline", size: "invisible",
         callback: function (tk) { var r = box.__rcRes; box.__rcRes = null; if (r) r(tk); } }); } catch (e) { return null; }
       return box.__rcId;
     });
@@ -106,14 +117,16 @@
   /* ---------- placement ---------- */
   var SHIELD = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="m9 12 2 2 4-4"/></svg>';
   var NOTE = '<p class="ree-rc-note">' + SHIELD + '<span>Biểu mẫu được bảo vệ bởi reCAPTCHA. Áp dụng <a href="https://policies.google.com/privacy" target="_blank" rel="noopener">Chính sách quyền riêng tư</a> và <a href="https://policies.google.com/terms" target="_blank" rel="noopener">Điều khoản dịch vụ</a> của Google.</span></p>';
-  function place(anchor) {
+  var CAP = '<div class="ree-rc-w"></div><span class="ree-rc-cap">Được bảo vệ bởi reCAPTCHA<br><a href="https://policies.google.com/privacy" target="_blank" rel="noopener">Bảo mật</a> · <a href="https://policies.google.com/terms" target="_blank" rel="noopener">Điều khoản</a></span>';
+  function place(anchor, inside) {
     if (!anchor || anchor.__reeRc) return; anchor.__reeRc = 1;
     var d = document.createElement("div"); d.className = "ree-rc-badge";
     d.setAttribute("data-recaptcha", !SITE_KEY ? "demo" : IS_TEST ? "test" : "on");
-    if (!SITE_KEY) d.innerHTML = NOTE;                  /* DEMO placeholder */
-    anchor.parentNode.insertBefore(d, anchor.nextSibling);
+    d.innerHTML = SITE_KEY ? CAP : NOTE;                /* logo + caption, or DEMO placeholder */
+    if (inside) anchor.insertBefore(d, anchor.firstChild);   /* same row, left of the buttons */
+    else anchor.parentNode.insertBefore(d, anchor.nextSibling);
     if (SITE_KEY) widget(d).then(function (id) {       /* Google's inline badge; if Google can't load, keep the text notice */
-      if (id == null && !d.firstChild) { d.innerHTML = NOTE; d.setAttribute("data-recaptcha", "demo"); }
+      if (id == null) { d.innerHTML = NOTE; d.setAttribute("data-recaptcha", "demo"); }
     });
   }
   function scan() {
@@ -122,7 +135,7 @@
     });
     var foot = document.querySelector("#apply-form .af-foot");
     if (foot) place(foot.querySelector(".af-agree") || foot.lastElementChild);
-    place(document.querySelector("#af-review .afr-acts"));   /* final "Xác nhận gửi hồ sơ" step */
+    place(document.querySelector("#af-review .afr-acts"), true);   /* final "Xác nhận gửi hồ sơ" step: left of the buttons */
   }
   function start() { scan(); new MutationObserver(scan).observe(document.body, { childList: true, subtree: true }); }
   if (document.body) start(); else document.addEventListener("DOMContentLoaded", start);
